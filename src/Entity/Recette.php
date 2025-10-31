@@ -21,7 +21,7 @@ class Recette
     private ?string $description = null;
 
     #[ORM\Column]
-    private ?int $temps_prepration = null;
+    private ?int $temps_preparation = null;
 
     #[ORM\Column(length: 50)]
     private ?string $difficulte = null;
@@ -58,14 +58,14 @@ class Recette
         return $this;
     }
 
-    public function getTempsPrepration(): ?int
+    public function getTempsPreparation(): ?int
     {
-        return $this->temps_prepration;
+        return $this->temps_preparation;
     }
 
-    public function setTempsPrepration(int $temps_prepration): static
+    public function setTempsPreparation(int $temps_preparation): static
     {
-        $this->temps_prepration = $temps_prepration;
+        $this->temps_preparation = $temps_preparation;
 
         return $this;
     }

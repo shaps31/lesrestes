@@ -1,4 +1,35 @@
+{# templates/recette/_form.html.twig #}
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    
+    {# Titre et Temps de préparation sur la même ligne (row/col) #}
+    <div class="row mb-3">
+        <div class="col-md-8">
+            {{ form_row(form.nom, { 'label': 'Titre *' }) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.temps_preparation, { 'label': 'Temps de préparation (min.)' }) }}
+        </div>
+    </div>
+
+    {# Description sur toute la largeur #}
+    <div class="mb-3">
+        {{ form_row(form.description, { 'label': 'Description *' }) }}
+    </div>
+
+    {# Difficulté (Radios) #}
+    <div class="mb-4">
+        {# form_row(form.difficulte) applique le style Bootstrap correctement grâce à l'étape 1.1 #}
+        {{ form_row(form.difficulte, { 'label': 'Difficulté' }) }} 
+    </div>
+    
+    {# --- La Collection de Formulaires (Ingrédients et Étapes) VIENDRA ICI --- #}
+    <hr>
+    
+    {# Conteneur pour le bouton d'enregistrement (aligné à droite comme dans le wireframe) #}
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+        <a href="{{ path('app_recette_index') }}" class="btn btn-secondary me-2">Annuler</a>
+        <button type="submit" class="btn btn-warning">{{ button_label|default('Publier la recette') }}</button>
+    </div>
+
 {{ form_end(form) }}

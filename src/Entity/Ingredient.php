@@ -27,9 +27,16 @@ class Ingredient
     #[ORM\ManyToMany(targetEntity: Recette::class, inversedBy: 'ingredients')]
     private Collection $recettes;
 
+    /**
+     * @var Collection<int, RecetteIngredient>
+     */
+    #[ORM\OneToMany(targetEntity: RecetteIngredient::class, mappedBy: 'ingredient')]
+    private Collection $recetteIngredients;
+
     public function __construct()
     {
         $this->recettes = new ArrayCollection();
+        $this->recetteIngredients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,6 +88,36 @@ class Ingredient
     public function removeRecette(Recette $recette): static
     {
         $this->recettes->removeElement($recette);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecetteIngredient>
+     */
+    public function getRecetteIngredients(): Collection
+    {
+        return $this->recetteIngredients;
+    }
+
+    public function addRecetteIngredient(RecetteIngredient $recetteIngredient): static
+    {
+        if (!$this->recetteIngredients->contains($recetteIngredient)) {
+            $this->recetteIngredients->add($recetteIngredient);
+            $recetteIngredient->setIngredient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecetteIngredient(RecetteIngredient $recetteIngredient): static
+    {
+        if ($this->recetteIngredients->removeElement($recetteIngredient)) {
+            // set the owning side to null (unless already changed)
+            if ($recetteIngredient->getIngredient() === $this) {
+                $recetteIngredient->setIngredient(null);
+            }
+        }
 
         return $this;
     }

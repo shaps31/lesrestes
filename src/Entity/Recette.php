@@ -31,19 +31,38 @@ class Recette
     #[ORM\Column]
     private ?\DateTimeImmutable $date_creation = null;
 
-    /**
-     * @var Collection<int, Ingredient>
-     */
-    #[ORM\ManyToMany(targetEntity: Ingredient::class, mappedBy: 'recettes')]
-    private Collection $ingredients;
-
     #[ORM\ManyToOne(inversedBy: 'recettes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
 
+   
+
+    /**
+     * @var Collection<int, RecetteIngredient>
+     */
+   
+    #[ORM\OneToMany(targetEntity: RecetteIngredient::class, mappedBy: 'recette', orphanRemoval: true)]
+    private Collection $recetteIngredients; 
+    
+    /**
+     * @var Collection<int, Etape>
+     */
+    
+    #[ORM\OneToMany(targetEntity: Etape::class, mappedBy: 'recette', orphanRemoval: true)]
+    private Collection $etapes;
+
+    
+    // * @var Collection<int, Ingredient>
+    // #[ORM\ManyToMany(targetEntity: Ingredient::class, mappedBy: 'recettes')]
+    // private Collection $ingredients;
+
+    
+
     public function __construct()
     {
-        $this->ingredients = new ArrayCollection();
+        // $this->ingredients = new ArrayCollection(); // Ne sert plus, la collection est dans RecetteIngredient
+        $this->recetteIngredients = new ArrayCollection();
+        $this->etapes = new ArrayCollection(); // Nouvelle collection
     }
 
     public function getId(): ?int
@@ -51,101 +70,84 @@ class Recette
         return $this->id;
     }
 
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
+    public function getNom(): ?string { return $this->nom; }
+    public function setNom(string $nom): static { $this->nom = $nom; return $this; }
 
-    public function setNom(string $nom): static
-    {
-        $this->nom = $nom;
+    public function getDescription(): ?string { return $this->description; }
+    public function setDescription(string $description): static { $this->description = $description; return $this; }
 
-        return $this;
-    }
+    public function getTempsPreparation(): ?int { return $this->temps_preparation; }
+    public function setTempsPreparation(int $temps_preparation): static { $this->temps_preparation = $temps_preparation; return $this; }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
+    public function getDifficulte(): ?string { return $this->difficulte; }
+    public function setDifficulte(string $difficulte): static { $this->difficulte = $difficulte; return $this; }
 
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
+    public function getDateCreation(): ?\DateTimeImmutable { return $this->date_creation; }
+    public function setDateCreation(\DateTimeImmutable $date_creation): static { $this->date_creation = $date_creation; return $this; }
 
-        return $this;
-    }
+    public function getCategorie(): ?Categorie { return $this->categorie; }
+    public function setCategorie(?Categorie $categorie): static { $this->categorie = $categorie; return $this; }
 
-    public function getTempsPreparation(): ?int
-    {
-        return $this->temps_preparation;
-    }
-
-    public function setTempsPreparation(int $temps_preparation): static
-    {
-        $this->temps_preparation = $temps_preparation;
-
-        return $this;
-    }
-
-    public function getDifficulte(): ?string
-    {
-        return $this->difficulte;
-    }
-
-    public function setDifficulte(string $difficulte): static
-    {
-        $this->difficulte = $difficulte;
-
-        return $this;
-    }
-
-    public function getDateCreation(): ?\DateTimeImmutable
-    {
-        return $this->date_creation;
-    }
-
-    public function setDateCreation(\DateTimeImmutable $date_creation): static
-    {
-        $this->date_creation = $date_creation;
-
-        return $this;
-    }
+    // --- Méthodes pour RecetteIngredient (Anciennement $Recette) ---
 
     /**
-     * @return Collection<int, Ingredient>
+     * @return Collection<int, RecetteIngredient>
      */
-    public function getIngredients(): Collection
+    public function getRecetteIngredients(): Collection
     {
-        return $this->ingredients;
+        return $this->recetteIngredients;
     }
 
-    public function addIngredient(Ingredient $ingredient): static
+    public function addRecetteIngredient(RecetteIngredient $recetteIngredient): static
     {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients->add($ingredient);
-            $ingredient->addRecette($this);
+        if (!$this->recetteIngredients->contains($recetteIngredient)) {
+            $this->recetteIngredients->add($recetteIngredient);
+            $recetteIngredient->setRecette($this);
         }
 
         return $this;
     }
 
-    public function removeIngredient(Ingredient $ingredient): static
+    public function removeRecetteIngredient(RecetteIngredient $recetteIngredient): static
     {
-        if ($this->ingredients->removeElement($ingredient)) {
-            $ingredient->removeRecette($this);
+        if ($this->recetteIngredients->removeElement($recetteIngredient)) {
+            // set the owning side to null (unless already changed)
+            if ($recetteIngredient->getRecette() === $this) {
+                $recetteIngredient->setRecette(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    // --- Méthodes pour Etape ---
+
+    /**
+     * @return Collection<int, Etape>
+     */
+    public function getEtapes(): Collection
+    {
+        return $this->etapes;
+    }
+
+    public function addEtape(Etape $etape): static
+    {
+        if (!$this->etapes->contains($etape)) {
+            $this->etapes->add($etape);
+            $etape->setRecette($this);
         }
 
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
+    public function removeEtape(Etape $etape): static
     {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?Categorie $categorie): static
-    {
-        $this->categorie = $categorie;
+        if ($this->etapes->removeElement($etape)) {
+            // set the owning side to null (unless already changed)
+            if ($etape->getRecette() === $this) {
+                $etape->setRecette(null);
+            }
+        }
 
         return $this;
     }

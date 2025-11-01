@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Les Restes{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue sur Les Restes !</h1>
+
+    <p>
+        Votre application de gestion de recettes est prête. 
+        Pour commencer, veuillez vous **connecter** ou vous **inscrire**.
+    </p>
+
+    {% if is_granted('ROLE_USER') %}
+        <p>
+            Vous êtes connecté ! Utilisez les liens de la barre de navigation pour gérer vos recettes, ingrédients et catégories.
+        </p>
+        
+        <h2>Accès rapide aux fonctionnalités :</h2>
+        <ul>
+            <li><a href="{{ path('app_recette_index') }}">Gestion des recettes</a></li>
+            <li><a href="{{ path('app_ingredient_index') }}">Gestion des ingrédients</a></li>
+            <li><a href="{{ path('app_categorie_index') }}">Gestion des catégories</a></li>
+        </ul>
+    {% endif %}
+{% endblock %}

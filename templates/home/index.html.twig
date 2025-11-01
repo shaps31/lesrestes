@@ -3,23 +3,48 @@
 {% block title %}Accueil - Les Restes{% endblock %}
 
 {% block body %}
-    <h1>Bienvenue sur Les Restes !</h1>
-
-    <p>
-        Votre application de gestion de recettes est prête. 
-        Pour commencer, veuillez vous **connecter** ou vous **inscrire**.
-    </p>
+    <div class="p-5 mb-4 bg-light rounded-3 text-center">
+        <h1 class="display-5 fw-bold text-success">Bienvenue sur Les Restes !</h1>
+        <p class="fs-4">
+            Transformez vos restes en délicieuses recettes.
+            C'est l'endroit parfait pour gérer vos ingrédients et vos plats.
+        </p>
+    </div>
 
     {% if is_granted('ROLE_USER') %}
-        <p>
-            Vous êtes connecté ! Utilisez les liens de la barre de navigation pour gérer vos recettes, ingrédients et catégories.
-        </p>
-        
-        <h2>Accès rapide aux fonctionnalités :</h2>
-        <ul>
-            <li><a href="{{ path('app_recette_index') }}">Gestion des recettes</a></li>
-            <li><a href="{{ path('app_ingredient_index') }}">Gestion des ingrédients</a></li>
-            <li><a href="{{ path('app_categorie_index') }}">Gestion des catégories</a></li>
-        </ul>
+        <h2 class="text-center mb-4">Fonctionnalités disponibles</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
+            
+            <div class="col">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Gestion des Recettes</h5>
+                        <p class="card-text">Créer, modifier et explorer toutes les recettes.</p>
+                        <a href="{{ path('app_recette_index') }}" class="btn btn-outline-primary">Accéder</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title text-success">Gestion des Ingrédients</h5>
+                        <p class="card-text">Maintenir votre liste d'ingrédients à jour.</p>
+                        <a href="{{ path('app_ingredient_index') }}" class="btn btn-outline-success">Accéder</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title text-info">Gestion des Catégories</h5>
+                        <p class="card-text">Organiser vos recettes par types de cuisine ou de plats.</p>
+                        <a href="{{ path('app_categorie_index') }}" class="btn btn-outline-info">Accéder</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     {% endif %}
 {% endblock %}

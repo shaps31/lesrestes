@@ -26,6 +26,11 @@ class Ingredient
     #[ORM\Column]
     private ?\DateTimeImmutable $dateCreation = null;
 
+    public function __construct()
+    {
+        $this->dateCreation = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

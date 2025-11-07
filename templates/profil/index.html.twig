@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil - Les Restes{% endblock %}
+
+{% block body %}
+<div class="container">
+    <!-- Header profil -->
+    <div class="row align-items-center mb-4 mt-3">
+        <div class="col-auto">
+            <!-- Photo de profil placeholder -->
+            <div class="rounded-circle bg-success d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                <i class="bi bi-person-fill text-white fs-1"></i>
+            </div>
+        </div>
+        <div class="col">
+            <h3 class="mb-1">{{ user.prenom }} {{ user.nom }}</h3>
+            <p class="text-muted mb-2">{{ user.email }}</p>
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-pencil"></i> Modifier profil
+            </button>
+        </div>
+    </div>
+    
+    <hr class="my-4">
+    
+    <!-- Onglets -->
+    <div class="row mb-4">
+        <div class="col">
+            <ul class="nav nav-pills" id="profilTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="recettes-tab" data-bs-toggle="pill" href="#recettes" role="tab">
+                        <i class="bi bi-journal-text"></i> Mes recettes ({{ mesRecettes|length }})
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="favoris-tab" data-bs-toggle="pill" href="#favoris" role="tab">
+                        <i class="bi bi-heart"></i> Mes favoris ({{ mesFavoris|length }})
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Contenu des onglets -->
+    <div class="tab-content">
+        <!-- Mes recettes -->
+        <div class="tab-pane fade show active" id="recettes" role="tabpanel">
+            {% if mesRecettes|length > 0 %}
+                <div class="row">
+                    {% for recette in mesRecettes %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100">
+                                <img src="{{ recette.image ?: 'https://source.unsplash.com/300x200/?food' }}" 
+                                     class="card-img-top" alt="{{ recette.nom }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ recette.nom }}</h5>
+                                    
+                                    <!-- Étoiles -->
+                                    <div class="mb-2">
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star text-muted"></i>
+                                    </div>
+                                    
+                                    <p class="card-text text-muted small">{{ recette.description|slice(0, 60) }}...</p>
+                                    
+                                    <!-- Actions -->
+                                    <div class="btn-group w-100" role="group">
+                                        <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
+                                           class="btn btn-outline-success btn-sm">
+                                            <i class="bi bi-eye"></i> Voir
+                                        </a>
+                                        <a href="{{ path('app_recette_edit', {'id': recette.id}) }}" 
+                                           class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-pencil"></i> Modifier
+                                        </a>
+                                        <button type="button" class="btn btn-outline-danger btn-sm" 
+                                                onclick="confirmerSuppression({{ recette.id }}, '{{ recette.nom }}')">
+                                            <i class="bi bi-trash"></i> Supprimer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-journal-plus text-muted" style="font-size: 4rem;"></i>
+                    <h5 class="mt-3 text-muted">Aucune recette publiée</h5>
+                    <p class="text-muted">Partagez votre première recette anti-gaspi avec la communauté !</p>
+                </div>
+            {% endif %}
+            
+            <!-- Bouton ajouter recette -->
+            <div class="text-center mt-4">
+                <a href="{{ path('app_recette_new') }}" class="btn btn-success btn-lg">
+                    <i class="bi bi-plus-circle"></i> Ajouter une recette
+                </a>
+            </div>
+        </div>
+        
+        <!-- Mes favoris -->
+        <div class="tab-pane fade" id="favoris" role="tabpanel">
+            <div class="text-center py-5">
+                <i class="bi bi-heart text-muted" style="font-size: 4rem;"></i>
+                <h5 class="mt-3 text-muted">Aucun favori</h5>
+                <p class="text-muted">Ajoutez des recettes à vos favoris pour les retrouver facilement !</p>
+                <a href="{{ path('app_recette_index') }}" class="btn btn-outline-success">
+                    Découvrir des recettes
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmation suppression -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer la recette <strong id="recetteName"></strong> ?</p>
+                <p class="text-warning small">Cette action est irréversible.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <form method="post" id="deleteForm" style="display: inline;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Supprimer
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmerSuppression(id, nom) {
+    document.getElementById('recetteName').textContent = nom;
+    document.getElementById('deleteForm').action = '/recette/' + id + '/delete';
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+</script>
+{% endblock %}

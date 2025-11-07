@@ -30,6 +30,7 @@ final class RecetteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $recette->setUser($this->getUser());
             $entityManager->persist($recette);
             $entityManager->flush();
 
@@ -57,6 +58,7 @@ final class RecetteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $recette->setUser($this->getUser());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_recette_index', [], Response::HTTP_SEE_OTHER);

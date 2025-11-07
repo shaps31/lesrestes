@@ -1,13 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Categorie{% endblock %}
+{% block title %}Modifier {{ categorie.nom }} - Les Restes{% endblock %}
 
 {% block body %}
-    <h1>Edit Categorie</h1>
-
-    {{ include('categorie/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_categorie_index') }}">back to list</a>
-
-    {{ include('categorie/_delete_form.html.twig') }}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="mb-4">
+                <a href="{{ path('app_categorie_index') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Retour à la liste
+                </a>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <i class="bi bi-pencil text-primary"></i> Modifier la catégorie
+                    </h4>
+                    <p class="text-muted mb-4">Modifiez les informations de la catégorie "{{ categorie.nom }}".</p>
+                    
+                    {{ include('categorie/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+                    
+                    <div class="mt-4 pt-3 border-top">
+                        <h6 class="text-muted">Actions supplémentaires</h6>
+                        <div class="d-flex gap-2">
+                            <a href="{{ path('app_categorie_show', {'id': categorie.id}) }}" class="btn btn-outline-info">
+                                <i class="bi bi-eye"></i> Aperçu
+                            </a>
+                            {{ include('categorie/_delete_form.html.twig') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,58 +1,212 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Recette{% endblock %}
+{% block title %}{{ recette.nom }} - Les Restes{% endblock %}
 
 {% block body %}
-    <h1>Recette</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ recette.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ recette.nom }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ recette.description }}</td>
-            </tr>
-            <tr>
-                <th>Etapes</th>
-                <td>{{ recette.etapes }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ recette.image }}</td>
-            </tr>
-            <tr>
-                <th>TempsCuisson</th>
-                <td>{{ recette.tempsCuisson }}</td>
-            </tr>
-            <tr>
-                <th>NombrePersonnes</th>
-                <td>{{ recette.nombrePersonnes }}</td>
-            </tr>
-            <tr>
-                <th>Difficulte</th>
-                <td>{{ recette.difficulte }}</td>
-            </tr>
-            <tr>
-                <th>Vue</th>
-                <td>{{ recette.vue }}</td>
-            </tr>
-            <tr>
-                <th>DateCreation</th>
-                <td>{{ recette.dateCreation ? recette.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_recette_index') }}">back to list</a>
-
-    <a href="{{ path('app_recette_edit', {'id': recette.id}) }}">edit</a>
-
-    {{ include('recette/_delete_form.html.twig') }}
+<div class="container">
+    <!-- Header avec retour et favoris -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{{ path('app_recette_index') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Retour
+        </a>
+        {% if app.user %}
+            <button class="btn btn-outline-danger" id="favoriBtn">
+                <i class="bi bi-heart"></i> Favoris
+            </button>
+        {% endif %}
+    </div>
+    
+    <!-- Grande photo recette -->
+    <div class="text-center mb-4">
+        <img src="{{ recette.image ?: 'https://source.unsplash.com/800x400/?food' }}" 
+             class="img-fluid rounded shadow" 
+             alt="{{ recette.nom }}" 
+             style="max-height: 400px; width: 100%; object-fit: cover;">
+    </div>
+    
+    <!-- Informations principales -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="mb-2">{{ recette.nom }}</h1>
+            <p class="text-muted mb-3">
+                Par {{ recette.user.prenom }} {{ recette.user.nom }} - 
+                {{ recette.dateCreation|date('d M Y') }}
+            </p>
+            
+            <!-- Notes et avis -->
+            <div class="mb-3">
+                <span class="me-2">
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                </span>
+                <span class="text-muted">(24 avis)</span>
+            </div>
+            
+            <!-- Infos rapides avec icônes -->
+            <div class="row text-center mb-4">
+                <div class="col-4">
+                    <div class="border rounded p-3">
+                        <i class="bi bi-clock text-primary fs-4"></i>
+                        <div class="mt-2">{{ recette.tempsCuisson }} min</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="border rounded p-3">
+                        <i class="bi bi-person-gear text-success fs-4"></i>
+                        <div class="mt-2">
+                            {% if recette.difficulte == 1 %}Facile
+                            {% elseif recette.difficulte == 2 %}Moyen
+                            {% else %}Difficile{% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="border rounded p-3">
+                        <i class="bi bi-people text-warning fs-4"></i>
+                        <div class="mt-2">{{ recette.nombrePersonnes }} pers.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            
+            <!-- Ingrédients avec checkboxes -->
+            <h4 class="mb-3">
+                <i class="bi bi-basket"></i> Ingrédients
+            </h4>
+            <div class="mb-4">
+                {% if recette.recetteIngredients|length > 0 %}
+                    {% for recetteIngredient in recette.recetteIngredients %}
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="ingredient{{ loop.index }}">
+                            <label class="form-check-label" for="ingredient{{ loop.index }}">
+                                {{ recetteIngredient.quantite }} {{ recetteIngredient.unite }} {{ recetteIngredient.ingredient.nom }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <!-- Ingrédients temporaires en attendant les vraies données -->
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="ingredient1">
+                        <label class="form-check-label" for="ingredient1">3 œufs</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="ingredient2">
+                        <label class="form-check-label" for="ingredient2">2 tomates</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="ingredient3">
+                        <label class="form-check-label" for="ingredient3">1 oignon</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="ingredient4">
+                        <label class="form-check-label" for="ingredient4">Sel, poivre</label>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <hr class="my-4">
+            
+            <!-- Préparation -->
+            <h4 class="mb-3">
+                <i class="bi bi-list-ol"></i> Préparation
+            </h4>
+            <div class="mb-4">
+                {% if recette.etapes %}
+                    {% set etapes = recette.etapes|split('\n') %}
+                    <ol>
+                        {% for etape in etapes %}
+                            {% if etape|trim %}
+                                <li class="mb-2">{{ etape|trim }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ol>
+                {% endif %}
+            </div>
+            
+            <hr class="my-4">
+            
+            <!-- Commentaires -->
+            <h4 class="mb-3">
+                <i class="bi bi-chat-dots"></i> Commentaires (8)
+            </h4>
+            
+            {% if app.user %}
+                <!-- Formulaire d'avis -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h6 class="card-title">Laisser un avis</h6>
+                        <form>
+                            <!-- Note avec étoiles -->
+                            <div class="mb-3">
+                                <label class="form-label">Note :</label>
+                                <div>
+                                    <input type="radio" class="btn-check" name="note" value="1" id="star1">
+                                    <label class="btn btn-outline-warning btn-sm" for="star1"><i class="bi bi-star"></i></label>
+                                    
+                                    <input type="radio" class="btn-check" name="note" value="2" id="star2">
+                                    <label class="btn btn-outline-warning btn-sm" for="star2"><i class="bi bi-star"></i></label>
+                                    
+                                    <input type="radio" class="btn-check" name="note" value="3" id="star3">
+                                    <label class="btn btn-outline-warning btn-sm" for="star3"><i class="bi bi-star"></i></label>
+                                    
+                                    <input type="radio" class="btn-check" name="note" value="4" id="star4">
+                                    <label class="btn btn-outline-warning btn-sm" for="star4"><i class="bi bi-star"></i></label>
+                                    
+                                    <input type="radio" class="btn-check" name="note" value="5" id="star5">
+                                    <label class="btn btn-outline-warning btn-sm" for="star5"><i class="bi bi-star"></i></label>
+                                </div>
+                            </div>
+                            
+                            <!-- Commentaire -->
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="3" placeholder="Partagez votre expérience..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-send"></i> Publier l'avis
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+            
+            <!-- Liste des commentaires (temporaire) -->
+            <div class="mb-3">
+                <div class="border-start border-3 border-success ps-3 mb-3">
+                    <div class="d-flex justify-content-between">
+                        <strong>Marie Dubois</strong>
+                        <small class="text-muted">12 oct 2025</small>
+                    </div>
+                    <div class="mb-1">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                    </div>
+                    <p class="mb-0">Excellente recette ! Parfait pour utiliser mes restes de tomates.</p>
+                </div>
+                
+                <div class="border-start border-3 border-success ps-3 mb-3">
+                    <div class="d-flex justify-content-between">
+                        <strong>Paul Martin</strong>
+                        <small class="text-muted">10 oct 2025</small>
+                    </div>
+                    <div class="mb-1">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star text-muted"></i>
+                    </div>
+                    <p class="mb-0">Simple et efficace. Mes enfants ont adoré !</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

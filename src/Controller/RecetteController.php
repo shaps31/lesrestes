@@ -23,25 +23,28 @@ final class RecetteController extends AbstractController
     }
 
     #[Route('/new', name: 'app_recette_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $recette = new Recette();
-        $form = $this->createForm(RecetteType::class, $recette);
-        $form->handleRequest($request);
+public function new(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $recette = new Recette();
+    $form = $this->createForm(RecetteType::class, $recette);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $recette->setUser($this->getUser());
-            $entityManager->persist($recette);
-            $entityManager->flush();
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Associer l'utilisateur connecté
+        $recette->setUser($this->getUser());
+        
+        $entityManager->persist($recette);
+        $entityManager->flush();
 
-            return $this->redirectToRoute('app_recette_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('recette/new.html.twig', [
-            'recette' => $recette,
-            'form' => $form,
-        ]);
+        $this->addFlash('success', 'Recette publiée avec succès !');
+        return $this->redirectToRoute('app_recette_show', ['id' => $recette->getId()]);
     }
+
+    return $this->render('recette/new.html.twig', [
+        'recette' => $recette,
+        'form' => $form,
+    ]);
+}
 
     #[Route('/{id}', name: 'app_recette_show', methods: ['GET'])]
     public function show(Recette $recette): Response

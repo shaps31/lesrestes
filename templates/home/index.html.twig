@@ -16,13 +16,16 @@
     <!-- Barre de recherche d'ingrédients -->
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="input-group input-group-lg mb-4">
-                <input type="text" class="form-control" placeholder="Entrez vos ingrédients (ex: tomates, œufs, fromage...)" id="searchIngredients">
-                <button class="btn btn-success" type="button">
+            <form action="{{ path('app_search') }}" method="GET">
+                <div class="input-group input-group-lg mb-4">
+                    <input type="text" class="form-control" name="q" placeholder="Entrez vos ingrédients (ex: tomates, œufs, fromage...)" id="searchIngredients">
+                <button class="btn btn-success" type="submit">
                     <i class="bi bi-search"></i> Trouver des recettes
                 </button>
             </div>
-        </div>
+        </form>
+    </div>
+</div>
     </div>
 </div>
 

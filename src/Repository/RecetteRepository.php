@@ -16,28 +16,33 @@ class RecetteRepository extends ServiceEntityRepository
         parent::__construct($registry, Recette::class);
     }
 
-    //    /**
-    //     * @return Recette[] Returns an array of Recette objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Recette
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findByIngredients(array $ingredientIds): array
+{
+    if (empty($ingredientIds)) {
+        return [];
+    }
+    
+    $qb = $this->createQueryBuilder('r')
+        ->leftJoin('r.user', 'u')
+        ->addSelect('u');
+    
+    // Pour chaque ingrédient, on ajoute une jointure
+    foreach ($ingredientIds as $index => $ingredientId) {
+        $qb->leftJoin('r.recetteIngredients', 'ri' . $index)
+           ->leftJoin('ri' . $index . '.ingredient', 'i' . $index);
+    }
+    
+    // Condition WHERE pour qu'au moins un des ingrédients soit présent
+    $conditions = [];
+    foreach ($ingredientIds as $index => $ingredientId) {
+        $conditions[] = 'i' . $index . '.id = :ingredient' . $index;
+        $qb->setParameter('ingredient' . $index, $ingredientId);
+    }
+    
+    $qb->where(implode(' OR ', $conditions))
+       ->groupBy('r.id')
+       ->orderBy('r.dateCreation', 'DESC');
+    
+    return $qb->getQuery()->getResult();
+}
 }

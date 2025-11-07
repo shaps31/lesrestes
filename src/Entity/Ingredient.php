@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\IngredientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,9 +28,16 @@ class Ingredient
     #[ORM\Column]
     private ?\DateTimeImmutable $dateCreation = null;
 
+    /**
+     * @var Collection<int, RecetteIngredient>
+     */
+    #[ORM\OneToMany(targetEntity: RecetteIngredient::class, mappedBy: 'ingredient')]
+    private Collection $recetteIngredients;
+
     public function __construct()
     {
         $this->dateCreation = new \DateTimeImmutable();
+        $this->recetteIngredients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -80,6 +89,36 @@ class Ingredient
     public function setDateCreation(\DateTimeImmutable $dateCreation): static
     {
         $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecetteIngredient>
+     */
+    public function getRecetteIngredients(): Collection
+    {
+        return $this->recetteIngredients;
+    }
+
+    public function addRecetteIngredient(RecetteIngredient $recetteIngredient): static
+    {
+        if (!$this->recetteIngredients->contains($recetteIngredient)) {
+            $this->recetteIngredients->add($recetteIngredient);
+            $recetteIngredient->setIngredient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecetteIngredient(RecetteIngredient $recetteIngredient): static
+    {
+        if ($this->recetteIngredients->removeElement($recetteIngredient)) {
+            // set the owning side to null (unless already changed)
+            if ($recetteIngredient->getIngredient() === $this) {
+                $recetteIngredient->setIngredient(null);
+            }
+        }
 
         return $this;
     }

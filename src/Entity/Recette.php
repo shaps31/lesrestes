@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RecetteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -48,12 +50,19 @@ class Recette
     #[ORM\ManyToOne(inversedBy: 'recettes')]
     private ?Categorie $categorie = null;
 
+    /**
+     * @var Collection<int, RecetteIngredient>
+     */
+    #[ORM\OneToMany(targetEntity: RecetteIngredient::class, mappedBy: 'recette')]
+    private Collection $recetteIngredients;
+
     public function __construct() 
     {
         $this->dateCreation = new \DateTimeImmutable(); 
         $this->vue = 0; 
         $this->difficulte = 1; 
-        $this->nombrePersonnes = 4; 
+        $this->nombrePersonnes = 4;
+        $this->recetteIngredients = new ArrayCollection(); 
     } 
 
     public function getId(): ?int
@@ -189,6 +198,36 @@ class Recette
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecetteIngredient>
+     */
+    public function getRecetteIngredients(): Collection
+    {
+        return $this->recetteIngredients;
+    }
+
+    public function addRecetteIngredient(RecetteIngredient $recetteIngredient): static
+    {
+        if (!$this->recetteIngredients->contains($recetteIngredient)) {
+            $this->recetteIngredients->add($recetteIngredient);
+            $recetteIngredient->setRecette($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecetteIngredient(RecetteIngredient $recetteIngredient): static
+    {
+        if ($this->recetteIngredients->removeElement($recetteIngredient)) {
+            // set the owning side to null (unless already changed)
+            if ($recetteIngredient->getRecette() === $this) {
+                $recetteIngredient->setRecette(null);
+            }
+        }
 
         return $this;
     }

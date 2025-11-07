@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Categorie;
 use App\Entity\Recette;
-use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

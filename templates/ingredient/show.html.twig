@@ -1,38 +1,95 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ingredient{% endblock %}
+{% block title %}{{ ingredient.nom }} - Ingrédient{% endblock %}
 
 {% block body %}
-    <h1>Ingredient</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ingredient.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ ingredient.nom }}</td>
-            </tr>
-            <tr>
-                <th>Unite</th>
-                <td>{{ ingredient.unite }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ ingredient.description }}</td>
-            </tr>
-            <tr>
-                <th>DateCreation</th>
-                <td>{{ ingredient.dateCreation ? ingredient.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_ingredient_index') }}">back to list</a>
-
-    <a href="{{ path('app_ingredient_edit', {'id': ingredient.id}) }}">edit</a>
-
-    {{ include('ingredient/_delete_form.html.twig') }}
+<div class="container">
+    <!-- Header avec retour -->
+    <div class="mb-4">
+        <a href="{{ path('app_ingredient_index') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Retour à la liste
+        </a>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="bi bi-basket text-success"></i> {{ ingredient.nom }}
+                    </h4>
+                    {% if ingredient.unite %}
+                        <span class="badge bg-success">{{ ingredient.unite }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="card-body">
+                    {% if ingredient.description %}
+                        <div class="mb-4">
+                            <h6 class="text-muted">Description</h6>
+                            <p>{{ ingredient.description }}</p>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Informations</h6>
+                            <dl class="row">
+                                <dt class="col-sm-4">ID :</dt>
+                                <dd class="col-sm-8">#{{ ingredient.id }}</dd>
+                                
+                                <dt class="col-sm-4">Nom :</dt>
+                                <dd class="col-sm-8">{{ ingredient.nom }}</dd>
+                                
+                                {% if ingredient.unite %}
+                                    <dt class="col-sm-4">Unité :</dt>
+                                    <dd class="col-sm-8">{{ ingredient.unite }}</dd>
+                                {% endif %}
+                                
+                                <dt class="col-sm-4">Créé le :</dt>
+                                <dd class="col-sm-8">{{ ingredient.dateCreation|date('d/m/Y à H:i') }}</dd>
+                            </dl>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Actions</h6>
+                            <div class="d-grid gap-2">
+                                <a href="{{ path('app_ingredient_edit', {'id': ingredient.id}) }}" class="btn btn-primary">
+                                    <i class="bi bi-pencil"></i> Modifier cet ingrédient
+                                </a>
+                                
+                                <!-- Bouton suppression dans un dropdown pour éviter suppression accidentelle -->
+                                <div class="dropdown d-grid">
+                                    <button class="btn btn-outline-danger dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        <i class="bi bi-trash"></i> Actions avancées
+                                    </button>
+                                    <ul class="dropdown-menu w-100">
+                                        <li>
+                                            <form method="post" action="{{ path('app_ingredient_delete', {'id': ingredient.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet ingrédient ?')">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ingredient.id) }}">
+                                                <button class="dropdown-item text-danger">
+                                                    <i class="bi bi-trash"></i> Supprimer définitivement
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section recettes utilisant cet ingrédient (bonus) -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h6 class="card-title">
+                        <i class="bi bi-journal-text"></i> Recettes utilisant {{ ingredient.nom }}
+                    </h6>
+                    <p class="text-muted small">Fonctionnalité à venir : affichage des recettes contenant cet ingrédient.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

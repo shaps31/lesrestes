@@ -1,11 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Categorie{% endblock %}
+{% block title %}Nouvelle catégorie - Les Restes{% endblock %}
 
 {% block body %}
-    <h1>Create new Categorie</h1>
-
-    {{ include('categorie/_form.html.twig') }}
-
-    <a href="{{ path('app_categorie_index') }}">back to list</a>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="mb-4">
+                <a href="{{ path('app_categorie_index') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Retour à la liste
+                </a>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <i class="bi bi-tags text-success"></i> Nouvelle catégorie
+                    </h4>
+                    <p class="text-muted mb-4">Créez une catégorie pour organiser vos recettes.</p>
+                    
+                    {{ include('categorie/_form.html.twig', {'button_label': 'Créer la catégorie'}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

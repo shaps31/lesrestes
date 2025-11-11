@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Recette;
 use App\Form\RecetteType;
+use App\Repository\FavoriRepository;
 use App\Repository\RecetteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,8 +24,8 @@ final class RecetteController extends AbstractController
     }
 
     #[Route('/new', name: 'app_recette_new', methods: ['GET', 'POST'])]
-public function new(Request $request, EntityManagerInterface $entityManager): Response
-{
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
     $recette = new Recette();
     $form = $this->createForm(RecetteType::class, $recette);
     $form->handleRequest($request);
@@ -44,15 +45,28 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
         'recette' => $recette,
         'form' => $form,
     ]);
-}
+    }
 
     #[Route('/{id}', name: 'app_recette_show', methods: ['GET'])]
-    public function show(Recette $recette): Response
-    {
-        return $this->render('recette/show.html.twig', [
-            'recette' => $recette,
-        ]);
+    public function show(Recette $recette, FavoriRepository $favoriRepository, EntityManagerInterface $entityManager): Response
+{
+    // Augmenter le compteur de vues
+    $recette->setVue($recette->getVue() + 1);
+    $entityManager->flush();
+    
+    $isFavorite = false;
+    if ($this->getUser()) {
+        $isFavorite = $favoriRepository->findOneBy([
+            'user' => $this->getUser(),
+            'recette' => $recette
+        ]) !== null;
     }
+
+    return $this->render('recette/show.html.twig', [
+        'recette' => $recette,
+        'isFavorite' => $isFavorite,
+    ]);
+}
 
     #[Route('/{id}/edit', name: 'app_recette_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Recette $recette, EntityManagerInterface $entityManager): Response

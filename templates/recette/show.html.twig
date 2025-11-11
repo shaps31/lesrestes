@@ -10,8 +10,8 @@
             <i class="bi bi-arrow-left"></i> Retour
         </a>
         {% if app.user %}
-            <button class="btn btn-outline-danger" id="favoriBtn">
-                <i class="bi bi-heart"></i> Favoris
+            <button class="btn btn-outline-danger{{ isFavorite ? ' text-danger' : '' }}" id="favoriBtn">
+                <i class="bi bi-heart{{ isFavorite ? '-fill' : '' }}"></i> Favoris
             </button>
         {% endif %}
     </div>
@@ -209,4 +209,40 @@
         </div>
     </div>
 </div>
+<script>
+async function toggleFavori(recetteId, button) {
+    try {
+        const response = await fetch(`/api/favori/toggle/${recetteId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            const icon = button.querySelector('i');
+            if (data.isFavorite) {
+                icon.classList.remove('bi-heart');
+                icon.classList.add('bi-heart-fill');
+                button.classList.add('text-danger');
+            } else {
+                icon.classList.remove('bi-heart-fill');
+                icon.classList.add('bi-heart');
+                button.classList.remove('text-danger');
+            }
+        }
+    } catch (error) {
+        console.error('Erreur:', error);
+    }
+}
+</script>
+<script>
+document.getElementById('favoriBtn').addEventListener('click', function() {
+    const recetteId = window.location.pathname.split('/').pop();
+    toggleFavori(recetteId, this);
+});
+</script>
+
 {% endblock %}

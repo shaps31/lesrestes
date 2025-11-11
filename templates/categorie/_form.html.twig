@@ -1,4 +1,25 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }} 
+ 
+<div class="mb-3"> 
+    {{ form_label(form.nom, 'Nom de la catégorie', {'label_attr': {'class': 'form-label'}}) }} 
+    {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Ex: Entrées, Plats principaux...'}}) }} 
+    {{ form_errors(form.nom) }} 
+</div> 
+ 
+<div class="mb-3"> 
+    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }} 
+    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 3, 'placeholder': 'Décrivez cette catégorie...'}}) }} 
+    {{ form_errors(form.description) }} 
+</div> 
+ 
+<div class="mb-4"> 
+    {{ form_label(form.couleur, 'Couleur (optionnel)', {'label_attr': {'class': 'form-label'}}) }} 
+    <div class="input-group"> 
+        {{ form_widget(form.couleur, {'attr': {'class': 'form-control', 'type': 'color', 'style': 'max-width: 60px;'}}) }} 
+        <span class="input-group-text">Choisissez une couleur pour identifier la catégorie</span> 
+    </div> 
+    {{ form_errors(form.couleur) }} 
+</div> 
+ 
+ 
+{{ form_end(form) }} 

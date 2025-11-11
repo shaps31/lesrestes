@@ -7,7 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: RecetteRepository::class)]
 class Recette
 {
@@ -62,6 +65,14 @@ class Recette
     #[ORM\OneToMany(targetEntity: Favori::class, mappedBy: 'recette')]
     private Collection $favoris;
 
+    #[Vich\UploadableField(mapping: 'recette_images', fileNameProperty: 'image', size: 'imageSize')]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $imageSize = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
     public function __construct() 
     {
         $this->dateCreation = new \DateTimeImmutable(); 
@@ -208,6 +219,43 @@ class Recette
 
         return $this;
     }
+    public function setImageFile($imageFile)
+{
+    $this->imageFile = $imageFile;
+    if (null !== $imageFile) {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+}
+
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+    
+
+    public function getImageSize(): ?int
+    {
+        return $this->imageSize;
+    }
+
+    public function setImageSize(?int $imageSize): static
+    {
+        $this->imageSize = $imageSize;
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
 
     /**
      * @return Collection<int, RecetteIngredient>

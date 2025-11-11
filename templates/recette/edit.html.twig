@@ -30,4 +30,31 @@
         </div>
     </div>
 </div>
+
+<style>
+    /* Masquer la prévisualisation automatique de VichUploader */
+    .vich-image,
+    .vich-image img {
+        display: none !important;
+    }
+    
+    /* Afficher seulement notre miniature custom */
+    .bg-light.rounded.border img {
+        display: block !important;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const images = document.querySelectorAll('form img[src*="/uploads/recettes/"]');
+        images.forEach(function(img) {
+            if (!img.closest('.bg-light')) {
+                const parent = img.closest('.vich-image') || img.parentElement;
+                if (parent && parent.tagName !== 'FORM') {
+                    parent.remove();
+                }
+            }
+        });
+    });
+</script>
 {% endblock %}

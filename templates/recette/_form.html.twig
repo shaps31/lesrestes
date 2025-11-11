@@ -1,4 +1,117 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+<!-- Titre -->
+<div class="mb-3">
+    {{ form_label(form.nom, 'Titre', {'label_attr': {'class': 'form-label'}}) }}
+    <span class="text-danger">*</span>
+    {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Omelette anti-gaspi'}}) }}
+    {{ form_errors(form.nom) }}
+</div>
+
+<!-- Description -->
+<div class="mb-3">
+    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+    <span class="text-danger">*</span>
+    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': 'Une recette pour utiliser vos restes de légumes...'}}) }}
+    {{ form_errors(form.description) }}
+</div>
+
+<!-- Upload image avec prévisualisation compacte -->
+<div class="mb-3">
+    {{ form_label(form.imageFile, 'Image de la recette', {'label_attr': {'class': 'form-label'}}) }}
+    
+    <!-- Prévisualisation compacte -->
+    {% if recette.image %}
+        <div class="d-flex align-items-center gap-3 p-3 mb-2 bg-light rounded border">
+            <img src="/uploads/recettes/{{ recette.image }}" 
+                 class="rounded shadow-sm" 
+                 style="max-height: 80px; max-width: 120px; object-fit: cover;" 
+                 alt="{{ recette.nom }}">
+            <div class="flex-grow-1">
+                <p class="mb-0 small text-success fw-bold">
+                    <i class="bi bi-check-circle-fill"></i> Image actuelle
+                </p>
+                <p class="mb-0 small text-muted">
+                    Pour la remplacer, sélectionnez une nouvelle image ci-dessous
+                </p>
+            </div>
+        </div>
+    {% endif %}
+    
+    <!-- Champ d'upload -->
+    <div class="border rounded p-3 bg-white">
+        {# Afficher le champ file de VichUploader #}
+        {{ form_row(form.imageFile.file, {
+            'label': false,
+            'attr': {'class': 'form-control', 'accept': 'image/*'}
+        }) }}
+        
+        {# Checkbox pour supprimer l'image si elle existe #}
+        {% if recette.image and form.imageFile.delete is defined %}
+            <div class="form-check mt-2">
+                {{ form_widget(form.imageFile.delete, {'attr': {'class': 'form-check-input'}}) }}
+                {{ form_label(form.imageFile.delete, 'Supprimer l\'image actuelle', {'label_attr': {'class': 'form-check-label text-danger'}}) }}
+            </div>
+        {% endif %}
+        
+        {{ form_errors(form.imageFile) }}
+        <small class="form-text text-muted mt-2 d-block">
+            <i class="bi bi-info-circle"></i>
+            Formats acceptés : JPG, PNG, GIF. Taille max : 5MB
+        </small>
+    </div>
+</div>
+
+<!-- Temps et personnes -->
+<div class="row mb-3">
+    <div class="col-md-6">
+        {{ form_label(form.tempsCuisson, 'Temps de préparation', {'label_attr': {'class': 'form-label'}}) }}
+        <div class="input-group">
+            {{ form_widget(form.tempsCuisson, {'attr': {'class': 'form-control'}}) }}
+            <span class="input-group-text">minutes</span>
+        </div>
+        {{ form_errors(form.tempsCuisson) }}
+    </div>
+    
+    <div class="col-md-6">
+        {{ form_label(form.nombrePersonnes, 'Nombre de personnes', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.nombrePersonnes, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.nombrePersonnes) }}
+    </div>
+</div>
+
+<!-- Difficulté -->
+<div class="mb-3">
+    {{ form_label(form.difficulte, 'Difficulté', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.difficulte, {'attr': {'class': 'form-select'}}) }}
+    {{ form_errors(form.difficulte) }}
+</div>
+
+<!-- Étapes -->
+<div class="mb-3">
+    {{ form_label(form.etapes, 'Étapes de préparation', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.etapes, {'attr': {'class': 'form-control', 'rows': 8, 'placeholder': "1. Battre les œufs dans un bol\n2. Couper les tomates en dés\n3. Faire revenir l'oignon..."}}) }}
+    {{ form_errors(form.etapes) }}
+    <small class="form-text text-muted">
+        Saisissez chaque étape sur une ligne séparée, numérotée.
+    </small>
+</div>
+
+<!-- Catégorie -->
+<div class="mb-4">
+    {{ form_label(form.categorie, 'Catégorie', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.categorie, {'attr': {'class': 'form-select'}}) }}
+    {{ form_errors(form.categorie) }}
+</div>
+
+<!-- Boutons -->
+<div class="d-flex justify-content-between">
+    <a href="{{ path('app_recette_index') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-x-circle"></i> Annuler
+    </a>
+    <button type="submit" class="btn btn-success">
+        <i class="bi bi-check-circle"></i> {{ button_label|default('Enregistrer') }}
+    </button>
+</div>
+
 {{ form_end(form) }}

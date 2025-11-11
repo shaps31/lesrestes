@@ -50,8 +50,17 @@
                     {% for recette in mesRecettes %}
                         <div class="col-md-6 col-lg-4 mb-4">
                             <div class="card h-100">
-                                <img src="{{ recette.image ?: 'https://source.unsplash.com/300x200/?food' }}" 
-                                     class="card-img-top" alt="{{ recette.nom }}">
+                                {% if recette.image %}
+                                    <img src="/uploads/recettes/{{ recette.image }}" 
+                                         class="card-img-top" 
+                                         alt="{{ recette.nom }}"
+                                         style="height: 200px; object-fit: cover;">
+                                {% else %}
+                                    <img src="https://source.unsplash.com/300x200/?food" 
+                                         class="card-img-top" 
+                                         alt="{{ recette.nom }}"
+                                         style="height: 200px; object-fit: cover;">
+                                {% endif %}
                                 <div class="card-body">
                                     <h5 class="card-title">{{ recette.nom }}</h5>
                                     
@@ -110,8 +119,17 @@
                 {% set recette = favori.recette %}
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card h-100">
-                        <img src="{{ recette.image ?: 'https://unsplash.com/fr/s/photos/food' }}" 
-                             class="card-img-top" alt="{{ recette.nom }}">
+                         {% if recette.image %}
+                            <img src="/uploads/recettes/{{ recette.image }}" 
+                                 class="card-img-top" 
+                                 alt="{{ recette.nom }}"
+                                 style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <img src="https://source.unsplash.com/300x200/?food" 
+                                 class="card-img-top" 
+                                 alt="{{ recette.nom }}"
+                                 style="height: 200px; object-fit: cover;">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ recette.nom }}</h5>
                             

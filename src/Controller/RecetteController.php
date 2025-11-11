@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Recette;
 use App\Form\RecetteType;
+use App\Form\TextareaType;
 use App\Repository\FavoriRepository;
 use App\Repository\RecetteRepository;
 use Doctrine\ORM\EntityManagerInterface;

@@ -18,10 +18,17 @@
     
     <!-- Grande photo recette -->
     <div class="text-center mb-4">
-        <img src="{{ recette.image ?: 'https://source.unsplash.com/800x400/?food' }}" 
-             class="img-fluid rounded shadow" 
-             alt="{{ recette.nom }}" 
-             style="max-height: 400px; width: 100%; object-fit: cover;">
+        {% if recette.image %}
+            <img src="/uploads/recettes/{{ recette.image }}" 
+                 class="img-fluid rounded shadow" 
+                 alt="{{ recette.nom }}" 
+                 style="max-height: 400px; width: 100%; object-fit: cover;">
+        {% else %}
+            <img src="https://source.unsplash.com/800x400/?food" 
+                 class="img-fluid rounded shadow" 
+                 alt="{{ recette.nom }}" 
+                 style="max-height: 400px; width: 100%; object-fit: cover;">
+        {% endif %}
     </div>
     
     <!-- Informations principales -->

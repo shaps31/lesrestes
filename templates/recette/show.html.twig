@@ -42,14 +42,22 @@
             
             <!-- Notes et avis -->
             <div class="mb-3">
-                <span class="me-2">
-                    <i class="bi bi-star-fill text-warning"></i>
-                    <i class="bi bi-star-fill text-warning"></i>
-                    <i class="bi bi-star-fill text-warning"></i>
-                    <i class="bi bi-star-fill text-warning"></i>
-                    <i class="bi bi-star-fill text-warning"></i>
-                </span>
-                <span class="text-muted">(24 avis)</span>
+                {% if recette.commentaires|length > 0 %}
+                    {% set moyenne = recette.moyenneNotes %}
+                    <span class="me-2">
+                        {% for i in 1..5 %}
+                            {% if i <= moyenne %}
+                                <i class="bi bi-star-fill text-warning"></i>
+                            {% else %}
+                                <i class="bi bi-star text-muted"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </span>
+                    <span class="text-muted">({{ recette.commentaires|length }} avis)</span>
+                    <span class="ms-2 fw-bold text-warning">{{ moyenne }}/5</span>
+                {% else %}
+                    <span class="text-muted">Aucun avis pour le moment</span>
+                {% endif %}
             </div>
             
             <!-- Infos rapides avec icônes -->
@@ -138,7 +146,7 @@
             
             <!-- Commentaires -->
             <h4 class="mb-3">
-                <i class="bi bi-chat-dots"></i> Commentaires (8)
+                <i class="bi bi-chat-dots"></i> Commentaires ({{ recette.commentaires|length }})
             </h4>
             
             {% if app.user %}
@@ -146,77 +154,190 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <h6 class="card-title">Laisser un avis</h6>
-                        <form>
-                            <!-- Note avec étoiles -->
+                        {{ form_start(commentaireForm) }}
+                            <!-- Note avec étoiles personnalisées -->
                             <div class="mb-3">
                                 <label class="form-label">Note :</label>
-                                <div>
-                                    <input type="radio" class="btn-check" name="note" value="1" id="star1">
-                                    <label class="btn btn-outline-warning btn-sm" for="star1"><i class="bi bi-star"></i></label>
-                                    
-                                    <input type="radio" class="btn-check" name="note" value="2" id="star2">
-                                    <label class="btn btn-outline-warning btn-sm" for="star2"><i class="bi bi-star"></i></label>
-                                    
-                                    <input type="radio" class="btn-check" name="note" value="3" id="star3">
-                                    <label class="btn btn-outline-warning btn-sm" for="star3"><i class="bi bi-star"></i></label>
-                                    
-                                    <input type="radio" class="btn-check" name="note" value="4" id="star4">
-                                    <label class="btn btn-outline-warning btn-sm" for="star4"><i class="bi bi-star"></i></label>
-                                    
-                                    <input type="radio" class="btn-check" name="note" value="5" id="star5">
-                                    <label class="btn btn-outline-warning btn-sm" for="star5"><i class="bi bi-star"></i></label>
+                                <div class="star-rating">
+                                    {% for i in 1..5 %}
+                                        <input type="radio" name="commentaire[note]" value="{{ i }}" id="star{{ i }}" class="star-input">
+                                        <label for="star{{ i }}" class="star-label">
+                                            <i class="bi bi-star"></i>
+                                        </label>
+                                    {% endfor %}
                                 </div>
+                                {{ form_errors(commentaireForm.note) }}
                             </div>
                             
-                            <!-- Commentaire -->
-                            <div class="mb-3">
-                                <textarea class="form-control" rows="3" placeholder="Partagez votre expérience..."></textarea>
-                            </div>
-                            
+                            {{ form_row(commentaireForm.contenu) }}
                             <button type="submit" class="btn btn-success">
                                 <i class="bi bi-send"></i> Publier l'avis
                             </button>
-                        </form>
+                            
+                            <!-- Cacher le widget original -->
+                            <div style="display: none;">
+                                {{ form_widget(commentaireForm.note) }}
+                            </div>
+                        {{ form_end(commentaireForm) }}
                     </div>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <a href="{{ path('app_login') }}">Connectez-vous</a> pour laisser un commentaire.
                 </div>
             {% endif %}
             
-            <!-- Liste des commentaires (temporaire) -->
-            <div class="mb-3">
-                <div class="border-start border-3 border-success ps-3 mb-3">
-                    <div class="d-flex justify-content-between">
-                        <strong>Marie Dubois</strong>
-                        <small class="text-muted">12 oct 2025</small>
-                    </div>
-                    <div class="mb-1">
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                    </div>
-                    <p class="mb-0">Excellente recette ! Parfait pour utiliser mes restes de tomates.</p>
+            <!-- Liste des commentaires -->
+            {% if recette.commentaires|length > 0 %}
+                {% for commentaire in recette.commentaires %}
+                    <div class="border-start border-3 border-success ps-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <strong>{{ commentaire.user.prenom }} {{ commentaire.user.nom }}</strong>
+                    <small class="text-muted ms-2">{{ commentaire.dateCreation|date('d M Y') }}</small>
                 </div>
                 
-                <div class="border-start border-3 border-success ps-3 mb-3">
-                    <div class="d-flex justify-content-between">
-                        <strong>Paul Martin</strong>
-                        <small class="text-muted">10 oct 2025</small>
+                <!-- Bouton supprimer si c'est son propre commentaire -->
+                {% if app.user and commentaire.user == app.user %}
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-three-dots"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <button class="dropdown-item text-danger" onclick="confirmerSuppressionCommentaire({{ commentaire.id }})">
+                                    <i class="bi bi-trash"></i> Supprimer
+                                </button>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="mb-1">
+                {% endif %}
+            </div>
+            
+            <div class="mb-1">
+                {% for i in 1..5 %}
+                    {% if i <= commentaire.note %}
                         <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
+                    {% else %}
                         <i class="bi bi-star text-muted"></i>
-                    </div>
-                    <p class="mb-0">Simple et efficace. Mes enfants ont adoré !</p>
-                </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <p class="mb-0">{{ commentaire.contenu }}</p>
+        </div>
+    {% endfor %}
+{% else %}
+    <p class="text-muted">Aucun commentaire pour le moment. Soyez le premier à donner votre avis !</p>
+{% endif %}
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Modal de confirmation suppression commentaire -->
+<div class="modal fade" id="deleteCommentModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Supprimer le commentaire</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer ce commentaire ?</p>
+                <p class="text-warning small">Cette action est irréversible.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <form method="post" id="deleteCommentForm" style="display: inline;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Supprimer
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 </div>
+<style>
+.star-rating {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.star-input {
+    display: none;
+}
+
+.star-label {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #ddd;
+    transition: color 0.2s;
+    margin: 0 2px;
+}
+
+.star-label.active {
+    color: #ffc107;
+}
+</style>
+
 <script>
+// Script amélioré pour les étoiles
+document.addEventListener('DOMContentLoaded', function() {
+    const starInputs = document.querySelectorAll('.star-input');
+    const starLabels = document.querySelectorAll('.star-label');
+    
+    // Fonction pour mettre à jour l'affichage des étoiles
+    function updateStars(rating) {
+        starLabels.forEach((label, index) => {
+            if (index < rating) {
+                label.classList.add('active');
+            } else {
+                label.classList.remove('active');
+            }
+        });
+    }
+    
+    // Ajouter les événements sur chaque étoile
+    starLabels.forEach((label, index) => {
+        // Survol
+        label.addEventListener('mouseenter', function() {
+            updateStars(index + 1);
+        });
+        
+        // Clic
+        label.addEventListener('click', function() {
+            const rating = index + 1;
+            
+            // Cocher l'input correspondant
+            starInputs[index].checked = true;
+            
+            // Synchroniser avec le champ Symfony caché
+            const hiddenInputs = document.querySelectorAll('input[name="commentaire[note]"]:not(.star-input)');
+            hiddenInputs.forEach(input => {
+                input.checked = (input.value == rating);
+            });
+            
+            // Maintenir l'affichage après le clic
+            updateStars(rating);
+            
+            // Marquer comme sélectionné
+            label.closest('.star-rating').setAttribute('data-rating', rating);
+        });
+    });
+    
+    // Gérer le survol - revenir à la sélection si il y en a une
+    document.querySelector('.star-rating').addEventListener('mouseleave', function() {
+        const currentRating = this.getAttribute('data-rating');
+        if (currentRating) {
+            updateStars(parseInt(currentRating));
+        } else {
+            updateStars(0);
+        }
+    });
+});
+
+// Script pour les favoris (inchangé)
 async function toggleFavori(recetteId, button) {
     try {
         const response = await fetch(`/api/favori/toggle/${recetteId}`, {
@@ -244,12 +365,16 @@ async function toggleFavori(recetteId, button) {
         console.error('Erreur:', error);
     }
 }
-</script>
-<script>
+
 document.getElementById('favoriBtn').addEventListener('click', function() {
     const recetteId = window.location.pathname.split('/').pop();
     toggleFavori(recetteId, this);
 });
+// Fonction pour confirmer la suppression d'un commentaire
+function confirmerSuppressionCommentaire(commentaireId) {
+    document.getElementById('deleteCommentForm').action = '/commentaire/' + commentaireId + '/delete';
+    new bootstrap.Modal(document.getElementById('deleteCommentModal')).show();
+}
 </script>
 
 {% endblock %}

@@ -55,12 +55,10 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ recette.nom }}</h5>
                     <div class="mb-2">
-                        <!-- TODO: Afficher vraies notes quand système de notation sera implémenté -->
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star text-muted"></i>
+                        {{ stars(recette.moyenneNotes) }}
+                        {% if recette.commentaires|length > 0 %}
+                            <span class="ms-1 small text-muted">({{ recette.commentaires|length }})</span>
+                        {% endif %}
                     </div>
                     <p class="card-text text-muted small">{{ recette.description|slice(0, 50) }}...</p>
                     <a href="{{ path('app_recette_show', {'id': recette.id}) }}" class="btn btn-outline-success btn-sm">

@@ -73,6 +73,12 @@ class Recette
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    /**
+     * @var Collection<int, Commentaire>
+     */
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'recette')]
+    private Collection $commentaires;
     public function __construct() 
     {
         $this->dateCreation = new \DateTimeImmutable(); 
@@ -80,7 +86,8 @@ class Recette
         $this->difficulte = 1; 
         $this->nombrePersonnes = 4;
         $this->recetteIngredients = new ArrayCollection();
-        $this->favoris = new ArrayCollection(); 
+        $this->favoris = new ArrayCollection();
+        $this->commentaires = new ArrayCollection(); 
     } 
 
     public function getId(): ?int
@@ -316,4 +323,44 @@ class Recette
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): static
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+            $commentaire->setRecette($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): static
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getRecette() === $this) {
+                $commentaire->setRecette(null);
+            }
+        }
+
+        return $this;
+    }
+    public function getMoyenneNotes(): float
+    {
+    $commentaires = $this->commentaires->toArray();
+    if (empty($commentaires)) {
+        return 0;
+    }
+    
+    $totalNotes = array_sum(array_map(fn($c) => $c->getNote(), $commentaires));
+    return round($totalNotes / count($commentaires), 1);
+}   
 }

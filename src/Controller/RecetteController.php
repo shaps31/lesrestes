@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Recette;
 use App\Form\RecetteType;
-use App\Form\TextareaType;
+use App\Entity\Commentaire;
+use App\Form\CommentaireType;
 use App\Repository\FavoriRepository;
 use App\Repository\RecetteRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,7 +33,6 @@ final class RecetteController extends AbstractController
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        // Associer l'utilisateur connecté
         $recette->setUser($this->getUser());
         
         $entityManager->persist($recette);
@@ -48,10 +48,9 @@ final class RecetteController extends AbstractController
     ]);
     }
 
-    #[Route('/{id}', name: 'app_recette_show', methods: ['GET'])]
-    public function show(Recette $recette, FavoriRepository $favoriRepository, EntityManagerInterface $entityManager): Response
-{
-    // Augmenter le compteur de vues
+    #[Route('/{id}', name: 'app_recette_show', methods: ['GET', 'POST'])]
+    public function show(Request $request, Recette $recette, FavoriRepository $favoriRepository, EntityManagerInterface $entityManager): Response
+    {
     $recette->setVue($recette->getVue() + 1);
     $entityManager->flush();
     
@@ -63,11 +62,28 @@ final class RecetteController extends AbstractController
         ]) !== null;
     }
 
+    
+    $commentaire = new Commentaire();
+    $form = $this->createForm(CommentaireType::class, $commentaire);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $commentaire->setUser($this->getUser());
+        $commentaire->setRecette($recette);
+        
+        $entityManager->persist($commentaire);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Votre commentaire a été publié !');
+        return $this->redirectToRoute('app_recette_show', ['id' => $recette->getId()]);
+    }
+
     return $this->render('recette/show.html.twig', [
         'recette' => $recette,
         'isFavorite' => $isFavorite,
+        'commentaireForm' => $form,
     ]);
-}
+    }
 
     #[Route('/{id}/edit', name: 'app_recette_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Recette $recette, EntityManagerInterface $entityManager): Response

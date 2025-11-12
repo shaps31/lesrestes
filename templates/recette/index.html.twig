@@ -34,14 +34,10 @@
                             <h5 class="card-title">{{ recette.nom }}</h5>
                             
                             <!-- Étoiles et infos -->
-                            <div class="mb-2">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star text-muted"></i>
-                                <span class="ms-2 small text-muted">{{ recette.vue }} vues</span>
-                            </div>
+                            {{ stars(recette.moyenneNotes) }}
+                            {% if recette.commentaires|length > 0 %}
+                                <span class="ms-1 small text-muted">({{ recette.commentaires|length }})</span>
+                            {% endif %}
                             
                             <p class="card-text text-muted small">{{ recette.description|slice(0, 80) }}...</p>
                             

@@ -87,6 +87,42 @@
     {{ form_errors(form.difficulte) }}
 </div>
 
+<!-- Ingrédients dynamiques -->
+<h5 class="mb-3">Ingrédients</h5>
+<div id="ingredients-collection" class="mb-3" 
+     data-prototype="{{ form_widget(form.recetteIngredients.vars.prototype)|e('html_attr') }}">
+    
+    {% for recetteIngredient in form.recetteIngredients %}
+        <div class="ingredient-row border rounded p-2 mb-2">
+            <div class="row">
+                <div class="col-md-4">
+                    {{ form_widget(recetteIngredient.ingredient, {
+                        'attr': {'class': 'form-select form-select-sm'}
+                    }) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_widget(recetteIngredient.quantite, {
+                        'attr': {'class': 'form-control form-control-sm'}
+                    }) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_widget(recetteIngredient.unite, {
+                        'attr': {'class': 'form-select form-select-sm'}
+                    }) }}
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="button" class="btn btn-outline-danger btn-sm remove-ingredient">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<button type="button" class="btn btn-outline-success btn-sm mb-4" id="add-ingredient">
+    <i class="bi bi-plus"></i> Ajouter un ingrédient
+</button>
 <!-- Étapes -->
 <div class="mb-3">
     {{ form_label(form.etapes, 'Étapes de préparation', {'label_attr': {'class': 'form-label'}}) }}
@@ -115,3 +151,153 @@
 </div>
 
 {{ form_end(form) }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ingredientsContainer = document.getElementById('ingredients-collection');
+    const addButton = document.getElementById('add-ingredient');
+    let index = document.querySelectorAll('.ingredient-row').length;
+    
+    // Fonction pour transformer un select en autocomplete
+    function setupAutocomplete(selectElement) {
+        // Protection contre la double transformation
+        if (selectElement.dataset.autocompleteSetup) return;
+        selectElement.dataset.autocompleteSetup = 'true';
+        
+        // Cacher le select original
+        selectElement.style.display = 'none';
+        
+        // Créer l'input de recherche
+        const searchInput = document.createElement('input');
+        searchInput.type = 'text';
+        searchInput.className = 'form-control form-control-sm';
+        searchInput.placeholder = 'Tapez pour rechercher...';
+        searchInput.autocomplete = 'off';
+        
+        // MODE ÉDITION : Pré-remplir avec la valeur existante
+        if (selectElement.value) {
+            const selectedOption = selectElement.querySelector(`option[value="${selectElement.value}"]`);
+            if (selectedOption) {
+                searchInput.value = selectedOption.textContent;
+            }
+        }
+        
+        // Conteneur pour les résultats
+        const resultsDiv = document.createElement('div');
+        resultsDiv.className = 'autocomplete-results position-absolute bg-white border rounded shadow-sm';
+        resultsDiv.style.cssText = 'top: 100%; left: 0; right: 0; z-index: 1000; max-height: 200px; overflow-y: auto; display: none;';
+        
+        // Insérer après le select
+        selectElement.parentElement.style.position = 'relative';
+        selectElement.parentElement.appendChild(searchInput);
+        selectElement.parentElement.appendChild(resultsDiv);
+        
+        let timeoutId;
+        
+        // Recherche avec debounce
+        searchInput.addEventListener('input', function() {
+            clearTimeout(timeoutId);
+            const query = this.value.trim();
+            
+            if (query.length < 2) {
+                resultsDiv.style.display = 'none';
+                return;
+            }
+            
+            timeoutId = setTimeout(() => {
+                fetch(`/api/ingredients/search?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(ingredients => {
+                        resultsDiv.innerHTML = '';
+                        
+                        if (ingredients.length === 0) {
+                            resultsDiv.style.display = 'none';
+                            return;
+                        }
+                        
+                        ingredients.forEach(ingredient => {
+                            const item = document.createElement('div');
+                            item.className = 'autocomplete-item p-2 border-bottom';
+                            item.style.cursor = 'pointer';
+                            item.textContent = ingredient.nom;
+                            
+                            item.addEventListener('mouseenter', () => item.classList.add('bg-light'));
+                            item.addEventListener('mouseleave', () => item.classList.remove('bg-light'));
+                            
+                            item.addEventListener('click', () => {
+                                searchInput.value = ingredient.nom;
+                                selectElement.value = ingredient.id;
+                                resultsDiv.style.display = 'none';
+                            });
+                            
+                            resultsDiv.appendChild(item);
+                        });
+                        
+                        resultsDiv.style.display = 'block';
+                    })
+                    .catch(error => console.error('Erreur autocomplete:', error));
+            }, 300);
+        });
+        
+        // Fermer en cliquant ailleurs
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
+                resultsDiv.style.display = 'none';
+            }
+        });
+    }
+    
+    // Ajouter un ingrédient
+    addButton.addEventListener('click', function() {
+        const prototype = ingredientsContainer.dataset.prototype;
+        const newForm = prototype.replace(/__name__/g, index);
+        
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = newForm;
+        
+        const ingredientSelect = tempDiv.querySelector('select[name*="ingredient"]');
+        const quantiteInput = tempDiv.querySelector('input[name*="quantite"]');
+        const uniteSelect = tempDiv.querySelector('select[name*="unite"]');
+        
+        const wrapper = document.createElement('div');
+        wrapper.className = 'ingredient-row border rounded p-2 mb-2';
+        wrapper.innerHTML = `
+            <div class="row">
+                <div class="col-md-4 ingredient-field"></div>
+                <div class="col-md-3 quantite-field"></div>
+                <div class="col-md-3 unite-field"></div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="button" class="btn btn-outline-danger btn-sm remove-ingredient w-100">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        if (ingredientSelect) {
+            wrapper.querySelector('.ingredient-field').appendChild(ingredientSelect);
+            setupAutocomplete(ingredientSelect);
+        }
+        
+        if (quantiteInput) {
+            quantiteInput.className = 'form-control form-control-sm';
+            wrapper.querySelector('.quantite-field').appendChild(quantiteInput);
+        }
+        
+        if (uniteSelect) {
+            uniteSelect.className = 'form-select form-select-sm';
+            wrapper.querySelector('.unite-field').appendChild(uniteSelect);
+        }
+        
+        ingredientsContainer.appendChild(wrapper);
+        index++;
+        
+        wrapper.querySelector('.remove-ingredient').addEventListener('click', function() {
+            wrapper.remove();
+        });
+    });
+    
+    document.querySelectorAll('select[name*="ingredient"]').forEach(function(select) {
+        setupAutocomplete(select);
+    });
+});
+</script>

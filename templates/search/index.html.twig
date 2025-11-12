@@ -77,19 +77,27 @@
         {% for recette in recettes %}
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card h-100">
-                    <img src="{{ recette.image ?: 'https://source.unsplash.com/300x200/?food' }}" class="card-img-top" alt="{{ recette.nom }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ recette.nom }}</h5>
-                        
-                        <!-- Étoiles -->
-                        <div class="mb-2">
-                            <i class="bi bi-star-fill text-warning"></i>
-                            <i class="bi bi-star-fill text-warning"></i>
-                            <i class="bi bi-star-fill text-warning"></i>
-                            <i class="bi bi-star-fill text-warning"></i>
-                            <i class="bi bi-star text-muted"></i>
-                        </div>
-                        
+                    {% if recette.image %}
+                            <img src="/uploads/recettes/{{ recette.image }}" 
+                                 class="card-img-top" 
+                                 style="height: 200px; object-fit: cover;" 
+                                 alt="{{ recette.nom }}">
+                        {% else %}
+                            <img src="https://source.unsplash.com/300x200/?food" 
+                                 class="card-img-top" 
+                                 style="height: 200px; object-fit: cover;" 
+                                 alt="{{ recette.nom }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recette.nom }}</h5>
+                            
+                            <!-- Étoiles et infos -->
+                            {{ stars(recette.moyenneNotes) }}
+                            {% if recette.commentaires|length > 0 %}
+                                <span class="ms-1 small text-muted">({{ recette.commentaires|length }})</span>
+                            {% endif %}
+                            
+                            <p class="card-text text-muted small">{{ recette.description|slice(0, 80) }}...</p>
                         <!-- Badge ingrédients correspondants -->
                         <span class="badge bg-primary mb-2">
                             {{ selectedIngredients|length }}/{{ selectedIngredients|length }} ingrédients

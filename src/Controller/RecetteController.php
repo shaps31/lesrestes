@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Recette;
 use App\Form\RecetteType;
 use App\Entity\Commentaire;
+use App\Repository\IngredientRepository;
 use App\Form\CommentaireType;
 use App\Repository\FavoriRepository;
 use App\Repository\RecetteRepository;
@@ -24,30 +25,49 @@ final class RecetteController extends AbstractController
             'recettes' => $recetteRepository->findAll(),
         ]);
     }
-
+    
     #[Route('/new', name: 'app_recette_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, IngredientRepository $ingredientRepository): Response
     {
-    $recette = new Recette();
-    $form = $this->createForm(RecetteType::class, $recette);
-    $form->handleRequest($request);
+        $recette = new Recette();
+        $form = $this->createForm(RecetteType::class, $recette);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $recette->setUser($this->getUser());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $recette->setUser($this->getUser());
+        
+            $submittedData = $request->request->all();
+            if (isset($submittedData['recette']['recetteIngredients'])) {
+                foreach ($submittedData['recette']['recetteIngredients'] as $index => $ingredientData) {
+                    $ingredientId = $ingredientData['ingredient_id'] ?? null;
+                
+                    if ($ingredientId && $ingredientId !== '') {
+                        $ingredient = $ingredientRepository->find($ingredientId);
+                        
+                    if ($ingredient) {
+                        $recetteIngredients = $recette->getRecetteIngredients()->toArray();
+                        if (isset($recetteIngredients[$index])) {
+                            $recetteIngredients[$index]->setIngredient($ingredient);
+                            $recetteIngredients[$index]->setRecette($recette);
+                        }
+                    }
+                }
+            }
+        }
         
         $entityManager->persist($recette);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Recette publiée avec succès !');
+        $this->addFlash('success', 'Recette créée avec succès !');
+        
         return $this->redirectToRoute('app_recette_show', ['id' => $recette->getId()]);
     }
 
-    return $this->render('recette/new.html.twig', [
+        return $this->render('recette/new.html.twig', [
         'recette' => $recette,
         'form' => $form,
     ]);
-    }
-
+    }    
     #[Route('/{id}', name: 'app_recette_show', methods: ['GET', 'POST'])]
     public function show(Request $request, Recette $recette, FavoriRepository $favoriRepository, EntityManagerInterface $entityManager): Response
     {

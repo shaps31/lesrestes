@@ -6,6 +6,7 @@ use App\Entity\Categorie;
 use App\Entity\Recette;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,13 +29,23 @@ class RecetteType extends AbstractType
                 'image_uri' => true,
                 'asset_helper' => true,
             ])
-            ->add('etapes', TextareaType::class)
             ->add('tempsCuisson', IntegerType::class)
             ->add('nombrePersonnes', IntegerType::class)
             ->add('difficulte', IntegerType::class)
+            ->add('etapes', TextareaType::class)
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
                 'choice_label' => 'nom',
+            ])
+            // AJOUTEZ CETTE LIGNE SI ELLE N'EXISTE PAS
+            ->add('recetteIngredients', CollectionType::class, [
+                'entry_type' => RecetteIngredientType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+                'attr' => ['class' => 'ingredients-collection']
             ]);
     }
 

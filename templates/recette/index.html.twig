@@ -156,7 +156,7 @@
     {% endif %}
     
     <!-- Pagination -->
-    {% if recettes.pageCount > 1 %}
+   {% if recettes.pageCount > 1 %}
         <div class="d-flex justify-content-center mt-4">
             {{ knp_pagination_render(recettes) }}
         </div>
@@ -168,6 +168,8 @@
         Affichage de {{ pagination.firstItemNumber }} à {{ pagination.lastItemNumber }} sur {{ recettes.getTotalItemCount() }} recette(s)
     </div>
 </div>
+
+
 
 <script>
 // Ouvrir automatiquement le panneau si des filtres sont appliqués

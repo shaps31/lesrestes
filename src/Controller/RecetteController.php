@@ -68,7 +68,7 @@ final class RecetteController extends AbstractController
         $recettes = $paginator->paginate(
             $queryBuilder,
             $request->query->getInt('page', 1),
-            9
+            3
         );
         
         return $this->render('recette/index.html.twig', [

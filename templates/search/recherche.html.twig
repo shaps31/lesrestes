@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <!-- 🔍 RÉSULTATS -->
+    <!--  RÉSULTATS -->
     {% if recettes|length > 0 %}
         <h2 class="mb-4 text-center">
             Recettes possibles avec vos ingrédients ({{ recettes|length }})
@@ -123,6 +123,13 @@
         </div>
     {% endif %}
 </div>
+
+
+{# Afficher la navigation de pagination #}
+  <div class="d-flex justify-content-center mt-4">
+            {{ knp_pagination_render(ingredients) }}
+        </div>
+
 
 <script>
 let selectedIngredients = {{ selectedIngredients|map(i => i.id)|json_encode|raw }};

@@ -6,8 +6,7 @@ use App\Entity\Categorie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,47 +15,58 @@ class SearchAdvancedType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('query', TextType::class, [
-                'label' => 'Mots-clés (nom ou ingrédient)',
+            ->add('query', SearchType::class, [
                 'required' => false,
-                'attr' => ['placeholder' => 'ex: pizza, tomates...']
+                'label' => 'Recherche',
+                'attr' => ['placeholder' => 'Titre, ingrédient...']
             ])
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
                 'choice_label' => 'nom',
-                'placeholder' => 'Toutes les catégories',
                 'required' => false,
+                'placeholder' => 'Toutes catégories',
+                'label' => 'Catégorie'
             ])
             ->add('difficulte', ChoiceType::class, [
                 'choices' => [
                     'Facile' => 1,
                     'Moyen' => 2,
-                    'Difficile' => 3,
+                    'Difficile' => 3
                 ],
+                'required' => false,
                 'placeholder' => 'Toutes difficultés',
-                'required' => false,
+                'label' => 'Difficulté'
             ])
-            ->add('tempsMax', IntegerType::class, [
-                'label' => 'Temps max (minutes)',
+            ->add('tempsMax', ChoiceType::class, [
+                'choices' => [
+                    '15 min' => 15,
+                    '30 min' => 30,
+                    '45 min' => 45,
+                    '60 min' => 60,
+                    '90 min' => 90,
+                    '120 min' => 120
+                ],
                 'required' => false,
-                'attr' => ['placeholder' => 'ex: 30']
+                'placeholder' => 'Temps max',
+                'label' => 'Temps max'
             ])
             ->add('tri', ChoiceType::class, [
                 'choices' => [
                     'Plus récentes' => 'date_desc',
                     'Plus anciennes' => 'date_asc',
-                    'Mieux notées' => 'notes_desc',
+                    'Meilleures notes' => 'note_desc',
+                    'Plus vues' => 'vue_desc'
                 ],
-                'placeholder' => 'Trier par',
-                'required' => false,
-            ]);
+                'label' => 'Trier par'
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'csrf_protection' => false, // Pour requêtes GET simples
             'method' => 'GET',
+            'csrf_protection' => false
         ]);
     }
 }

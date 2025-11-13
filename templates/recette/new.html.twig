@@ -3,153 +3,146 @@
 {% block title %}Publier une nouvelle recette - Les Restes{% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container my-4">
     <!-- Header avec retour -->
     <div class="mb-4">
-        <a href="{{ path('app_profil') }}" class="btn btn-outline-secondary">
+        <a href="{{ path('app_profil') }}" class="btn btn-outline-success">
             <i class="bi bi-arrow-left"></i> Retour à mon profil
         </a>
     </div>
     
     <div class="row">
         <div class="col-lg-8 mx-auto">
-            <h2 class="mb-4">Publier une nouvelle recette</h2>
+            <h1 class="text-success mb-4">Publier une nouvelle recette</h1>
             
-            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data', 'id': 'recette-form'}}) }}
             
             <!-- Titre -->
             <div class="mb-3">
-                <label for="recette_nom" class="form-label">
-                    Titre <span class="text-danger">*</span>
-                </label>
+                {{ form_label(form.nom, 'Titre', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                <span class="text-danger">*</span>
                 {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Omelette anti-gaspi'}}) }}
                 {{ form_errors(form.nom) }}
             </div>
             
             <!-- Description -->
             <div class="mb-3">
-                <label for="recette_description" class="form-label">
-                    Description <span class="text-danger">*</span>
-                </label>
+                {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                <span class="text-danger">*</span>
                 {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': 'Une recette pour utiliser vos restes de légumes...'}}) }}
                 {{ form_errors(form.description) }}
             </div>
             
-           <!-- Upload image -->
-            <div class="mb-3">
-                {{ form_label(form.imageFile, 'Image de la recette', {'label_attr': {'class': 'form-label'}}) }}
-                <div class="border rounded p-3 bg-light">
-                    {{ form_widget(form.imageFile, {'attr': {'class': 'form-control', 'accept': 'image/*'}}) }}
-                    {{ form_errors(form.imageFile) }}
-                    <small class="form-text text-muted mt-2">
-                        Formats acceptés : JPG, PNG, GIF. Taille max : 5MB
-                    </small>
-                </div>
+           
+            <!-- Upload image -->
+            <div class="mb-4">
+                <label class="form-label fw-bold">Image de la recette</label>
+                {{ form_widget(form.imageFile, {'attr': {'class': 'form-control', 'accept': 'image/*'}}) }}
+                {{ form_errors(form.imageFile) }}
+                <small class="form-text text-muted d-block mt-2">
+                    Formats acceptés : JPG, PNG, GIF. Taille max : 5MB
+                </small>
             </div>
-            
-            <!-- Temps de préparation -->
+            <!-- Temps et personnes -->
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="recette_tempsCuisson" class="form-label">Temps de préparation</label>
+                    {{ form_label(form.tempsCuisson, 'Temps de préparation (min.)', {'label_attr': {'class': 'form-label fw-bold'}}) }}
                     <div class="input-group">
-                        {{ form_widget(form.tempsCuisson, {'attr': {'class': 'form-control', 'value': '15'}}) }}
+                        {{ form_widget(form.tempsCuisson, {'attr': {'class': 'form-control', 'placeholder': '15'}}) }}
                         <span class="input-group-text">minutes</span>
                     </div>
                     {{ form_errors(form.tempsCuisson) }}
                 </div>
                 
-                <!-- Nombre de personnes -->
                 <div class="col-md-6">
-                    <label for="recette_nombrePersonnes" class="form-label">Nombre de personnes</label>
-                    {{ form_widget(form.nombrePersonnes, {'attr': {'class': 'form-control', 'value': '4'}}) }}
+                    {{ form_label(form.nombrePersonnes, 'Nombre de personnes', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                    {{ form_widget(form.nombrePersonnes, {'attr': {'class': 'form-control', 'placeholder': '4'}}) }}
                     {{ form_errors(form.nombrePersonnes) }}
                 </div>
             </div>
             
             <!-- Difficulté -->
             <div class="mb-4">
-                <label class="form-label">Difficulté</label>
-                <div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="recette[difficulte]" id="facile" value="1" checked>
-                        <label class="form-check-label" for="facile">Facile</label>
+                <label class="form-label fw-bold d-block mb-2">Difficulté</label>
+                <div class="d-flex gap-4">
+                    <div class="form-check form-check-inline mb-0">
+                        <input class="form-check-input" type="radio" name="recette[difficulte]" id="difficulte_1" value="1" checked>
+                        <label class="form-check-label" for="difficulte_1">Facile</label>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="recette[difficulte]" id="moyen" value="2">
-                        <label class="form-check-label" for="moyen">Moyen</label>
+                    <div class="form-check form-check-inline mb-0">
+                        <input class="form-check-input" type="radio" name="recette[difficulte]" id="difficulte_2" value="2">
+                        <label class="form-check-label" for="difficulte_2">Moyen</label>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="recette[difficulte]" id="difficile" value="3">
-                        <label class="form-check-label" for="difficile">Difficile</label>
+                    <div class="form-check form-check-inline mb-0">
+                        <input class="form-check-input" type="radio" name="recette[difficulte]" id="difficulte_3" value="3">
+                        <label class="form-check-label" for="difficulte_3">Difficile</label>
                     </div>
                 </div>
             </div>
             
             <hr class="my-4">
             
-            <!-- Ingrédients dynamiques -->
-            <h5 class="mb-3">Ingrédients</h5>
-            <div id="ingredients-collection" class="mb-3" 
-                 data-prototype="{{ form_widget(form.recetteIngredients.vars.prototype)|e('html_attr') }}">
-    
-            {% for recetteIngredient in form.recetteIngredients %}
-                <div class="ingredient-row border rounded p-2 mb-2">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <!-- Champ caché pour l'ID -->
-                            {{ form_widget(recetteIngredient.ingredient_id) }}
-                            <!-- Champ texte pour le nom avec autocomplete -->
-                            {{ form_widget(recetteIngredient.ingredient_nom, {
-                        'attr': {'class': 'form-control form-control-sm ingredient-autocomplete'}
-                    }) }}
-                        </div>
-                        <div class="col-md-3">
-                            {{ form_widget(recetteIngredient.quantite, {
-                                'attr': {'class': 'form-control form-control-sm'}
-                            }) }}
-                        </div>
-                        <div class="col-md-3">
-                            {{ form_widget(recetteIngredient.unite, {
-                                'attr': {'class': 'form-select form-select-sm'}
-                            }) }}
-                        </div>
-                        <div class="col-md-2 d-flex align-items-end">
-                            <button type="button" class="btn btn-outline-danger btn-sm remove-ingredient">
-                                <i class="bi bi-x"></i>
-                            </button>
+            <!-- Ingrédients -->
+            <h5 class="text-success mb-3">Ingrédients</h5>
+            <div id="ingredients-collection" class="mb-3">
+                {% for recetteIngredient in form.recetteIngredients %}
+                    <div class="ingredient-row mb-2">
+                        <div class="row g-2">
+                            <div class="col-md-5">
+                                <div class="ingredient-autocomplete-wrapper">
+                                    {{ form_widget(recetteIngredient.ingredient_id, {'attr': {'class': 'd-none'}}) }}
+                                    {{ form_widget(recetteIngredient.ingredient_nom, {'attr': {'class': 'form-control ingredient-autocomplete', 'placeholder': 'Nom de l\'ingrédient', 'autocomplete': 'off'}}) }}
+                                    <div class="autocomplete-results" style="display: none;"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                {{ form_widget(recetteIngredient.quantite, {'attr': {'class': 'form-control', 'placeholder': 'Qté'}}) }}
+                            </div>
+                            <div class="col-md-3">
+                                {{ form_widget(recetteIngredient.unite, {'attr': {'class': 'form-select'}}) }}
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-outline-danger w-100 remove-ingredient">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
             </div>
 
             <button type="button" class="btn btn-outline-success btn-sm mb-4" id="add-ingredient">
-                <i class="bi bi-plus"></i> Ajouter un ingrédient
+                <i class="bi bi-plus-lg"></i> Ajouter un ingrédient
             </button>
+            
             <hr class="my-4">
             
-            <!-- Étapes de préparation -->
-            <h5 class="mb-3">Étapes de préparation</h5>
-            {{ form_widget(form.etapes, {'attr': {'class': 'form-control', 'rows': 8, 'placeholder': "1. Battre les œufs dans un bol\n2. Couper les tomates en dés\n3. Faire revenir l'oignon...\n4. Ajouter les œufs battus\n5. Servir chaud"}}) }}
-            {{ form_errors(form.etapes) }}
+            <!-- Étapes de préparation DYNAMIQUES -->
+            <h5 class="text-success mb-3">Étapes de préparation</h5>
+            <div id="etapes-collection" class="mb-3">
+                <!-- Les étapes seront ajoutées ici -->
+            </div>
             
-            <small class="form-text text-muted mb-3 d-block">
-                Saisissez chaque étape sur une ligne séparée, numérotée.
-            </small>
+            <button type="button" class="btn btn-outline-success btn-sm mb-4" id="add-etape">
+                <i class="bi bi-plus-lg"></i> Ajouter une étape
+            </button>
+            
+            <!-- Champ caché pour les étapes -->
+            {{ form_widget(form.etapes, {'attr': {'id': 'etapes-hidden', 'class': 'd-none'}}) }}
             
             <!-- Catégorie -->
             <div class="mb-4">
-                <label class="form-label">Catégorie</label>
+                {{ form_label(form.categorie, 'Catégorie', {'label_attr': {'class': 'form-label fw-bold'}}) }}
                 {{ form_widget(form.categorie, {'attr': {'class': 'form-select'}}) }}
                 {{ form_errors(form.categorie) }}
             </div>
             
             <!-- Boutons d'action -->
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between mt-5">
                 <a href="{{ path('app_recette_index') }}" class="btn btn-outline-secondary">
                     Annuler
                 </a>
-                <button type="submit" class="btn btn-success">
+                <button type="submit" class="btn btn-success px-4">
                     <i class="bi bi-check-circle"></i> Publier la recette
                 </button>
             </div>
@@ -160,57 +153,176 @@
 </div>
 
 <style>
-.ingredient-row .row > div {
-    padding-left: 5px;
-    padding-right: 5px;
+/* Upload image stylisé */
+.image-upload-wrapper label {
+    border: 2px dashed #4CAF50;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
 }
 
-.ingredient-row {
-    background-color: #f8f9fa;
-    transition: all 0.2s ease;
+.image-upload-wrapper label:hover {
+    background-color: rgba(76, 175, 80, 0.05);
+    border-color: #45a049;
 }
 
-.ingredient-row:hover {
-    background-color: #e9ecef;
+/* Lignes ingrédients et étapes */
+.ingredient-row, .etape-row {
+    transition: background-color 0.2s ease;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
 }
 
-.remove-ingredient {
-    width: 100%;
+.ingredient-row:hover, .etape-row:hover {
+    background-color: rgba(76, 175, 80, 0.05);
+}
+
+/* Autocomplete */
+.ingredient-autocomplete-wrapper {
+    position: relative;
+}
+
+.autocomplete-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 0 0 0.375rem 0.375rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.autocomplete-item {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.autocomplete-item:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+.form-check-inline {
+    display: inline-flex !important;
+    align-items: center !important;
+    margin-right: 1.5rem !important;
+}
+
+.form-check-inline .form-check-input {
+    margin-top: 0 !important;
+    margin-right: 0.5rem !important;
+    vertical-align: middle !important;
+}
+
+.form-check-inline .form-check-label {
+    padding-left: 0 !important;
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const ingredientsContainer = document.getElementById('ingredients-collection');
-    const addButton = document.getElementById('add-ingredient');
-    let index = 0;
+    console.log('Script chargé');
     
-    // Fonction pour transformer un select en autocomplete
-    function setupAutocomplete(selectElement) {
-        // Cacher le select original
-        selectElement.style.display = 'none';
-        
-        // Créer l'input de recherche
-        const searchInput = document.createElement('input');
-        searchInput.type = 'text';
-        searchInput.className = 'form-control form-control-sm';
-        searchInput.placeholder = 'Tapez pour rechercher...';
-        searchInput.autocomplete = 'off';
-        
-        // Conteneur pour les résultats
-        const resultsDiv = document.createElement('div');
-        resultsDiv.className = 'autocomplete-results position-absolute bg-white border rounded shadow-sm';
-        resultsDiv.style.cssText = 'top: 100%; left: 0; right: 0; z-index: 1000; max-height: 200px; overflow-y: auto; display: none;';
-        
-        // Insérer après le select
-        selectElement.parentElement.style.position = 'relative';
-        selectElement.parentElement.appendChild(searchInput);
-        selectElement.parentElement.appendChild(resultsDiv);
-        
+    // 1. UPLOAD IMAGE - Afficher le nom du fichier
+    const fileInput = document.getElementById('recette_imageFile');
+    const fileNameSpan = document.getElementById('file-name');
+    
+    if (fileInput && fileNameSpan) {
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                fileNameSpan.textContent = this.files[0].name;
+                console.log('Fichier sélectionné:', this.files[0].name);
+            } else {
+                fileNameSpan.textContent = 'Télécharger une image';
+            }
+        });
+        console.log('Upload image configuré');
+    }
+    
+    // 2. GESTION DES INGRÉDIENTS
+    const ingredientsContainer = document.getElementById('ingredients-collection');
+    const addIngredientBtn = document.getElementById('add-ingredient');
+    let ingredientIndex = {{ form.recetteIngredients|length }};
+    
+    console.log('Ingredients container:', ingredientsContainer);
+    console.log('Add ingredient button:', addIngredientBtn);
+    
+    // Supprimer ingrédient
+    if (ingredientsContainer) {
+        ingredientsContainer.addEventListener('click', function(e) {
+            if (e.target.closest('.remove-ingredient')) {
+                e.target.closest('.ingredient-row').remove();
+                console.log('Ingrédient supprimé');
+            }
+        });
+    }
+    
+    // Ajouter ingrédient
+    if (addIngredientBtn) {
+        addIngredientBtn.addEventListener('click', function() {
+            console.log('Ajout ingrédient, index:', ingredientIndex);
+            
+            const newRow = document.createElement('div');
+            newRow.className = 'ingredient-row mb-2';
+            newRow.innerHTML = `
+                <div class="row g-2">
+                    <div class="col-md-5">
+                        <div class="ingredient-autocomplete-wrapper">
+                            <input type="hidden" name="recette[recetteIngredients][${ingredientIndex}][ingredient_id]" value="">
+                            <input type="text" 
+                                   name="recette[recetteIngredients][${ingredientIndex}][ingredient_nom]" 
+                                   class="form-control ingredient-autocomplete" 
+                                   placeholder="Nom de l'ingrédient"
+                                   autocomplete="off">
+                            <div class="autocomplete-results" style="display: none;"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" 
+                               name="recette[recetteIngredients][${ingredientIndex}][quantite]" 
+                               class="form-control" 
+                               placeholder="Qté"
+                               step="0.01">
+                    </div>
+                    <div class="col-md-3">
+                        <select name="recette[recetteIngredients][${ingredientIndex}][unite]" class="form-select">
+                            <option value="">Unité</option>
+                            <option value="g">g</option>
+                            <option value="kg">kg</option>
+                            <option value="ml">ml</option>
+                            <option value="cl">cl</option>
+                            <option value="L">L</option>
+                            <option value="pièce">pièce</option>
+                            <option value="c. à soupe">c. à soupe</option>
+                            <option value="c. à café">c. à café</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-outline-danger w-100 remove-ingredient">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            ingredientsContainer.appendChild(newRow);
+            setupAutocomplete(newRow.querySelector('.ingredient-autocomplete'));
+            ingredientIndex++;
+            console.log('Ingrédient ajouté');
+        });
+    }
+    
+    // Autocomplete
+    function setupAutocomplete(input) {
+        const wrapper = input.closest('.ingredient-autocomplete-wrapper');
+        const hiddenInput = wrapper.querySelector('input[type="hidden"]');
+        const resultsDiv = wrapper.querySelector('.autocomplete-results');
         let timeoutId;
         
-        // Recherche avec debounce
-        searchInput.addEventListener('input', function() {
+        input.addEventListener('input', function() {
             clearTimeout(timeoutId);
             const query = this.value.trim();
             
@@ -232,16 +344,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         ingredients.forEach(ingredient => {
                             const item = document.createElement('div');
-                            item.className = 'autocomplete-item p-2 border-bottom';
-                            item.style.cursor = 'pointer';
+                            item.className = 'autocomplete-item';
                             item.textContent = ingredient.nom;
                             
-                            item.addEventListener('mouseenter', () => item.classList.add('bg-light'));
-                            item.addEventListener('mouseleave', () => item.classList.remove('bg-light'));
-                            
                             item.addEventListener('click', () => {
-                                searchInput.value = ingredient.nom;
-                                selectElement.value = ingredient.id;
+                                input.value = ingredient.nom;
+                                hiddenInput.value = ingredient.id;
                                 resultsDiv.style.display = 'none';
                             });
                             
@@ -254,63 +362,111 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         });
         
-        // Fermer en cliquant ailleurs
         document.addEventListener('click', function(e) {
-            if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
+            if (!wrapper.contains(e.target)) {
                 resultsDiv.style.display = 'none';
             }
         });
     }
     
-    // Ajouter un ingrédient
-    addButton.addEventListener('click', function() {
-        const prototype = ingredientsContainer.dataset.prototype;
-        const newForm = prototype.replace(/__name__/g, index);
-        
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = newForm;
-        
-        const ingredientSelect = tempDiv.querySelector('select[name*="ingredient"]');
-        const quantiteInput = tempDiv.querySelector('input[name*="quantite"]');
-        const uniteSelect = tempDiv.querySelector('select[name*="unite"]');
-        
-        const wrapper = document.createElement('div');
-        wrapper.className = 'ingredient-row border rounded p-2 mb-2';
-        wrapper.innerHTML = `
-            <div class="row">
-                <div class="col-md-4 ingredient-field"></div>
-                <div class="col-md-3 quantite-field"></div>
-                <div class="col-md-3 unite-field"></div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button type="button" class="btn btn-outline-danger btn-sm remove-ingredient w-100">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        if (ingredientSelect) {
-            wrapper.querySelector('.ingredient-field').appendChild(ingredientSelect);
-            setupAutocomplete(ingredientSelect);
-        }
-        
-        if (quantiteInput) {
-            quantiteInput.className = 'form-control form-control-sm';
-            wrapper.querySelector('.quantite-field').appendChild(quantiteInput);
-        }
-        
-        if (uniteSelect) {
-            uniteSelect.className = 'form-select form-select-sm';
-            wrapper.querySelector('.unite-field').appendChild(uniteSelect);
-        }
-        
-        ingredientsContainer.appendChild(wrapper);
-        index++;
-        
-        wrapper.querySelector('.remove-ingredient').addEventListener('click', function() {
-            wrapper.remove();
-        });
+    // Init autocomplete sur champs existants
+    document.querySelectorAll('.ingredient-autocomplete').forEach(input => {
+        setupAutocomplete(input);
     });
+    
+    // 3. GESTION DES ÉTAPES
+    const etapesContainer = document.getElementById('etapes-collection');
+    const addEtapeBtn = document.getElementById('add-etape');
+    const etapesHidden = document.getElementById('etapes-hidden');
+    let etapeIndex = 1;
+    
+    console.log('Etapes container:', etapesContainer);
+    console.log('Add etape button:', addEtapeBtn);
+    console.log('Etapes hidden:', etapesHidden);
+    
+    // Ajouter étape
+    if (addEtapeBtn) {
+        addEtapeBtn.addEventListener('click', function() {
+            console.log('Ajout étape, index:', etapeIndex);
+            
+            const newEtape = document.createElement('div');
+            newEtape.className = 'etape-row mb-2';
+            newEtape.innerHTML = `
+                <div class="row g-2 align-items-center">
+                    <div class="col-auto">
+                        <span class="badge bg-success">${etapeIndex}</span>
+                    </div>
+                    <div class="col">
+                        <input type="text" 
+                               class="form-control etape-input" 
+                               placeholder="Décrivez l'étape de préparation"
+                               data-index="${etapeIndex}">
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-outline-danger btn-sm remove-etape">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            etapesContainer.appendChild(newEtape);
+            etapeIndex++;
+            updateEtapesHidden();
+            console.log('Étape ajoutée');
+        });
+    }
+    
+    // Supprimer étape
+    if (etapesContainer) {
+        etapesContainer.addEventListener('click', function(e) {
+            if (e.target.closest('.remove-etape')) {
+                e.target.closest('.etape-row').remove();
+                renumberEtapes();
+                updateEtapesHidden();
+                console.log('Étape supprimée');
+            }
+        });
+        
+        // Mettre à jour à chaque saisie
+        etapesContainer.addEventListener('input', function(e) {
+            if (e.target.classList.contains('etape-input')) {
+                updateEtapesHidden();
+            }
+        });
+    }
+    
+    // Renuméroter les étapes
+    function renumberEtapes() {
+        const etapes = etapesContainer.querySelectorAll('.etape-row');
+        etapes.forEach((etape, index) => {
+            etape.querySelector('.badge').textContent = index + 1;
+            etape.querySelector('.etape-input').dataset.index = index + 1;
+        });
+        etapeIndex = etapes.length + 1;
+    }
+    
+    // Mettre à jour le champ caché
+    function updateEtapesHidden() {
+        const etapes = [];
+        etapesContainer.querySelectorAll('.etape-input').forEach((input, index) => {
+            if (input.value.trim()) {
+                etapes.push(`${index + 1}. ${input.value.trim()}`);
+            }
+        });
+        if (etapesHidden) {
+            etapesHidden.value = etapes.join('\n');
+            console.log('Étapes mises à jour:', etapesHidden.value);
+        }
+    }
+    
+    // Ajouter 2 étapes par défaut
+    if (addEtapeBtn) {
+        addEtapeBtn.click();
+        addEtapeBtn.click();
+        console.log('2 étapes par défaut ajoutées');
+    }
+    
+    console.log('Script complètement chargé');
 });
 </script>
 {% endblock %}

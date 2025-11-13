@@ -52,70 +52,72 @@ class AppFixtures extends Fixture
             'Pommes', 'Sucre', 'Jambon', 'Fromage', 'Laitue', 'Riz', 'Champignons',
             'Crème fraîche', 'Parmesan', 'Farine', 'Citron', 'Pâtes', 'Oignons',
             'Carottes', 'Huile d\'olive', 'Piment', 'Poulet', 'Bœuf', 'Poisson',
-            'Pâte brisée', 'Haricots', 'Aubergines', 'Chocolat', 'Vanille'
+            'Pâte brisée', 'Haricots', 'Aubergines', 'Chocolat', 'Vanille',
+            'Veau', 'Canard', 'Poivre', 'Foie gras', 'Saumon', 'Jus de citron', 'Butternut'
         ];
         
         foreach ($ingredientNames as $name) {
             $ing = new Ingredient();
             $ing->setNom($name);
-            $ing->setUnite('g');
+            $ing->setUnite('');
             $ing->setDescription('Ingrédient pour recettes');
             $manager->persist($ing);
             $ingredients[$name] = $ing;
         }
 
         $existingImages = ['pizza.jpg', 'lasagnes.jpg', 'tarte.jpg', 'salade.jpg', 'poulet.jpg'];
+        
         $recipes = [
             ['nom' => 'Tarte aux pommes', 'cat' => 'Desserts', 'ing' => ['Pommes', 'Sucre', 'Beurre', 'Farine']],
             ['nom' => 'Quiche lorraine', 'cat' => 'Plats principaux', 'ing' => ['Œufs', 'Jambon', 'Fromage']],
             ['nom' => 'Gratin dauphinois', 'cat' => 'Plats principaux', 'ing' => ['Pommes', 'Crème fraîche', 'Fromage']],
-            ['nom' => 'Ratatouille provençale', 'cat' => 'Plats principaux', 'ing' => ['Tomates', 'Ail']],
-            ['nom' => 'Poulet rôti aux herbes', 'cat' => 'Plats principaux', 'ing' => ['Poulet', 'Ail']],
+            ['nom' => 'Ratatouille provençale', 'cat' => 'Plats principaux', 'ing' => ['Tomates', 'Ail', 'Aubergines']],
+            ['nom' => 'Poulet rôti aux herbes', 'cat' => 'Plats principaux', 'ing' => ['Poulet', 'Ail', 'Beurre']],
             ['nom' => 'Lasagnes bolognaise', 'cat' => 'Plats principaux', 'ing' => ['Pâtes', 'Fromage', 'Tomates']],
             ['nom' => 'Pizza margherita', 'cat' => 'Plats principaux', 'ing' => ['Tomates', 'Mozzarella', 'Basilic']],
-            ['nom' => 'Salade niçoise', 'cat' => 'Entrées', 'ing' => ['Laitue', 'Œufs']],
+            ['nom' => 'Salade niçoise', 'cat' => 'Entrées', 'ing' => ['Laitue', 'Œufs', 'Tomates']],
             ['nom' => 'Crêpes bretonnes', 'cat' => 'Desserts', 'ing' => ['Farine', 'Œufs', 'Beurre']],
-            ['nom' => 'Cake au citron', 'cat' => 'Desserts', 'ing' => ['Farine', 'Sucre', 'Citron']],
-            ['nom' => 'Soupe de légumes', 'cat' => 'Entrées', 'ing' => ['Carottes', 'Tomates', 'Ail']],
+            ['nom' => 'Cake au citron', 'cat' => 'Desserts', 'ing' => ['Farine', 'Sucre', 'Citron', 'Œufs']],
+            ['nom' => 'Soupe de légumes', 'cat' => 'Entrées', 'ing' => ['Carottes', 'Tomates', 'Oignons']],
             ['nom' => 'Poisson grillé', 'cat' => 'Plats principaux', 'ing' => ['Poisson', 'Huile d\'olive', 'Citron']],
             ['nom' => 'Omelette aux champignons', 'cat' => 'Plats principaux', 'ing' => ['Œufs', 'Champignons', 'Beurre']],
             ['nom' => 'Riz cantonais', 'cat' => 'Plats principaux', 'ing' => ['Riz', 'Œufs', 'Jambon']],
             ['nom' => 'Pâtes carbonara', 'cat' => 'Plats principaux', 'ing' => ['Pâtes', 'Œufs', 'Fromage']],
-            ['nom' => 'Sandwich club', 'cat' => 'Plats principaux', 'ing' => ['Jambon', 'Fromage', 'Laitue']],
+            ['nom' => 'Sandwich club', 'cat' => 'Plats principaux', 'ing' => ['Jambon', 'Fromage', 'Laitue', 'Tomates']],
             ['nom' => 'Muffins aux myrtilles', 'cat' => 'Desserts', 'ing' => ['Farine', 'Sucre', 'Œufs']],
             ['nom' => 'Steak-frites', 'cat' => 'Plats principaux', 'ing' => ['Bœuf', 'Pommes', 'Beurre']],
             ['nom' => 'Risotto aux champignons', 'cat' => 'Plats principaux', 'ing' => ['Riz', 'Champignons', 'Crème fraîche']],
-            ['nom' => 'Burger maison', 'cat' => 'Plats principaux', 'ing' => ['Bœuf', 'Fromage', 'Laitue']],
+            ['nom' => 'Burger maison', 'cat' => 'Plats principaux', 'ing' => ['Bœuf', 'Fromage', 'Laitue', 'Tomates']],
             ['nom' => 'Curry de poulet', 'cat' => 'Plats principaux', 'ing' => ['Poulet', 'Riz', 'Crème fraîche']],
-            ['nom' => 'Paella valenciana', 'cat' => 'Plats principaux', 'ing' => ['Riz', 'Tomates', 'Ail']],
-            ['nom' => 'Couscous royal', 'cat' => 'Plats principaux', 'ing' => ['Bœuf', 'Riz', 'Tomates']],
-            ['nom' => 'Chili con carne', 'cat' => 'Plats principaux', 'ing' => ['Bœuf', 'Tomates', 'Piment']],
+            ['nom' => 'Paella valenciana', 'cat' => 'Plats principaux', 'ing' => ['Riz', 'Tomates', 'Ail', 'Poisson']],
+            ['nom' => 'Couscous royal', 'cat' => 'Plats principaux', 'ing' => ['Bœuf', 'Riz', 'Tomates', 'Carottes']],
+            ['nom' => 'Chili con carne', 'cat' => 'Plats principaux', 'ing' => ['Bœuf', 'Tomates', 'Piment', 'Haricots']],
             ['nom' => 'Pad thaï', 'cat' => 'Plats principaux', 'ing' => ['Riz', 'Œufs', 'Piment']],
-            ['nom' => 'Sushi maison', 'cat' => 'Entrées', 'ing' => ['Riz', 'Ail', 'Œufs']],
-            ['nom' => 'Wok de légumes', 'cat' => 'Plats principaux', 'ing' => ['Carottes', 'Tomates', 'Ail']],
+            ['nom' => 'Sushi maison', 'cat' => 'Entrées', 'ing' => ['Riz', 'Poisson']],
+            ['nom' => 'Wok de légumes', 'cat' => 'Plats principaux', 'ing' => ['Carottes', 'Tomates', 'Oignons']],
             ['nom' => 'Brochettes de poulet', 'cat' => 'Plats principaux', 'ing' => ['Poulet', 'Ail', 'Citron']],
             ['nom' => 'Moussaka grecque', 'cat' => 'Plats principaux', 'ing' => ['Aubergines', 'Tomates', 'Fromage']],
-            ['nom' => 'Tiramisu', 'cat' => 'Desserts', 'ing' => ['Œufs', 'Sucre', 'Crème fraîche']],
-            ['nom' => 'Fondue savoyarde', 'cat' => 'Plats principaux', 'ing' => ['Fromage', 'Beurre', 'Œufs']],
+            ['nom' => 'Tiramisu', 'cat' => 'Desserts', 'ing' => ['Œufs', 'Sucre', 'Fromage']],
+            ['nom' => 'Fondue savoyarde', 'cat' => 'Plats principaux', 'ing' => ['Fromage']],
             ['nom' => 'Raclette party', 'cat' => 'Plats principaux', 'ing' => ['Fromage', 'Pommes', 'Jambon']],
-            ['nom' => 'Crumble aux fruits', 'cat' => 'Desserts', 'ing' => ['Pommes', 'Sucre', 'Beurre']],
+            ['nom' => 'Crumble aux fruits', 'cat' => 'Desserts', 'ing' => ['Pommes', 'Sucre', 'Beurre', 'Farine']],
             ['nom' => 'Tarte tatin', 'cat' => 'Desserts', 'ing' => ['Pommes', 'Sucre', 'Beurre']],
             ['nom' => 'Clafoutis aux cerises', 'cat' => 'Desserts', 'ing' => ['Œufs', 'Farine', 'Sucre']],
-            ['nom' => 'Brownie chocolat', 'cat' => 'Desserts', 'ing' => ['Chocolat', 'Farine', 'Œufs']],
+            ['nom' => 'Brownie chocolat', 'cat' => 'Desserts', 'ing' => ['Chocolat', 'Farine', 'Œufs', 'Sucre']],
             ['nom' => 'Cheesecake framboise', 'cat' => 'Desserts', 'ing' => ['Fromage', 'Sucre', 'Œufs']],
             ['nom' => 'Mousse au chocolat', 'cat' => 'Desserts', 'ing' => ['Chocolat', 'Œufs', 'Sucre']],
             ['nom' => 'Panna cotta vanille', 'cat' => 'Desserts', 'ing' => ['Vanille', 'Sucre', 'Crème fraîche']],
             ['nom' => 'Crème brûlée', 'cat' => 'Desserts', 'ing' => ['Œufs', 'Sucre', 'Crème fraîche']],
-            ['nom' => 'Bœuf bourguignon', 'cat' => 'Plats principaux', 'ing' => ['Bœuf', 'Carottes', 'Ail']],
-            ['nom' => 'Blanquette de veau', 'cat' => 'Plats principaux', 'ing' => ['Veau', 'Crème fraîche', 'Œufs']],
-            ['nom' => 'Pot-au-feu', 'cat' => 'Plats principaux', 'ing' => ['Bœuf', 'Carottes', 'Tomates']],
-            ['nom' => 'Cassoulet toulousain', 'cat' => 'Plats principaux', 'ing' => ['Haricots', 'Tomates', 'Ail']],
-            ['nom' => 'Bouillabaisse', 'cat' => 'Plats principaux', 'ing' => ['Poisson', 'Tomates', 'Ail']],
-            ['nom' => 'Magret de canard', 'cat' => 'Plats principaux', 'ing' => ['Canard', 'Tomates', 'Poivre']],
-            ['nom' => 'Foie gras poêlé', 'cat' => 'Entrées', 'ing' => ['Foie gras', 'Œufs', 'Farine']],
-            ['nom' => 'Tartare de saumon', 'cat' => 'Entrées', 'ing' => ['Saumon', 'Citron', 'Œufs']],
-            ['nom' => 'Carpaccio de bœuf', 'cat' => 'Entrées', 'ing' => ['Bœuf', 'Jus de citron', 'Œufs']],
-            ['nom' => 'Velouté de butternut', 'cat' => 'Entrées', 'ing' => ['Butternut', 'Crème fraîche', 'Ail']],
+            ['nom' => 'Bœuf bourguignon', 'cat' => 'Plats principaux', 'ing' => ['Bœuf', 'Carottes', 'Oignons']],
+            ['nom' => 'Blanquette de veau', 'cat' => 'Plats principaux', 'ing' => ['Veau', 'Crème fraîche', 'Carottes']],
+            ['nom' => 'Pot-au-feu', 'cat' => 'Plats principaux', 'ing' => ['Bœuf', 'Carottes', 'Oignons']],
+            ['nom' => 'Cassoulet toulousain', 'cat' => 'Plats principaux', 'ing' => ['Haricots', 'Tomates']],
+            ['nom' => 'Bouillabaisse', 'cat' => 'Plats principaux', 'ing' => ['Poisson', 'Tomates']],
+            ['nom' => 'Magret de canard', 'cat' => 'Plats principaux', 'ing' => ['Canard', 'Pommes']],
+            ['nom' => 'Foie gras poêlé', 'cat' => 'Entrées', 'ing' => ['Foie gras', 'Pommes']],
+            ['nom' => 'Tartare de saumon', 'cat' => 'Entrées', 'ing' => ['Saumon', 'Citron']],
+            ['nom' => 'Carpaccio de bœuf', 'cat' => 'Entrées', 'ing' => ['Bœuf', 'Citron']],
+            ['nom' => 'Velouté de butternut', 'cat' => 'Entrées', 'ing' => ['Butternut', 'Crème fraîche']],
         ];
 
         $imageIndex = 0;
@@ -141,7 +143,7 @@ class AppFixtures extends Fixture
                 if (!isset($ingredients[$ingName])) {
                     $ing = new Ingredient();
                     $ing->setNom($ingName);
-                    $ing->setUnite('g');
+                    $ing->setUnite('');
                     $ing->setDescription('Ingrédient auto-créé');
                     $manager->persist($ing);
                     $ingredients[$ingName] = $ing;
@@ -150,7 +152,30 @@ class AppFixtures extends Fixture
                 $recetteIngredient = new RecetteIngredient();
                 $recetteIngredient->setRecette($recette);
                 $recetteIngredient->setIngredient($ingredients[$ingName]);
-                $recetteIngredient->setQuantite(rand(50, 400));
+                
+                // Quantités  selon l'ingrédient
+                $quantite = match($ingName) {
+                    'Œufs' => rand(2, 6),
+                    'Tomates', 'Pommes', 'Carottes', 'Oignons', 'Citron' => rand(2, 4),
+                    'Ail' => rand(1, 3),
+                    'Sel', 'Poivre', 'Basilic', 'Vanille' => 0,
+                    'Farine', 'Sucre', 'Riz' => rand(100, 300),
+                    'Beurre' => rand(50, 150),
+                    'Fromage', 'Jambon', 'Mozzarella', 'Laitue' => rand(100, 200),
+                    'Pâtes' => rand(250, 400),
+                    'Crème fraîche' => rand(100, 250),
+                    'Champignons', 'Haricots', 'Aubergines' => rand(200, 300),
+                    'Chocolat' => rand(100, 200),
+                    'Poulet', 'Bœuf', 'Veau', 'Poisson', 'Canard', 'Saumon' => rand(400, 800),
+                    'Huile d\'olive', 'Jus de citron' => rand(20, 50),
+                    'Piment' => rand(1, 2),
+                    'Foie gras' => rand(200, 400),
+                    'Butternut' => rand(400, 600),
+                    'Pâte brisée', 'Parmesan' => rand(150, 250),
+                    default => rand(100, 300)
+                };
+                
+                $recetteIngredient->setQuantite($quantite);
                 $manager->persist($recetteIngredient);
             }
         }

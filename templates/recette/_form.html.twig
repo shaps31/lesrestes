@@ -123,6 +123,7 @@
 <button type="button" class="btn btn-outline-success btn-sm mb-4" id="add-ingredient">
     <i class="bi bi-plus"></i> Ajouter un ingrédient
 </button>
+
 <!-- Étapes -->
 <div class="mb-3">
     {{ form_label(form.etapes, 'Étapes de préparation', {'label_attr': {'class': 'form-label'}}) }}
@@ -151,66 +152,123 @@
 </div>
 
 {{ form_end(form) }}
+
+<style>
+.autocomplete-loading {
+    position: relative;
+}
+
+.autocomplete-loading::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+.ingredient-row {
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.ingredient-row.adding {
+    animation: slideInDown 0.4s ease;
+}
+
+.ingredient-row.removing {
+    animation: slideOutUp 0.3s ease forwards;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOutUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.autocomplete-results {
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const ingredientsContainer = document.getElementById('ingredients-collection');
     const addButton = document.getElementById('add-ingredient');
-    let index = document.querySelectorAll('.ingredient-row').length;
+    let index = 0;
     
-    // Fonction pour transformer un select en autocomplete
     function setupAutocomplete(selectElement) {
-        // Protection contre la double transformation
-        if (selectElement.dataset.autocompleteSetup) return;
-        selectElement.dataset.autocompleteSetup = 'true';
-        
-        // Cacher le select original
         selectElement.style.display = 'none';
         
-        // Créer l'input de recherche
         const searchInput = document.createElement('input');
         searchInput.type = 'text';
         searchInput.className = 'form-control form-control-sm';
         searchInput.placeholder = 'Tapez pour rechercher...';
         searchInput.autocomplete = 'off';
         
-        // MODE ÉDITION : Pré-remplir avec la valeur existante
-        if (selectElement.value) {
-            const selectedOption = selectElement.querySelector(`option[value="${selectElement.value}"]`);
-            if (selectedOption) {
-                searchInput.value = selectedOption.textContent;
-            }
-        }
-        
-        // Conteneur pour les résultats
         const resultsDiv = document.createElement('div');
         resultsDiv.className = 'autocomplete-results position-absolute bg-white border rounded shadow-sm';
         resultsDiv.style.cssText = 'top: 100%; left: 0; right: 0; z-index: 1000; max-height: 200px; overflow-y: auto; display: none;';
         
-        // Insérer après le select
         selectElement.parentElement.style.position = 'relative';
         selectElement.parentElement.appendChild(searchInput);
         selectElement.parentElement.appendChild(resultsDiv);
         
         let timeoutId;
         
-        // Recherche avec debounce
         searchInput.addEventListener('input', function() {
             clearTimeout(timeoutId);
             const query = this.value.trim();
             
             if (query.length < 2) {
                 resultsDiv.style.display = 'none';
+                searchInput.classList.remove('autocomplete-loading');
                 return;
             }
+            
+            // Afficher le loading
+            searchInput.classList.add('autocomplete-loading');
             
             timeoutId = setTimeout(() => {
                 fetch(`/api/ingredients/search?q=${encodeURIComponent(query)}`)
                     .then(response => response.json())
                     .then(ingredients => {
+                        searchInput.classList.remove('autocomplete-loading');
                         resultsDiv.innerHTML = '';
                         
                         if (ingredients.length === 0) {
-                            resultsDiv.style.display = 'none';
+                            resultsDiv.innerHTML = '<div class="p-2 text-muted">Aucun ingrédient trouvé</div>';
+                            resultsDiv.style.display = 'block';
                             return;
                         }
                         
@@ -218,7 +276,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             const item = document.createElement('div');
                             item.className = 'autocomplete-item p-2 border-bottom';
                             item.style.cursor = 'pointer';
-                            item.textContent = ingredient.nom;
+                            item.innerHTML = `
+                                <strong>${ingredient.nom}</strong>
+                                <small class="text-muted d-block">Unité par défaut: ${ingredient.unite}</small>
+                            `;
                             
                             item.addEventListener('mouseenter', () => item.classList.add('bg-light'));
                             item.addEventListener('mouseleave', () => item.classList.remove('bg-light'));
@@ -227,6 +288,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 searchInput.value = ingredient.nom;
                                 selectElement.value = ingredient.id;
                                 resultsDiv.style.display = 'none';
+                                
+                                // Animation de validation
+                                searchInput.style.borderColor = '#28a745';
+                                setTimeout(() => {
+                                    searchInput.style.borderColor = '';
+                                }, 1000);
                             });
                             
                             resultsDiv.appendChild(item);
@@ -234,11 +301,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         resultsDiv.style.display = 'block';
                     })
-                    .catch(error => console.error('Erreur autocomplete:', error));
+                    .catch(error => {
+                        console.error('Erreur autocomplete:', error);
+                        searchInput.classList.remove('autocomplete-loading');
+                        resultsDiv.innerHTML = '<div class="p-2 text-danger">Erreur de recherche</div>';
+                        resultsDiv.style.display = 'block';
+                    });
             }, 300);
         });
         
-        // Fermer en cliquant ailleurs
         document.addEventListener('click', function(e) {
             if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
                 resultsDiv.style.display = 'none';
@@ -246,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Ajouter un ingrédient
+    // Ajout animé d'ingrédient
     addButton.addEventListener('click', function() {
         const prototype = ingredientsContainer.dataset.prototype;
         const newForm = prototype.replace(/__name__/g, index);
@@ -259,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const uniteSelect = tempDiv.querySelector('select[name*="unite"]');
         
         const wrapper = document.createElement('div');
-        wrapper.className = 'ingredient-row border rounded p-2 mb-2';
+        wrapper.className = 'ingredient-row border rounded p-2 mb-2 adding';
         wrapper.innerHTML = `
             <div class="row">
                 <div class="col-md-4 ingredient-field"></div>
@@ -289,15 +360,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         ingredientsContainer.appendChild(wrapper);
+        
+        // Retirer la classe d'animation après
+        setTimeout(() => wrapper.classList.remove('adding'), 400);
+        
         index++;
         
         wrapper.querySelector('.remove-ingredient').addEventListener('click', function() {
-            wrapper.remove();
+            wrapper.classList.add('removing');
+            setTimeout(() => wrapper.remove(), 300);
         });
-    });
-    
-    document.querySelectorAll('select[name*="ingredient"]').forEach(function(select) {
-        setupAutocomplete(select);
     });
 });
 </script>

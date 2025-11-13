@@ -16,26 +16,129 @@ class RecetteRepository extends ServiceEntityRepository
         parent::__construct($registry, Recette::class);
     }
 
-    public function findByIngredients(array $ingredientIds): array
-    {
+     /**
+     * @param int[] $ingredientIds
+     * @return Recette[]
+     */
+    public function findByIngredients(array $ingredientIds, bool $requireAll = false): array
+{
     if (empty($ingredientIds)) {
         return [];
     }
+    
     $qb = $this->createQueryBuilder('r')
-        ->leftJoin('r.user', 'u')
-        ->addSelect('u');
-        foreach ($ingredientIds as $index => $ingredientId) {
-        $qb->leftJoin('r.recetteIngredients', 'ri' . $index)
-           ->leftJoin('ri' . $index . '.ingredient', 'i' . $index);
+        ->innerJoin('r.recetteIngredients', 'ri') 
+        ->innerJoin('ri.ingredient', 'i')
+        ->where('i.id IN (:ingredientIds)')
+        ->setParameter('ingredientIds', $ingredientIds)
+        ->groupBy('r.id');
+    
+    if ($requireAll) {
+        $qb->having('COUNT(DISTINCT i.id) = :count')
+           ->setParameter('count', count($ingredientIds));
     }
-    $conditions = [];
-    foreach ($ingredientIds as $index => $ingredientId) {
-        $conditions[] = 'i' . $index . '.id = :ingredient' . $index;
-        $qb->setParameter('ingredient' . $index, $ingredientId);
+    
+    return $qb->orderBy('r.dateCreation', 'DESC')
+        ->getQuery()
+        ->getResult();
+}   
+
+    public function findWithFilters(array $criteria = [], array $orderBy = []): array
+{
+    $qb = $this->createQueryBuilder('r')
+        ->leftJoin('r.commentaires', 'c')
+        ->leftJoin('r.recetteIngredients', 'ri')
+        ->leftJoin('ri.ingredient', 'i')
+        ->groupBy('r.id');
+    
+    if (isset($criteria['query'])) {
+        $qb->andWhere('r.nom LIKE :query OR i.nom LIKE :query')
+           ->setParameter('query', '%' . $criteria['query'] . '%');
     }
-    $qb->where(implode(' OR ', $conditions))
-        ->groupBy('r.id')
-        ->orderBy('r.dateCreation', 'DESC');
-        return $qb->getQuery()->getResult();
+    
+    if (isset($criteria['categorie'])) {
+        $qb->andWhere('r.categorie = :categorie')
+           ->setParameter('categorie', $criteria['categorie']);
     }
+    
+    if (isset($criteria['difficulte'])) {
+        $qb->andWhere('r.difficulte = :difficulte')
+           ->setParameter('difficulte', $criteria['difficulte']);
+    }
+    
+    if (isset($criteria['tempsMax'])) {
+        $qb->andWhere('r.tempsCuisson <= :tempsMax')
+           ->setParameter('tempsMax', $criteria['tempsMax']);
+    }
+    
+    foreach ($orderBy as $field => $direction) {
+        if ($field === 'moyenneNotes') {
+            $qb->addSelect('AVG(c.note) as HIDDEN avg_note')
+               ->addOrderBy('avg_note', $direction);
+        } else {
+            $qb->addOrderBy('r.' . $field, $direction);
+        }
+    }
+    
+         return $qb->getQuery()->getResult();
+    }
+    public function findWithFiltersQueryBuilder(array $criteria = [], array $orderBy = [])
+{
+    $qb = $this->createQueryBuilder('r')
+        ->leftJoin('r.commentaires', 'c')
+        ->leftJoin('r.recetteIngredients', 'ri')
+        ->leftJoin('ri.ingredient', 'i')
+        ->groupBy('r.id');
+    
+    if (isset($criteria['query'])) {
+        $qb->andWhere('r.nom LIKE :query OR i.nom LIKE :query')
+           ->setParameter('query', '%' . $criteria['query'] . '%');
+    }
+    
+    if (isset($criteria['categorie'])) {
+        $qb->andWhere('r.categorie = :categorie')
+           ->setParameter('categorie', $criteria['categorie']);
+    }
+    
+    if (isset($criteria['difficulte'])) {
+        $qb->andWhere('r.difficulte = :difficulte')
+           ->setParameter('difficulte', $criteria['difficulte']);
+    }
+    
+    if (isset($criteria['tempsMax'])) {
+        $qb->andWhere('r.tempsCuisson <= :tempsMax')
+           ->setParameter('tempsMax', $criteria['tempsMax']);
+    }
+    
+    foreach ($orderBy as $field => $direction) {
+        if ($field === 'moyenneNotes') {
+            $qb->addSelect('AVG(c.note) as HIDDEN avg_note')
+               ->addOrderBy('avg_note', $direction);
+        } else {
+            $qb->addOrderBy('r.' . $field, $direction);
+        }
+    }
+    
+    return $qb;
+}
+public function findByNameOrIngredients(string $searchTerm, array $ingredientIds = []): array
+{
+    $qb = $this->createQueryBuilder('r')
+        ->leftJoin('r.recetteIngredients', 'ri')
+        ->leftJoin('ri.ingredient', 'i')
+        ->where('r.nom LIKE :searchTerm')
+        ->setParameter('searchTerm', '%' . $searchTerm . '%');
+    
+    if (!empty($ingredientIds)) {
+        $qb->orWhere('i.id IN (:ingredientIds)')
+           ->setParameter('ingredientIds', $ingredientIds)
+           ->groupBy('r.id')
+           ->having('COUNT(DISTINCT i.id) = :count')
+           ->setParameter('count', count($ingredientIds));
+    }
+    
+    return $qb->orderBy('r.dateCreation', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
 }

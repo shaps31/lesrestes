@@ -7,6 +7,7 @@ use App\Form\RecetteType;
 use App\Entity\Commentaire;
 use App\Repository\IngredientRepository;
 use App\Form\CommentaireType;
+use App\Form\SearchAdvancedType;
 use App\Repository\FavoriRepository;
 use App\Repository\RecetteRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,17 +15,68 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/recette')]
 final class RecetteController extends AbstractController
 {
-    #[Route(name: 'app_recette_index', methods: ['GET'])]
-    public function index(RecetteRepository $recetteRepository): Response
-    {
+    #[Route('/recettes', name: 'app_recette_index')]
+    public function index(
+        Request $request,
+        RecetteRepository $recetteRepository,
+        PaginatorInterface $paginator
+    ): Response {
+    
+        $searchForm = $this->createForm(SearchAdvancedType::class);
+        $searchForm->handleRequest($request);
+        
+        $criteria = [];
+        $orderBy = ['dateCreation' => 'DESC'];
+        
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $data = $searchForm->getData();
+            
+            if ($data['query']) {
+                $criteria['query'] = $data['query'];
+            }
+            if ($data['categorie']) {
+                $criteria['categorie'] = $data['categorie'];
+            }
+            if ($data['difficulte']) {
+                $criteria['difficulte'] = $data['difficulte'];
+            }
+            if ($data['tempsMax']) {
+                $criteria['tempsMax'] = $data['tempsMax'];
+            }
+            if ($data['tri']) {
+                switch ($data['tri']) {
+                    case 'date_desc':
+                        $orderBy = ['dateCreation' => 'DESC'];
+                        break;
+                    case 'date_asc':
+                        $orderBy = ['dateCreation' => 'ASC'];
+                        break;
+                    case 'notes_desc':
+                        $orderBy = ['moyenneNotes' => 'DESC'];
+                        break;
+                }
+            }
+        }
+        
+        $queryBuilder = $recetteRepository->findWithFiltersQueryBuilder($criteria, $orderBy);
+        
+        $recettes = $paginator->paginate(
+            $queryBuilder,
+            $request->query->getInt('page', 1),
+            9
+        );
+        
         return $this->render('recette/index.html.twig', [
-            'recettes' => $recetteRepository->findAll(),
+            'recettes' => $recettes,
+            'searchForm' => $searchForm->createView(),
         ]);
     }
+
     
     #[Route('/new', name: 'app_recette_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, IngredientRepository $ingredientRepository): Response
@@ -68,6 +120,7 @@ final class RecetteController extends AbstractController
         'form' => $form,
     ]);
     }    
+    
     #[Route('/{id}', name: 'app_recette_show', methods: ['GET', 'POST'])]
     public function show(Request $request, Recette $recette, FavoriRepository $favoriRepository, EntityManagerInterface $entityManager): Response
     {

@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Recherche par ingrédients - Les Restes{% endblock %}
+
+{% block body %}
+<div class="container">
+    <!-- Hero Section -->
+    <div class="hero-section text-center py-5 mb-5">
+        <h1 class="display-4 mb-4">
+            Quels ingrédients avez-vous ?
+        </h1>
+        
+        <!-- Zone d'ingrédients sélectionnés -->
+        {% if selectedIngredients|length > 0 %}
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap gap-2 align-items-center justify-content-center mb-3">
+                                {% for ingredient in selectedIngredients %}
+                                    <span class="badge bg-success fs-6 p-2">
+                                        {{ ingredient.nom }}
+                                        <button type="button" 
+                                                class="btn-close btn-close-white ms-1" 
+                                                style="font-size: 0.7rem;" 
+                                                onclick="removeIngredient({{ ingredient.id }})"></button>
+                                    </span>
+                                {% endfor %}
+                                
+                                <!-- Input pour ajouter -->
+                                <input type="text" 
+                                       class="form-control form-control-sm d-inline-block" 
+                                       placeholder="Tapez ici..." 
+                                       id="ingredientInput"
+                                       style="width: 200px;"
+                                       list="ingredientsList">
+                                <datalist id="ingredientsList">
+                                    {% for ingredient in ingredients %}
+                                        {% if ingredient not in selectedIngredients %}
+                                            <option value="{{ ingredient.nom }}" data-id="{{ ingredient.id }}">
+                                        {% endif %}
+                                    {% endfor %}
+                                </datalist>
+                            </div>
+                            
+                            <button class="btn btn-outline-success btn-sm" onclick="addFromInput()">
+                                <i class="bi bi-plus"></i> Ajouter un ingrédient
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        
+        <!-- Barre de recherche TEXTUELLE -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form action="{{ path('app_search') }}" method="GET">
+                    <div class="input-group input-group-lg mb-4">
+                        <input type="text" 
+                               class="form-control" 
+                               name="q" 
+                               value="{{ app.request.query.get('q') }}" 
+                               placeholder="Ou tapez vos ingrédients ici... (ex: tomates, mozzarella)"
+                               style="border-radius: 50px 0 0 50px; padding: 1rem 1.5rem;">
+                        <button class="btn btn-warning" 
+                                type="submit"
+                                style="border-radius: 0 50px 50px 0; padding: 0 2rem; font-weight: bold;">
+                            <i class="bi bi-search"></i> Rechercher
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔍 RÉSULTATS -->
+    {% if recettes|length > 0 %}
+        <h2 class="mb-4 text-center">
+            Recettes possibles avec vos ingrédients ({{ recettes|length }})
+        </h2>
+        
+        <div class="row">
+            {% for recette in recettes %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ recette.image ? '/uploads/recettes/' ~ recette.image : '/images/placeholder.jpg' }}" 
+                             class="card-img-top" style="height: 250px; object-fit: cover;" 
+                             alt="{{ recette.nom }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recette.nom }}</h5>
+                            
+                            <!-- Badge ingrédients correspondants -->
+                            {% set matchCount = 0 %}
+                            {% for recetteIngredient in recette.recetteIngredients %}
+                                {% if recetteIngredient.ingredient in selectedIngredients %}
+                                    {% set matchCount = matchCount + 1 %}
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if matchCount > 0 %}
+                                <span class="badge bg-success mb-2">
+                                    {{ matchCount }}/{{ recette.recetteIngredients|length }} ingrédients correspondants
+                                </span>
+                            {% endif %}
+                            
+                            <p class="card-text text-muted small">{{ recette.description|slice(0, 80) }}...</p>
+                            
+                            <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
+                               class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-eye"></i> Voir la recette
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% elseif selectedIngredients|length > 0 or app.request.query.get('q') %}
+        <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle"></i> Aucune recette trouvée avec ces ingrédients.
+            <br><small>Essayez avec moins d'ingrédients ou vérifiez l'orthographe.</small>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+let selectedIngredients = {{ selectedIngredients|map(i => i.id)|json_encode|raw }};
+
+function addFromInput() {
+    const input = document.getElementById('ingredientInput');
+    const nom = input.value.trim();
+    const ingredient = Array.from(document.querySelectorAll('#ingredientsList option'))
+        .find(opt => opt.value.toLowerCase() === nom.toLowerCase());
+    
+    if (ingredient && !selectedIngredients.includes(parseInt(ingredient.dataset.id))) {
+        selectedIngredients.push(parseInt(ingredient.dataset.id));
+        updateURL();
+    }
+}
+
+function removeIngredient(id) {
+    selectedIngredients = selectedIngredients.filter(ingredientId => ingredientId != id);
+    updateURL();
+}
+
+function updateURL() {
+    if (selectedIngredients.length > 0) {
+        window.location.href = '{{ path("app_search") }}?ingredients=' + selectedIngredients.join(',');
+    } else {
+        window.location.href = '{{ path("app_search") }}';
+    }
+}
+
+// Ajouter avec Enter
+document.getElementById('ingredientInput')?.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        addFromInput();
+    }
+});
+</script>
+{% endblock %}

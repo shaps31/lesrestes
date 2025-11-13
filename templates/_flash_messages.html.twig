@@ -1,0 +1,27 @@
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type == 'error' ? 'danger' : type }} alert-dismissible fade show flash-message" role="alert">
+            {% if type == 'success' %}
+                <i class="bi bi-check-circle-fill me-2"></i>
+            {% elseif type == 'error' or type == 'danger' %}
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {% else %}
+                <i class="bi bi-info-circle-fill me-2"></i>
+            {% endif %}
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<script>
+// Auto-hide success messages après 5 secondes
+setTimeout(() => {
+    document.querySelectorAll('.flash-message').forEach(alert => {
+        if (alert.classList.contains('alert-success')) {
+            const bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        }
+    });
+}, 5000);
+</script>

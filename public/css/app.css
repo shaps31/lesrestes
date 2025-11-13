@@ -1,0 +1,274 @@
+/*
+LES RESTES - Styles personnalisés
+*/
+
+:root {
+    /* Couleurs principales */
+    --success-color: #4CAF50;
+    --navigation-title-color: #2E7D32;
+    --cta-color: #F08A00;
+    --text-color: #000000;
+    --background-color: #FCF8F5;
+    --alt-background-color: #FFFFFF;
+    --error-color: #FF383C;
+}
+
+/* TYPOGRAPHIE */
+
+body, p, label, input {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+label, input {
+    font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--navigation-title-color);
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* LAYOUT GÉNÉRAL */
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* NAVIGATION */
+
+.navbar-brand {
+    font-weight: bold;
+    color: var(--success-color) !important;
+}
+
+/* BOUTONS */
+
+.btn-primary {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.btn-success:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+}
+
+.btn-warning {
+    background-color: var(--cta-color);
+    border-color: var(--cta-color);
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #e07a00;
+    border-color: #e07a00;
+}
+
+/* CARTES */
+
+.card {
+    background-color: var(--alt-background-color);
+    border: 1px solid rgba(76, 175, 80, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.15);
+    border-color: var(--success-color);
+}
+
+.card-body {
+    background-color: var(--alt-background-color);
+}
+
+/* FORMULAIRES */
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+}
+
+/* ÉTOILES DE NOTATION */
+
+.bi-star-fill.text-warning {
+    color: var(--cta-color) !important;
+}
+
+/* MESSAGES FLASH */
+
+.alert-success {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-color: var(--success-color);
+    color: var(--navigation-title-color);
+}
+
+.alert-danger {
+    background-color: rgba(255, 56, 60, 0.1);
+    border-color: var(--error-color);
+    color: #721c24;
+}
+
+.flash-message {
+    animation: slideInDown 0.5s ease;
+    margin-bottom: 1rem;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* PAGINATION */
+
+.page-link {
+    color: var(--success-color);
+}
+
+.page-item.active .page-link {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.page-link:hover {
+    color: var(--navigation-title-color);
+}
+
+/* AUTOCOMPLETE */
+
+.autocomplete-results {
+    background-color: var(--alt-background-color);
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(-10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+.autocomplete-item:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+.autocomplete-loading {
+    position: relative;
+}
+
+.autocomplete-loading::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid var(--success-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { 
+        transform: translateY(-50%) rotate(0deg); 
+    }
+    100% { 
+        transform: translateY(-50%) rotate(360deg); 
+    }
+}
+
+/* INGRÉDIENTS DYNAMIQUES */
+
+.ingredient-row {
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.ingredient-row:hover {
+    background-color: #e9ecef;
+}
+
+.ingredient-row .row > div {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.remove-ingredient {
+    width: 100%;
+}
+
+.ingredient-row.adding {
+    animation: slideInDown 0.4s ease;
+}
+
+.ingredient-row.removing {
+    animation: slideOutUp 0.3s ease forwards;
+}
+
+@keyframes slideOutUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 28px;
+    }
+    
+    h2 {
+        font-size: 24px;
+    }
+    
+    .card:hover {
+        transform: none;
+    }
+}

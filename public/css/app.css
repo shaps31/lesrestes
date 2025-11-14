@@ -1,9 +1,9 @@
 /*
-LES RESTES - Styles personnalisés
-Application anti-gaspi culinaire
+LES RESTES - Application anti-gaspi culinaire
+Styles personnalisés optimisés
 */
 
-/* Variables de couleurs */
+/* VARIABLES DE COULEURS */
 :root {
     --success-color: #4CAF50;
     --navigation-title-color: #2E7D32;
@@ -15,7 +15,6 @@ Application anti-gaspi culinaire
 }
 
 /* TYPOGRAPHIE */
-
 body, p, label, input {
     font-size: 16px;
     font-weight: 400;
@@ -47,37 +46,69 @@ h3 {
 }
 
 /* LAYOUT GÉNÉRAL */
-
 body {
     background-color: var(--background-color);
     color: var(--text-color);
 }
 
 /* NAVIGATION */
+.navbar {
+    background-color: var(--background-color) !important;
+}
 
 .navbar-brand {
     font-weight: bold;
     color: var(--success-color) !important;
+    transition: transform 0.2s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+/* NAVBAR */
+.navbar-nav .nav-link {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--success-color) !important;
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--success-color) !important;
+    font-weight: 600;
+}
+
+.navbar-nav .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--success-color);
+    border-radius: 2px;
+}
+
+/* Boutons navbar */
+.navbar .btn-outline-success:hover {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.navbar .btn-success:hover {
+    background-color: var(--navigation-title-color);
 }
 
 /* BOUTONS */
-
-.btn-primary {
+.btn-primary, .btn-success {
     background-color: var(--success-color);
     border-color: var(--success-color);
 }
 
-.btn-primary:hover {
-    background-color: #45a049;
-    border-color: #45a049;
-}
-
-.btn-success {
-    background-color: var(--success-color);
-    border-color: var(--success-color);
-}
-
-.btn-success:hover {
+.btn-primary:hover, .btn-success:hover {
     background-color: #45a049;
     border-color: #45a049;
 }
@@ -98,8 +129,7 @@ body {
     cursor: not-allowed;
 }
 
-/* CARTES */
-
+/* ===== CARTES ===== */
 .card {
     background-color: var(--alt-background-color);
     border: 1px solid rgba(76, 175, 80, 0.1);
@@ -116,21 +146,18 @@ body {
     background-color: var(--alt-background-color);
 }
 
-/* FORMULAIRES */
-
+/* ===== FORMULAIRES ===== */
 .form-control:focus, .form-select:focus {
     border-color: var(--success-color);
     box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
 }
 
-/* ÉTOILES DE NOTATION */
-
+/* ===== ÉTOILES DE NOTATION ===== */
 .bi-star-fill.text-warning {
     color: var(--cta-color) !important;
 }
 
-/* MESSAGES FLASH */
-
+/* ===== MESSAGES FLASH ===== */
 .alert-success {
     background-color: rgba(76, 175, 80, 0.1);
     border-color: var(--success-color);
@@ -159,7 +186,7 @@ body {
     }
 }
 
-/* PAGINATION - Compatible avec template Bootstrap par défaut */
+/* ===== PAGINATION ===== */
 nav[aria-label="Page navigation"] ul.pagination {
     margin: 2rem 0;
 }
@@ -194,8 +221,7 @@ nav[aria-label="Page navigation"] ul.pagination li.page-item.disabled span.page-
     opacity: 0.6;
 }
 
-/* AUTOCOMPLETE */
-
+/* ===== AUTOCOMPLETE ===== */
 .autocomplete-results {
     background-color: var(--alt-background-color);
     animation: fadeIn 0.2s ease;
@@ -243,8 +269,7 @@ nav[aria-label="Page navigation"] ul.pagination li.page-item.disabled span.page-
     }
 }
 
-/* INGRÉDIENTS DYNAMIQUES */
-
+/* ===== INGRÉDIENTS DYNAMIQUES ===== */
 .ingredient-row {
     background-color: #f8f9fa;
     transition: all 0.3s ease;
@@ -284,7 +309,6 @@ nav[aria-label="Page navigation"] ul.pagination li.page-item.disabled span.page-
 }
 
 /* PAGE DÉTAIL RECETTE */
-
 .img-fluid.rounded.shadow {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
 }
@@ -318,7 +342,6 @@ nav[aria-label="Page navigation"] ul.pagination li.page-item.disabled span.page-
 }
 
 /* Section ingrédients et préparation */
-
 .row .col-lg-6 h3 {
     font-size: 1.25rem;
     font-weight: 600;
@@ -336,7 +359,6 @@ nav[aria-label="Page navigation"] ul.pagination li.page-item.disabled span.page-
 }
 
 /* Checkboxes ingrédients */
-
 .form-check {
     display: flex;
     align-items: flex-start;
@@ -359,7 +381,6 @@ nav[aria-label="Page navigation"] ul.pagination li.page-item.disabled span.page-
 .form-check-input:checked {
     background-color: #4CAF50;
     border-color: #4CAF50;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
 }
 
 .form-check-input:focus {
@@ -383,7 +404,6 @@ nav[aria-label="Page navigation"] ul.pagination li.page-item.disabled span.page-
 }
 
 /* Liste de préparation */
-
 .preparation-steps {
     list-style-position: outside;
     padding-left: 1.5rem;
@@ -405,8 +425,127 @@ nav[aria-label="Page navigation"] ul.pagination li.page-item.disabled span.page-
     line-height: 1.6;
 }
 
-/* RESPONSIVE */
+/* ONGLETS PROFIL */
+.nav-pills .nav-link {
+    color: #2E7D32;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
 
+.nav-pills .nav-link:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #2E7D32;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #4CAF50 !important;
+    color: white !important;
+    font-weight: 600;
+}
+
+/* Égaliser hauteur des cartes profil */
+.profile-card-wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+.profile-card-wrapper .card {
+    height: 100%;
+}
+
+/* MODALES AUTHENTIFICATION */
+/* Fond modal complètement transparent avec bordure verte */
+.modal-content {
+    background-color: rgba(252, 248, 245, 0.3) !important;
+    border: 2px solid var(--success-color) !important;
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+/* Header transparent */
+.modal-header {
+    background-color: transparent !important;
+    border-bottom: none !important;
+}
+
+/* Body transparent */
+.modal-body {
+    background-color: transparent !important;
+}
+
+/* Titre modal en gras avec ombre pour lisibilité */
+.modal-body h3 {
+    font-weight: bold !important;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+/* Labels avec ombre pour lisibilité */
+.modal-body .form-label {
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Backdrop plus foncé pour contraste */
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Inputs avec fond blanc léger pour lisibilité */
+.modal-body .form-control {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.modal-body .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+}
+
+/* Bouton se connecter/s'inscrire orange */
+.modal-body .btn-warning {
+    background-color: var(--cta-color);
+    border-color: var(--cta-color);
+    color: white;
+    font-weight: 600;
+}
+
+.modal-body .btn-warning:hover {
+    background-color: #e07a00;
+    border-color: #e07a00;
+}
+
+/* Liens dans modales */
+.modal-body a.text-success {
+    color: var(--success-color) !important;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.modal-body a.text-success:hover {
+    color: var(--navigation-title-color) !important;
+    text-decoration: underline;
+}
+
+/* Texte muted lisible */
+.modal-body .text-muted {
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Bouton close */
+.modal-header .btn-close {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.modal-header .btn-close:hover {
+    opacity: 1;
+}
+
+/* RESPONSIVE */
 @media (max-width: 991px) {
     .row .col-lg-6 {
         margin-bottom: 1.5rem;
@@ -439,30 +578,7 @@ nav[aria-label="Page navigation"] ul.pagination li.page-item.disabled span.page-
     }
 }
 
-/* Onglets profil verts */
-.nav-pills .nav-link {
-    color: #2E7D32;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.nav-pills .nav-link:hover {
-    background-color: rgba(76, 175, 80, 0.1);
-    color: #2E7D32;
-}
-
-.nav-pills .nav-link.active {
-    background-color: #4CAF50 !important;
-    color: white !important;
-    font-weight: 600;
-}
-
-/* Égaliser hauteur des cartes profil */
-.profile-card-wrapper {
-    display: flex;
-    align-items: stretch;
-}
-
-.profile-card-wrapper .card {
-    height: 100%;
+/* FOOTER */
+footer {
+    background-color: var(--background-color) !important;
 }

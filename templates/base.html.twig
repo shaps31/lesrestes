@@ -1,111 +1,255 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Les Restes - Anti-gaspi culinaire{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- CSS personnalisé -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-    {% block stylesheets %}{% endblock %}
-</head>
-<body>
-    <!-- Navigation - COULEUR BEIGE + BORDURE -->
-    <nav class="navbar navbar-expand-lg navbar-light border-bottom" style="background-color: var(--background-color);">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-success d-flex align-items-center" href="{{ path('app_home') }}">
-                <!-- Logo SVG -->
-                <svg width="35" height="40" viewBox="0 0 49 57" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2">
-                    <path d="M12.1523 0C12.1523 0 9.73828 1.65469 9.57422 2.95078C9.41016 4.27852 11.6367 5.20547 11.4023 6.52266C11.25 7.39336 9.45703 8.325 9.45703 8.325C9.45703 8.325 13.9922 7.93125 14.4141 6.18047C14.7539 4.79531 12.0938 4.23398 11.7188 2.8582C11.4727 1.92773 12.1523 0 12.1523 0ZM37.2773 0.573047C37.2773 0.573047 34.3711 2.16445 34.3594 3.55547C34.3477 4.40391 36.0469 4.57148 36.0938 5.41875C36.1523 6.42188 34.3008 7.84219 34.3008 7.84219C34.3008 7.84219 38.2383 7.3957 38.7656 5.85352C39.082 4.94297 37.6641 4.23516 37.4062 3.30703C37.1602 2.42812 37.2773 0.573047 37.2773 0.573047ZM24.75 0.603516C24.75 0.603516 21.5977 2.21484 21.832 3.58594C21.9961 4.51523 24.2461 3.89297 24.375 4.82812C24.5742 6.35273 20.9062 7.87266 20.9062 7.87266C20.9062 7.87266 27.5273 7.70391 27.7969 5.26289C27.9258 4.10508 25.4531 4.35 24.8789 3.3375C24.4219 2.54414 24.75 0.603516 24.75 0.603516ZM0 10.4145V12.5238H48.75V10.4145H0ZM1.875 14.7504C0.178125 24.934 3.85547 30.934 8.74219 34.4613C8.32031 31.5551 7.08984 28.7074 4.63359 26.0004C9.31641 27.2309 12.9961 31.7191 14.6367 36.2191C14.9062 34.016 14.9062 32.9965 16.9219 31.0394C16.5586 33.9457 18.2344 34.1449 19.4062 33.7816C22.3711 32.8559 23.5781 29.1527 20.6484 24.5355C26.2266 27.1957 26.3086 30.2074 27.2461 34.3441C26.9648 30.4535 30.0938 28.8949 32.3672 30.3598C27.082 33.0199 31.4062 35.3051 33.1758 35.8676C37.8633 37.3676 41.3789 30.4418 43.3945 25.2035C43.9453 27.5238 43.4883 29.8559 42.6328 32.1762C46.1016 28.5082 48.2461 23.0004 46.875 14.7504H1.875ZM23.4727 35.2816L3.16406 46.9652C3.48047 49.1215 4.21875 50.9965 5.36719 52.6488L16.1484 47.4809L6.92578 54.5004C7.32422 54.8988 7.75781 55.2738 8.21484 55.6371L16.9688 50.6098C16.9688 50.5277 16.957 50.434 16.957 50.3519C16.957 45.9926 20.5312 42.4301 24.9023 42.4301C26.1445 42.4301 27.3164 42.7113 28.3594 43.2152C28.0781 41.6449 27.5039 40.0394 26.625 38.6215L15.5039 43.3207L25.1719 36.6996C24.6562 36.1723 24.0938 35.6918 23.4727 35.2816ZM30.375 42.0316C30.5625 42.8754 30.6797 43.7191 30.7266 44.5394L30.75 44.9965C32.0508 46.4027 32.8477 48.2894 32.8477 50.3519C32.8477 51.266 32.6953 52.1449 32.4023 52.9535L43.1133 55.8129C43.6523 55.0746 44.1211 54.3129 44.4961 53.5394L37.1016 50.6449L45.3164 51.4535C45.4219 51.1019 45.5039 50.7621 45.5742 50.4105L34.1953 46.391L45.8203 48.2074C45.8438 47.5277 45.8086 46.8363 45.7266 46.1332L30.375 42.0316ZM24.9023 44.6215C21.7148 44.6215 19.1484 47.1762 19.1484 50.3519C19.1484 53.5277 21.7148 56.0824 24.9023 56.0824C28.1016 56.0824 30.668 53.5277 30.668 50.3519C30.668 47.1762 28.1016 44.6215 24.9023 44.6215ZM24.3281 46.0043C29.4609 46.0043 31.1719 54.3949 24.3281 54.3949C27.4453 51.6879 27.8203 48.8988 24.3281 46.0043ZM24.3516 47.1527C21.8203 49.2504 22.0898 51.2777 24.3516 53.2465C19.3828 53.2465 20.625 47.1527 24.3516 47.1527Z" fill="#1E5128"/>
-                </svg>
-                Les Restes
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ path('app_home') }}">Accueil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ path('app_recette_index') }}">Recettes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    {% if app.user %}
-                        <li class="nav-item"><a class="nav-link" href="{{ path('app_profil') }}">Profil</a></li>
-                    {% endif %}
-                </ul>
-                <ul class="navbar-nav">
-                    {% if not app.user %}
-                        <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a></li>
-                        <li class="nav-item"><a class="nav-link text-success fw-bold" href="{{ path('app_login') }}">Connexion</a></li>
-                    {% else %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle"></i> {{ app.user.prenom }}
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ path('app_profil') }}"><i class="bi bi-person"></i> Mon profil</a></li>
-                                <li><a class="dropdown-item" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-right"></i> Déconnexion</a></li>
-                            </ul>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Les Restes{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="/css/app.css">
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg border-bottom sticky-top">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{{ path('app_home') }}">
+                    <img src="{{ asset('images/logo.svg') }}" alt="Les Restes" height="40" class="me-2">
+                    <span class="fw-bold text-success">LeRestes</span>
+                </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link {{ app.request.get('_route') == 'app_home' ? 'active' : '' }}" 
+                       href="{{ path('app_home') }}">
+                        Accueil
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ app.request.get('_route') starts with 'app_recette' ? 'active' : '' }}" 
+                       href="{{ path('app_recette_index') }}">
+                        Recettes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ app.request.get('_route') == 'app_contact' ? 'active' : '' }}" 
+                       href="#contact">
+                        Contact
+                    </a>
+                </li>
+                
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link {{ app.request.get('_route') starts with 'app_profil' ? 'active' : '' }}" 
+                           href="{{ path('app_profil') }}">
+                            Profil
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-outline-danger btn-sm" href="{{ path('app_logout') }}">
+                            Déconnexion
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item ms-2">
+                        <button class="btn btn-outline-success btn-sm" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#registerModal">
+                            S'inscrire
+                        </button>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <button class="btn btn-success btn-sm" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#loginModal">
+                            Connexion
+                        </button>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
     </nav>
 
-    <!-- Flash Messages -->
-    <div class="container mt-3">
-        {{ include('_flash_messages.html.twig') }}
-    </div>
+        <!-- Messages Flash -->
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show m-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
 
-    <!-- Body -->
-    <main class="container my-4">
+        <!-- Contenu -->
         {% block body %}{% endblock %}
-    </main>
 
-    <!-- Footer - COULEUR BEIGE + BORDURE -->
-    <footer class="py-4 mt-5 border-top" style="background-color: var(--background-color);">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h6 class="fw-bold mb-3">Mention légales</h6>
-                    <p class="small mb-0">Copyright © 2025</p>
-                </div>
-                <div class="col-md-3">
-                    <h6 class="fw-bold mb-3">Réseaux sociaux</h6>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="text-dark"><i class="bi bi-instagram fs-5"></i></a>
-                        <a href="#" class="text-dark"><i class="bi bi-twitter-x fs-5"></i></a>
-                        <a href="#" class="text-dark"><i class="bi bi-tiktok fs-5"></i></a>
-                        <a href="#" class="text-dark"><i class="bi bi-facebook fs-5"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <h6 class="fw-bold mb-3">Nous contacter</h6>
-                    <p class="small mb-0">
-                        <a href="mailto:Nous-contacter@Lereste.com" class="text-dark text-decoration-none">
-                            Nous-contacter@Lereste.com
-                        </a>
-                    </p>
-                </div>
-                <div class="col-md-3 text-end">
-                    <h6 class="fw-bold mb-3">Adresse Postale</h6>
-                    <p class="small mb-3">666 Rue du Paradis 31000<br>Toulouse</p>
-                    <svg width="49" height="57" viewBox="0 0 49 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.1523 0C12.1523 0 9.73828 1.65469 9.57422 2.95078C9.41016 4.27852 11.6367 5.20547 11.4023 6.52266C11.25 7.39336 9.45703 8.325 9.45703 8.325C9.45703 8.325 13.9922 7.93125 14.4141 6.18047C14.7539 4.79531 12.0938 4.23398 11.7188 2.8582C11.4727 1.92773 12.1523 0 12.1523 0ZM37.2773 0.573047C37.2773 0.573047 34.3711 2.16445 34.3594 3.55547C34.3477 4.40391 36.0469 4.57148 36.0938 5.41875C36.1523 6.42188 34.3008 7.84219 34.3008 7.84219C34.3008 7.84219 38.2383 7.3957 38.7656 5.85352C39.082 4.94297 37.6641 4.23516 37.4062 3.30703C37.1602 2.42812 37.2773 0.573047 37.2773 0.573047ZM24.75 0.603516C24.75 0.603516 21.5977 2.21484 21.832 3.58594C21.9961 4.51523 24.2461 3.89297 24.375 4.82812C24.5742 6.35273 20.9062 7.87266 20.9062 7.87266C20.9062 7.87266 27.5273 7.70391 27.7969 5.26289C27.9258 4.10508 25.4531 4.35 24.8789 3.3375C24.4219 2.54414 24.75 0.603516 24.75 0.603516ZM0 10.4145V12.5238H48.75V10.4145H0ZM1.875 14.7504C0.178125 24.934 3.85547 30.934 8.74219 34.4613C8.32031 31.5551 7.08984 28.7074 4.63359 26.0004C9.31641 27.2309 12.9961 31.7191 14.6367 36.2191C14.9062 34.016 14.9062 32.9965 16.9219 31.0394C16.5586 33.9457 18.2344 34.1449 19.4062 33.7816C22.3711 32.8559 23.5781 29.1527 20.6484 24.5355C26.2266 27.1957 26.3086 30.2074 27.2461 34.3441C26.9648 30.4535 30.0938 28.8949 32.3672 30.3598C27.082 33.0199 31.4062 35.3051 33.1758 35.8676C37.8633 37.3676 41.3789 30.4418 43.3945 25.2035C43.9453 27.5238 43.4883 29.8559 42.6328 32.1762C46.1016 28.5082 48.2461 23.0004 46.875 14.7504H1.875ZM23.4727 35.2816L3.16406 46.9652C3.48047 49.1215 4.21875 50.9965 5.36719 52.6488L16.1484 47.4809L6.92578 54.5004C7.32422 54.8988 7.75781 55.2738 8.21484 55.6371L16.9688 50.6098C16.9688 50.5277 16.957 50.434 16.957 50.3519C16.957 45.9926 20.5312 42.4301 24.9023 42.4301C26.1445 42.4301 27.3164 42.7113 28.3594 43.2152C28.0781 41.6449 27.5039 40.0394 26.625 38.6215L15.5039 43.3207L25.1719 36.6996C24.6562 36.1723 24.0938 35.6918 23.4727 35.2816ZM30.375 42.0316C30.5625 42.8754 30.6797 43.7191 30.7266 44.5394L30.75 44.9965C32.0508 46.4027 32.8477 48.2894 32.8477 50.3519C32.8477 51.266 32.6953 52.1449 32.4023 52.9535L43.1133 55.8129C43.6523 55.0746 44.1211 54.3129 44.4961 53.5394L37.1016 50.6449L45.3164 51.4535C45.4219 51.1019 45.5039 50.7621 45.5742 50.4105L34.1953 46.391L45.8203 48.2074C45.8438 47.5277 45.8086 46.8363 45.7266 46.1332L30.375 42.0316ZM24.9023 44.6215C21.7148 44.6215 19.1484 47.1762 19.1484 50.3519C19.1484 53.5277 21.7148 56.0824 24.9023 56.0824C28.1016 56.0824 30.668 53.5277 30.668 50.3519C30.668 47.1762 28.1016 44.6215 24.9023 44.6215ZM24.3281 46.0043C29.4609 46.0043 31.1719 54.3949 24.3281 54.3949C27.4453 51.6879 27.8203 48.8988 24.3281 46.0043ZM24.3516 47.1527C21.8203 49.2504 22.0898 51.2777 24.3516 53.2465C19.3828 53.2465 20.625 47.1527 24.3516 47.1527Z" fill="#1E5128"/>
-                    </svg>
-                    <p class="small fw-bold mt-2">LesRestes</p>
+        <footer class="mt-5 py-4 border-top">
+            <div class="container">
+                <div class="row align-items-start">
+            <!-- Logo -->
+            <div class="col-md-2 text-center">
+                <img src="{{ asset('images/logo.svg') }}" alt="Les Restes" height="40">
+            </div>
+            
+            <!-- Sections -->
+            <div class="col-md-2">
+                <h6 class="fw-bold mb-2">Mention légales</h6>
+                <p class="small text-muted mb-0">Copyright © 2025</p>
+            </div>
+            <div class="col-md-3">
+                <h6 class="fw-bold mb-2">Réseaux sociaux</h6>
+                <div class="d-flex gap-2">
+                    <a href="#" class="text-muted"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-muted"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="text-muted"><i class="bi bi-tiktok"></i></a>
+                    <a href="#" class="text-muted"><i class="bi bi-facebook"></i></a>
                 </div>
             </div>
-        </div>
-    </footer>
+            <div class="col-md-2">
+                <h6 class="fw-bold mb-2">Nous contacter</h6>
+                <p class="small text-muted mb-0">Nous-contacter@Lereste.com</p>
+            </div>
+            <div class="col-md-3">
+                <h6 class="fw-bold mb-2">Adresse Postale</h6>
+                <p class="small text-muted mb-0">666 Rue du Paradis 31000<br>Toulouse</p>
+            </div>
+            </div>
+            </div>
+        </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    {% block javascripts %}{% endblock %}
-</body>
+        <!-- MODALE CONNEXION -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-5 pb-5">
+                <h3 class="text-success text-center mb-4 fw-bold">Se connecter</h3>
+                
+                <form method="post" action="{{ path('app_login') }}">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email</label>
+                        <input type="email" 
+                               name="_username" 
+                               class="form-control" 
+                               placeholder="Entrer votre e-mail"
+                               required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Mot de passe</label>
+                        <input type="password" 
+                               name="_password" 
+                               class="form-control" 
+                               placeholder="••••••••"
+                               required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <a href="#" class="text-success small">Mot de passe oublié ?</a>
+                    </div>
+                    
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    
+                    <button type="submit" class="btn btn-warning w-100 py-2 mb-3 fw-semibold">
+                        se connecter
+                    </button>
+                    
+                    <div class="text-center">
+                        <span class="text-muted small">Pas de compte ?</span>
+                        <a href="#" class="text-success fw-semibold" onclick="switchToRegister(event)">S'inscrire</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODALE INSCRIPTION -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-5 pb-5">
+                <h3 class="text-success text-center mb-4 fw-bold">Créer un compte</h3>
+                
+                <form method="post" action="{{ path('app_register') }}">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Nom d'utilisateur</label>
+                        <input type="text" 
+                               name="prenom" 
+                               class="form-control"
+                               required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email</label>
+                        <input type="email" 
+                               name="email" 
+                               class="form-control"
+                               required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Mot de passe</label>
+                        <input type="password" 
+                               name="password" 
+                               class="form-control" 
+                               placeholder="••••••••"
+                               required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Confirmer le mot de passe</label>
+                        <input type="password" 
+                               name="password_confirm" 
+                               class="form-control" 
+                               placeholder="••••••••"
+                               required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-warning w-100 py-2 mb-3 fw-semibold">
+                        S'inscrire
+                    </button>
+                    
+                    <div class="text-center">
+                        <span class="text-muted small">Déjà un compte ?</span>
+                        <a href="#" class="text-success fw-semibold" onclick="switchToLogin(event)">Se connecter</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Switch entre modales
+            function switchToRegister(e) {
+                e.preventDefault();
+                const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                loginModal.hide();
+                const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+                registerModal.show();
+            }
+            
+            function switchToLogin(e) {
+                e.preventDefault();
+                const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+                registerModal.hide();
+                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+            }
+        </script>
+        {% block javascripts %}{% endblock %}
+    </body>
 </html>

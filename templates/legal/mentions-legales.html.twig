@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions legales - Les Restes{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <h1 class="text-success mb-4">Mentions legales</h1>
+            
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 text-success mb-3">1. Editeur du site</h2>
+                    <p><strong>Les Restes</strong></p>
+                    <p>Plateforme anti-gaspillage alimentaire</p>
+                    <p>
+                        <strong>Adresse :</strong> 666 Rue du Paradis, 31000 Toulouse<br>
+                        <strong>Email :</strong> contact@lesrestes.fr<br>
+                        <strong>Telephone :</strong> 05 XX XX XX XX
+                    </p>
+                    <p>
+                        <strong>Directeur de la publication :</strong>Shabadine<br>
+                        <strong>Responsable editorial :</strong> Shabadine
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 text-success mb-3">2. Hebergement</h2>
+                    <p><strong>Hebergeur du site :</strong></p>
+                    <p>
+                        [Nom de l'hebergeur]<br>
+                        [Adresse de l'hebergeur]<br>
+                        [Telephone de l'hebergeur]
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 text-success mb-3">3. Propriete intellectuelle</h2>
+                    <p>
+                        L'ensemble de ce site releve de la legislation francaise et internationale sur le droit d'auteur 
+                        et la propriete intellectuelle. Tous les droits de reproduction sont reserves, y compris pour 
+                        les documents telechargeables et les representations iconographiques et photographiques.
+                    </p>
+                    <p>
+                        La reproduction de tout ou partie de ce site sur un support electronique quel qu'il soit est 
+                        formellement interdite sauf autorisation expresse du directeur de la publication.
+                    </p>
+                    <p>
+                        Les marques et logos figurant sur le site sont des marques deposees. Toute reproduction totale 
+                        ou partielle de ces marques ou de ces logos effectuee a partir des elements du site sans 
+                        l'autorisation expresse de Les Restes est donc prohibee.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 text-success mb-3">4. Protection des donnees personnelles</h2>
+                    <p>
+                        Conformement a la loi Informatique et Libertes du 6 janvier 1978 modifiee et au Reglement 
+                        General sur la Protection des Donnees (RGPD), vous disposez d'un droit d'acces, de rectification, 
+                        de suppression et d'opposition aux donnees vous concernant.
+                    </p>
+                    <p>
+                        Pour exercer ce droit, vous pouvez nous contacter par email a l'adresse : 
+                        <a href="mailto:contact@lesrestes.fr">contact@lesrestes.fr</a>
+                    </p>
+                    <p>
+                        Pour plus d'informations, consultez notre 
+                        <a href="{{ path('app_politique_confidentialite') }}" class="text-success">
+                            Politique de confidentialite
+                        </a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 text-success mb-3">5. Cookies</h2>
+                    <p>
+                        Ce site utilise des cookies pour ameliorer l'experience utilisateur et analyser le trafic. 
+                        En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies.
+                    </p>
+                    <p>
+                        Vous pouvez desactiver les cookies dans les parametres de votre navigateur.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 text-success mb-3">6. Limitation de responsabilite</h2>
+                    <p>
+                        Les Restes s'efforce d'assurer au mieux de ses possibilites l'exactitude et la mise a jour 
+                        des informations diffusees sur ce site. Toutefois, Les Restes ne peut garantir l'exactitude, 
+                        la precision ou l'exhaustivite des informations mises a disposition sur ce site.
+                    </p>
+                    <p>
+                        En consequence, Les Restes decline toute responsabilite pour toute imprecision, inexactitude 
+                        ou omission portant sur des informations disponibles sur ce site.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="h4 text-success mb-3">7. Liens hypertextes</h2>
+                    <p>
+                        Le site peut contenir des liens hypertextes vers d'autres sites. Les Restes ne peut etre tenu 
+                        responsable du contenu de ces sites et des eventuels dommages ou prejudices qui resulteraient 
+                        de leur consultation.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-muted mt-4 small">
+                <p>Derniere mise a jour : {{ "now"|date("d/m/Y") }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

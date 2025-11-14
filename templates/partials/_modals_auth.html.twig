@@ -1,0 +1,107 @@
+<!-- MODALE CONNEXION -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-5 pb-5">
+                <h3 class="text-success text-center mb-4 fw-bold">Se connecter</h3>
+                
+                <form method="post" action="{{ path('app_login') }}">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email</label>
+                        <input type="email" 
+                               name="_username" 
+                               class="form-control" 
+                               placeholder="Entrer votre e-mail"
+                               required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Mot de passe</label>
+                        <input type="password" 
+                               name="_password" 
+                               class="form-control" 
+                               placeholder="••••••••"
+                               required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <a href="#" class="text-success small">Mot de passe oublié ?</a>
+                    </div>
+                    
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    
+                    <button type="submit" class="btn btn-warning w-100 py-2 mb-3 fw-semibold">
+                        se connecter
+                    </button>
+                    
+                    <div class="text-center">
+                        <span class="text-muted small">Pas de compte ?</span>
+                        <a href="#" class="text-success fw-semibold" onclick="switchToRegister(event)">S'inscrire</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODALE INSCRIPTION -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-5 pb-5">
+                <h3 class="text-success text-center mb-4 fw-bold">Créer un compte</h3>
+                
+                <form method="post" action="{{ path('app_register') }}">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Nom d'utilisateur</label>
+                        <input type="text" 
+                               name="prenom" 
+                               class="form-control"
+                               required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email</label>
+                        <input type="email" 
+                               name="email" 
+                               class="form-control"
+                               required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Mot de passe</label>
+                        <input type="password" 
+                               name="password" 
+                               class="form-control" 
+                               placeholder="••••••••"
+                               required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Confirmer le mot de passe</label>
+                        <input type="password" 
+                               name="password_confirm" 
+                               class="form-control" 
+                               placeholder="••••••••"
+                               required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-warning w-100 py-2 mb-3 fw-semibold">
+                        S'inscrire
+                    </button>
+                    
+                    <div class="text-center">
+                        <span class="text-muted small">Déjà un compte ?</span>
+                        <a href="#" class="text-success fw-semibold" onclick="switchToLogin(event)">Se connecter</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon profil - Les Restes{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <!-- Bouton retour -->
+    <div class="mb-4">
+        <a href="{{ path('app_profil') }}" class="btn btn-outline-success">
+            <i class="bi bi-arrow-left"></i> Retour au profil
+        </a>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-success shadow">
+                <div class="card-body p-5">
+                    <h1 class="text-center text-success mb-4">
+                        <i class="bi bi-person-circle"></i> Modifier mon profil
+                    </h1>
+                    
+                    <!-- Photo actuelle -->
+                    <div class="text-center mb-4">
+                        {% if user.photo %}
+                            <img src="/uploads/profils/{{ user.photo }}" 
+                                 alt="{{ user.prenom }}" 
+                                 class="rounded-circle"
+                                 style="width: 150px; height: 150px; object-fit: cover;">
+                        {% else %}
+                            <div class="rounded-circle bg-success d-flex align-items-center justify-content-center mx-auto" 
+                                 style="width: 150px; height: 150px;">
+                                <i class="bi bi-person-fill text-white" style="font-size: 4rem;"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+                    
+                    <!-- Informations personnelles -->
+                    <h5 class="text-success mb-3">Informations personnelles</h5>
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.prenom, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.prenom) }}
+                        {{ form_errors(form.prenom) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.nom, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.nom) }}
+                        {{ form_errors(form.nom) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.email, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.email) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                    
+                    <!-- Photo de profil -->
+                    <div class="mb-4">
+                        {{ form_label(form.photoFile, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.photoFile) }}
+                        {{ form_errors(form.photoFile) }}
+                        <small class="form-text text-muted">
+                            Formats acceptés : JPG, PNG, GIF, WEBP. Taille max : 2MB
+                        </small>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <!-- Changement de mot de passe -->
+                    <h5 class="text-success mb-3">Changer le mot de passe (optionnel)</h5>
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.currentPassword, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.currentPassword) }}
+                        {{ form_errors(form.currentPassword) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.newPassword, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.newPassword) }}
+                        {{ form_errors(form.newPassword) }}
+                    </div>
+                    
+                    <div class="mb-4">
+                        {{ form_label(form.confirmPassword, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.confirmPassword) }}
+                        {{ form_errors(form.confirmPassword) }}
+                    </div>
+                    
+                    <!-- Boutons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ path('app_profil') }}" class="btn btn-outline-secondary">
+                            Annuler
+                        </a>
+                        <button type="submit" class="btn btn-success px-4">
+                            <i class="bi bi-check-circle"></i> Enregistrer les modifications
+                        </button>
+                    </div>
+                    
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

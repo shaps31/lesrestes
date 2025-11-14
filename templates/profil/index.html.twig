@@ -3,38 +3,95 @@
 {% block title %}Mon Profil - Les Restes{% endblock %}
 
 {% block body %}
-<div class="container">
-    <!-- Header profil -->
-    <div class="row align-items-center mb-4 mt-3">
-        <div class="col-auto">
-            <!-- Photo de profil placeholder -->
-            <div class="rounded-circle bg-success d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                <i class="bi bi-person-fill text-white fs-1"></i>
+<div class="container my-5">
+    <!-- Titre centré -->
+    <h1 class="text-center text-success mb-5">
+        {{ user.prenom }} {{ user.nom }} ({{ user.email|split('@')[0] }})
+    </h1>
+    
+    <!-- Layout 2 colonnes avec hauteur égale -->
+    <div class="row mb-5 profile-card-wrapper">
+        <!-- Colonne gauche : Infos profil -->
+        <div class="col-lg-5 mb-4 mb-lg-0">
+            <div class="card border-success h-100">
+                <div class="card-body text-center p-4 d-flex flex-column justify-content-center">
+                    <!-- Avatar -->
+                    {% if user.photo %}
+                        <img src="/uploads/profils/{{ user.photo }}" 
+                             alt="{{ user.prenom }}" 
+                             class="rounded-circle mx-auto mb-3"
+                             style="width: 120px; height: 120px; object-fit: cover;">
+                    {% else %}
+                        <div class="rounded-circle bg-success d-flex align-items-center justify-content-center mx-auto mb-3" 
+                             style="width: 120px; height: 120px;">
+                            <i class="bi bi-person-fill text-white" style="font-size: 3rem;"></i>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Nom et email -->
+                    <h4 class="text-success mb-1">{{ user.prenom }} {{ user.nom }}</h4>
+                    <p class="text-muted mb-3">{{ user.email }}</p>
+                    
+                    <!-- Bouton modifier -->
+                   <a href="{{ path('app_profil_edit') }}" class="btn btn-outline-success">
+                        <i class="bi bi-pencil"></i> Modifier profil
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="col">
-            <h3 class="mb-1">{{ user.prenom }} {{ user.nom }}</h3>
-            <p class="text-muted mb-2">{{ user.email }}</p>
-            <button class="btn btn-outline-primary btn-sm">
-                <i class="bi bi-pencil"></i> Modifier profil
-            </button>
+        
+        <!-- Colonne droite : Statistiques avec graphique -->
+        <div class="col-lg-7">
+            <div class="card border-success h-100">
+                <div class="card-body p-4 d-flex flex-column justify-content-center">
+                    <h5 class="text-success mb-4 text-center">Recettes</h5>
+                    
+                    <div class="row align-items-center">
+                        <!-- Graphique circulaire -->
+                        <div class="col-md-6 text-center">
+                            <canvas id="statsChart" width="200" height="200"></canvas>
+                        </div>
+                        
+                        <!-- Légende des stats -->
+                        <div class="col-md-6">
+                            <div class="d-flex flex-column gap-3">
+                                <div class="d-flex justify-content-between align-items-center p-2 rounded" style="background-color: rgba(76, 175, 80, 0.1);">
+                                    <span class="fw-bold">Publiées</span>
+                                    <span class="badge bg-success fs-6">{{ mesRecettes.getTotalItemCount }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center p-2 rounded" style="background-color: rgba(76, 175, 80, 0.05);">
+                                    <span class="fw-bold">Vue</span>
+                                    <span class="badge bg-success-subtle text-success fs-6">0</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center p-2 rounded" style="background-color: rgba(76, 175, 80, 0.05);">
+                                    <span class="fw-bold">J'aime</span>
+                                    <span class="badge bg-success-subtle text-success fs-6">{{ mesFavoris.getTotalItemCount }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     
-    <hr class="my-4">
-    
-    <!-- Onglets -->
+    <!-- Onglets avec 3 sections -->
     <div class="row mb-4">
         <div class="col">
-            <ul class="nav nav-pills" id="profilTabs">
+            <ul class="nav nav-pills nav-fill" id="profilTabs">
                 <li class="nav-item">
                     <a class="nav-link active" id="recettes-tab" data-bs-toggle="pill" href="#recettes" role="tab">
-                        <i class="bi bi-journal-text"></i> Mes recettes ({{ mesRecettes|length }})
+                        <i class="bi bi-journal-text"></i> Mes recettes ({{ mesRecettes.getTotalItemCount }})
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="favoris-tab" data-bs-toggle="pill" href="#favoris" role="tab">
-                        <i class="bi bi-heart"></i> Mes favoris ({{ mesFavoris|length }})
+                        <i class="bi bi-heart"></i> Mes favoris ({{ mesFavoris.getTotalItemCount }})
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="compte-tab" data-bs-toggle="pill" href="#compte" role="tab">
+                        <i class="bi bi-gear"></i> Mon compte
                     </a>
                 </li>
             </ul>
@@ -43,132 +100,227 @@
     
     <!-- Contenu des onglets -->
     <div class="tab-content">
-        <!-- Mes recettes -->
+        <!-- TAB 1 : Mes recettes -->
         <div class="tab-pane fade show active" id="recettes" role="tabpanel">
-            {% if mesRecettes|length > 0 %}
+            {% if mesRecettes.getTotalItemCount > 0 %}
                 <div class="row">
                     {% for recette in mesRecettes %}
                         <div class="col-md-6 col-lg-4 mb-4">
-                            <div class="card h-100">
+                            <div class="card h-100 shadow-sm">
                                 {% if recette.image %}
                                     <img src="/uploads/recettes/{{ recette.image }}" 
                                          class="card-img-top" 
                                          alt="{{ recette.nom }}"
                                          style="height: 200px; object-fit: cover;">
                                 {% else %}
-                                    <img src="https://source.unsplash.com/300x200/?food" 
-                                         class="card-img-top" 
-                                         alt="{{ recette.nom }}"
-                                         style="height: 200px; object-fit: cover;">
+                                    <div class="bg-secondary d-flex align-items-center justify-content-center" 
+                                         style="height: 200px;">
+                                        <i class="bi bi-image text-white" style="font-size: 3rem;"></i>
+                                    </div>
                                 {% endif %}
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ recette.nom }}</h5>
+                                    <h5 class="card-title text-success">{{ recette.nom }}</h5>
                                     
-                                    <!-- Étoiles -->
+                                    <!-- Étoiles dynamiques -->
                                     <div class="mb-2">
-                                        <i class="bi bi-star-fill text-warning"></i>
-                                        <i class="bi bi-star-fill text-warning"></i>
-                                        <i class="bi bi-star-fill text-warning"></i>
-                                        <i class="bi bi-star-fill text-warning"></i>
-                                        <i class="bi bi-star text-muted"></i>
+                                        {% set moyenne = recette.moyenneNotes %}
+                                        {% if moyenne %}
+                                            {% for i in 1..5 %}
+                                                <i class="bi bi-star{{ i <= moyenne ? '-fill' : '' }} text-warning"></i>
+                                            {% endfor %}
+                                            <span class="ms-1 small text-muted">({{ recette.commentaires|length }} avis)</span>
+                                        {% else %}
+                                            {% for i in 1..5 %}
+                                                <i class="bi bi-star text-muted"></i>
+                                            {% endfor %}
+                                            <span class="ms-1 small text-muted">(0 avis)</span>
+                                        {% endif %}
                                     </div>
                                     
-                                    <p class="card-text text-muted small">{{ recette.description|slice(0, 60) }}...</p>
+                                    <p class="card-text text-muted small">
+                                        {{ recette.description|length > 80 ? recette.description|slice(0, 80) ~ '...' : recette.description }}
+                                    </p>
                                     
-                                    <!-- Actions -->
-                                    <div class="btn-group w-100" role="group">
-                                        <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
-                                           class="btn btn-outline-success btn-sm">
-                                            <i class="bi bi-eye"></i> Voir
-                                        </a>
-                                        <a href="{{ path('app_recette_edit', {'id': recette.id}) }}" 
-                                           class="btn btn-outline-primary btn-sm">
-                                            <i class="bi bi-pencil"></i> Modifier
-                                        </a>
-                                        <button type="button" class="btn btn-outline-danger btn-sm" 
-                                                onclick="confirmerSuppression({{ recette.id }}, '{{ recette.nom }}')">
-                                            <i class="bi bi-trash"></i> Supprimer
-                                        </button>
+                                    <!-- Boutons d'action -->
+                                    <div class="row g-2">
+                                        <div class="col-4">
+                                            <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
+                                               class="btn btn-outline-success btn-sm w-100">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="{{ path('app_recette_edit', {'id': recette.id}) }}" 
+                                               class="btn btn-outline-primary btn-sm w-100">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <button type="button" 
+                                                    class="btn btn-outline-danger btn-sm w-100" 
+                                                    onclick="confirmerSuppression({{ recette.id }}, '{{ recette.nom }}')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
+                
+                <!-- Pagination -->
+                <div class="d-flex justify-content-center mt-4">
+                    {{ knp_pagination_render(mesRecettes) }}
+                </div>
+                
+                <!-- Bouton ajouter -->
+                <div class="text-center mt-4">
+                    <a href="{{ path('app_recette_new') }}" class="btn btn-success btn-lg">
+                        <i class="bi bi-plus-circle"></i> Ajouter une recette
+                    </a>
+                </div>
             {% else %}
                 <div class="text-center py-5">
                     <i class="bi bi-journal-plus text-muted" style="font-size: 4rem;"></i>
                     <h5 class="mt-3 text-muted">Aucune recette publiée</h5>
-                    <p class="text-muted">Partagez votre première recette anti-gaspi avec la communauté !</p>
+                    <p class="text-muted">Partagez votre première recette anti-gaspi !</p>
+                    <a href="{{ path('app_recette_new') }}" class="btn btn-success mt-3">
+                        <i class="bi bi-plus-circle"></i> Publier une recette
+                    </a>
                 </div>
             {% endif %}
-            
-            <!-- Bouton ajouter recette -->
-            <div class="text-center mt-4">
-                <a href="{{ path('app_recette_new') }}" class="btn btn-success btn-lg">
-                    <i class="bi bi-plus-circle"></i> Ajouter une recette
-                </a>
-            </div>
         </div>
         
-       <!-- Mes favoris -->
-<div class="tab-pane fade" id="favoris" role="tabpanel">
-    {% if mesFavoris|length > 0 %}
-        <div class="row">
-            {% for favori in mesFavoris %}
-                {% set recette = favori.recette %}
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100">
-                         {% if recette.image %}
-                            <img src="/uploads/recettes/{{ recette.image }}" 
-                                 class="card-img-top" 
-                                 alt="{{ recette.nom }}"
-                                 style="height: 200px; object-fit: cover;">
-                        {% else %}
-                            <img src="https://source.unsplash.com/300x200/?food" 
-                                 class="card-img-top" 
-                                 alt="{{ recette.nom }}"
-                                 style="height: 200px; object-fit: cover;">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ recette.nom }}</h5>
-                            
-                            <!-- Étoiles -->
-                            <div class="mb-2">
-                               {{ stars(recette.moyenneNotes) }}
-                               {% if recette.commentaires|length > 0 %}
-                                    <span class="ms-1 small text-muted">({{ recette.commentaires|length }})</span>
-                               {% endif %}
+        <!-- TAB 2 : Mes favoris -->
+        <div class="tab-pane fade" id="favoris" role="tabpanel">
+            {% if mesFavoris.getTotalItemCount > 0 %}
+                <div class="row">
+                    {% for favori in mesFavoris %}
+                        {% set recette = favori.recette %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                {% if recette.image %}
+                                    <img src="/uploads/recettes/{{ recette.image }}" 
+                                         class="card-img-top" 
+                                         alt="{{ recette.nom }}"
+                                         style="height: 200px; object-fit: cover;">
+                                {% else %}
+                                    <div class="bg-secondary d-flex align-items-center justify-content-center" 
+                                         style="height: 200px;">
+                                        <i class="bi bi-image text-white" style="font-size: 3rem;"></i>
+                                    </div>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title text-success">{{ recette.nom }}</h5>
+                                    
+                                    <!-- Étoiles dynamiques -->
+                                    <div class="mb-2">
+                                        {% set moyenne = recette.moyenneNotes %}
+                                        {% if moyenne %}
+                                            {% for i in 1..5 %}
+                                                <i class="bi bi-star{{ i <= moyenne ? '-fill' : '' }} text-warning"></i>
+                                            {% endfor %}
+                                            <span class="ms-1 small text-muted">({{ recette.commentaires|length }})</span>
+                                        {% else %}
+                                            {% for i in 1..5 %}
+                                                <i class="bi bi-star text-muted"></i>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <p class="card-text text-muted small">
+                                        {{ recette.description|length > 80 ? recette.description|slice(0, 80) ~ '...' : recette.description }}
+                                    </p>
+                                    <small class="text-muted">Ajouté le {{ favori.dateAjout|date('d/m/Y') }}</small>
+                                    
+                                    <div class="d-grid mt-3">
+                                        <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
+                                           class="btn btn-outline-success btn-sm">
+                                            <i class="bi bi-eye"></i> Voir la recette
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Pagination -->
+                <div class="d-flex justify-content-center mt-4">
+                    {{ knp_pagination_render(mesFavoris) }}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-heart text-muted" style="font-size: 4rem;"></i>
+                    <h5 class="mt-3 text-muted">Aucun favori</h5>
+                    <p class="text-muted">Ajoutez des recettes à vos favoris !</p>
+                    <a href="{{ path('app_recette_index') }}" class="btn btn-outline-success">
+                        Découvrir des recettes
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- TAB 3 : Mon compte -->
+        <div class="tab-pane fade" id="compte" role="tabpanel">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-success">
+                        <div class="card-body p-4">
+                            <h5 class="text-success mb-4">Paramètres du compte</h5>
                             
-                            <p class="card-text text-muted small">{{ recette.description|slice(0, 60) }}...</p>
-                            <small class="text-muted">Ajouté le {{ favori.dateAjout|date('d/m/Y') }}</small>
-                            
-                            <div class="d-grid mt-2">
-                                <a href="{{ path('app_recette_show', {'id': recette.id}) }}" class="btn btn-outline-success btn-sm">
-                                    <i class="bi bi-eye"></i> Voir la recette
-                                </a>
-                            </div>
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Prénom</label>
+                                    <input type="text" class="form-control" value="{{ user.prenom }}">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Nom</label>
+                                    <input type="text" class="form-control" value="{{ user.nom }}">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Email</label>
+                                    <input type="email" class="form-control" value="{{ user.email }}">
+                                </div>
+                                
+                                <hr class="my-4">
+                                
+                                <h6 class="text-success mb-3">Changer le mot de passe</h6>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Mot de passe actuel</label>
+                                    <input type="password" class="form-control">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Nouveau mot de passe</label>
+                                    <input type="password" class="form-control">
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="form-label">Confirmer le mot de passe</label>
+                                    <input type="password" class="form-control">
+                                </div>
+                                
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-secondary">Annuler</button>
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="bi bi-check-circle"></i> Enregistrer
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
         </div>
-    {% else %}
-        <div class="text-center py-5">
-            <i class="bi bi-heart text-muted" style="font-size: 4rem;"></i>
-            <h5 class="mt-3 text-muted">Aucun favori</h5>
-            <p class="text-muted">Ajoutez des recettes à vos favoris pour les retrouver facilement !</p>
-            <a href="{{ path('app_recette_index') }}" class="btn btn-outline-success">
-                Découvrir des recettes
-            </a>
-        </div>
-    {% endif %}
-</div>
     </div>
 </div>
 
-<!-- Modal de confirmation suppression -->
+<!-- Modal suppression -->
 <div class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -177,7 +329,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Êtes-vous sûr de vouloir supprimer la recette <strong id="recetteName"></strong> ?</p>
+                <p>Êtes-vous sûr de vouloir supprimer <strong id="recetteName"></strong> ?</p>
                 <p class="text-warning small">Cette action est irréversible.</p>
             </div>
             <div class="modal-footer">
@@ -193,11 +345,41 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 function confirmerSuppression(id, nom) {
     document.getElementById('recetteName').textContent = nom;
     document.getElementById('deleteForm').action = '/recette/' + id + '/delete';
     new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+
+// Graphique
+const ctx = document.getElementById('statsChart');
+if (ctx) {
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Publiées', 'Vue', 'J\'aime'],
+            datasets: [{
+                data: [{{ mesRecettes.getTotalItemCount }}, 0, {{ mesFavoris.getTotalItemCount }}],
+                backgroundColor: ['#4CAF50', '#81C784', '#C8E6C9'],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#2E7D32',
+                    padding: 12
+                }
+            },
+            cutout: '65%'
+        }
+    });
 }
 </script>
 {% endblock %}

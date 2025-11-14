@@ -438,3 +438,31 @@ nav[aria-label="Page navigation"] ul.pagination li.page-item.disabled span.page-
         padding: 0.375rem 0.5rem;
     }
 }
+
+/* Onglets profil verts */
+.nav-pills .nav-link {
+    color: #2E7D32;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #2E7D32;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #4CAF50 !important;
+    color: white !important;
+    font-weight: 600;
+}
+
+/* Égaliser hauteur des cartes profil */
+.profile-card-wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+.profile-card-wrapper .card {
+    height: 100%;
+}

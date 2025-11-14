@@ -6,11 +6,18 @@
                 <img src="{{ asset('images/logo.svg') }}" alt="Les Restes" height="40">
             </div>
             
-            <!-- Sections -->
-            <div class="col-md-2">
-                <h6 class="fw-bold mb-2">Mention légales</h6>
+            <!-- Informations legales avec liens -->
+            <div class="col-md-3 mb-3">
+                <h5>Informations legales</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{{ path('app_mentions_legales') }}">Mentions légales</a></li>
+                    <li><a href="{{ path('app_politique_confidentialite') }}">Politique de confidentialité</a></li>
+                    <li><a href="{{ path('app_cgu') }}">CGU</a></li>
+                </ul>
                 <p class="small text-muted mb-0">Copyright © 2025</p>
             </div>
+
+            <!-- Réseaux sociaux -->
             <div class="col-md-3">
                 <h6 class="fw-bold mb-2">Réseaux sociaux</h6>
                 <div class="d-flex gap-2">
@@ -20,11 +27,15 @@
                     <a href="#" class="text-muted"><i class="bi bi-facebook"></i></a>
                 </div>
             </div>
+            <!-- Nous contacter -->
             <div class="col-md-2">
                 <h6 class="fw-bold mb-2">Nous contacter</h6>
-                <p class="small text-muted mb-0">Nous-contacter@Lereste.com</p>
+               <p class="small text-muted mb-0">
+                 <a href="{{ path('app_contact') }}" class="text-muted">Nous-contacter@Lereste.com</a>
+                </p>
             </div>
-            <div class="col-md-3">
+            <!-- Adresse Postale -->
+            <div class="col-md-2">
                 <h6 class="fw-bold mb-2">Adresse Postale</h6>
                 <p class="small text-muted mb-0">666 Rue du Paradis 31000<br>Toulouse</p>
             </div>

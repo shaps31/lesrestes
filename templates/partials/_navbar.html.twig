@@ -25,7 +25,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ app.request.get('_route') == 'app_contact' ? 'active' : '' }}" 
-                       href="#contact">
+                       href="{{ path('app_contact') }}">
                         Contact
                     </a>
                 </li>

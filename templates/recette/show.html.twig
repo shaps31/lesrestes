@@ -5,25 +5,36 @@
 {% block body %}
 
  {# Section image #}
- {% include 'recette/partials/_header_image.html.twig' with {'recette': recette} %}
+ {% include 'recette/partials/_header_image.html.twig' with {
+    'recette': recette
+    } %}
 
  {# Section en-tete recette #}
- {% include 'recette/partials/_recipe_header.html.twig' with {'recette': recette, 'isFavorite': isFavorite} %}
+ {% include 'recette/partials/_recipe_header.html.twig' with {
+    'recette': recette,
+    'isFavorite': isFavorite
+    } %}
  
  {# Section ingrédient + Préparation #}
  <div class="row mb-5">
- {% include 'recette/partials/_ingredient_list.html.twig' with {'recette': recette} %} 
- {% include 'recette/partials/_preparation_steps.html.twig' with {'recette': recette} %}   
+ {% include 'recette/partials/_ingredient_list.html.twig' with {
+    'recette': recette
+    } %} 
+ {% include 'recette/partials/_preparation_steps.html.twig' with {
+    'recette': recette
+    } %}   
  </div>
  
  {# Section Commentaires #}
- {% include 'recette/partials/_comments_section.html.twig' with {'recette': recette, 
- 'commentaireForm': commentaireForm} %}   
+ {% include 'recette/partials/_comments_section.html.twig' with {
+    'recette': recette, 
+    'commentaireForm': commentaireForm
+    } %}   
 
   {# JavaScript #}
   {% block javascripts %}
   <script src="js/recipe-show.js"></script>
   {% endblock %}
 
-  {% endblock %}
+{% endblock %}
    

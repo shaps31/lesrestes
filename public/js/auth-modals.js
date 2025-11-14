@@ -7,6 +7,7 @@ function switchToRegister(e) {
     registerModal.show();
 }
 
+
 function switchToLogin(e) {
     e.preventDefault();
     const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));

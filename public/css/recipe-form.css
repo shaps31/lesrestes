@@ -1,0 +1,73 @@
+/*
+LES RESTES - Styles formulaires recettes
+*/
+
+/* Upload image stylisé */
+.image-upload-wrapper label {
+    border: 2px dashed #4CAF50;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+
+.image-upload-wrapper label:hover {
+    background-color: rgba(76, 175, 80, 0.05);
+    border-color: #45a049;
+}
+
+/* Lignes ingrédients et étapes */
+.ingredient-row, .etape-row {
+    transition: background-color 0.2s ease;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+}
+
+.ingredient-row:hover, .etape-row:hover {
+    background-color: rgba(76, 175, 80, 0.05);
+}
+
+/* Autocomplete */
+.ingredient-autocomplete-wrapper {
+    position: relative;
+}
+
+.autocomplete-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 0 0 0.375rem 0.375rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.autocomplete-item {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.autocomplete-item:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+/* Checkboxes inline */
+.form-check-inline {
+    display: inline-flex !important;
+    align-items: center !important;
+    margin-right: 1.5rem !important;
+}
+
+.form-check-inline .form-check-input {
+    margin-top: 0 !important;
+    margin-right: 0.5rem !important;
+    vertical-align: middle !important;
+}
+
+.form-check-inline .form-check-label {
+    padding-left: 0 !important;
+}

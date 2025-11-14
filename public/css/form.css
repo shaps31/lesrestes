@@ -1,0 +1,58 @@
+/* Animations ingrédients */
+.ingredient-row {
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.ingredient-row.adding {
+    animation: slideInDown 0.4s ease;
+}
+
+.ingredient-row.removing {
+    animation: slideOutUp 0.3s ease forwards;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOutUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Autocomplete */
+.autocomplete-results {
+    animation: fadeIn 0.2s ease;
+}
+
+.autocomplete-loading {
+    position: relative;
+}
+
+.autocomplete-loading::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid var(--success-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}

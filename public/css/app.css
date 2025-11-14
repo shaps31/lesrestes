@@ -13,6 +13,7 @@ Imports de tous les modules
 @import url('modals.css');
 @import url('forms.css');
 @import url('pagination.css');
+@import url('recipe-form.css');
 
 /* Utilitaires */
 @import url('utilities.css');

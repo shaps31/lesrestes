@@ -3,239 +3,27 @@
 {% block title %}{{ recette.nom }} - Les Restes{% endblock %}
 
 {% block body %}
-<div class="container-fluid px-0">
-    <!-- Image pleine largeur -->
-    {% if recette.image %}
-        <img src="/uploads/recettes/{{ recette.image }}" 
-             class="img-fluid w-100" 
-             style="max-height: 500px; object-fit: cover;" 
-             alt="{{ recette.nom }}">
-    {% endif %}
-</div>
 
-<div class="container my-4">
-    <!-- Boutons retour et favoris -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <a href="{{ path('app_recette_index') }}" class="btn btn-outline-success">
-            <i class="bi bi-arrow-left"></i> Retour aux recettes
-        </a>
-        
-        {% if app.user %}
-            <button type="button" 
-                    class="btn btn-warning" 
-                    id="favoriBtn" 
-                    data-recette-id="{{ recette.id }}"
-                    data-is-favorite="{{ isFavorite ? 'true' : 'false' }}">
-                <i class="bi bi-heart{{ isFavorite ? '-fill' : '' }}" id="favoriIcon"></i>
-                <span id="favoriText">{{ isFavorite ? 'Retirer des favoris' : 'Ajouter aux Favoris' }}</span>
-            </button>
-        {% endif %}
-    </div>
+ {# Section image #}
+ {% include 'recette/partials/_header_image.html.twig' with {'recette': recette} %}
 
-    <!-- Titre -->
-    <h1 class="text-success mb-3">{{ recette.nom }}</h1>
+ {# Section en-tete recette #}
+ {% include 'recette/partials/_recipe_header.html.twig' with {'recette': recette, 'isFavorite': isFavorite} %}
+ 
+ {# Section ingrédient + Préparation #}
+ <div class="row mb-5">
+ {% include 'recette/partials/_ingredient_list.html.twig' with {'recette': recette} %} 
+ {% include 'recette/partials/_preparation_steps.html.twig' with {'recette': recette} %}   
+ </div>
+ 
+ {# Section Commentaires #}
+ {% include 'recette/partials/_comments_section.html.twig' with {'recette': recette, 
+ 'commentaireForm': commentaireForm} %}   
 
-    <!-- Étoiles -->
-    <div class="mb-3">
-        {% set moyenne = recette.moyenneNotes %}
-        {% if moyenne %}
-            {% for i in 1..5 %}
-                {% if i <= moyenne %}
-                    <i class="bi bi-star-fill text-warning fs-5"></i>
-                {% else %}
-                    <i class="bi bi-star text-warning fs-5"></i>
-                {% endif %}
-            {% endfor %}
-            <span class="ms-2 text-muted">({{ recette.commentaires|length }} avis)</span>
-        {% else %}
-            {% for i in 1..5 %}
-                <i class="bi bi-star text-warning fs-5"></i>
-            {% endfor %}
-            <span class="ms-2 text-muted">({{ recette.commentaires|length }} avis)</span>
-        {% endif %}
-    </div>
+  {# JavaScript #}
+  {% block javascripts %}
+  <script src="js/recipe-show.js"></script>
+  {% endblock %}
 
-    <!-- Icônes temps/difficulté/personnes -->
-    <div class="d-flex gap-4 mb-3">
-        <div>
-            <i class="bi bi-clock text-success"></i>
-            <span class="ms-1">{{ recette.tempsCuisson }}min</span>
-        </div>
-        <div>
-            <i class="bi bi-trophy text-success"></i>
-            <span class="ms-1">
-                {% if recette.difficulte == 1 %}Facile
-                {% elseif recette.difficulte == 2 %}Moyen
-                {% else %}Difficile{% endif %}
-            </span>
-        </div>
-        <div>
-            <i class="bi bi-people text-success"></i>
-            <span class="ms-1">{{ recette.nombrePersonnes }}pers.</span>
-        </div>
-    </div>
-
-    <!-- Auteur et date -->
-    <p class="text-muted small mb-4">
-        Par {{ recette.user.prenom }} {{ recette.user.nom|first }}. - 
-        {{ recette.dateCreation|date('d M Y') }}
-    </p>
-
-    <!-- Section 2 colonnes -->
-    <div class="row mb-5">
-        <!-- Ingrédients -->
-        <div class="col-lg-6 mb-4">
-            <h3 class="text-success mb-3">Ingrédients</h3>
-            {% for recetteIngredient in recette.recetteIngredients %}
-                <div class="form-check mb-2">
-                    <input class="form-check-input" 
-                           type="checkbox" 
-                           id="ingredient_{{ loop.index }}">
-                    <label class="form-check-label" for="ingredient_{{ loop.index }}">
-                        {{ recetteIngredient.quantite }}{{ recetteIngredient.ingredient.nom }}
-                    </label>
-                </div>
-            {% endfor %}
-        </div>
-
-        <!-- Préparation -->
-        <div class="col-lg-6 mb-4">
-            <h3 class="text-success mb-3">Préparation</h3>
-            {% set etapes = recette.etapes|split('\n') %}
-            <ol class="ps-3">
-                {% for etape in etapes %}
-                    {% set cleanEtape = etape|trim|replace({
-                        '1. ': '', '2. ': '', '3. ': '', '4. ': '', '5. ': '',
-                        '6. ': '', '7. ': '', '8. ': '', '9. ': '', '10. ': ''
-                    }) %}
-                    {% if cleanEtape %}
-                        <li class="mb-2">{{ cleanEtape }}</li>
-                    {% endif %}
-                {% endfor %}
-            </ol>
-        </div>
-    </div>
-
-    <!-- Section Commentaires -->
-    <div class="mb-5">
-        <h3 class="text-success mb-4">Commentaires ({{ recette.commentaires|length }})</h3>
-
-        <!-- Formulaire -->
-        {% if app.user %}
-            <div class="mb-4">
-                {{ form_start(commentaireForm) }}
-                    <div class="mb-3">
-                        {{ form_widget(commentaireForm.contenu, {
-                            'attr': {'placeholder': 'Laissez votre avis sur cette recette...'}
-                        }) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_label(commentaireForm.note, 'Votre note :') }}
-                        <div class="d-flex gap-2">
-                            {% for choice in commentaireForm.note.vars.choices %}
-                                <input type="radio" 
-                                       class="btn-check" 
-                                       name="{{ commentaireForm.note.vars.full_name }}" 
-                                       id="note{{ choice.value }}" 
-                                       value="{{ choice.value }}">
-                                <label class="btn btn-outline-warning btn-sm" for="note{{ choice.value }}">
-                                    <i class="bi bi-star-fill"></i> {{ choice.value }}
-                                </label>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-warning">
-                        Publier le commentaire
-                    </button>
-                {{ form_end(commentaireForm) }}
-            </div>
-        {% endif %}
-
-        <!-- Liste commentaires -->
-        {% for commentaire in recette.commentaires|reverse %}
-            <div class="d-flex mb-3 pb-3 border-bottom">
-                <div class="me-3">
-                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" 
-                         style="width: 50px; height: 50px; font-size: 1.5rem;">
-                        {{ commentaire.user.prenom|slice(0, 1)|upper }}
-                    </div>
-                </div>
-                <div class="flex-grow-1">
-                    <div class="d-flex justify-content-between mb-2">
-                        <div>
-                            <h6 class="mb-0">{{ commentaire.user.prenom }} {{ commentaire.user.nom|slice(0, 1) }}.</h6>
-                            <small class="text-muted">{{ commentaire.dateCreation|date('d/m/Y') }}</small>
-                        </div>
-                        <div>
-                            {% for i in 1..5 %}
-                                <i class="bi bi-star{{ i <= commentaire.note ? '-fill' : '' }} text-warning"></i>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <p class="mb-0">{{ commentaire.contenu }}</p>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-</div>
-
-<!-- JavaScript -->
-<script>
-{% if app.user %}
-document.getElementById('favoriBtn').addEventListener('click', async function() {
-    const btn = this;
-    const recetteId = btn.dataset.recetteId;
-    const icon = document.getElementById('favoriIcon');
-    const text = document.getElementById('favoriText');
-    
-    btn.disabled = true;
-    
-    try {
-        const response = await fetch(`/api/favori/toggle/${recetteId}`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'}
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            if (data.isFavorite) {
-                icon.classList.add('bi-heart-fill');
-                icon.classList.remove('bi-heart');
-                text.textContent = 'Retirer des favoris';
-            } else {
-                icon.classList.add('bi-heart');
-                icon.classList.remove('bi-heart-fill');
-                text.textContent = 'Ajouter aux Favoris';
-            }
-            icon.style.transform = 'scale(1.3)';
-            setTimeout(() => icon.style.transform = 'scale(1)', 200);
-        }
-    } catch (error) {
-        console.error('Erreur:', error);
-    } finally {
-        btn.disabled = false;
-    }
-});
-{% endif %}
-
-document.querySelectorAll('.form-check-input').forEach(checkbox => {
-    const key = 'recette_{{ recette.id }}_' + checkbox.id;
-    if (localStorage.getItem(key) === 'true') {
-        checkbox.checked = true;
-        checkbox.nextElementSibling.style.textDecoration = 'line-through';
-        checkbox.nextElementSibling.style.color = '#999';
-    }
-    checkbox.addEventListener('change', function() {
-        localStorage.setItem(key, this.checked);
-        if (this.checked) {
-            this.nextElementSibling.style.textDecoration = 'line-through';
-            this.nextElementSibling.style.color = '#999';
-        } else {
-            this.nextElementSibling.style.textDecoration = 'none';
-            this.nextElementSibling.style.color = '#333';
-        }
-    });
-});
-</script>
-{% endblock %}
+  {% endblock %}
+   

@@ -6,57 +6,9 @@
 <div class="container">
     <h1 class="mb-4">Toutes les recettes</h1>
     
-    <!-- Formulaire de recherche avancée -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="card-title mb-0">
-                    <i class="bi bi-funnel"></i> Recherche avancée
-                </h5>
-                <button class="btn btn-outline-secondary btn-sm" 
-                        type="button" 
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#searchCollapse">
-                    <i class="bi bi-chevron-down"></i>
-                </button>
-            </div>
-            
-            <div class="collapse" id="searchCollapse">
-                {{ form_start(searchForm, {'attr': {'class': 'row g-3'}}) }}
-                    <div class="col-md-4">
-                        {{ form_row(searchForm.query, {'label_attr': {'class': 'form-label'}}) }}
-                    </div>
-                    
-                    <div class="col-md-2">
-                        {{ form_row(searchForm.categorie, {'label_attr': {'class': 'form-label'}}) }}
-                    </div>
-                    
-                    <div class="col-md-2">
-                        {{ form_row(searchForm.difficulte, {'label_attr': {'class': 'form-label'}}) }}
-                    </div>
-                    
-                    <div class="col-md-2">
-                        {{ form_row(searchForm.tempsMax, {'label_attr': {'class': 'form-label'}}) }}
-                    </div>
-                    
-                    <div class="col-md-2">
-                        {{ form_row(searchForm.tri, {'label_attr': {'class': 'form-label'}}) }}
-                    </div>
-                    
-                    <div class="col-12 d-flex gap-2">
-                        <button type="submit" class="btn btn-success">
-                            <i class="bi bi-search"></i> Rechercher
-                        </button>
-                        <a href="{{ path('app_recette_index') }}" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-clockwise"></i> Reset
-                        </a>
-                    </div>
-                {{ form_end(searchForm) }}
-            </div>
-        </div>
-    </div>
+    {{ include('recette/partials/_search_form.html.twig') }}
     
-    <!-- Résultats -->
+    <!-- En tete Résultats -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3>{{ recettes.getTotalItemCount() }} recette(s) trouvée(s)</h3>
         {% if app.user %}
@@ -66,124 +18,22 @@
         {% endif %}
     </div>
     
-    <!-- Grille des recettes -->
-    <div class="row">
-        {% for recette in recettes %}
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100">
-                    <!-- Image -->
-                    {% if recette.image %}
-                        <img src="/uploads/recettes/{{ recette.image }}" 
-                             class="card-img-top" 
-                             style="height: 250px; object-fit: cover;" 
-                             alt="{{ recette.nom }}">
-                    {% else %}
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
-                             style="height: 250px;">
-                            <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
-                        </div>
-                    {% endif %}
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">{{ recette.nom }}</h5>
-                        
-                        <!-- Étoiles et avis -->
-                        <div class="mb-2">
-                            {% if recette.moyenneNotes %}
-                                {% for i in 1..5 %}
-                                    {% if i <= recette.moyenneNotes %}
-                                        <i class="bi bi-star-fill text-warning"></i>
-                                    {% else %}
-                                        <i class="bi bi-star text-warning"></i>
-                                    {% endif %}
-                                {% endfor %}
-                            {% else %}
-                                {% for i in 1..5 %}
-                                    <i class="bi bi-star text-warning"></i>
-                                {% endfor %}
-                            {% endif %}
-                            {% if recette.commentaires|length > 0 %}
-                                <span class="ms-1 small text-muted">({{ recette.commentaires|length }})</span>
-                            {% else %}
-                                <span class="text-muted small">Pas encore d'avis</span>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Description -->
-                        <p class="card-text text-muted small">
-                            {{ recette.description|length > 100 ? recette.description|slice(0, 100) ~ '...' : recette.description }}
-                        </p>
-                        
-                        <!-- Infos rapides -->
-                        <div class="row text-center small text-muted mb-3">
-                            <div class="col-4">
-                                <i class="bi bi-clock"></i> {{ recette.tempsCuisson }}min
-                            </div>
-                            <div class="col-4">
-                                <i class="bi bi-person-gear"></i> 
-                                {% if recette.difficulte == 1 %}Facile
-                                {% elseif recette.difficulte == 2 %}Moyen
-                                {% else %}Difficile{% endif %}
-                            </div>
-                            <div class="col-4">
-                                <i class="bi bi-people"></i> {{ recette.nombrePersonnes }}
-                            </div>
-                        </div>
-                        
-                        <!-- Auteur et bouton -->
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-muted">Par {{ recette.user.prenom }}</small>
-                            <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
-                               class="btn btn-outline-success btn-sm">
-                                <i class="bi bi-eye"></i> Voir
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-    
-    {% if recettes|length == 0 %}
-        <div class="text-center py-5">
-            <i class="bi bi-search fs-1 text-muted"></i>
-            <h4 class="text-muted mt-3">Aucune recette trouvée</h4>
-            <p class="text-muted">Essayez de modifier vos critères de recherche</p>
-            <a href="{{ path('app_recette_index') }}" class="btn btn-success">
-                Voir toutes les recettes
-            </a>
-        </div>
-    {% endif %}
-    
-    <!-- Pagination -->
-   {% if recettes.pageCount > 1 %}
-        <div class="d-flex justify-content-center mt-4">
-            {{ knp_pagination_render(recettes) }}
-        </div>
-    {% endif %}
-    
-    <!-- Stats -->
-    <div class="text-center mt-3 text-muted small">
-        {% set pagination = recettes.getPaginationData() %}
-        Affichage de {{ pagination.firstItemNumber }} à {{ pagination.lastItemNumber }} sur {{ recettes.getTotalItemCount() }} recette(s)
-    </div>
+    {# Liste des recettes #}
+    {% if recettes|length > 0 %}
+    <div class="row ">
+    {% for recette in recettes %}
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        {{ include('recette/partials/_recipe_card.html.twig') }}
+      </div>
+    {% endfor %}
 </div>
-
-
-
-<script>
-// Ouvrir automatiquement le panneau si des filtres sont appliqués
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const hasFilters = Array.from(urlParams.keys()).some(key => 
-        key.startsWith('recherche_avancee') && urlParams.get(key)
-    );
+   
+    {# Stats de pagination #}
+      {% include'recette/partials/_pagination_stats.html.twig' with {'recettes': recettes} %} 
+   {% else %}
+       {% include'recette/partials/_no_results.html.twig' with {'recettes': recettes} %}
+    {% endif %}
+ </div>
     
-    if (hasFilters) {
-        new bootstrap.Collapse(document.getElementById('searchCollapse'), {
-            show: true
-        });
-    }
-});
-</script>
+
 {% endblock %}

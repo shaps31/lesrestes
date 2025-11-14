@@ -1,0 +1,13 @@
+{# Stats de pagination
+  -Variable requises: recette : objet paginé
+#}
+{% if recettes.pageCount > 1 %}
+   <div class="d-flex justify-content-center mt-4">
+       {{ knp_pagination_render(recettes) }}
+   </div>
+{% endif %}
+
+<div class="text-center mt-3 text-muted small">
+   {% set pagination = recettes.getPaginationData() %}
+   Affichage de {{ pagination.firstItemNumber }} à {{ pagination.lastItemNumber }} sur {{ recettes.getTotalItemCount() }} recette(s)
+</div>

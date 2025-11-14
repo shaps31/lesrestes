@@ -1,0 +1,21 @@
+{#Stats de pagination
+  -Variable requises: recette
+#}
+
+ <!-- Préparation -->
+        <div class="col-lg-6 mb-4">
+            <h3 class="text-success mb-3">Préparation</h3>
+            {% set etapes = recette.etapes|split('\n') %}
+            <ol class="ps-3">
+                {% for etape in etapes %}
+                    {% set cleanEtape = etape|trim|replace({
+                        '1. ': '', '2. ': '', '3. ': '', '4. ': '', '5. ': '',
+                        '6. ': '', '7. ': '', '8. ': '', '9. ': '', '10. ': ''
+                    }) %}
+                    {% if cleanEtape %}
+                        <li class="mb-2">{{ cleanEtape }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ol>
+        </div>
+    </div>

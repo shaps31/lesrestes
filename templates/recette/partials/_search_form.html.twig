@@ -1,0 +1,65 @@
+<!-- Formulaire de recherche avancée -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-funnel"></i> Recherche avancée
+                </h5>
+                <button class="btn btn-outline-secondary btn-sm" 
+                        type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#searchCollapse">
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+            </div>
+            
+            <div class="collapse" id="searchCollapse">
+                {{ form_start(searchForm, {'attr': {'class': 'row g-3'}}) }}
+                    <div class="col-md-4">
+                        {{ form_row(searchForm.query, {'label_attr': {'class': 'form-label'}}) }}
+                    </div>
+                    
+                    <div class="col-md-2">
+                        {{ form_row(searchForm.categorie, {'label_attr': {'class': 'form-label'}}) }}
+                    </div>
+                    
+                    <div class="col-md-2">
+                        {{ form_row(searchForm.difficulte, {'label_attr': {'class': 'form-label'}}) }}
+                    </div>
+                    
+                    <div class="col-md-2">
+                        {{ form_row(searchForm.tempsMax, {'label_attr': {'class': 'form-label'}}) }}
+                    </div>
+                    
+                    <div class="col-md-2">
+                        {{ form_row(searchForm.tri, {'label_attr': {'class': 'form-label'}}) }}
+                    </div>
+                    
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-search"></i> Rechercher
+                        </button>
+                        <a href="{{ path('app_recette_index') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-clockwise"></i> Reset
+                        </a>
+                    </div>
+                {{ form_end(searchForm) }}
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    // Ouvrir automatiquement le panneau si des filtres sont appliqués
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const hasFilters = Array.from(urlParams.keys()).some(key => 
+                key.startsWith('recherche_avancee') && urlParams.get(key)
+            );
+    
+            if (hasFilters) {
+                new bootstrap.Collapse(document.getElementById('searchCollapse'), {
+                    show: true
+                });
+            }
+        });
+    </script>

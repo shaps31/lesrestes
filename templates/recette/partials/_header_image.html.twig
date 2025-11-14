@@ -1,0 +1,14 @@
+{# Image pleine lageur en haut de page Variable requise : recette #}
+
+<div class="container-fluid px-0">
+    {% if recette.image %}
+        <img src="/uploads/recettes/{{ recette.image }}" 
+             class="img-fluid w-100" 
+             style="max-height: 500px; object-fit: cover;" 
+             alt="{{ recette.nom }}">
+             {% else %}
+             <div class="bg-light d-flex align-items-center justify-content-center" style="height: 300px;">
+            <i class="bi bi-image text-muted" style="font-size: 5rem;"></i>
+        </div>
+    {% endif %}
+</div>

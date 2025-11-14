@@ -1,0 +1,50 @@
+/*
+LES RESTES - Cartes recettes
+*/
+
+.card {
+    background-color: var(--alt-background-color);
+    border: 1px solid rgba(76, 175, 80, 0.1);
+    transition: all 0.3s ease;
+    border-radius: 0.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.15);
+    border-color: var(--success-color);
+}
+
+.card-body {
+    background-color: var(--alt-background-color);
+}
+
+.card-title {
+    color: var(--navigation-title-color);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+/* Images dans les cartes */
+.card-img-top {
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+/* Badges dans cartes */
+.card .badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Étoiles de notation */
+.bi-star-fill.text-warning,
+.bi-star.text-warning {
+    color: var(--cta-color) !important;
+}
+
+/* Responsive cards */
+@media (max-width: 768px) {
+    .card:hover {
+        transform: none;
+    }
+}

@@ -1,0 +1,38 @@
+/*
+LES RESTES - Footer
+*/
+
+footer {
+    background-color: var(--background-color) !important;
+    margin-top: 5rem;
+}
+
+footer h6 {
+    color: var(--navigation-title-color);
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+footer p {
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+footer a {
+    color: #6c757d;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--success-color);
+}
+
+footer .bi {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    footer .row > div {
+        margin-bottom: 1.5rem;
+    }
+}

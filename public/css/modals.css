@@ -1,0 +1,94 @@
+/*
+LES RESTES - Modales authentification
+*/
+
+/* Fond modal transparent avec bordure verte */
+.modal-content {
+    background-color: rgba(252, 248, 245, 0.3) !important;
+    border: 2px solid var(--success-color) !important;
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+/* Header transparent */
+.modal-header {
+    background-color: transparent !important;
+    border-bottom: none !important;
+}
+
+/* Body transparent */
+.modal-body {
+    background-color: transparent !important;
+}
+
+/* Titre modal en gras avec ombre */
+.modal-body h3 {
+    font-weight: bold !important;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+/* Labels avec ombre pour lisibilité */
+.modal-body .form-label {
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Backdrop */
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Inputs dans modales */
+.modal-body .form-control {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.modal-body .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+}
+
+/* Boutons dans modales */
+.modal-body .btn-warning {
+    background-color: var(--cta-color);
+    border-color: var(--cta-color);
+    color: white;
+    font-weight: 600;
+}
+
+.modal-body .btn-warning:hover {
+    background-color: #e07a00;
+    border-color: #e07a00;
+}
+
+/* Liens dans modales */
+.modal-body a.text-success {
+    color: var(--success-color) !important;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.modal-body a.text-success:hover {
+    color: var(--navigation-title-color) !important;
+    text-decoration: underline;
+}
+
+/* Texte muted lisible */
+.modal-body .text-muted {
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Bouton close */
+.modal-header .btn-close {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.modal-header .btn-close:hover {
+    opacity: 1;
+}

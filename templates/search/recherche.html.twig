@@ -75,60 +75,62 @@
         </div>
     </div>
 
-    <!--  RÉSULTATS -->
-    {% if recettes|length > 0 %}
+    <!-- RÉSULTATS -->
+    {% if recettes.getTotalItemCount > 0 %}
         <h2 class="mb-4 text-center">
-            Recettes possibles avec vos ingrédients ({{ recettes|length }})
+            Recettes possibles avec vos ingrédients ({{ recettes.getTotalItemCount }})
         </h2>
-        
+    
         <div class="row">
-            {% for recette in recettes %}
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <img src="{{ recette.image ? '/uploads/recettes/' ~ recette.image : '/images/placeholder.jpg' }}" 
-                             class="card-img-top" style="height: 250px; object-fit: cover;" 
-                             alt="{{ recette.nom }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ recette.nom }}</h5>
-                            
-                            <!-- Badge ingrédients correspondants -->
-                            {% set matchCount = 0 %}
-                            {% for recetteIngredient in recette.recetteIngredients %}
-                                {% if recetteIngredient.ingredient in selectedIngredients %}
-                                    {% set matchCount = matchCount + 1 %}
-                                {% endif %}
-                            {% endfor %}
-                            
-                            {% if matchCount > 0 %}
-                                <span class="badge bg-success mb-2">
-                                    {{ matchCount }}/{{ recette.recetteIngredients|length }} ingrédients correspondants
-                                </span>
+        {% for recette in recettes %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <img src="{{ recette.image ? '/uploads/recettes/' ~ recette.image : '/images/placeholder.jpg' }}" 
+                         class="card-img-top" style="height: 250px; object-fit: cover;" 
+                         alt="{{ recette.nom }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recette.nom }}</h5>
+                        
+                        <!-- Badge ingrédients correspondants -->
+                        {% set matchCount = 0 %}
+                        {% for recetteIngredient in recette.recetteIngredients %}
+                            {% if recetteIngredient.ingredient in selectedIngredients %}
+                                {% set matchCount = matchCount + 1 %}
                             {% endif %}
-                            
-                            <p class="card-text text-muted small">{{ recette.description|slice(0, 80) }}...</p>
-                            
-                            <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
-                               class="btn btn-outline-success btn-sm">
-                                <i class="bi bi-eye"></i> Voir la recette
-                            </a>
-                        </div>
+                        {% endfor %}
+                        
+                        {% if matchCount > 0 %}
+                            <span class="badge bg-success mb-2">
+                                {{ matchCount }}/{{ recette.recetteIngredients|length }} ingrédients correspondants
+                            </span>
+                        {% endif %}
+                        
+                        <p class="card-text text-muted small">{{ recette.description|slice(0, 80) }}...</p>
+                        
+                        <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
+                           class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-eye"></i> Voir la recette
+                        </a>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-    {% elseif selectedIngredients|length > 0 or app.request.query.get('q') %}
-        <div class="alert alert-info text-center">
-            <i class="bi bi-info-circle"></i> Aucune recette trouvée avec ces ingrédients.
-            <br><small>Essayez avec moins d'ingrédients ou vérifiez l'orthographe.</small>
-        </div>
-    {% endif %}
-</div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination des recettes -->
+    <div class="d-flex justify-content-center mt-4">
+        {{ knp_pagination_render(recettes) }}
+    </div>
+    
+{% elseif selectedIngredients|length > 0 or app.request.query.get('q') %}
+    <div class="alert alert-info text-center">
+        <i class="bi bi-info-circle"></i> Aucune recette trouvée avec ces ingrédients.
+        <br><small>Essayez avec moins d'ingrédients ou vérifiez l'orthographe.</small>
+    </div>
+{% endif %}
 
 
-{# Afficher la navigation de pagination #}
-  <div class="d-flex justify-content-center mt-4">
-            {{ knp_pagination_render(ingredients) }}
-        </div>
+
 
 
 <script>

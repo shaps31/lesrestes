@@ -22,9 +22,4 @@ class ErrorController extends AbstractController
         ], new Response('', $statusCode));
     }
 
-    #[Route('/test-404', name: 'app_test_404')]
-    public function test404(): Response
-    {
-        throw $this->createNotFoundException('Page de test 404');
-    }
 }

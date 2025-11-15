@@ -93,7 +93,7 @@ class ContactType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Pas d'entité liée, juste un formulaire de contact
+            
         ]);
     }
 }

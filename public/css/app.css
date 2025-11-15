@@ -15,5 +15,8 @@ Imports de tous les modules
 @import url('pagination.css');
 @import url('recipe-form.css');
 
+/* Responsive */
+@import url('responsive.css');
+
 /* Utilitaires */
 @import url('utilities.css');

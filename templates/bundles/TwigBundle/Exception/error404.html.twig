@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page non trouvee - Les Restes{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row min-vh-100 align-items-center">
+        <div class="col-lg-8 mx-auto text-center">
+            <!-- Icône 404 -->
+            <div class="mb-4">
+                <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 8rem;"></i>
+            </div>
+
+            <!-- Message principal -->
+            <h1 class="display-1 fw-bold text-success mb-3">404</h1>
+            <h2 class="mb-4">Oups ! Cette page n'existe pas</h2>
+            
+            <p class="lead text-muted mb-5">
+                Desolee, la page que vous recherchez semble avoir disparu.<br>
+                Elle a peut-etre ete supprimee ou l'URL est incorrecte.
+            </p>
+
+            <!-- Suggestions -->
+            <div class="row g-3 mb-5">
+                <div class="col-md-4">
+                    <div class="card h-100 border-success shadow-sm hover-lift">
+                        <div class="card-body text-center">
+                            <i class="bi bi-house-fill text-success fs-1 mb-3"></i>
+                            <h5 class="card-title">Accueil</h5>
+                            <p class="card-text text-muted small">Retourner a la page d'accueil</p>
+                            <a href="{{ path('app_home') }}" class="btn btn-outline-success btn-sm">
+                                Aller a l'accueil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 border-success shadow-sm hover-lift">
+                        <div class="card-body text-center">
+                            <i class="bi bi-book-fill text-success fs-1 mb-3"></i>
+                            <h5 class="card-title">Recettes</h5>
+                            <p class="card-text text-muted small">Decouvrir toutes les recettes</p>
+                            <a href="{{ path('app_recette_index') }}" class="btn btn-outline-success btn-sm">
+                                Voir les recettes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 border-success shadow-sm hover-lift">
+                        <div class="card-body text-center">
+                            <i class="bi bi-envelope-fill text-success fs-1 mb-3"></i>
+                            <h5 class="card-title">Contact</h5>
+                            <p class="card-text text-muted small">Besoin d'aide ? Contactez-nous</p>
+                            <a href="{{ path('app_contact') }}" class="btn btn-outline-success btn-sm">
+                                Nous contacter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bouton retour -->
+            <div class="mt-4">
+                <button onclick="history.back()" class="btn btn-secondary me-2">
+                    <i class="bi bi-arrow-left"></i> Retour
+                </button>
+                <a href="{{ path('app_home') }}" class="btn btn-success">
+                    <i class="bi bi-house"></i> Accueil
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+</style>
+{% endblock %}

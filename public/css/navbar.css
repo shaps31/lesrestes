@@ -1,0 +1,82 @@
+/*
+LES RESTES - Navigation
+*/
+
+/* Navbar */
+.navbar {
+    background-color: var(--background-color) !important;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: var(--success-color) !important;
+    transition: transform 0.2s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+/* Navigation links */
+.navbar-nav .nav-link {
+    position: relative;
+    transition: color 0.3s ease;
+    padding: 0.5rem 1rem;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--success-color) !important;
+}
+
+/* Onglet actif avec trait vert */
+.navbar-nav .nav-link.active {
+    color: var(--success-color) !important;
+    font-weight: 600;
+}
+
+.navbar-nav .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--success-color);
+    border-radius: 2px;
+}
+
+/* Boutons navbar */
+.navbar .btn-outline-success {
+    border-color: var(--success-color);
+    color: var(--success-color);
+}
+
+.navbar .btn-outline-success:hover {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.navbar .btn-success {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.navbar .btn-success:hover {
+    background-color: var(--navigation-title-color);
+}
+
+.navbar .btn-outline-danger:hover {
+    background-color: var(--error-color);
+    color: white;
+}
+
+/* Responsive navbar */
+@media (max-width: 991px) {
+    .navbar-nav {
+        padding-top: 1rem;
+    }
+    
+    .navbar-nav .nav-link.active::after {
+        display: none;
+    }
+}

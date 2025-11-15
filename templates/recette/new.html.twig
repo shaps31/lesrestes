@@ -45,16 +45,15 @@
             </div>
             <!-- Temps et personnes -->
             <div class="row mb-3">
-                <div class="col-md-6">
-                    {{ form_label(form.tempsCuisson, 'Temps de préparation (min.)', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                    {{ form_label(form.tempsCuisson, 'Temps de preparation (min.)', {'label_attr': {'class': 'form-label fw-bold'}}) }}
                     <div class="input-group">
                         {{ form_widget(form.tempsCuisson, {'attr': {'class': 'form-control', 'placeholder': '15'}}) }}
                         <span class="input-group-text">minutes</span>
                     </div>
                     {{ form_errors(form.tempsCuisson) }}
                 </div>
-                
-                <div class="col-md-6">
+                <div class="col-12 col-md-6">
                     {{ form_label(form.nombrePersonnes, 'Nombre de personnes', {'label_attr': {'class': 'form-label fw-bold'}}) }}
                     {{ form_widget(form.nombrePersonnes, {'attr': {'class': 'form-control', 'placeholder': '4'}}) }}
                     {{ form_errors(form.nombrePersonnes) }}

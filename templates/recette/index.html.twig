@@ -22,7 +22,7 @@
     {% if recettes|length > 0 %}
       <div class="row ">
        {% for recette in recettes %}
-      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="col-12 col-sm-6 col-lg-4 mb-4">
         {{ include('recette/partials/_recipe_card.html.twig') }}
       </div>
        {% endfor %}

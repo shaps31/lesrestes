@@ -1,0 +1,103 @@
+/*
+LES RESTES - Classes utilitaires
+*/
+
+/* Boutons */
+.btn-primary {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.btn-success:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+}
+
+.btn-warning {
+    background-color: var(--cta-color);
+    border-color: var(--cta-color);
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #e07a00;
+    border-color: #e07a00;
+}
+
+.btn-warning:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Messages flash */
+.alert-success {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-color: var(--success-color);
+    color: var(--navigation-title-color);
+}
+
+.alert-danger {
+    background-color: rgba(255, 56, 60, 0.1);
+    border-color: var(--error-color);
+    color: #721c24;
+}
+
+.flash-message {
+    animation: slideInDown 0.5s ease;
+    margin-bottom: 1rem;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: translateY(-50%) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+/* Helpers */
+.text-success {
+    color: var(--success-color) !important;
+}
+
+.bg-success {
+    background-color: var(--success-color) !important;
+}
+
+.border-success {
+    border-color: var(--success-color) !important;
+}

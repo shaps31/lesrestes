@@ -1,0 +1,70 @@
+{# En-tete de recette: titre, étoiles, icônes temps/difficulté/personnes, auteur et date
+
+Variable requise: recette, isFavorite #}
+<div class="container my-4">
+    <!-- Boutons retour et favoris -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{{ path('app_recette_index') }}" class="btn btn-outline-success">
+            <i class="bi bi-arrow-left"></i> Retour aux recettes
+        </a>
+        
+        {% if app.user %}
+            <button type="button" 
+                    class="btn btn-warning" 
+                    id="favoriBtn" 
+                    data-recette-id="{{ recette.id }}"
+                    data-is-favorite="{{ isFavorite ? 'true' : 'false' }}">
+                <i class="bi bi-heart{{ isFavorite ? '-fill' : '' }}" id="favoriIcon"></i>
+                <span id="favoriText">{{ isFavorite ? 'Retirer des favoris' : 'Ajouter aux Favoris' }}</span>
+            </button>
+        {% endif %}
+    </div>
+
+    <!-- Titre -->
+    <h1 class="text-success mb-3">{{ recette.nom }}</h1>
+
+    <!-- Étoiles -->
+    <div class="mb-3">
+        {% set moyenne = recette.moyenneNotes %}
+        {% if moyenne %}
+            {% for i in 1..5 %}
+                {% if i <= moyenne %}
+                    <i class="bi bi-star-fill text-warning fs-5"></i>
+                {% else %}
+                    <i class="bi bi-star text-warning fs-5"></i>
+                {% endif %}
+            {% endfor %}
+            <span class="ms-2 text-muted">({{ recette.commentaires|length }} avis)</span>
+        {% else %}
+            {% for i in 1..5 %}
+                <i class="bi bi-star text-warning fs-5"></i>
+            {% endfor %}
+            <span class="ms-2 text-muted">({{ recette.commentaires|length }} avis)</span>
+        {% endif %}
+    </div>
+
+    <!-- Icônes temps/difficulté/personnes -->
+    <div class="d-flex gap-4 mb-3">
+        <div>
+            <i class="bi bi-clock text-success"></i>
+            <span class="ms-1">{{ recette.tempsCuisson }}min</span>
+        </div>
+        <div>
+            <i class="bi bi-trophy text-success"></i>
+            <span class="ms-1">
+                {% if recette.difficulte == 1 %}Facile
+                {% elseif recette.difficulte == 2 %}Moyen
+                {% else %}Difficile{% endif %}
+            </span>
+        </div>
+        <div>
+            <i class="bi bi-people text-success"></i>
+            <span class="ms-1">{{ recette.nombrePersonnes }}pers.</span>
+        </div>
+    </div>
+
+    <!-- Auteur et date -->
+    <p class="text-muted small mb-4">
+        Par {{ recette.user.prenom }} {{ recette.user.nom|first }}. - 
+        {{ recette.dateCreation|date('d M Y') }}
+    </p>

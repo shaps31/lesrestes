@@ -78,21 +78,23 @@
     <!-- Onglets avec 3 sections -->
     <div class="row mb-4">
         <div class="col">
-            <ul class="nav nav-pills nav-fill" id="profilTabs">
-                <li class="nav-item">
-                    <a class="nav-link active" id="recettes-tab" data-bs-toggle="pill" href="#recettes" role="tab">
-                        <i class="bi bi-journal-text"></i> Mes recettes ({{ mesRecettes.getTotalItemCount }})
-                    </a>
+            <ul class="nav nav-tabs nav-fill mb-4" id="profilTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="recettes-tab" data-bs-toggle="tab" data-bs-target="#recettes" type="button">
+                        <i class="bi bi-book"></i>
+                        <span class="d-none d-sm-inline">Mes</span> Recettes
+                    </button>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="favoris-tab" data-bs-toggle="pill" href="#favoris" role="tab">
-                        <i class="bi bi-heart"></i> Mes favoris ({{ mesFavoris.getTotalItemCount }})
-                    </a>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="favoris-tab" data-bs-toggle="tab" data-bs-target="#favoris" type="button">
+                        <i class="bi bi-heart"></i>
+                        <span class="d-none d-sm-inline">Mes</span> Favoris
+                    </button>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="compte-tab" data-bs-toggle="pill" href="#compte" role="tab">
-                        <i class="bi bi-gear"></i> Mon compte
-                    </a>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="parametres-tab" data-bs-toggle="tab" data-bs-target="#parametres" type="button">
+                        <i class="bi bi-gear"></i> Parametres
+                    </button>
                 </li>
             </ul>
         </div>

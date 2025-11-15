@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des ingredients - Admin{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-success">Gestion des ingredients</h1>
+        <a href="{{ path('app_admin_ingredient_new') }}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Nouvel ingredient
+        </a>
+    </div>
+
+    <!-- Barre de recherche -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-10">
+                    <input type="text" 
+                           name="search" 
+                           class="form-control" 
+                           placeholder="Rechercher un ingredient..."
+                           value="{{ search }}">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Rechercher
+                    </button>
+                </div>
+            </form>
+            {% if search %}
+                <div class="mt-2">
+                    <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-sm btn-outline-secondary">
+                        <i class="bi bi-x"></i> Effacer la recherche
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Statistiques -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card border-success">
+                <div class="card-body text-center">
+                    <h3 class="text-success">{{ ingredients.getTotalItemCount() }}</h3>
+                    <p class="text-muted mb-0">Total ingredients</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table des ingrédients -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            {% if ingredients|length > 0 %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-success">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Unite par defaut</th>
+                                <th>Utilise dans</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ingredient in ingredients %}
+                                <tr>
+                                    <td>{{ ingredient.id }}</td>
+                                    <td>
+                                        <strong>{{ ingredient.nom }}</strong>
+                                    </td>
+                                    <td>
+                                        {% if ingredient.unite %}
+                                            <span class="badge bg-secondary">{{ ingredient.unite }}</span>
+                                        {% else %}
+                                            <span class="text-muted">Non definie</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info">
+                                            {{ ingredient.recetteIngredients|length }} recette(s)
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="{{ path('app_admin_ingredient_edit', {'id': ingredient.id}) }}" 
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        
+                                        {% if ingredient.recetteIngredients|length == 0 %}
+                                            <form method="post" 
+                                                  action="{{ path('app_admin_ingredient_delete', {'id': ingredient.id}) }}" 
+                                                  class="d-inline"
+                                                  onsubmit="return confirm('Etes-vous sur de vouloir supprimer cet ingredient ?');">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ingredient.id) }}">
+                                                <button class="btn btn-sm btn-outline-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <button class="btn btn-sm btn-outline-danger" disabled title="Utilise dans des recettes">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="d-flex justify-content-center mt-4">
+                    {{ knp_pagination_render(ingredients) }}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox fs-1 text-muted"></i>
+                    <p class="text-muted mt-3">Aucun ingredient trouve</p>
+                    {% if search %}
+                        <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-outline-secondary">
+                            Voir tous les ingredients
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

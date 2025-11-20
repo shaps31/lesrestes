@@ -1,16 +1,17 @@
 # DOCUMENTATION DE RÉALISATION
+
 ## PROJET LES RESTES - Application Anti-Gaspillage Alimentaire
 
-**Auteur** : Bah shabadine 
-**Formation** : Titre Professionnel Développeur Web et Web Mobile - Niveau 5 
-**Centre de formation** : Dawan Toulouse 
+**Auteur** : Bah shabadine
+**Formation** : Titre Professionnel Développeur Web et Web Mobile - Niveau 5
+**Centre de formation** : Dawan Toulouse
 **Date de début** : 30 juin 2025
-**Graduation prévue** : Avril 2026 
-**Status** :  En développement actif
+**Graduation prévue** : Avril 2026
+**Status** : En développement actif
 
 ---
 
-##  Table des matières
+## Table des matières
 
 1. [Introduction](#introduction)
 2. [Setup Initial](#étape-1--setup-initial)
@@ -32,21 +33,22 @@
 ### Contexte du projet
 
 Les Restes est une plateforme web anti-gaspillage alimentaire qui permet aux utilisateurs de :
-- Trouver des recettes en fonction des ingrédients disponibles
-- Partager leurs propres recettes anti-gaspi
-- Sauvegarder leurs recettes favorites
-- Consulter des recettes par catégorie
+
+-   Trouver des recettes en fonction des ingrédients disponibles
+-   Partager leurs propres recettes anti-gaspi
+-   Sauvegarder leurs recettes favorites
+-   Consulter des recettes par catégorie
 
 ### Stack technique
 
-- **Backend** : Symfony 7.4
-- **PHP** : Version 8.3.6
-- **Base de données** : MySQL 8.0 (Docker)
-- **Frontend** : Bootstrap 5, JavaScript vanilla
-- **Assets** : Webpack Encore
-- **Gestionnaire de dépendances** : Composer 2.8.12
-- **CLI** : Symfony CLI 5.15.1
-- **Versionning** : Git
+-   **Backend** : Symfony 7.3.* (aligné avec `composer.json`)
+-   **PHP** : Version 8.3.6
+-   **Base de données** : MySQL 8.0 (Docker)
+-   **Frontend** : Bootstrap 5, JavaScript vanilla
+-   **Assets** : Webpack Encore
+-   **Gestionnaire de dépendances** : Composer 2.8.12
+-   **CLI** : Symfony CLI 5.15.1
+-   **Versionning** : Git
 
 ---
 
@@ -72,7 +74,7 @@ symfony new lesrestes --version=stable
 # Vérification de la version installée
 cd lesrestes
 php bin/console about
-# Symfony 7.4 installé avec succès
+# Symfony 7.3 installé avec succès
 ```
 
 ### 1.3 Configuration de la base de données avec Docker
@@ -80,33 +82,36 @@ php bin/console about
 J'ai choisi Docker pour avoir un environnement MySQL reproductible.
 
 **Fichier `docker-compose.yml` créé** :
+
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
- mysql:
- image: mysql:8.0
- container_name: lesrestes_mysql
- environment:
- MYSQL_ROOT_PASSWORD: root
- MYSQL_DATABASE: lesrestes
- MYSQL_USER: lesrestes_user
- MYSQL_PASSWORD: lesrestes_pass
- ports:
- - "3307:3306"
- volumes:
- - mysql_data:/var/lib/mysql
+    mysql:
+    image: mysql:8.0
+    container_name: lesrestes_mysql
+    environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: lesrestes
+    MYSQL_USER: lesrestes_user
+    MYSQL_PASSWORD: lesrestes_pass
+    ports:
+        - "3307:3306"
+    volumes:
+        - mysql_data:/var/lib/mysql
 
 volumes:
- mysql_data:
+    mysql_data:
 ```
 
 **Configuration du fichier `.env`** :
+
 ```env
 DATABASE_URL="mysql://lesrestes_user:lesrestes_pass@127.0.0.1:3307/lesrestes?serverVersion=8.0"
 ```
 
 **Démarrage de la base de données** :
+
 ```bash
 # Lancement du conteneur Docker
 docker-compose up -d
@@ -120,7 +125,7 @@ php bin/console doctrine:database:create
 ```bash
 git init
 git add .
-git commit -m "Initial Symfony 7.4 setup with Docker MySQL"
+git commit -m "Initial Symfony 7.3 setup with Docker MySQL"
 git checkout -b feature/entities
 ```
 
@@ -135,10 +140,11 @@ php bin/console make:user
 ```
 
 **Configuration choisie** :
-- Class name : `User`
-- Store users in database : `yes`
-- Unique identifier : `email`
-- Password field : `yes`
+
+-   Class name : `User`
+-   Store users in database : `yes`
+-   Unique identifier : `email`
+-   Password field : `yes`
 
 ### 2.2 Extension de l'entité User
 
@@ -149,12 +155,13 @@ php bin/console make:entity User
 ```
 
 **Propriétés ajoutées** :
-- `nom` (string, 50, not null)
-- `prenom` (string, 50, not null)
-- `bio` (text, nullable)
-- `avatar` (string, 255, nullable)
-- `dateInscription` (datetime_immutable, not null)
-- `isVerified` (boolean, not null)
+
+-   `nom` (string, 50, not null)
+-   `prenom` (string, 50, not null)
+-   `bio` (text, nullable)
+-   `avatar` (string, 255, nullable)
+-   `dateInscription` (datetime_immutable, not null)
+-   `isVerified` (boolean, not null)
 
 ### 2.3 Création de l'entité Ingredient
 
@@ -163,10 +170,11 @@ php bin/console make:entity Ingredient
 ```
 
 **Propriétés** :
-- `nom` (string, 50, not null, unique)
-- `unite` (string, 20, nullable)
-- `description` (text, nullable)
-- `dateCreation` (datetime_immutable, not null)
+
+-   `nom` (string, 50, not null, unique)
+-   `unite` (string, 20, nullable)
+-   `description` (text, nullable)
+-   `dateCreation` (datetime_immutable, not null)
 
 ### 2.4 Création de l'entité Categorie
 
@@ -175,9 +183,10 @@ php bin/console make:entity Categorie
 ```
 
 **Propriétés** :
-- `nom` (string, 50, not null)
-- `description` (text, nullable)
-- `couleur` (string, 7, nullable)
+
+-   `nom` (string, 50, not null)
+-   `description` (text, nullable)
+-   `couleur` (string, 7, nullable)
 
 ### 2.5 Création de l'entité Recette
 
@@ -186,19 +195,21 @@ php bin/console make:entity Recette
 ```
 
 **Propriétés** :
-- `nom` (string, 100, not null)
-- `description` (text, not null)
-- `etapes` (text, not null)
-- `image` (string, 255, nullable)
-- `tempsCuisson` (integer, not null)
-- `nombrePersonnes` (integer, not null)
-- `difficulte` (integer, not null)
-- `vue` (integer, not null, default 0)
-- `dateCreation` (datetime_immutable, not null)
+
+-   `nom` (string, 100, not null)
+-   `description` (text, not null)
+-   `etapes` (text, not null)
+-   `image` (string, 255, nullable)
+-   `tempsCuisson` (integer, not null)
+-   `nombrePersonnes` (integer, not null)
+-   `difficulte` (integer, not null)
+-   `vue` (integer, not null, default 0)
+-   `dateCreation` (datetime_immutable, not null)
 
 ### 2.6 Ajout des relations entre entités
 
 **Relations User ↔ Recette** :
+
 ```bash
 php bin/console make:entity User
 # Ajout relation: recettes (OneToMany vers Recette)
@@ -208,6 +219,7 @@ php bin/console make:entity Recette
 ```
 
 **Relations Recette ↔ Categorie** :
+
 ```bash
 php bin/console make:entity Recette
 # Ajout relation: categorie (ManyToOne vers Categorie, nullable: yes)
@@ -220,16 +232,18 @@ php bin/console make:entity RecetteIngredient
 ```
 
 **Propriétés** :
-- `quantite` (string, 50, not null)
-- `unite` (string, 20, nullable)
-- `recette` (ManyToOne vers Recette)
-- `ingredient` (ManyToOne vers Ingredient)
+
+-   `quantite` (string, 50, not null)
+-   `unite` (string, 20, nullable)
+-   `recette` (ManyToOne vers Recette)
+-   `ingredient` (ManyToOne vers Ingredient)
 
 ### 2.8 Ajout des constructeurs dans les entités
 
 J'ai modifié manuellement les entités pour initialiser les dates et collections :
 
 **Dans `src/Entity/User.php`** :
+
 ```php
 public function __construct()
 {
@@ -239,6 +253,7 @@ public function __construct()
 ```
 
 **Dans `src/Entity/Ingredient.php`** :
+
 ```php
 public function __construct()
 {
@@ -247,6 +262,7 @@ public function __construct()
 ```
 
 **Dans `src/Entity/Recette.php`** :
+
 ```php
 public function __construct()
 {
@@ -290,9 +306,10 @@ php bin/console make:auth
 ```
 
 **Configuration** :
-- Authenticator type : `Login form authenticator`
-- Controller class name : `SecurityController`
-- Generate logout URL : `yes`
+
+-   Authenticator type : `Login form authenticator`
+-   Controller class name : `SecurityController`
+-   Generate logout URL : `yes`
 
 ### 3.3 Création du formulaire d'inscription
 
@@ -301,10 +318,11 @@ php bin/console make:registration-form
 ```
 
 **Options choisies** :
-- Add @UniqueEntity validation : `yes`
-- Send email verification : `no` (pour l'instant)
-- Automatically authenticate : `yes`
-- Redirect after registration : `/`
+
+-   Add @UniqueEntity validation : `yes`
+-   Send email verification : `no` (pour l'instant)
+-   Automatically authenticate : `yes`
+-   Redirect after registration : `/`
 
 ### 3.4 Installation du bundle de vérification email
 
@@ -343,9 +361,10 @@ public function buildForm(FormBuilderInterface $builder, array $options): void
 ### 3.6 Tests de l'authentification
 
 J'ai testé les pages suivantes :
-- **Inscription** : `http://localhost:8004/register`
-- **Connexion** : `http://localhost:8004/login`
-- **Déconnexion** : `http://localhost:8004/logout`
+
+-   **Inscription** : `http://localhost:8004/register`
+-   **Connexion** : `http://localhost:8004/login`
+-   **Déconnexion** : `http://localhost:8004/logout`
 
 ### 3.7 Commit et fusion
 
@@ -370,16 +389,19 @@ git checkout -b feature/crud-controllers
 ### 4.2 Création des CRUD
 
 **CRUD Categorie** :
+
 ```bash
 php bin/console make:crud Categorie
 ```
 
 **CRUD Ingredient** :
+
 ```bash
 php bin/console make:crud Ingredient
 ```
 
 **CRUD Recette** :
+
 ```bash
 php bin/console make:crud Recette
 ```
@@ -393,9 +415,10 @@ php bin/console make:controller Home
 ### 4.4 Tests des CRUD
 
 J'ai testé toutes les pages CRUD :
-- Catégories : `http://127.0.0.1:8004/categorie/`
-- Ingrédients : `http://127.0.0.1:8004/ingredient/`
-- Recettes : `http://127.0.0.1:8004/recette/`
+
+-   Catégories : `http://127.0.0.1:8004/categorie/`
+-   Ingrédients : `http://127.0.0.1:8004/ingredient/`
+-   Recettes : `http://127.0.0.1:8004/recette/`
 
 ### 4.5 Correction du formulaire Recette
 
@@ -550,44 +573,46 @@ npm install --save-dev sass-loader sass
 ### 6.3 Configuration Webpack Encore
 
 **Fichier `webpack.config.js`** :
-```javascript
-const Encore = require('@symfony/webpack-encore');
 
-Encore
- .setOutputPath('public/build/')
- .setPublicPath('/build')
- .addEntry('app', './assets/app.js')
- .enableSingleRuntimeChunk()
- .cleanupOutputBeforeBuild()
- .enableSourceMaps(!Encore.isProduction())
- .enableVersioning(Encore.isProduction())
- .enableSassLoader();
+```javascript
+const Encore = require("@symfony/webpack-encore");
+
+Encore.setOutputPath("public/build/")
+    .setPublicPath("/build")
+    .addEntry("app", "./assets/app.js")
+    .enableSingleRuntimeChunk()
+    .cleanupOutputBeforeBuild()
+    .enableSourceMaps(!Encore.isProduction())
+    .enableVersioning(Encore.isProduction())
+    .enableSassLoader();
 
 module.exports = Encore.getWebpackConfig();
 ```
 
 **Fichier `assets/app.js`** :
+
 ```javascript
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap';
-import './styles/app.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap";
+import "./styles/app.css";
 ```
 
 **Fichier `assets/styles/app.css`** :
+
 ```css
 :root {
- --primary-color: #1E5128;
- --secondary-color: #4E9F3D;
+    --primary-color: #1e5128;
+    --secondary-color: #4e9f3d;
 }
 
 .navbar-brand {
- font-weight: bold;
- color: var(--primary-color) !important;
+    font-weight: bold;
+    color: var(--primary-color) !important;
 }
 
 .btn-success {
- background-color: var(--primary-color);
- border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 ```
 
@@ -697,13 +722,13 @@ J'ai créé `templates/home/index.html.twig` selon les wireframes :
  <h1 class="display-4 mb-4">
  Transformez vos restes en délicieuses recettes
  </h1>
- 
+
  <!-- Barre de recherche -->
  <div class="row justify-content-center">
  <div class="col-md-8">
  <form action="{{ path('app_search') }}" method="GET">
  <div class="input-group input-group-lg mb-4">
- <input type="text" class="form-control" name="q" 
+ <input type="text" class="form-control" name="q"
  placeholder="Entrez vos ingrédients (ex: tomates, œufs, fromage...)">
  <button class="btn btn-success" type="submit">
  <i class="bi bi-search"></i> Trouver des recettes
@@ -726,14 +751,14 @@ J'ai créé `templates/home/index.html.twig` selon les wireframes :
  <div class="col-md-4 mb-4">
  <div class="card h-100">
  {% if recette.image %}
- <img src="/uploads/recettes/{{ recette.image }}" 
- class="card-img-top" 
- style="height: 200px; object-fit: cover;" 
+ <img src="/uploads/recettes/{{ recette.image }}"
+ class="card-img-top"
+ style="height: 200px; object-fit: cover;"
  alt="{{ recette.nom }}">
  {% else %}
- <img src="https://source.unsplash.com/300x200/?food" 
- class="card-img-top" 
- style="height: 200px; object-fit: cover;" 
+ <img src="https://source.unsplash.com/300x200/?food"
+ class="card-img-top"
+ style="height: 200px; object-fit: cover;"
  alt="{{ recette.nom }}">
  {% endif %}
  <div class="card-body">
@@ -741,7 +766,7 @@ J'ai créé `templates/home/index.html.twig` selon les wireframes :
  <p class="card-text text-muted small">
  {{ recette.description|slice(0, 50) }}...
  </p>
- <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
+ <a href="{{ path('app_recette_show', {'id': recette.id}) }}"
  class="btn btn-outline-success btn-sm">
  <i class="bi bi-eye"></i> Voir
  </a>
@@ -768,6 +793,7 @@ public function index(RecetteRepository $recetteRepository): Response
 ### 6.8 Création du système de recherche
 
 **Contrôleur `src/Controller/SearchController.php`** :
+
 ```php
 <?php
 
@@ -784,7 +810,7 @@ class SearchController extends AbstractController
 {
  #[Route('/recherche', name: 'app_search')]
  public function search(
- Request $request, 
+ Request $request,
  IngredientRepository $ingredientRepository,
  RecetteRepository $recetteRepository
  ): Response {
@@ -795,7 +821,7 @@ class SearchController extends AbstractController
  // Recherche des ingrédients correspondants
  $ingredients = $ingredientRepository->findBySearchQuery($query);
  $ingredientIds = array_map(fn($ing) => $ing->getId(), $ingredients);
- 
+
  // Recherche des recettes contenant ces ingrédients
  $recettes = $recetteRepository->findByIngredients($ingredientIds);
  }
@@ -811,15 +837,17 @@ class SearchController extends AbstractController
 ### 6.9 Templates modernisés pour les CRUD
 
 J'ai modernisé tous les templates avec Bootstrap :
-- `templates/recette/index.html.twig`
-- `templates/recette/show.html.twig`
-- `templates/recette/edit.html.twig`
-- `templates/ingredient/index.html.twig`
-- `templates/categorie/index.html.twig`
+
+-   `templates/recette/index.html.twig`
+-   `templates/recette/show.html.twig`
+-   `templates/recette/edit.html.twig`
+-   `templates/ingredient/index.html.twig`
+-   `templates/categorie/index.html.twig`
 
 ### 6.10 Création de la page profil
 
 **Contrôleur `src/Controller/ProfilController.php`** :
+
 ```php
 <?php
 
@@ -878,11 +906,13 @@ php bin/console make:entity Favori
 ```
 
 **Propriétés** :
-- `user` (ManyToOne vers User)
-- `recette` (ManyToOne vers Recette)
-- `dateAjout` (datetime_immutable)
+
+-   `user` (ManyToOne vers User)
+-   `recette` (ManyToOne vers Recette)
+-   `dateAjout` (datetime_immutable)
 
 **Constructeur ajouté** :
+
 ```php
 public function __construct()
 {
@@ -900,6 +930,7 @@ php bin/console doctrine:migrations:migrate
 ### 9.4 Création du contrôleur API pour les favoris
 
 **Fichier `src/Controller/Api/FavoriController.php`** :
+
 ```php
 <?php
 
@@ -958,10 +989,11 @@ class FavoriController extends AbstractController
 ### 9.5 Ajout du bouton favori dans les templates
 
 **Dans `templates/recette/show.html.twig`** :
+
 ```twig
 {% if app.user %}
- <button id="favoriBtn" 
- class="btn btn-outline-danger" 
+ <button id="favoriBtn"
+ class="btn btn-outline-danger"
  data-recette-id="{{ recette.id }}"
  data-is-favorite="{{ isFavorite ? 'true' : 'false' }}">
  <i class="bi bi-heart{{ isFavorite ? '-fill' : '' }}"></i>
@@ -973,15 +1005,16 @@ class FavoriController extends AbstractController
 ### 9.6 JavaScript pour gérer les favoris
 
 **Script ajouté dans `templates/recette/show.html.twig`** :
+
 ```javascript
 <script>
 document.addEventListener('DOMContentLoaded', function() {
  const favoriBtn = document.getElementById('favoriBtn');
- 
+
  if (favoriBtn) {
  favoriBtn.addEventListener('click', async function() {
  const recetteId = this.dataset.recetteId;
- 
+
  try {
  const response = await fetch(`/api/favori/toggle/${recetteId}`, {
  method: 'POST',
@@ -989,9 +1022,9 @@ document.addEventListener('DOMContentLoaded', function() {
  'Content-Type': 'application/json',
  }
  });
- 
+
  const data = await response.json();
- 
+
  if (data.isFavorite) {
  this.classList.remove('btn-outline-danger');
  this.classList.add('btn-danger');
@@ -1048,19 +1081,20 @@ composer require vich/uploader-bundle
 ### 10.3 Configuration de VichUploader
 
 **Fichier `config/packages/vich_uploader.yaml`** :
+
 ```yaml
 vich_uploader:
- db_driver: orm
- 
- mappings:
- recette_images:
- uri_prefix: /uploads/recettes
- upload_destination: '%kernel.project_dir%/public/uploads/recettes'
- namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
- 
- inject_on_load: false
- delete_on_update: true
- delete_on_remove: true
+    db_driver: orm
+
+    mappings:
+    recette_images:
+    uri_prefix: /uploads/recettes
+    upload_destination: "%kernel.project_dir%/public/uploads/recettes"
+    namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+    inject_on_load: false
+    delete_on_update: true
+    delete_on_remove: true
 ```
 
 ### 10.4 Création du dossier uploads
@@ -1073,6 +1107,7 @@ chmod 755 public/uploads/recettes
 ### 10.5 Modification de l'entité Recette
 
 **Ajout dans `src/Entity/Recette.php`** :
+
 ```php
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -1119,6 +1154,7 @@ class Recette
 ### 10.6 Mise à jour du formulaire Recette
 
 **Dans `src/Form/RecetteType.php`** :
+
 ```php
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
@@ -1160,6 +1196,7 @@ Le formulaire d'édition affichait une très grande image (500px+) générée au
 J'ai créé une miniature compacte de 80px × 120px avec feedback visuel pour remplacer la grande prévisualisation.
 
 **Fichier `templates/recette/_form.html.twig` optimisé** :
+
 ```twig
 {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
 
@@ -1182,13 +1219,13 @@ J'ai créé une miniature compacte de 80px × 120px avec feedback visuel pour re
 <!-- Upload image avec prévisualisation compacte -->
 <div class="mb-3">
  {{ form_label(form.imageFile, 'Image de la recette', {'label_attr': {'class': 'form-label'}}) }}
- 
+
  <!-- Prévisualisation compacte (80px) -->
  {% if recette.image %}
  <div class="d-flex align-items-center gap-3 p-3 mb-2 bg-light rounded border">
- <img src="/uploads/recettes/{{ recette.image }}" 
- class="rounded shadow-sm" 
- style="max-height: 80px; max-width: 120px; object-fit: cover;" 
+ <img src="/uploads/recettes/{{ recette.image }}"
+ class="rounded shadow-sm"
+ style="max-height: 80px; max-width: 120px; object-fit: cover;"
  alt="{{ recette.nom }}">
  <div class="flex-grow-1">
  <p class="mb-0 small text-success fw-bold">
@@ -1200,22 +1237,22 @@ J'ai créé une miniature compacte de 80px × 120px avec feedback visuel pour re
  </div>
  </div>
  {% endif %}
- 
+
  <!-- Champ d'upload -->
  <div class="border rounded p-3 bg-white">
  {{ form_row(form.imageFile.file, {
  'label': false,
  'attr': {'class': 'form-control', 'accept': 'image/*'}
  }) }}
- 
+
  {% if recette.image and form.imageFile.delete is defined %}
  <div class="form-check mt-2">
  {{ form_widget(form.imageFile.delete, {'attr': {'class': 'form-check-input'}}) }}
- {{ form_label(form.imageFile.delete, 'Supprimer l\'image actuelle', 
+ {{ form_label(form.imageFile.delete, 'Supprimer l\'image actuelle',
  {'label_attr': {'class': 'form-check-label text-danger'}}) }}
  </div>
  {% endif %}
- 
+
  {{ form_errors(form.imageFile) }}
  <small class="form-text text-muted mt-2 d-block">
  <i class="bi bi-info-circle"></i>
@@ -1234,7 +1271,7 @@ J'ai créé une miniature compacte de 80px × 120px avec feedback visuel pour re
  </div>
  {{ form_errors(form.tempsCuisson) }}
  </div>
- 
+
  <div class="col-md-6">
  {{ form_label(form.nombrePersonnes, 'Nombre de personnes', {'label_attr': {'class': 'form-label'}}) }}
  {{ form_widget(form.nombrePersonnes, {'attr': {'class': 'form-control'}}) }}
@@ -1249,6 +1286,7 @@ J'ai créé une miniature compacte de 80px × 120px avec feedback visuel pour re
 #### 10.8.3 Page edit.html.twig avec CSS/JS pour masquer doublons
 
 **Fichier `templates/recette/edit.html.twig`** :
+
 ```twig
 {% extends 'base.html.twig' %}
 
@@ -1261,17 +1299,17 @@ J'ai créé une miniature compacte de 80px × 120px avec feedback visuel pour re
  <i class="bi bi-arrow-left"></i> Retour à mon profil
  </a>
  </div>
- 
+
  <div class="row">
  <div class="col-lg-8 mx-auto">
  <h2 class="mb-4">Modifier ma recette</h2>
- 
+
  {{ include('recette/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
- 
+
  <div class="mt-4 pt-3 border-top">
  <h6 class="text-muted">Actions</h6>
  <div class="d-flex gap-2">
- <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
+ <a href="{{ path('app_recette_show', {'id': recette.id}) }}"
  class="btn btn-outline-primary">
  <i class="bi bi-eye"></i> Aperçu
  </a>
@@ -1288,7 +1326,7 @@ J'ai créé une miniature compacte de 80px × 120px avec feedback visuel pour re
  .vich-image img {
  display: none !important;
  }
- 
+
  /* Afficher seulement notre miniature custom */
  .bg-light.rounded.border img {
  display: block !important;
@@ -1317,57 +1355,62 @@ J'ai créé une miniature compacte de 80px × 120px avec feedback visuel pour re
 J'ai corrigé tous les templates pour utiliser des chemins cohérents et uniformes :
 
 **Avant** (incohérent) :
+
 ```twig
 <img src="{{ recette.image ?: 'https://unsplash.com/...' }}">
 <img src="uploads/recettes/{{ recette.image }}"> {# Manque le / #}
 ```
 
 **Après** (uniforme) :
+
 ```twig
 {% if recette.image %}
- <img src="/uploads/recettes/{{ recette.image }}" 
- style="height: 200px; object-fit: cover;" 
+ <img src="/uploads/recettes/{{ recette.image }}"
+ style="height: 200px; object-fit: cover;"
  alt="{{ recette.nom }}">
 {% else %}
- <img src="https://source.unsplash.com/300x200/?food" 
- style="height: 200px; object-fit: cover;" 
+ <img src="https://source.unsplash.com/300x200/?food"
+ style="height: 200px; object-fit: cover;"
  alt="{{ recette.nom }}">
 {% endif %}
 ```
 
 #### 10.8.5 Fichiers modifiés pour l'uniformisation
 
-- [OK] `templates/home/index.html.twig`
-- [OK] `templates/recette/index.html.twig`
-- [OK] `templates/recette/show.html.twig`
-- [OK] `templates/recette/edit.html.twig`
-- [OK] `templates/recette/_form.html.twig`
-- [OK] `templates/profil/index.html.twig`
+-   [OK] `templates/home/index.html.twig`
+-   [OK] `templates/recette/index.html.twig`
+-   [OK] `templates/recette/show.html.twig`
+-   [OK] `templates/recette/edit.html.twig`
+-   [OK] `templates/recette/_form.html.twig`
+-   [OK] `templates/profil/index.html.twig`
 
 #### 10.8.6 Bilan des améliorations
 
 **Interface professionnelle** :
-- [OK] Images uniformes (200px) avec `object-fit: cover`
-- [OK] Prévisualisation compacte (80px) dans le formulaire
-- [OK] Fallback Unsplash automatique
-- [OK] Chemins d'images cohérents partout
+
+-   [OK] Images uniformes (200px) avec `object-fit: cover`
+-   [OK] Prévisualisation compacte (80px) dans le formulaire
+-   [OK] Fallback Unsplash automatique
+-   [OK] Chemins d'images cohérents partout
 
 **UX optimisée** :
-- [OK] Page d'édition épurée (sans grosse image)
-- [OK] Feedback visuel avec icônes Bootstrap
-- [OK] Instructions claires pour l'utilisateur
-- [OK] Suppression des duplications VichUploader
+
+-   [OK] Page d'édition épurée (sans grosse image)
+-   [OK] Feedback visuel avec icônes Bootstrap
+-   [OK] Instructions claires pour l'utilisateur
+-   [OK] Suppression des duplications VichUploader
 
 ### 10.9 Tests complets de l'upload
 
 J'ai testé toutes les fonctionnalités :
-- [OK] Upload d'une image lors de la création d'une recette
-- [OK] Affichage de l'image sur la page de détail (200px uniforme)
-- [OK] Prévisualisation compacte dans le formulaire d'édition (80px)
-- [OK] Modification/remplacement d'une image
-- [OK] Suppression d'une image
-- [OK] Images de fallback Unsplash si aucune image
-- [OK] Formulaire utilisable à 100% de zoom (au lieu de 25%)
+
+-   [OK] Upload d'une image lors de la création d'une recette
+-   [OK] Affichage de l'image sur la page de détail (200px uniforme)
+-   [OK] Prévisualisation compacte dans le formulaire d'édition (80px)
+-   [OK] Modification/remplacement d'une image
+-   [OK] Suppression d'une image
+-   [OK] Images de fallback Unsplash si aucune image
+-   [OK] Formulaire utilisable à 100% de zoom (au lieu de 25%)
 
 ### 10.10 Commit complet avec toutes les améliorations
 
@@ -1398,7 +1441,7 @@ git checkout -b feature/commentaires
 
 ---
 
-## ÉTAPE 11 : SYSTÈME DE COMMENTAIRES 
+## ÉTAPE 11 : SYSTÈME DE COMMENTAIRES
 
 ### 11.1 Nouvelle branche
 
@@ -1413,11 +1456,13 @@ php bin/console make:entity Commentaire
 ```
 
 **Propriétés ajoutées** :
+
 1. `contenu` (text, not null)
 2. `note` (integer, not null) - Note de 1 à 5 étoiles
 3. `dateCreation` (datetime_immutable, not null)
 
 **Relations ajoutées** :
+
 1. `user` (ManyToOne vers User, not null) - L'auteur du commentaire
 2. `recette` (ManyToOne vers Recette, not null) - La recette commentée
 
@@ -1526,7 +1571,7 @@ public function getMoyenneNotes(): float
  if (empty($commentaires)) {
  return 0;
  }
- 
+
  $totalNotes = array_sum(array_map(fn($c) => $c->getNote(), $commentaires));
  return round($totalNotes / count($commentaires), 1);
 }
@@ -1593,9 +1638,10 @@ class CommentaireType extends AbstractType
 ```
 
 **Caractéristiques du formulaire** :
-- Champ `note` : Choix de 1 à 5 étoiles avec radio buttons
-- Champ `contenu` : Zone de texte pour le commentaire
-- Labels et placeholders en français
+
+-   Champ `note` : Choix de 1 à 5 étoiles avec radio buttons
+-   Champ `contenu` : Zone de texte pour le commentaire
+-   Labels et placeholders en français
 
 ### 11.8 Mise à jour du contrôleur RecetteController
 
@@ -1607,15 +1653,15 @@ use App\Form\CommentaireType;
 
 #[Route('/{id}', name: 'app_recette_show', methods: ['GET', 'POST'])]
 public function show(
- Request $request, 
- Recette $recette, 
- FavoriRepository $favoriRepository, 
+ Request $request,
+ Recette $recette,
+ FavoriRepository $favoriRepository,
  EntityManagerInterface $entityManager
 ): Response {
  // Augmenter le compteur de vues
  $recette->setVue($recette->getVue() + 1);
  $entityManager->flush();
- 
+
  // Vérifier si la recette est en favori
  $isFavorite = false;
  if ($this->getUser()) {
@@ -1633,7 +1679,7 @@ public function show(
  if ($form->isSubmitted() && $form->isValid()) {
  $commentaire->setUser($this->getUser());
  $commentaire->setRecette($recette);
- 
+
  $entityManager->persist($commentaire);
  $entityManager->flush();
 
@@ -1650,17 +1696,19 @@ public function show(
 ```
 
 **Fonctionnalités ajoutées** :
-- Création du formulaire de commentaire
-- Traitement de la soumission
-- Association automatique de l'utilisateur et de la recette
-- Message flash de confirmation
-- Redirection pour éviter double soumission
+
+-   Création du formulaire de commentaire
+-   Traitement de la soumission
+-   Association automatique de l'utilisateur et de la recette
+-   Message flash de confirmation
+-   Redirection pour éviter double soumission
 
 ### 11.9 Mise à jour du template show.html.twig
 
 J'ai complètement refondu la section commentaires dans `templates/recette/show.html.twig`.
 
 **Affichage de la note moyenne** :
+
 ```twig
 <!-- Notes et avis (avec vraies données) -->
 <div class="mb-3">
@@ -1684,6 +1732,7 @@ J'ai complètement refondu la section commentaires dans `templates/recette/show.
 ```
 
 **Section complète des commentaires** :
+
 ```twig
 <!-- Commentaires -->
 <h4 class="mb-3">
@@ -1736,26 +1785,28 @@ J'ai complètement refondu la section commentaires dans `templates/recette/show.
 ```
 
 **Fonctionnalités du template** :
-- Affichage de la moyenne des notes avec étoiles
-- Formulaire de commentaire (si connecté)
-- Message d'invitation à se connecter (si déconnecté)
-- Liste de tous les commentaires avec :
- - Nom de l'auteur
- - Date de publication
- - Note en étoiles
- - Contenu du commentaire
-- Message si aucun commentaire
+
+-   Affichage de la moyenne des notes avec étoiles
+-   Formulaire de commentaire (si connecté)
+-   Message d'invitation à se connecter (si déconnecté)
+-   Liste de tous les commentaires avec :
+-   Nom de l'auteur
+-   Date de publication
+-   Note en étoiles
+-   Contenu du commentaire
+-   Message si aucun commentaire
 
 ### 11.10 Tests du système de commentaires
 
 J'ai testé toutes les fonctionnalités :
-- [OK] Affichage du formulaire pour utilisateurs connectés
-- [OK] Message de connexion pour utilisateurs non connectés
-- [OK] Soumission d'un commentaire avec note
-- [OK] Affichage des commentaires avec étoiles
-- [OK] Calcul et affichage de la moyenne des notes
-- [OK] Compteur de commentaires mis à jour
-- [OK] Message flash de confirmation
+
+-   [OK] Affichage du formulaire pour utilisateurs connectés
+-   [OK] Message de connexion pour utilisateurs non connectés
+-   [OK] Soumission d'un commentaire avec note
+-   [OK] Affichage des commentaires avec étoiles
+-   [OK] Calcul et affichage de la moyenne des notes
+-   [OK] Compteur de commentaires mis à jour
+-   [OK] Message flash de confirmation
 
 ### 11.11 Commit du système de commentaires complet
 
@@ -1779,86 +1830,94 @@ git commit -m "feat: Système de commentaires et notation complet
 Après les premiers tests, j'ai constaté que les étoiles ne restaient pas sélectionnées après le clic. Le problème venait du CSS avec `flex-direction: row-reverse`.
 
 **Correction du CSS et JavaScript** :
+
 ```css
 .star-rating {
- display: flex;
- justify-content: flex-start;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .star-input {
- display: none;
+    display: none;
 }
 
 .star-label {
- cursor: pointer;
- font-size: 1.5rem;
- color: #ddd;
- transition: color 0.2s;
- margin: 0 2px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #ddd;
+    transition: color 0.2s;
+    margin: 0 2px;
 }
 
 .star-label.active {
- color: #ffc107;
+    color: #ffc107;
 }
 ```
 
 **JavaScript amélioré** :
+
 ```javascript
-document.addEventListener('DOMContentLoaded', function() {
- const starInputs = document.querySelectorAll('.star-input');
- const starLabels = document.querySelectorAll('.star-label');
- 
- function updateStars(rating) {
- starLabels.forEach((label, index) => {
- if (index < rating) {
- label.classList.add('active');
- } else {
- label.classList.remove('active');
- }
- });
- }
- 
- starLabels.forEach((label, index) => {
- label.addEventListener('mouseenter', function() {
- updateStars(index + 1);
- });
- 
- label.addEventListener('click', function() {
- const rating = index + 1;
- starInputs[index].checked = true;
- 
- const hiddenInputs = document.querySelectorAll('input[name="commentaire[note]"]:not(.star-input)');
- hiddenInputs.forEach(input => {
- input.checked = (input.value == rating);
- });
- 
- updateStars(rating);
- label.closest('.star-rating').setAttribute('data-rating', rating);
- });
- });
- 
- document.querySelector('.star-rating').addEventListener('mouseleave', function() {
- const currentRating = this.getAttribute('data-rating');
- if (currentRating) {
- updateStars(parseInt(currentRating));
- } else {
- updateStars(0);
- }
- });
+document.addEventListener("DOMContentLoaded", function () {
+    const starInputs = document.querySelectorAll(".star-input");
+    const starLabels = document.querySelectorAll(".star-label");
+
+    function updateStars(rating) {
+        starLabels.forEach((label, index) => {
+            if (index < rating) {
+                label.classList.add("active");
+            } else {
+                label.classList.remove("active");
+            }
+        });
+    }
+
+    starLabels.forEach((label, index) => {
+        label.addEventListener("mouseenter", function () {
+            updateStars(index + 1);
+        });
+
+        label.addEventListener("click", function () {
+            const rating = index + 1;
+            starInputs[index].checked = true;
+
+            const hiddenInputs = document.querySelectorAll(
+                'input[name="commentaire[note]"]:not(.star-input)'
+            );
+            hiddenInputs.forEach((input) => {
+                input.checked = input.value == rating;
+            });
+
+            updateStars(rating);
+            label.closest(".star-rating").setAttribute("data-rating", rating);
+        });
+    });
+
+    document
+        .querySelector(".star-rating")
+        .addEventListener("mouseleave", function () {
+            const currentRating = this.getAttribute("data-rating");
+            if (currentRating) {
+                updateStars(parseInt(currentRating));
+            } else {
+                updateStars(0);
+            }
+        });
 });
 ```
 
 **Fonctionnalités** :
-- [OK] Survol : étoiles dorées temporaires
-- [OK] Clic : sélection persistante
-- [OK] Synchronisation avec Symfony
-- [OK] Retour à la sélection après survol
+
+-   [OK] Survol : étoiles dorées temporaires
+-   [OK] Clic : sélection persistante
+-   [OK] Synchronisation avec Symfony
+-   [OK] Retour à la sélection après survol
 
 ### 11.13 Ajout de la suppression de commentaires
 
 Pour améliorer l'expérience utilisateur, j'ai ajouté la possibilité de supprimer ses propres commentaires.
 
 **Contrôleur `src/Controller/CommentaireController.php`** :
+
 ```php
 <?php
 
@@ -1886,21 +1945,22 @@ class CommentaireController extends AbstractController
  }
 
  $recetteId = $commentaire->getRecette()->getId();
- 
+
  $entityManager->remove($commentaire);
  $entityManager->flush();
 
  $this->addFlash('success', 'Commentaire supprimé avec succès.');
- 
+
  return $this->redirectToRoute('app_recette_show', ['id' => $recetteId]);
  }
 }
 ```
 
 **Sécurité** :
-- Vérification que l'utilisateur est l'auteur du commentaire
-- Exception levée si tentative de suppression non autorisée
-- Message flash de confirmation
+
+-   Vérification que l'utilisateur est l'auteur du commentaire
+-   Exception levée si tentative de suppression non autorisée
+-   Message flash de confirmation
 
 ### 11.14 Bouton de suppression dans le template
 
@@ -1916,17 +1976,17 @@ J'ai ajouté un menu déroulant avec option de suppression pour les commentaires
  <strong>{{ commentaire.user.prenom }} {{ commentaire.user.nom }}</strong>
  <small class="text-muted ms-2">{{ commentaire.dateCreation|date('d M Y') }}</small>
  </div>
- 
+
  <!-- Bouton supprimer si c'est son propre commentaire -->
  {% if app.user and commentaire.user == app.user %}
  <div class="dropdown">
- <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+ <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
  type="button" data-bs-toggle="dropdown">
  <i class="bi bi-three-dots"></i>
  </button>
  <ul class="dropdown-menu">
  <li>
- <button class="dropdown-item text-danger" 
+ <button class="dropdown-item text-danger"
  onclick="confirmerSuppressionCommentaire({{ commentaire.id }})">
  <i class="bi bi-trash"></i> Supprimer
  </button>
@@ -1935,7 +1995,7 @@ J'ai ajouté un menu déroulant avec option de suppression pour les commentaires
  </div>
  {% endif %}
  </div>
- 
+
  <div class="mb-1">
  {% for i in 1..5 %}
  {% if i <= commentaire.note %}
@@ -1987,24 +2047,27 @@ J'ai ajouté un modal Bootstrap pour confirmer la suppression :
 ```
 
 **JavaScript pour le modal** :
+
 ```javascript
 function confirmerSuppressionCommentaire(commentaireId) {
- document.getElementById('deleteCommentForm').action = '/commentaire/' + commentaireId + '/delete';
- new bootstrap.Modal(document.getElementById('deleteCommentModal')).show();
+    document.getElementById("deleteCommentForm").action =
+        "/commentaire/" + commentaireId + "/delete";
+    new bootstrap.Modal(document.getElementById("deleteCommentModal")).show();
 }
 ```
 
 ### 11.16 Tests complets du système de commentaires
 
 J'ai testé toutes les fonctionnalités finales :
-- [OK] Formulaire avec étoiles cliquables fonctionnelles
-- [OK] Sélection des étoiles persistante après clic
-- [OK] Soumission du commentaire avec note
-- [OK] Affichage des commentaires avec design moderne
-- [OK] Bouton de suppression visible uniquement pour l'auteur
-- [OK] Modal de confirmation avant suppression
-- [OK] Redirection et message flash après suppression
-- [OK] Calcul de la moyenne mis à jour automatiquement
+
+-   [OK] Formulaire avec étoiles cliquables fonctionnelles
+-   [OK] Sélection des étoiles persistante après clic
+-   [OK] Soumission du commentaire avec note
+-   [OK] Affichage des commentaires avec design moderne
+-   [OK] Bouton de suppression visible uniquement pour l'auteur
+-   [OK] Modal de confirmation avant suppression
+-   [OK] Redirection et message flash après suppression
+-   [OK] Calcul de la moyenne mis à jour automatiquement
 
 ### 11.17 Commit final du système de commentaires
 
@@ -2032,7 +2095,7 @@ git branch -d feature/commentaires
 
 ---
 
-## ÉTAPE 12 : AMÉLIORATIONS UX 
+## ÉTAPE 12 : AMÉLIORATIONS UX
 
 ### 12.1 Nouvelle branche
 
@@ -2045,22 +2108,25 @@ git checkout -b feature/ameliorations-ux
 J'ai identifié trois priorités pour améliorer l'expérience utilisateur :
 
 **Priorité 1 : Gestion dynamique des ingrédients** 🥕
-- Formulaire recette avec ajout/suppression d'ingrédients en temps réel
-- Autocomplete sur les noms d'ingrédients existants
-- Validation côté client
-- Interface intuitive avec boutons +/-
 
-**Priorité 2 : Recherche avancée** 
-- Filtres par catégorie, difficulté, temps de préparation
-- Tri par note, date, popularité
-- Recherche textuelle améliorée
-- Affichage des résultats optimisé
+-   Formulaire recette avec ajout/suppression d'ingrédients en temps réel
+-   Autocomplete sur les noms d'ingrédients existants
+-   Validation côté client
+-   Interface intuitive avec boutons +/-
 
-**Priorité 3 : Interface enrichie** 
-- Pagination élégante pour les listes
-- Loading states pour les actions AJAX
-- Animations CSS subtiles
-- Messages de feedback améliorés
+**Priorité 2 : Recherche avancée**
+
+-   Filtres par catégorie, difficulté, temps de préparation
+-   Tri par note, date, popularité
+-   Recherche textuelle améliorée
+-   Affichage des résultats optimisé
+
+**Priorité 3 : Interface enrichie**
+
+-   Pagination élégante pour les listes
+-   Loading states pour les actions AJAX
+-   Animations CSS subtiles
+-   Messages de feedback améliorés
 
 ### 12.3 Création de l'API pour l'autocomplete des ingrédients
 
@@ -2084,18 +2150,18 @@ class IngredientController extends AbstractController
  public function search(Request $request, IngredientRepository $ingredientRepository): JsonResponse
  {
  $query = $request->query->get('q', '');
- 
+
  if (strlen($query) < 2) {
  return new JsonResponse([]);
  }
- 
+
  $ingredients = $ingredientRepository->createQueryBuilder('i')
  ->where('i.nom LIKE :query')
  ->setParameter('query', '%' . $query . '%')
  ->setMaxResults(10)
  ->getQuery()
  ->getResult();
- 
+
  $data = [];
  foreach ($ingredients as $ingredient) {
  $data[] = [
@@ -2104,17 +2170,18 @@ class IngredientController extends AbstractController
  'unite' => $ingredient->getUnite()
  ];
  }
- 
+
  return new JsonResponse($data);
  }
 }
 ```
 
 **Fonctionnalités de l'API** :
-- Recherche d'ingrédients par nom (minimum 2 caractères)
-- Limite à 10 résultats pour performance
-- Retourne ID, nom et unité par défaut
-- Format JSON pour intégration JavaScript
+
+-   Recherche d'ingrédients par nom (minimum 2 caractères)
+-   Limite à 10 résultats pour performance
+-   Retourne ID, nom et unité par défaut
+-   Format JSON pour intégration JavaScript
 
 ### 12.4 Création du FormType RecetteIngredient
 
@@ -2181,9 +2248,10 @@ class RecetteIngredientType extends AbstractType
 ```
 
 **Champs du formulaire** :
-- `ingredient` : Sélection avec autocomplete
-- `quantite` : Champ texte pour la quantité
-- `unite` : Liste déroulante avec unités courantes
+
+-   `ingredient` : Sélection avec autocomplete
+-   `quantite` : Champ texte pour la quantité
+-   `unite` : Liste déroulante avec unités courantes
 
 ### 12.5 Modification du RecetteType principal
 
@@ -2250,16 +2318,18 @@ class RecetteType extends AbstractType
 ```
 
 **Options importantes de la collection** :
-- `allow_add` : Permet d'ajouter des ingrédients dynamiquement
-- `allow_delete` : Permet de supprimer des ingrédients
-- `by_reference` : false pour gérer correctement les relations
-- `prototype` : true pour générer le template JavaScript
+
+-   `allow_add` : Permet d'ajouter des ingrédients dynamiquement
+-   `allow_delete` : Permet de supprimer des ingrédients
+-   `by_reference` : false pour gérer correctement les relations
+-   `prototype` : true pour générer le template JavaScript
 
 ### 12.6 Mise à jour du template new.html.twig
 
 J'ai remplacé la section ingrédients statique par le système dynamique dans `templates/recette/new.html.twig` :
 
 **Ancien code (statique) - SUPPRIMÉ** :
+
 ```twig
 <!-- Ingrédients -->
 <h5 class="mb-3">Ingrédients</h5>
@@ -2269,12 +2339,13 @@ J'ai remplacé la section ingrédients statique par le système dynamique dans `
 ```
 
 **Nouveau code (dynamique)** :
+
 ```twig
 <!-- Ingrédients dynamiques -->
 <h5 class="mb-3">Ingrédients</h5>
-<div id="ingredients-collection" class="mb-3" 
+<div id="ingredients-collection" class="mb-3"
  data-prototype="{{ form_widget(form.recetteIngredients.vars.prototype)|e('html_attr') }}">
- 
+
  {% for recetteIngredient in form.recetteIngredients %}
  <div class="ingredient-row border rounded p-2 mb-2">
  <div class="row">
@@ -2305,8 +2376,9 @@ J'ai remplacé la section ingrédients statique par le système dynamique dans `
 ### 12.7 Problème rencontré : Erreur Symfony
 
 Lors du premier test, j'ai rencontré cette erreur :
+
 ```
-RuntimeError: Neither the property "recetteIngredients" nor one of the methods 
+RuntimeError: Neither the property "recetteIngredients" nor one of the methods
 "recetteIngredients()", "getrecetteIngredients()" exist in class "FormView"
 ```
 
@@ -2325,9 +2397,10 @@ Après le clear cache, le formulaire fonctionnait mais avec un problème d'affic
 ### 12.9 Problème d'affichage des champs dynamiques
 
 Lors de l'ajout d'un ingrédient, les champs apparaissaient sans style Bootstrap :
-- Les `<select>` et `<input>` s'affichaient en HTML brut
-- Pas de classes CSS Bootstrap
-- Layout cassé
+
+-   Les `<select>` et `<input>` s'affichaient en HTML brut
+-   Pas de classes CSS Bootstrap
+-   Layout cassé
 
 **Cause** : Le JavaScript initial utilisait des regex complexes pour parser le prototype Symfony, ce qui ne fonctionnait pas correctement.
 
@@ -2343,16 +2416,16 @@ document.addEventListener('DOMContentLoaded', function() {
  const ingredientsContainer = document.getElementById('ingredients-collection');
  const addButton = document.getElementById('add-ingredient');
  let index = ingredientsContainer.children.length;
- 
+
  // Fonction pour ajouter un nouvel ingrédient
  addButton.addEventListener('click', function() {
  const prototype = ingredientsContainer.dataset.prototype;
  const newForm = prototype.replace(/__name__/g, index);
- 
+
  // Créer le wrapper avec le bon styling
  const wrapper = document.createElement('div');
  wrapper.className = 'ingredient-row border rounded p-2 mb-2';
- 
+
  // Créer la structure row/col
  wrapper.innerHTML = `
  <div class="row">
@@ -2372,48 +2445,48 @@ document.addEventListener('DOMContentLoaded', function() {
  </div>
  </div>
  `;
- 
+
  // Injecter le HTML du prototype
  const tempDiv = document.createElement('div');
  tempDiv.innerHTML = newForm;
- 
+
  // Récupérer et styliser les champs
  const ingredientSelect = tempDiv.querySelector('select[name*="ingredient"]');
  const quantiteInput = tempDiv.querySelector('input[name*="quantite"]');
  const uniteSelect = tempDiv.querySelector('select[name*="unite"]');
- 
+
  if (ingredientSelect) {
  ingredientSelect.className = 'form-select form-select-sm';
  wrapper.querySelector('.ingredient-field').appendChild(ingredientSelect);
  }
- 
+
  if (quantiteInput) {
  quantiteInput.className = 'form-control form-control-sm';
  wrapper.querySelector('.quantite-field').appendChild(quantiteInput);
  }
- 
+
  if (uniteSelect) {
  uniteSelect.className = 'form-select form-select-sm';
  wrapper.querySelector('.unite-field').appendChild(uniteSelect);
  }
- 
+
  // Ajouter au container
  ingredientsContainer.appendChild(wrapper);
  index++;
- 
+
  // Ajouter l'événement de suppression
  wrapper.querySelector('.remove-ingredient').addEventListener('click', function() {
  wrapper.remove();
  });
  });
- 
+
  // Gestion de la suppression pour les éléments existants
  document.addEventListener('click', function(e) {
  if (e.target.closest('.remove-ingredient')) {
  e.target.closest('.ingredient-row').remove();
  }
  });
- 
+
  // Styliser les éléments existants au chargement
  document.querySelectorAll('.ingredient-row select, .ingredient-row input').forEach(field => {
  if (field.tagName === 'SELECT') {
@@ -2427,12 +2500,13 @@ document.addEventListener('DOMContentLoaded', function() {
 ```
 
 **Fonctionnalités du JavaScript** :
-- Récupération du prototype Symfony
-- Remplacement du placeholder `__name__` par l'index
-- Injection dans une structure HTML Bootstrap
-- Stylisation automatique des champs
-- Gestion de la suppression
-- Stylisation des éléments au chargement
+
+-   Récupération du prototype Symfony
+-   Remplacement du placeholder `__name__` par l'index
+-   Injection dans une structure HTML Bootstrap
+-   Stylisation automatique des champs
+-   Gestion de la suppression
+-   Stylisation des éléments au chargement
 
 ### 12.11 CSS pour améliorer l'affichage
 
@@ -2461,26 +2535,29 @@ J'ai ajouté du CSS dans le template pour une meilleure UX :
 ```
 
 **Effets visuels** :
-- Fond gris clair pour chaque ligne
-- Effet hover pour feedback visuel
-- Espacement optimisé entre les colonnes
-- Bouton de suppression pleine largeur
+
+-   Fond gris clair pour chaque ligne
+-   Effet hover pour feedback visuel
+-   Espacement optimisé entre les colonnes
+-   Bouton de suppression pleine largeur
 
 ### 12.12 Tests de la gestion dynamique
 
 J'ai testé toutes les fonctionnalités :
-- [OK] Affichage du formulaire sans erreur
-- [OK] Ajout d'une ligne d'ingrédient avec le bouton +
-- [OK] Suppression d'une ligne avec le bouton X
-- [OK] Style Bootstrap correctement appliqué
-- [OK] Formulaire soumis avec les ingrédients
-- [OK] Données enregistrées en base de données
+
+-   [OK] Affichage du formulaire sans erreur
+-   [OK] Ajout d'une ligne d'ingrédient avec le bouton +
+-   [OK] Suppression d'une ligne avec le bouton X
+-   [OK] Style Bootstrap correctement appliqué
+-   [OK] Formulaire soumis avec les ingrédients
+-   [OK] Données enregistrées en base de données
 
 ### 12.13 Problème rencontré avec les champs non mappés
 
 Lors de l'implémentation de l'autocomplete, j'ai d'abord essayé d'utiliser des champs `mapped => false` dans le `RecetteIngredientType` :
-- `ingredient_id` (HiddenType)
-- `ingredient_nom` (TextType)
+
+-   `ingredient_id` (HiddenType)
+-   `ingredient_nom` (TextType)
 
 **Problème** : Les champs non mappés ne sont pas inclus dans le prototype Symfony, donc ils ne s'affichaient jamais dans le formulaire.
 
@@ -2491,12 +2568,14 @@ Lors de l'implémentation de l'autocomplete, j'ai d'abord essayé d'utiliser des
 Au lieu de changer la structure du formulaire, j'ai gardé le champ `ingredient` comme un `EntityType` normal, et j'ai utilisé JavaScript pour le **transformer en autocomplete**.
 
 **Avantages de cette approche** :
-- [OK] Le prototype Symfony fonctionne normalement
-- [OK] Pas de problème avec les champs non mappés
-- [OK] Le select caché contient toujours l'ID pour Symfony
-- [OK] L'utilisateur voit un champ texte avec autocomplete
+
+-   [OK] Le prototype Symfony fonctionne normalement
+-   [OK] Pas de problème avec les champs non mappés
+-   [OK] Le select caché contient toujours l'ID pour Symfony
+-   [OK] L'utilisateur voit un champ texte avec autocomplete
 
 **`RecetteIngredientType.php` final** :
+
 ```php
 <?php
 
@@ -2562,76 +2641,76 @@ document.addEventListener('DOMContentLoaded', function() {
  const ingredientsContainer = document.getElementById('ingredients-collection');
  const addButton = document.getElementById('add-ingredient');
  let index = 0;
- 
+
  // Fonction pour transformer un select en autocomplete
  function setupAutocomplete(selectElement) {
  // Cacher le select original
  selectElement.style.display = 'none';
- 
+
  // Créer l'input de recherche
  const searchInput = document.createElement('input');
  searchInput.type = 'text';
  searchInput.className = 'form-control form-control-sm';
  searchInput.placeholder = 'Tapez pour rechercher...';
  searchInput.autocomplete = 'off';
- 
+
  // Conteneur pour les résultats
  const resultsDiv = document.createElement('div');
  resultsDiv.className = 'autocomplete-results position-absolute bg-white border rounded shadow-sm';
  resultsDiv.style.cssText = 'top: 100%; left: 0; right: 0; z-index: 1000; max-height: 200px; overflow-y: auto; display: none;';
- 
+
  // Insérer après le select
  selectElement.parentElement.style.position = 'relative';
  selectElement.parentElement.appendChild(searchInput);
  selectElement.parentElement.appendChild(resultsDiv);
- 
+
  let timeoutId;
- 
+
  // Recherche avec debounce
  searchInput.addEventListener('input', function() {
  clearTimeout(timeoutId);
  const query = this.value.trim();
- 
+
  if (query.length < 2) {
  resultsDiv.style.display = 'none';
  return;
  }
- 
+
  timeoutId = setTimeout(() => {
  fetch(`/api/ingredients/search?q=${encodeURIComponent(query)}`)
  .then(response => response.json())
  .then(ingredients => {
  resultsDiv.innerHTML = '';
- 
+
  if (ingredients.length === 0) {
  resultsDiv.style.display = 'none';
  return;
  }
- 
+
  ingredients.forEach(ingredient => {
  const item = document.createElement('div');
  item.className = 'autocomplete-item p-2 border-bottom';
  item.style.cursor = 'pointer';
  item.textContent = ingredient.nom;
- 
+
  item.addEventListener('mouseenter', () => item.classList.add('bg-light'));
  item.addEventListener('mouseleave', () => item.classList.remove('bg-light'));
- 
+
  item.addEventListener('click', () => {
  searchInput.value = ingredient.nom;
  selectElement.value = ingredient.id;
  resultsDiv.style.display = 'none';
  });
- 
+
  resultsDiv.appendChild(item);
  });
- 
+
  resultsDiv.style.display = 'block';
  })
  .catch(error => console.error('Erreur autocomplete:', error));
  }, 300);
  });
- 
+
  // Fermer en cliquant ailleurs
  document.addEventListener('click', function(e) {
  if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
@@ -2639,19 +2718,19 @@ document.addEventListener('DOMContentLoaded', function() {
  }
  });
  }
- 
+
  // Ajouter un ingrédient
  addButton.addEventListener('click', function() {
  const prototype = ingredientsContainer.dataset.prototype;
  const newForm = prototype.replace(/__name__/g, index);
- 
+
  const tempDiv = document.createElement('div');
  tempDiv.innerHTML = newForm;
- 
+
  const ingredientSelect = tempDiv.querySelector('select[name*="ingredient"]');
  const quantiteInput = tempDiv.querySelector('input[name*="quantite"]');
  const uniteSelect = tempDiv.querySelector('select[name*="unite"]');
- 
+
  const wrapper = document.createElement('div');
  wrapper.className = 'ingredient-row border rounded p-2 mb-2';
  wrapper.innerHTML = `
@@ -2666,25 +2745,25 @@ document.addEventListener('DOMContentLoaded', function() {
  </div>
  </div>
  `;
- 
+
  if (ingredientSelect) {
  wrapper.querySelector('.ingredient-field').appendChild(ingredientSelect);
  setupAutocomplete(ingredientSelect);
  }
- 
+
  if (quantiteInput) {
  quantiteInput.className = 'form-control form-control-sm';
  wrapper.querySelector('.quantite-field').appendChild(quantiteInput);
  }
- 
+
  if (uniteSelect) {
  uniteSelect.className = 'form-select form-select-sm';
  wrapper.querySelector('.unite-field').appendChild(uniteSelect);
  }
- 
+
  ingredientsContainer.appendChild(wrapper);
  index++;
- 
+
  wrapper.querySelector('.remove-ingredient').addEventListener('click', function() {
  wrapper.remove();
  });
@@ -2694,6 +2773,7 @@ document.addEventListener('DOMContentLoaded', function() {
 ```
 
 **Fonctionnement du système** :
+
 1. Le select Symfony est généré normalement (contient tous les ingrédients)
 2. JavaScript cache ce select avec `display: none`
 3. Un input texte est créé à sa place
@@ -2701,25 +2781,28 @@ document.addEventListener('DOMContentLoaded', function() {
 5. Debounce de 300ms avant la recherche API
 6. Affichage des suggestions dans une liste déroulante
 7. Au clic sur une suggestion :
- - L'input texte affiche le nom
- - Le select caché reçoit l'ID
+
+-   L'input texte affiche le nom
+-   Le select caché reçoit l'ID
+
 8. Lors de la soumission, Symfony récupère l'ID depuis le select
 
 ### 12.16 Tests complets avec autocomplete fonctionnel
 
 J'ai testé tous les scénarios :
-- [OK] Clic sur "Ajouter un ingrédient"
-- [OK] Saisie de 2+ caractères (ex: "To")
-- [OK] Affichage des suggestions ("Tomates")
-- [OK] Effet hover sur les suggestions
-- [OK] Clic sur une suggestion
-- [OK] Champ texte rempli avec le nom
-- [OK] Select caché mis à jour avec l'ID
-- [OK] Ajout de plusieurs ingrédients
-- [OK] Suppression d'ingrédients
-- [OK] Soumission du formulaire
-- [OK] Vérification en base de données
-- [OK] Relations RecetteIngredient correctes
+
+-   [OK] Clic sur "Ajouter un ingrédient"
+-   [OK] Saisie de 2+ caractères (ex: "To")
+-   [OK] Affichage des suggestions ("Tomates")
+-   [OK] Effet hover sur les suggestions
+-   [OK] Clic sur une suggestion
+-   [OK] Champ texte rempli avec le nom
+-   [OK] Select caché mis à jour avec l'ID
+-   [OK] Ajout de plusieurs ingrédients
+-   [OK] Suppression d'ingrédients
+-   [OK] Soumission du formulaire
+-   [OK] Vérification en base de données
+-   [OK] Relations RecetteIngredient correctes
 
 ### 12.17 Commit final de la gestion dynamique avec autocomplete
 
@@ -2746,48 +2829,57 @@ git commit -m "feat: Gestion dynamique ingrédients avec autocomplete
 Le JavaScript doit aussi fonctionner en mode édition quand la recette a déjà des ingrédients. J'ai ajouté plusieurs améliorations :
 
 **1. Protection contre la double transformation**
+
 ```javascript
 if (selectElement.dataset.autocompleteSetup) return;
-selectElement.dataset.autocompleteSetup = 'true';
+selectElement.dataset.autocompleteSetup = "true";
 ```
 
 **2. Pré-remplissage automatique en mode édition**
+
 ```javascript
 // MODE ÉDITION : Pré-remplir avec la valeur existante
 if (selectElement.value) {
- const selectedOption = selectElement.querySelector(`option[value="${selectElement.value}"]`);
- if (selectedOption) {
- searchInput.value = selectedOption.textContent;
- }
+    const selectedOption = selectElement.querySelector(
+        `option[value="${selectElement.value}"]`
+    );
+    if (selectedOption) {
+        searchInput.value = selectedOption.textContent;
+    }
 }
 ```
 
 **3. Setup automatique des champs existants au chargement**
+
 ```javascript
 // À la fin du script, après la définition de setupAutocomplete()
-document.querySelectorAll('select[name*="ingredient"]').forEach(function(select) {
- setupAutocomplete(select);
-});
+document
+    .querySelectorAll('select[name*="ingredient"]')
+    .forEach(function (select) {
+        setupAutocomplete(select);
+    });
 ```
 
 **4. Comptage correct de l'index**
+
 ```javascript
-let index = document.querySelectorAll('.ingredient-row').length;
+let index = document.querySelectorAll(".ingredient-row").length;
 ```
 
 ### 12.19 Tests en mode édition
 
 J'ai testé tous les scénarios d'édition :
-- [OK] Ouverture d'une recette existante avec ingrédients
-- [OK] Ingrédients affichés en champs texte (pas select)
-- [OK] Noms des ingrédients pré-remplis correctement
-- [OK] Modification d'un ingrédient avec autocomplete
-- [OK] Ajout d'un nouvel ingrédient
-- [OK] Suppression d'un ingrédient existant
-- [OK] Soumission du formulaire
-- [OK] Mise à jour correcte en base de données
-- [OK] Pas de duplication de champs
-- [OK] Aucune erreur JavaScript
+
+-   [OK] Ouverture d'une recette existante avec ingrédients
+-   [OK] Ingrédients affichés en champs texte (pas select)
+-   [OK] Noms des ingrédients pré-remplis correctement
+-   [OK] Modification d'un ingrédient avec autocomplete
+-   [OK] Ajout d'un nouvel ingrédient
+-   [OK] Suppression d'un ingrédient existant
+-   [OK] Soumission du formulaire
+-   [OK] Mise à jour correcte en base de données
+-   [OK] Pas de duplication de champs
+-   [OK] Aucune erreur JavaScript
 
 **Template `edit.html.twig`** :
 Le template utilise `{{ include('recette/_form.html.twig') }}`, donc tout le JavaScript est automatiquement inclus et fonctionne pour l'édition.
@@ -2843,19 +2935,22 @@ git branch -d feature/ameliorations-ux
 ### 13.1 Analyse des besoins
 
 La page d'index des recettes nécessite plusieurs améliorations pour améliorer l'expérience utilisateur :
-- Système de recherche par mots-clés
-- Filtres par catégorie, difficulté, temps de préparation
-- Tri des résultats (date, note, temps)
-- Pagination pour gérer un grand nombre de recettes
+
+-   Système de recherche par mots-clés
+-   Filtres par catégorie, difficulté, temps de préparation
+-   Tri des résultats (date, note, temps)
+-   Pagination pour gérer un grand nombre de recettes
 
 ### 13.2 Installation de KnpPaginatorBundle
 
 **Commande d'installation :**
+
 ```bash
 composer require knplabs/knp-paginator-bundle
 ```
 
 **Vérification de l'installation :**
+
 ```bash
 composer show knplabs/knp-paginator-bundle
 ```
@@ -2868,17 +2963,17 @@ Le bundle permet de paginer facilement des résultats Doctrine avec une interfac
 
 ```yaml
 knp_paginator:
- page_range: 3 # Nombre de pages affichées dans la navigation
- default_options:
- page_name: page # Nom du paramètre GET pour la page
- sort_field_name: sort # Nom du paramètre pour le tri
- sort_direction_name: direction # Nom du paramètre pour la direction
- distinct: true # Évite les doublons
- filter_field_name: filterField
- filter_value_name: filterValue
- template:
- pagination: '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig'
- sortable: '@KnpPaginator/Pagination/sortable_link.html.twig'
+    page_range: 3 # Nombre de pages affichées dans la navigation
+    default_options:
+    page_name: page # Nom du paramètre GET pour la page
+    sort_field_name: sort # Nom du paramètre pour le tri
+    sort_direction_name: direction # Nom du paramètre pour la direction
+    distinct: true # Évite les doublons
+    filter_field_name: filterField
+    filter_value_name: filterValue
+    template:
+    pagination: "@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig"
+    sortable: "@KnpPaginator/Pagination/sortable_link.html.twig"
 ```
 
 **Note importante :** J'ai utilisé `twitter_bootstrap_v4_pagination.html.twig` car le template Bootstrap 5 n'est pas toujours disponible selon la version du bundle. La compatibilité avec Bootstrap 5 est assurée.
@@ -2964,9 +3059,10 @@ class RechercheAvanceeType extends AbstractType
 ```
 
 **Points importants :**
-- `method => 'GET'` : Permet de partager les URLs avec filtres
-- `csrf_protection => false` : Désactivé pour les formulaires GET
-- Tous les champs sont optionnels (`required => false`)
+
+-   `method => 'GET'` : Permet de partager les URLs avec filtres
+-   `csrf_protection => false` : Désactivé pour les formulaires GET
+-   Tous les champs sont optionnels (`required => false`)
 
 ### 13.5 Mise à jour du RecetteRepository
 
@@ -2980,31 +3076,31 @@ public function findWithFiltersQueryBuilder(array $criteria = [], array $orderBy
  ->leftJoin('r.recetteIngredients', 'ri')
  ->leftJoin('ri.ingredient', 'i')
  ->groupBy('r.id');
- 
+
  // Recherche textuelle sur nom de recette ou ingrédient
  if (isset($criteria['query'])) {
  $qb->andWhere('r.nom LIKE :query OR i.nom LIKE :query')
  ->setParameter('query', '%' . $criteria['query'] . '%');
  }
- 
+
  // Filtre par catégorie
  if (isset($criteria['categorie'])) {
  $qb->andWhere('r.categorie = :categorie')
  ->setParameter('categorie', $criteria['categorie']);
  }
- 
+
  // Filtre par difficulté
  if (isset($criteria['difficulte'])) {
  $qb->andWhere('r.difficulte = :difficulte')
  ->setParameter('difficulte', $criteria['difficulte']);
  }
- 
+
  // Filtre par temps maximum
  if (isset($criteria['tempsMax'])) {
  $qb->andWhere('r.tempsCuisson <= :tempsMax')
  ->setParameter('tempsMax', $criteria['tempsMax']);
  }
- 
+
  // Gestion du tri
  foreach ($orderBy as $field => $direction) {
  if ($field === 'moyenneNotes') {
@@ -3015,16 +3111,17 @@ public function findWithFiltersQueryBuilder(array $criteria = [], array $orderBy
  $qb->addOrderBy('r.' . $field, $direction);
  }
  }
- 
+
  return $qb;
 }
 ```
 
 **Fonctionnalités du QueryBuilder :**
-- Recherche full-text sur nom de recette et ingrédients
-- Filtrage multiple cumulatif
-- Tri dynamique incluant moyenne des notes
-- Retourne un QueryBuilder pour compatibilité avec la pagination
+
+-   Recherche full-text sur nom de recette et ingrédients
+-   Filtrage multiple cumulatif
+-   Tri dynamique incluant moyenne des notes
+-   Retourne un QueryBuilder pour compatibilité avec la pagination
 
 ### 13.6 Mise à jour du contrôleur RecetteController
 
@@ -3036,20 +3133,20 @@ use App\Form\RechercheAvanceeType;
 
 #[Route('/', name: 'app_recette_index', methods: ['GET'])]
 public function index(
- Request $request, 
- RecetteRepository $recetteRepository, 
+ Request $request,
+ RecetteRepository $recetteRepository,
  PaginatorInterface $paginator
 ): Response {
  // Création et traitement du formulaire de recherche
  $searchForm = $this->createForm(RechercheAvanceeType::class);
  $searchForm->handleRequest($request);
- 
+
  $criteria = [];
  $orderBy = ['dateCreation' => 'DESC'];
- 
+
  if ($searchForm->isSubmitted()) {
  $data = $searchForm->getData();
- 
+
  // Construction des critères de recherche
  if (!empty($data['query'])) {
  $criteria['query'] = $data['query'];
@@ -3063,7 +3160,7 @@ public function index(
  if (!empty($data['tempsMax'])) {
  $criteria['tempsMax'] = $data['tempsMax'];
  }
- 
+
  // Gestion du tri
  switch ($data['tri'] ?? 'date_desc') {
  case 'date_asc':
@@ -3082,17 +3179,17 @@ public function index(
  $orderBy = ['dateCreation' => 'DESC'];
  }
  }
- 
+
  // Récupération du QueryBuilder avec filtres
  $queryBuilder = $recetteRepository->findWithFiltersQueryBuilder($criteria, $orderBy);
- 
+
  // Pagination : 9 recettes par page (grille 3x3)
  $recettes = $paginator->paginate(
  $queryBuilder,
  $request->query->getInt('page', 1),
  9
  );
- 
+
  return $this->render('recette/index.html.twig', [
  'recettes' => $recettes,
  'searchForm' => $searchForm
@@ -3101,6 +3198,7 @@ public function index(
 ```
 
 **Import nécessaire :**
+
 ```php
 use Knp\Component\Pager\PaginatorInterface;
 ```
@@ -3117,34 +3215,34 @@ use Knp\Component\Pager\PaginatorInterface;
  <h5 class="card-title mb-0">
  <i class="bi bi-funnel"></i> Recherche avancée
  </h5>
- <button class="btn btn-outline-secondary btn-sm" type="button" 
+ <button class="btn btn-outline-secondary btn-sm" type="button"
  data-bs-toggle="collapse" data-bs-target="#searchCollapse">
  <i class="bi bi-chevron-down"></i>
  </button>
  </div>
- 
+
  <div class="collapse" id="searchCollapse">
  {{ form_start(searchForm, {'attr': {'class': 'row g-3'}}) }}
  <div class="col-md-4">
  {{ form_row(searchForm.query, {'label_attr': {'class': 'form-label'}}) }}
  </div>
- 
+
  <div class="col-md-2">
  {{ form_row(searchForm.categorie, {'label_attr': {'class': 'form-label'}}) }}
  </div>
- 
+
  <div class="col-md-2">
  {{ form_row(searchForm.difficulte, {'label_attr': {'class': 'form-label'}}) }}
  </div>
- 
+
  <div class="col-md-2">
  {{ form_row(searchForm.tempsMax, {'label_attr': {'class': 'form-label'}}) }}
  </div>
- 
+
  <div class="col-md-2">
  {{ form_row(searchForm.tri, {'label_attr': {'class': 'form-label'}}) }}
  </div>
- 
+
  <div class="col-12 d-flex gap-2">
  <button type="submit" class="btn btn-primary">
  <i class="bi bi-search"></i> Rechercher
@@ -3172,7 +3270,7 @@ use Knp\Component\Pager\PaginatorInterface;
 <!-- Statistiques de pagination -->
 <div class="text-center mt-3 text-muted small">
  {% set pagination = recettes.getPaginationData %}
- Affichage de {{ pagination.firstItemNumber }} à {{ pagination.lastItemNumber }} 
+ Affichage de {{ pagination.firstItemNumber }} à {{ pagination.lastItemNumber }}
  sur {{ recettes.getTotalItemCount() }} recette(s)
 </div>
 ```
@@ -3184,7 +3282,7 @@ use Knp\Component\Pager\PaginatorInterface;
 document.addEventListener('DOMContentLoaded', function() {
  const urlParams = new URLSearchParams(window.location.search);
  const hasFilters = urlParams.has('recherche_avancee');
- 
+
  if (hasFilters) {
  new bootstrap.Collapse(document.getElementById('searchCollapse'), {
  show: true
@@ -3197,12 +3295,14 @@ document.addEventListener('DOMContentLoaded', function() {
 ### 13.8 Résolution problème : Template pagination non trouvé
 
 **Erreur rencontrée :**
+
 ```
 Unable to find template "@KnpPaginator/Pagination/twitter_bootstrap_v5_pagination.html.twig"
 ```
 
 **Solution :**
 Utiliser le template Bootstrap 4 qui est compatible avec Bootstrap 5 :
+
 ```twig
 {{ knp_pagination_render(recettes, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
 ```
@@ -3210,15 +3310,17 @@ Utiliser le template Bootstrap 4 qui est compatible avec Bootstrap 5 :
 ### 13.9 Résolution problème : Propriétés pagination inexistantes
 
 **Erreur rencontrée :**
+
 ```
 Neither the property "currentPageOffsetStart" nor methods exist in class "SlidingPagination"
 ```
 
 **Solution :**
 Utiliser les méthodes correctes de l'API KnpPaginator :
+
 ```twig
 {% set pagination = recettes.getPaginationData %}
-Affichage de {{ pagination.firstItemNumber }} à {{ pagination.lastItemNumber }} 
+Affichage de {{ pagination.firstItemNumber }} à {{ pagination.lastItemNumber }}
 sur {{ recettes.getTotalItemCount() }} recette(s)
 ```
 
@@ -3246,7 +3348,7 @@ class RecetteTestFixtures extends Fixture implements FixtureGroupInterface
  private $categorieRepository;
 
  public function __construct(
- UserRepository $userRepository, 
+ UserRepository $userRepository,
  CategorieRepository $categorieRepository
  ) {
  $this->userRepository = $userRepository;
@@ -3281,30 +3383,30 @@ class RecetteTestFixtures extends Fixture implements FixtureGroupInterface
 
  for ($i = 0; $i < 100; $i++) {
  $recette = new Recette();
- 
+
  $nom = $nomsRecettes[$i % count($nomsRecettes)];
  if ($i >= count($nomsRecettes)) {
  $nom .= ' ' . ($i + 1);
  }
  $recette->setNom($nom);
- 
+
  $recette->setDescription($descriptions[array_rand($descriptions)]);
- 
+
  $nbEtapes = rand(3, 6);
  $etapes = [];
  for ($j = 1; $j <= $nbEtapes; $j++) {
  $etapes[] = $j . '. Étape ' . $j . ' de la préparation';
  }
  $recette->setEtapes(implode("\n", $etapes));
- 
+
  $recette->setTempsCuisson(rand(0, 12) * 10);
  $recette->setNombrePersonnes(rand(1, 8));
  $recette->setDifficulte(($i % 3) + 1);
  $recette->setCategorie($categories[array_rand($categories)]);
  $recette->setUser($users[array_rand($users)]);
- 
+
  $manager->persist($recette);
- 
+
  if ($i % 20 === 0) {
  $manager->flush();
  }
@@ -3321,6 +3423,7 @@ class RecetteTestFixtures extends Fixture implements FixtureGroupInterface
 ```
 
 **Chargement des fixtures :**
+
 ```bash
 # Ajouter sans effacer la base existante
 php bin/console doctrine:fixtures:load --append --group=test
@@ -3332,25 +3435,27 @@ php bin/console doctrine:fixtures:load --group=test
 ### 13.11 Tests de la recherche avancée et pagination
 
 **Tests effectués :**
-- Recherche textuelle par nom de recette
-- Recherche par ingrédient
-- Filtre par catégorie
-- Filtre par difficulté (1, 2, 3)
-- Filtre par temps maximum
-- Combinaison de plusieurs filtres
-- Tri par date (ascendant/descendant)
-- Tri par temps de cuisson
-- Navigation entre les pages (1 à 12 avec 100 recettes)
-- Persistance des filtres lors du changement de page
-- Bouton de réinitialisation des filtres
-- Ouverture automatique du panneau si filtres actifs
+
+-   Recherche textuelle par nom de recette
+-   Recherche par ingrédient
+-   Filtre par catégorie
+-   Filtre par difficulté (1, 2, 3)
+-   Filtre par temps maximum
+-   Combinaison de plusieurs filtres
+-   Tri par date (ascendant/descendant)
+-   Tri par temps de cuisson
+-   Navigation entre les pages (1 à 12 avec 100 recettes)
+-   Persistance des filtres lors du changement de page
+-   Bouton de réinitialisation des filtres
+-   Ouverture automatique du panneau si filtres actifs
 
 **Résultats :**
-- Pagination fonctionnelle avec 9 recettes par page
-- Filtres cumulatifs fonctionnels
-- URLs partageables avec paramètres GET
-- Interface responsive
-- Performance correcte même avec 100+ recettes
+
+-   Pagination fonctionnelle avec 9 recettes par page
+-   Filtres cumulatifs fonctionnels
+-   URLs partageables avec paramètres GET
+-   Interface responsive
+-   Performance correcte même avec 100+ recettes
 
 ### 13.12 Commit de la recherche avancée et pagination
 
@@ -3402,16 +3507,18 @@ Tests:
 ### 14.1 Objectifs de l'étape
 
 Améliorer l'expérience utilisateur en ajoutant des feedbacks visuels lors des interactions avec le formulaire d'ingrédients :
-- Indicateur de chargement pendant la recherche autocomplete
-- Animations d'ajout et de suppression d'ingrédients
-- Transitions fluides pour les résultats de recherche
-- Validation visuelle lors de la sélection
+
+-   Indicateur de chargement pendant la recherche autocomplete
+-   Animations d'ajout et de suppression d'ingrédients
+-   Transitions fluides pour les résultats de recherche
+-   Validation visuelle lors de la sélection
 
 **Compétences démontrées** :
-- Animations CSS3 avancées
-- États de chargement asynchrones
-- Manipulation DOM avec animations
-- UX patterns professionnels
+
+-   Animations CSS3 avancées
+-   États de chargement asynchrones
+-   Manipulation DOM avec animations
+-   UX patterns professionnels
 
 ### 14.2 Styles CSS pour les animations
 
@@ -3419,104 +3526,110 @@ Améliorer l'expérience utilisateur en ajoutant des feedbacks visuels lors des 
 
 ```html
 <style>
-/* État de chargement pour l'autocomplete */
-.autocomplete-loading {
-    position: relative;
-}
-
-.autocomplete-loading::after {
-    content: '';
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    border: 2px solid #f3f3f3;
-    border-top: 2px solid #007bff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: translateY(-50%) rotate(0deg); }
-    100% { transform: translateY(-50%) rotate(360deg); }
-}
-
-/* Transitions pour les lignes d'ingrédients */
-.ingredient-row {
-    transition: all 0.3s ease;
-    transform: translateY(0);
-}
-
-.ingredient-row.adding {
-    animation: slideInDown 0.4s ease;
-}
-
-.ingredient-row.removing {
-    animation: slideOutUp 0.3s ease forwards;
-}
-
-/* Animation d'ajout */
-@keyframes slideInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
+    /* État de chargement pour l'autocomplete */
+    .autocomplete-loading {
+        position: relative;
     }
-    to {
-        opacity: 1;
+
+    .autocomplete-loading::after {
+        content: "";
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #007bff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: translateY(-50%) rotate(0deg);
+        }
+        100% {
+            transform: translateY(-50%) rotate(360deg);
+        }
+    }
+
+    /* Transitions pour les lignes d'ingrédients */
+    .ingredient-row {
+        transition: all 0.3s ease;
         transform: translateY(0);
     }
-}
 
-/* Animation de suppression */
-@keyframes slideOutUp {
-    from {
-        opacity: 1;
-        transform: translateY(0);
+    .ingredient-row.adding {
+        animation: slideInDown 0.4s ease;
     }
-    to {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-}
 
-/* Animation pour les résultats de recherche */
-.autocomplete-results {
-    animation: fadeIn 0.2s ease;
-}
+    .ingredient-row.removing {
+        animation: slideOutUp 0.3s ease forwards;
+    }
 
-@keyframes fadeIn {
-    from { 
-        opacity: 0; 
-        transform: translateY(-10px); 
+    /* Animation d'ajout */
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
+
+    /* Animation de suppression */
+    @keyframes slideOutUp {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
     }
-}
+
+    /* Animation pour les résultats de recherche */
+    .autocomplete-results {
+        animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 </style>
 ```
 
 **Explications techniques** :
 
 1. **Loading spinner** :
-   - Pseudo-élément `::after` pour éviter HTML supplémentaire
-   - Positionnement absolu dans le champ de saisie
-   - Animation de rotation continue (360°)
-   - Bordure partielle pour effet de chargement
+
+    - Pseudo-élément `::after` pour éviter HTML supplémentaire
+    - Positionnement absolu dans le champ de saisie
+    - Animation de rotation continue (360°)
+    - Bordure partielle pour effet de chargement
 
 2. **Animations de slide** :
-   - `slideInDown` : Apparition depuis le haut avec fondu
-   - `slideOutUp` : Disparition vers le haut avec fondu
-   - Utilisation de `transform` pour performance GPU
-   - `forwards` pour maintenir l'état final
+
+    - `slideInDown` : Apparition depuis le haut avec fondu
+    - `slideOutUp` : Disparition vers le haut avec fondu
+    - Utilisation de `transform` pour performance GPU
+    - `forwards` pour maintenir l'état final
 
 3. **Fade pour autocomplete** :
-   - Transition douce à l'ouverture
-   - Déplacement vertical léger pour effet naturel
-   - Durée courte (0.2s) pour réactivité
+    - Transition douce à l'ouverture
+    - Déplacement vertical léger pour effet naturel
+    - Durée courte (0.2s) pour réactivité
 
 ### 14.3 JavaScript amélioré avec états de chargement
 
@@ -3525,69 +3638,75 @@ Améliorer l'expérience utilisateur en ajoutant des feedbacks visuels lors des 
 Modifications principales apportées à la fonction `setupAutocomplete()` :
 
 ```javascript
-searchInput.addEventListener('input', function() {
+searchInput.addEventListener("input", function () {
     clearTimeout(timeoutId);
     const query = this.value.trim();
-    
+
     if (query.length < 2) {
-        resultsDiv.style.display = 'none';
-        searchInput.classList.remove('autocomplete-loading');
+        resultsDiv.style.display = "none";
+        searchInput.classList.remove("autocomplete-loading");
         return;
     }
-    
+
     // Afficher le loading state
-    searchInput.classList.add('autocomplete-loading');
-    
+    searchInput.classList.add("autocomplete-loading");
+
     timeoutId = setTimeout(() => {
         fetch(`/api/ingredients/search?q=${encodeURIComponent(query)}`)
-            .then(response => response.json())
-            .then(ingredients => {
+            .then((response) => response.json())
+            .then((ingredients) => {
                 // Retirer le loading state
-                searchInput.classList.remove('autocomplete-loading');
-                resultsDiv.innerHTML = '';
-                
+                searchInput.classList.remove("autocomplete-loading");
+                resultsDiv.innerHTML = "";
+
                 if (ingredients.length === 0) {
-                    resultsDiv.innerHTML = '<div class="p-2 text-muted">Aucun ingrédient trouvé</div>';
-                    resultsDiv.style.display = 'block';
+                    resultsDiv.innerHTML =
+                        '<div class="p-2 text-muted">Aucun ingrédient trouvé</div>';
+                    resultsDiv.style.display = "block";
                     return;
                 }
-                
-                ingredients.forEach(ingredient => {
-                    const item = document.createElement('div');
-                    item.className = 'autocomplete-item p-2 border-bottom';
-                    item.style.cursor = 'pointer';
-                    
+
+                ingredients.forEach((ingredient) => {
+                    const item = document.createElement("div");
+                    item.className = "autocomplete-item p-2 border-bottom";
+                    item.style.cursor = "pointer";
+
                     // Affichage enrichi avec unité
                     item.innerHTML = `
                         <strong>${ingredient.nom}</strong>
                         <small class="text-muted d-block">Unité par défaut: ${ingredient.unite}</small>
                     `;
-                    
-                    item.addEventListener('mouseenter', () => item.classList.add('bg-light'));
-                    item.addEventListener('mouseleave', () => item.classList.remove('bg-light'));
-                    
-                    item.addEventListener('click', () => {
+
+                    item.addEventListener("mouseenter", () =>
+                        item.classList.add("bg-light")
+                    );
+                    item.addEventListener("mouseleave", () =>
+                        item.classList.remove("bg-light")
+                    );
+
+                    item.addEventListener("click", () => {
                         searchInput.value = ingredient.nom;
                         selectElement.value = ingredient.id;
-                        resultsDiv.style.display = 'none';
-                        
+                        resultsDiv.style.display = "none";
+
                         // Animation de validation
-                        searchInput.style.borderColor = '#28a745';
+                        searchInput.style.borderColor = "#28a745";
                         setTimeout(() => {
-                            searchInput.style.borderColor = '';
+                            searchInput.style.borderColor = "";
                         }, 1000);
                     });
-                    
+
                     resultsDiv.appendChild(item);
                 });
-                
-                resultsDiv.style.display = 'block';
+
+                resultsDiv.style.display = "block";
             })
-            .catch(error => {
-                console.error('Erreur autocomplete:', error);
-                searchInput.classList.remove('autocomplete-loading');
-                resultsDiv.innerHTML = '<div class="p-2 text-danger">Erreur de recherche</div>';
-                resultsDiv.style.display = 'block';
+            .catch((error) => {
+                console.error("Erreur autocomplete:", error);
+                searchInput.classList.remove("autocomplete-loading");
+                resultsDiv.innerHTML =
+                    '<div class="p-2 text-danger">Erreur de recherche</div>';
+                resultsDiv.style.display = "block";
             });
     }, 300);
 });
@@ -3596,49 +3715,55 @@ searchInput.addEventListener('input', function() {
 **Améliorations implémentées** :
 
 1. **Loading state** :
-   - Ajout classe `autocomplete-loading` pendant la requête
-   - Retrait après réception des résultats
-   - Spinner CSS s'affiche automatiquement
+
+    - Ajout classe `autocomplete-loading` pendant la requête
+    - Retrait après réception des résultats
+    - Spinner CSS s'affiche automatiquement
 
 2. **Message "Aucun résultat"** :
-   - Gestion du cas où la recherche ne retourne rien
-   - Message informatif pour l'utilisateur
-   - Évite l'impression de dysfonctionnement
+
+    - Gestion du cas où la recherche ne retourne rien
+    - Message informatif pour l'utilisateur
+    - Évite l'impression de dysfonctionnement
 
 3. **Affichage enrichi** :
-   - Nom de l'ingrédient en gras
-   - Unité par défaut affichée
-   - Meilleure prévisualisation pour l'utilisateur
+
+    - Nom de l'ingrédient en gras
+    - Unité par défaut affichée
+    - Meilleure prévisualisation pour l'utilisateur
 
 4. **Feedback visuel de validation** :
-   - Bordure verte temporaire (1 seconde)
-   - Confirme la sélection à l'utilisateur
-   - Retour automatique à l'état normal
+
+    - Bordure verte temporaire (1 seconde)
+    - Confirme la sélection à l'utilisateur
+    - Retour automatique à l'état normal
 
 5. **Gestion d'erreur** :
-   - Catch des erreurs réseau
-   - Message d'erreur affiché
-   - Retrait du loading state même en cas d'erreur
+    - Catch des erreurs réseau
+    - Message d'erreur affiché
+    - Retrait du loading state même en cas d'erreur
 
 ### 14.4 Animations pour ajout et suppression
 
 **Modification de la fonction d'ajout d'ingrédient** :
 
 ```javascript
-addButton.addEventListener('click', function() {
+addButton.addEventListener("click", function () {
     const prototype = ingredientsContainer.dataset.prototype;
     const newForm = prototype.replace(/__name__/g, index);
-    
-    const tempDiv = document.createElement('div');
+
+    const tempDiv = document.createElement("div");
     tempDiv.innerHTML = newForm;
-    
-    const ingredientSelect = tempDiv.querySelector('select[name*="ingredient"]');
+
+    const ingredientSelect = tempDiv.querySelector(
+        'select[name*="ingredient"]'
+    );
     const quantiteInput = tempDiv.querySelector('input[name*="quantite"]');
     const uniteSelect = tempDiv.querySelector('select[name*="unite"]');
-    
-    const wrapper = document.createElement('div');
+
+    const wrapper = document.createElement("div");
     // Ajout de la classe 'adding' pour animation
-    wrapper.className = 'ingredient-row border rounded p-2 mb-2 adding';
+    wrapper.className = "ingredient-row border rounded p-2 mb-2 adding";
     wrapper.innerHTML = `
         <div class="row">
             <div class="col-md-4 ingredient-field"></div>
@@ -3651,78 +3776,87 @@ addButton.addEventListener('click', function() {
             </div>
         </div>
     `;
-    
+
     if (ingredientSelect) {
-        wrapper.querySelector('.ingredient-field').appendChild(ingredientSelect);
+        wrapper
+            .querySelector(".ingredient-field")
+            .appendChild(ingredientSelect);
         setupAutocomplete(ingredientSelect);
     }
-    
+
     if (quantiteInput) {
-        quantiteInput.className = 'form-control form-control-sm';
-        wrapper.querySelector('.quantite-field').appendChild(quantiteInput);
+        quantiteInput.className = "form-control form-control-sm";
+        wrapper.querySelector(".quantite-field").appendChild(quantiteInput);
     }
-    
+
     if (uniteSelect) {
-        uniteSelect.className = 'form-select form-select-sm';
-        wrapper.querySelector('.unite-field').appendChild(uniteSelect);
+        uniteSelect.className = "form-select form-select-sm";
+        wrapper.querySelector(".unite-field").appendChild(uniteSelect);
     }
-    
+
     ingredientsContainer.appendChild(wrapper);
-    
+
     // Retirer la classe d'animation après son exécution
-    setTimeout(() => wrapper.classList.remove('adding'), 400);
-    
+    setTimeout(() => wrapper.classList.remove("adding"), 400);
+
     index++;
-    
+
     // Animation de suppression
-    wrapper.querySelector('.remove-ingredient').addEventListener('click', function() {
-        wrapper.classList.add('removing');
-        setTimeout(() => wrapper.remove(), 300);
-    });
+    wrapper
+        .querySelector(".remove-ingredient")
+        .addEventListener("click", function () {
+            wrapper.classList.add("removing");
+            setTimeout(() => wrapper.remove(), 300);
+        });
 });
 ```
 
 **Logique d'animation** :
 
 1. **Ajout** :
-   - Classe `adding` ajoutée immédiatement
-   - Animation `slideInDown` se déclenche automatiquement
-   - Classe retirée après 400ms (durée animation)
-   - Élément reste visible après animation
+
+    - Classe `adding` ajoutée immédiatement
+    - Animation `slideInDown` se déclenche automatiquement
+    - Classe retirée après 400ms (durée animation)
+    - Élément reste visible après animation
 
 2. **Suppression** :
-   - Classe `removing` ajoutée au clic
-   - Animation `slideOutUp` se déclenche
-   - `remove()` appelé après 300ms
-   - Élément supprimé du DOM après animation
+
+    - Classe `removing` ajoutée au clic
+    - Animation `slideOutUp` se déclenche
+    - `remove()` appelé après 300ms
+    - Élément supprimé du DOM après animation
 
 3. **Timing** :
-   - `setTimeout` synchronisé avec durée CSS
-   - Évite les bugs visuels
-   - Transitions fluides
+    - `setTimeout` synchronisé avec durée CSS
+    - Évite les bugs visuels
+    - Transitions fluides
 
 ### 14.5 Tests réalisés
 
 **Tests fonctionnels** :
-- Loading spinner apparaît pendant la recherche
-- Spinner disparaît après réception des résultats
-- Message "Aucun ingrédient trouvé" s'affiche correctement
-- Animation d'ajout fluide sans saccade
-- Animation de suppression complète avant retrait DOM
-- Bordure verte de validation visible 1 seconde
-- Gestion d'erreur affiche le message approprié
+
+-   Loading spinner apparaît pendant la recherche
+-   Spinner disparaît après réception des résultats
+-   Message "Aucun ingrédient trouvé" s'affiche correctement
+-   Animation d'ajout fluide sans saccade
+-   Animation de suppression complète avant retrait DOM
+-   Bordure verte de validation visible 1 seconde
+-   Gestion d'erreur affiche le message approprié
 
 **Tests de performance** :
-- Animations GPU-accélérées (transform, opacity)
-- Pas de repaint inutile
-- 60fps maintenus pendant les animations
-- Debounce toujours fonctionnel
+
+-   Animations GPU-accélérées (transform, opacity)
+-   Pas de repaint inutile
+-   60fps maintenus pendant les animations
+-   Debounce toujours fonctionnel
 
 **Tests d'accessibilité** :
-- Animations respectent `prefers-reduced-motion` (à ajouter)
-- Spinner ne bloque pas la saisie
-- Messages d'erreur lisibles
-- Contrastes respectés
+
+-   Animations respectent `prefers-reduced-motion` (à ajouter)
+-   Spinner ne bloque pas la saisie
+-   Messages d'erreur lisibles
+-   Contrastes respectés
 
 ### 14.6 Améliorations possibles
 
@@ -3737,7 +3871,7 @@ Ajout d'une media query pour désactiver les animations si nécessaire :
         animation: none !important;
         transition: none !important;
     }
-    
+
     .autocomplete-loading::after {
         animation: none !important;
     }
@@ -3756,25 +3890,31 @@ Pour une UX encore plus polie, on pourrait remplacer le spinner par un skeleton 
 }
 
 @keyframes loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
 }
 ```
 
 ### 14.7 Impact sur l'expérience utilisateur
 
 **Avant les animations** :
-- Ajout/suppression instantané et brutal
-- Pas de feedback pendant la recherche
-- Utilisateur ne sait pas si la recherche fonctionne
-- Interface statique et peu engageante
+
+-   Ajout/suppression instantané et brutal
+-   Pas de feedback pendant la recherche
+-   Utilisateur ne sait pas si la recherche fonctionne
+-   Interface statique et peu engageante
 
 **Après les animations** :
-- Transitions fluides et naturelles
-- Feedback visuel constant
-- Utilisateur informé de l'état du système
-- Interface moderne et professionnelle
-- Confiance accrue dans l'application
+
+-   Transitions fluides et naturelles
+-   Feedback visuel constant
+-   Utilisateur informé de l'état du système
+-   Interface moderne et professionnelle
+-   Confiance accrue dans l'application
 
 ### 14.8 Commit de la fonctionnalité
 
@@ -3813,26 +3953,28 @@ Tests:
 
 ---
 
-## ÉTAPE 13 : AMÉLIORATION VISUELLE ET MESSAGES FLASH 
+## ÉTAPE 13 : AMÉLIORATION VISUELLE ET MESSAGES FLASH
 
 ### 13.1 Création du fichier CSS personnalisé
 
 J'ai créé un fichier CSS personnalisé `public/css/app.css` avec la palette de couleurs complète du projet "Les Restes".
 
 **Variables CSS définies** :
+
 ```css
 :root {
-    --success-color: #4CAF50;           /* Vert principal */
-    --navigation-title-color: #2E7D32;  /* Vert foncé titres */
-    --cta-color: #F08A00;               /* Orange CTA */
-    --text-color: #000000;              /* Noir texte */
-    --background-color: #FCF8F5;        /* Beige clair fond */
-    --alt-background-color: #FFFFFF;    /* Blanc cartes */
-    --error-color: #FF383C;             /* Rouge erreurs */
+    --success-color: #4caf50; /* Vert principal */
+    --navigation-title-color: #2e7d32; /* Vert foncé titres */
+    --cta-color: #f08a00; /* Orange CTA */
+    --text-color: #000000; /* Noir texte */
+    --background-color: #fcf8f5; /* Beige clair fond */
+    --alt-background-color: #ffffff; /* Blanc cartes */
+    --error-color: #ff383c; /* Rouge erreurs */
 }
 ```
 
 **Organisation du fichier** :
+
 1. Variables CSS
 2. Typographie (h1-h6, body, labels)
 3. Layout général
@@ -3850,6 +3992,7 @@ J'ai créé un fichier CSS personnalisé `public/css/app.css` avec la palette de
 ### 13.2 Effets visuels implémentés
 
 **Cartes avec hover** :
+
 ```css
 .card:hover {
     transform: translateY(-5px);
@@ -3857,32 +4000,39 @@ J'ai créé un fichier CSS personnalisé `public/css/app.css` avec la palette de
     border-color: var(--success-color);
 }
 ```
+
 Les cartes s'élèvent légèrement au survol avec une ombre verte.
 
 **Focus sur formulaires** :
+
 ```css
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
     border-color: var(--success-color);
     box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
 }
 ```
+
 Bordure et ombre vertes quand on clique dans un champ.
 
 **Boutons personnalisés** :
-- `.btn-success` : Vert avec hover plus foncé
-- `.btn-warning` : Orange avec hover plus foncé
-- `.btn-primary` : Également en vert pour cohérence
+
+-   `.btn-success` : Vert avec hover plus foncé
+-   `.btn-warning` : Orange avec hover plus foncé
+-   `.btn-primary` : Également en vert pour cohérence
 
 ### 13.3 Messages flash améliorés
 
 J'ai créé `templates/_flash_messages.html.twig` avec :
--  Icônes Bootstrap Icons selon le type
--  Animation slideInDown à l'apparition
--  Bouton de fermeture sur chaque message
--  Auto-fermeture des messages success après 5s
--  Couleurs personnalisées de la palette
+
+-   Icônes Bootstrap Icons selon le type
+-   Animation slideInDown à l'apparition
+-   Bouton de fermeture sur chaque message
+-   Auto-fermeture des messages success après 5s
+-   Couleurs personnalisées de la palette
 
 **Template** :
+
 ```twig
 {% for type, messages in app.flashes %}
     {% for message in messages %}
@@ -3902,6 +4052,7 @@ J'ai créé `templates/_flash_messages.html.twig` avec :
 ```
 
 **Animation CSS** :
+
 ```css
 .flash-message {
     animation: slideInDown 0.5s ease;
@@ -3922,11 +4073,13 @@ J'ai créé `templates/_flash_messages.html.twig` avec :
 ### 13.4 Intégration dans base.html.twig
 
 **Ajout du CSS personnalisé** (après Bootstrap) :
+
 ```twig
 <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 ```
 
 **Inclusion des messages flash** :
+
 ```twig
 <div class="container mt-3">
     {{ include('_flash_messages.html.twig') }}
@@ -3936,16 +4089,17 @@ J'ai créé `templates/_flash_messages.html.twig` avec :
 ### 13.5 Responsive design
 
 Ajout de breakpoints pour mobile :
+
 ```css
 @media (max-width: 768px) {
     h1 {
         font-size: 28px;
     }
-    
+
     h2 {
         font-size: 24px;
     }
-    
+
     .card:hover {
         transform: none; /* Pas d'effet sur mobile */
     }
@@ -3955,46 +4109,51 @@ Ajout de breakpoints pour mobile :
 ### 13.6 Tests des améliorations visuelles
 
 J'ai testé tous les éléments visuels :
--  Palette de couleurs appliquée sur toutes les pages
--  Cartes avec effet hover fonctionnel
--  Boutons avec bonnes couleurs et états hover
--  Messages flash avec animation slideInDown
--  Auto-fermeture des success après 5 secondes
-- ✅ Formulaires avec focus vert
-- ✅ Étoiles de notation en orange
-- ✅ Pagination avec liens verts
-- ✅ Responsive testé sur mobile
--  Aucun conflit avec Bootstrap
+
+-   Palette de couleurs appliquée sur toutes les pages
+-   Cartes avec effet hover fonctionnel
+-   Boutons avec bonnes couleurs et états hover
+-   Messages flash avec animation slideInDown
+-   Auto-fermeture des success après 5 secondes
+-   ✅ Formulaires avec focus vert
+-   ✅ Étoiles de notation en orange
+-   ✅ Pagination avec liens verts
+-   ✅ Responsive testé sur mobile
+-   Aucun conflit avec Bootstrap
 
 ### 13.7 Avantages de l'approche avec variables CSS
 
 **Maintenance facile** :
-- Changer une couleur = modifier 1 variable
-- Cohérence automatique dans toute l'app
-- Facile d'ajouter un mode sombre plus tard
+
+-   Changer une couleur = modifier 1 variable
+-   Cohérence automatique dans toute l'app
+-   Facile d'ajouter un mode sombre plus tard
 
 **Performance** :
-- 1 seul fichier CSS
-- Animations CSS (plus rapides que JS)
-- Sélecteurs simples et efficaces
+
+-   1 seul fichier CSS
+-   Animations CSS (plus rapides que JS)
+-   Sélecteurs simples et efficaces
 
 **Organisation** :
-- Sections clairement commentées
-- Ordre logique (variables → layout → composants)
-- Cascade CSS respectée
+
+-   Sections clairement commentées
+-   Ordre logique (variables → layout → composants)
+-   Cascade CSS respectée
 
 ---
 
-## ÉTAPE 14 : LOADING STATES ET ANIMATIONS CSS 
+## ÉTAPE 14 : LOADING STATES ET ANIMATIONS CSS
 
 ### 14.1 Animations pour l'autocomplete
 
 J'ai ajouté des animations CSS professionnelles pour améliorer l'expérience utilisateur lors de la recherche d'ingrédients.
 
 **Loading spinner pendant la recherche** :
+
 ```css
 .autocomplete-loading::after {
-    content: '';
+    content: "";
     position: absolute;
     right: 10px;
     top: 50%;
@@ -4013,6 +4172,7 @@ J'ai ajouté des animations CSS professionnelles pour améliorer l'expérience u
 ### 14.2 Animations pour ajout/suppression d'ingrédients
 
 **Animation d'ajout** :
+
 ```css
 .ingredient-row.adding {
     animation: slideInDown 0.4s ease;
@@ -4031,6 +4191,7 @@ J'ai ajouté des animations CSS professionnelles pour améliorer l'expérience u
 ```
 
 **Animation de suppression** :
+
 ```css
 .ingredient-row.removing {
     animation: slideOutUp 0.3s ease forwards;
@@ -4058,13 +4219,13 @@ J'ai ajouté des animations CSS professionnelles pour améliorer l'expérience u
 }
 
 @keyframes fadeIn {
-    from { 
-        opacity: 0; 
-        transform: translateY(-10px); 
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
     }
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 ```
@@ -4076,44 +4237,54 @@ J'ai ajouté des animations CSS professionnelles pour améliorer l'expérience u
 J'ai amélioré le JavaScript de l'autocomplete pour inclure :
 
 **1. Loading spinner** :
+
 ```javascript
 // Afficher le loading
-searchInput.classList.add('autocomplete-loading');
+searchInput.classList.add("autocomplete-loading");
 
 // Retirer après la réponse
-searchInput.classList.remove('autocomplete-loading');
+searchInput.classList.remove("autocomplete-loading");
 ```
 
 **2. Messages améliorés** :
+
 ```javascript
 if (ingredients.length === 0) {
-    resultsDiv.innerHTML = '<div class="p-2 text-muted"><i class="bi bi-search"></i> Aucun ingrédient trouvé</div>';
+    resultsDiv.innerHTML =
+        '<div class="p-2 text-muted"><i class="bi bi-search"></i> Aucun ingrédient trouvé</div>';
 }
 ```
 
 **3. Affichage des unités** :
+
 ```javascript
 item.innerHTML = `
     <strong>${ingredient.nom}</strong>
-    ${ingredient.unite ? `<small class="text-muted d-block">Unité: ${ingredient.unite}</small>` : ''}
+    ${
+        ingredient.unite
+            ? `<small class="text-muted d-block">Unité: ${ingredient.unite}</small>`
+            : ""
+    }
 `;
 ```
 
 **4. Animation de validation** :
+
 ```javascript
-item.addEventListener('click', () => {
+item.addEventListener("click", () => {
     searchInput.value = ingredient.nom;
     selectElement.value = ingredient.id;
-    
+
     // Bordure verte temporaire
-    searchInput.style.borderColor = 'var(--success-color)';
+    searchInput.style.borderColor = "var(--success-color)";
     setTimeout(() => {
-        searchInput.style.borderColor = '';
+        searchInput.style.borderColor = "";
     }, 1000);
 });
 ```
 
 **5. Gestion d'erreurs** :
+
 ```javascript
 .catch(error => {
     searchInput.classList.remove('autocomplete-loading');
@@ -4124,60 +4295,68 @@ item.addEventListener('click', () => {
 ### 14.5 Animations pour ajout/suppression
 
 **Ajout avec animation** :
+
 ```javascript
-const wrapper = document.createElement('div');
-wrapper.className = 'ingredient-row border rounded p-2 mb-2 adding';
+const wrapper = document.createElement("div");
+wrapper.className = "ingredient-row border rounded p-2 mb-2 adding";
 
 // Retirer la classe après l'animation
-setTimeout(() => wrapper.classList.remove('adding'), 400);
+setTimeout(() => wrapper.classList.remove("adding"), 400);
 ```
 
 **Suppression avec animation** :
+
 ```javascript
-wrapper.querySelector('.remove-ingredient').addEventListener('click', function() {
-    wrapper.classList.add('removing');
-    setTimeout(() => wrapper.remove(), 300);
-});
+wrapper
+    .querySelector(".remove-ingredient")
+    .addEventListener("click", function () {
+        wrapper.classList.add("removing");
+        setTimeout(() => wrapper.remove(), 300);
+    });
 ```
 
 ### 14.6 Tests des animations
 
 J'ai testé toutes les animations :
--  Loading spinner s'affiche pendant la recherche
--  Suggestions apparaissent avec fadeIn
--  Nouvelle ligne glisse vers le bas
--  Ligne supprimée glisse vers le haut
--  Bordure verte lors de la sélection
--  Message "Aucun résultat" si rien trouvé
--  Message d'erreur en cas de problème
--  Unité affichée sous le nom de l'ingrédient
--  Aucun lag ou saccade
+
+-   Loading spinner s'affiche pendant la recherche
+-   Suggestions apparaissent avec fadeIn
+-   Nouvelle ligne glisse vers le bas
+-   Ligne supprimée glisse vers le haut
+-   Bordure verte lors de la sélection
+-   Message "Aucun résultat" si rien trouvé
+-   Message d'erreur en cas de problème
+-   Unité affichée sous le nom de l'ingrédient
+-   Aucun lag ou saccade
 
 ### 14.7 Résumé des améliorations UX
 
 **Avant** :
--  Pas de feedback visuel pendant la recherche
--  Ajout/suppression instantané (brutal)
--  Pas d'indication quand un ingrédient est sélectionné
--  Pas de gestion d'erreurs visible
+
+-   Pas de feedback visuel pendant la recherche
+-   Ajout/suppression instantané (brutal)
+-   Pas d'indication quand un ingrédient est sélectionné
+-   Pas de gestion d'erreurs visible
 
 **Après** :
--  Loading spinner pendant la recherche
--  Animations fluides pour ajout/suppression
--  Bordure verte temporaire après sélection
--  Messages d'erreur clairs avec icônes
--  Affichage de l'unité de l'ingrédient
--  Message "Aucun résultat" informatif
+
+-   Loading spinner pendant la recherche
+-   Animations fluides pour ajout/suppression
+-   Bordure verte temporaire après sélection
+-   Messages d'erreur clairs avec icônes
+-   Affichage de l'unité de l'ingrédient
+-   Message "Aucun résultat" informatif
 
 ---
 
-## ÉTAPE 15 : MESSAGES DE FEEDBACK AMÉLIORÉS 
+## ÉTAPE 15 : MESSAGES DE FEEDBACK AMÉLIORÉS
 
 ### 15.1 Template des messages flash
 
 J'ai créé `templates/_flash_messages.html.twig` avec un design moderne et des animations.
 
 **Template complet** :
+
 ```twig
 {% for type, messages in app.flashes %}
     {% for message in messages %}
@@ -4197,14 +4376,16 @@ J'ai créé `templates/_flash_messages.html.twig` avec un design moderne et des 
 ```
 
 **Fonctionnalités** :
--  Icônes Bootstrap Icons selon le type
--  Bouton de fermeture sur chaque message
--  Gestion de 3 types : success, error/danger, info
--  Classes Bootstrap pour le style
+
+-   Icônes Bootstrap Icons selon le type
+-   Bouton de fermeture sur chaque message
+-   Gestion de 3 types : success, error/danger, info
+-   Classes Bootstrap pour le style
 
 ### 15.2 Animation des messages flash
 
 **CSS dans le template** :
+
 ```css
 .flash-message {
     animation: slideInDown 0.5s ease;
@@ -4228,10 +4409,11 @@ J'ai créé `templates/_flash_messages.html.twig` avec un design moderne et des 
 ### 15.3 Auto-fermeture des messages success
 
 **JavaScript dans le template** :
+
 ```javascript
 setTimeout(() => {
-    document.querySelectorAll('.flash-message').forEach(alert => {
-        if (alert.classList.contains('alert-success')) {
+    document.querySelectorAll(".flash-message").forEach((alert) => {
+        if (alert.classList.contains("alert-success")) {
             const bsAlert = new bootstrap.Alert(alert);
             bsAlert.close();
         }
@@ -4240,21 +4422,23 @@ setTimeout(() => {
 ```
 
 **Comportement** :
-- Messages **success** : Se ferment automatiquement après 5 secondes
-- Messages **error/danger/info** : Restent visibles (l'utilisateur doit fermer manuellement)
+
+-   Messages **success** : Se ferment automatiquement après 5 secondes
+-   Messages **error/danger/info** : Restent visibles (l'utilisateur doit fermer manuellement)
 
 ### 15.4 Intégration dans base.html.twig
 
 **Ajout dans le layout** :
+
 ```twig
 <body>
     {% include '_navbar.html.twig' %}
-    
+
     <!-- Messages flash -->
     <div class="container mt-3">
         {{ include('_flash_messages.html.twig') }}
     </div>
-    
+
     {% block body %}{% endblock %}
 </body>
 ```
@@ -4264,6 +4448,7 @@ setTimeout(() => {
 ### 15.5 Utilisation dans les contrôleurs
 
 **Exemples de messages** :
+
 ```php
 // Message de succès (auto-close après 5s)
 $this->addFlash('success', 'Recette créée avec succès !');
@@ -4281,6 +4466,7 @@ $this->addFlash('danger', 'Action impossible : recette introuvable.');
 ### 15.6 Styles personnalisés dans app.css
 
 **Messages success** :
+
 ```css
 .alert-success {
     background-color: rgba(76, 175, 80, 0.1);
@@ -4290,6 +4476,7 @@ $this->addFlash('danger', 'Action impossible : recette introuvable.');
 ```
 
 **Messages danger** :
+
 ```css
 .alert-danger {
     background-color: rgba(255, 56, 60, 0.1);
@@ -4303,48 +4490,52 @@ $this->addFlash('danger', 'Action impossible : recette introuvable.');
 ### 15.7 Tests des messages flash
 
 J'ai testé tous les scénarios :
--  Message success après création de recette
--  Message error lors d'une erreur de validation
--  Message info après mise à jour de profil
--  Animation slideInDown fluide
--  Auto-fermeture des success après 5s
--  Bouton de fermeture fonctionnel
--  Icônes correctes selon le type
--  Couleurs de la palette appliquées
--  Responsive sur mobile
+
+-   Message success après création de recette
+-   Message error lors d'une erreur de validation
+-   Message info après mise à jour de profil
+-   Animation slideInDown fluide
+-   Auto-fermeture des success après 5s
+-   Bouton de fermeture fonctionnel
+-   Icônes correctes selon le type
+-   Couleurs de la palette appliquées
+-   Responsive sur mobile
 
 ### 15.8 Résumé des améliorations
 
 **Avant** :
--  Messages flash basiques de Symfony
--  Pas d'icônes
--  Pas d'animation
--  Couleurs Bootstrap par défaut
--  Pas d'auto-fermeture
+
+-   Messages flash basiques de Symfony
+-   Pas d'icônes
+-   Pas d'animation
+-   Couleurs Bootstrap par défaut
+-   Pas d'auto-fermeture
 
 **Après** :
--  Messages avec icônes expressives
--  Animation slideInDown élégante
--  Couleurs personnalisées (palette du projet)
--  Auto-fermeture des success après 5s
--  Bouton de fermeture manuel
--  Design professionnel et cohérent
+
+-   Messages avec icônes expressives
+-   Animation slideInDown élégante
+-   Couleurs personnalisées (palette du projet)
+-   Auto-fermeture des success après 5s
+-   Bouton de fermeture manuel
+-   Design professionnel et cohérent
 
 ---
 
-## ÉTAPE 16 : FINALISATION DE L'INTERFACE SELON LE WIREFRAME 
+## ÉTAPE 16 : FINALISATION DE L'INTERFACE SELON LE WIREFRAME
 
 ### 16.1 Contexte et besoin
 
 Après avoir développé toutes les fonctionnalités backend et le système d'autocomplete, j'ai comparé l'application actuelle avec le wireframe initial. Plusieurs éléments manquaient pour correspondre exactement au design prévu :
 
 **Problèmes identifiés** :
--  Logo SVG incomplet ou manquant dans la navbar
--  Page d'accueil sans hero section
--  Icône du bol manquante
--  Barre de recherche trop petite et pas stylisée
--  Footer basique sans les sections structurées
--  Manque de cohérence visuelle avec le wireframe
+
+-   Logo SVG incomplet ou manquant dans la navbar
+-   Page d'accueil sans hero section
+-   Icône du bol manquante
+-   Barre de recherche trop petite et pas stylisée
+-   Footer basique sans les sections structurées
+-   Manque de cohérence visuelle avec le wireframe
 
 ### 16.2 Mise à jour du fichier CSS complet
 
@@ -4355,17 +4546,18 @@ J'ai créé le fichier `public/css/app.css` avec toute la palette de couleurs et
 ```css
 /* Variables CSS pour cohérence */
 :root {
-    --success-color: #4CAF50;        /* Vert principal */
-    --navigation-title-color: #2E7D32;  /* Vert foncé titres */
-    --cta-color: #F08A00;             /* Orange CTA */
-    --text-color: #000000;            /* Noir texte */
-    --background-color: #FCF8F5;      /* Beige fond */
-    --alt-background-color: #FFFFFF;  /* Blanc cartes */
-    --error-color: #FF383C;           /* Rouge erreurs */
+    --success-color: #4caf50; /* Vert principal */
+    --navigation-title-color: #2e7d32; /* Vert foncé titres */
+    --cta-color: #f08a00; /* Orange CTA */
+    --text-color: #000000; /* Noir texte */
+    --background-color: #fcf8f5; /* Beige fond */
+    --alt-background-color: #ffffff; /* Blanc cartes */
+    --error-color: #ff383c; /* Rouge erreurs */
 }
 ```
 
 **Sections du CSS** :
+
 1. **Variables CSS** : Palette de couleurs complète
 2. **Typographie** : h1-h6 avec tailles et poids définis
 3. **Layout général** : Background beige clair
@@ -4381,10 +4573,11 @@ J'ai créé le fichier `public/css/app.css` avec toute la palette de couleurs et
 13. **Responsive** : Breakpoints mobile
 
 **Animations CSS ajoutées** :
-- `slideInDown` : Messages flash et ajout d'ingrédients
-- `slideOutUp` : Suppression d'ingrédients
-- `fadeIn` : Apparition des résultats autocomplete
-- `spin` : Loading spinner pendant recherche
+
+-   `slideInDown` : Messages flash et ajout d'ingrédients
+-   `slideOutUp` : Suppression d'ingrédients
+-   `fadeIn` : Apparition des résultats autocomplete
+-   `spin` : Loading spinner pendant recherche
 
 ### 16.3 Correction du template base.html.twig
 
@@ -4411,7 +4604,7 @@ Les Restes
                 <h6 class="fw-bold mb-3">Mention légales</h6>
                 <p class="small mb-0">Copyright © 2025</p>
             </div>
-            
+
             <!-- Colonne 2 : Réseaux sociaux -->
             <div class="col-md-3">
                 <h6 class="fw-bold mb-3">Réseaux sociaux</h6>
@@ -4422,7 +4615,7 @@ Les Restes
                     <a href="#" class="text-dark"><i class="bi bi-facebook fs-5"></i></a>
                 </div>
             </div>
-            
+
             <!-- Colonne 3 : Contact -->
             <div class="col-md-3">
                 <h6 class="fw-bold mb-3">Nous contacter</h6>
@@ -4432,7 +4625,7 @@ Les Restes
                     </a>
                 </p>
             </div>
-            
+
             <!-- Colonne 4 : Adresse et Logo -->
             <div class="col-md-3 text-end">
                 <h6 class="fw-bold mb-3">Adresse Postale</h6>
@@ -4452,11 +4645,12 @@ Les Restes
 ```
 
 **Structure du footer** :
--  4 colonnes équilibrées (col-md-3 chacune)
--  Sections : Mentions légales, Réseaux sociaux, Contact, Adresse
--  Icônes Bootstrap pour les réseaux sociaux
--  Logo en bas à droite
--  Correspond exactement au wireframe
+
+-   4 colonnes équilibrées (col-md-3 chacune)
+-   Sections : Mentions légales, Réseaux sociaux, Contact, Adresse
+-   Icônes Bootstrap pour les réseaux sociaux
+-   Logo en bas à droite
+-   Correspond exactement au wireframe
 
 ### 16.4 Refonte de la page d'accueil
 
@@ -4470,26 +4664,26 @@ J'ai complètement revu `templates/home/index.html.twig` pour correspondre au wi
         Transformez vos restes<br>
         en délicieuses recettes
     </h1>
-    
+
     <!-- Icône du bol orange -->
     <div class="mb-4">
         <svg width="80" height="93" viewBox="0 0 49 57" fill="none">
             <path d="..." fill="#F08A00"/>
         </svg>
     </div>
-    
+
     <!-- Grande barre de recherche -->
     <div class="row justify-content-center">
         <div class="col-md-8">
             <form action="{{ path('app_recette_index') }}" method="GET">
                 <div class="input-group input-group-lg mb-4">
-                    <input type="text" 
-                           class="form-control" 
-                           name="q" 
-                           placeholder="Entrez vos ingrédients (ex: tomates, œufs, fromage...)" 
+                    <input type="text"
+                           class="form-control"
+                           name="q"
+                           placeholder="Entrez vos ingrédients (ex: tomates, œufs, fromage...)"
                            style="border-radius: 50px 0 0 50px; padding: 1rem 1.5rem;">
-                    <button class="btn btn-warning" 
-                            type="submit" 
+                    <button class="btn btn-warning"
+                            type="submit"
                             style="border-radius: 0 50px 50px 0; padding: 0 2rem; font-weight: bold;">
                         <i class="bi bi-search"></i> Rechercher
                     </button>
@@ -4501,11 +4695,12 @@ J'ai complètement revu `templates/home/index.html.twig` pour correspondre au wi
 ```
 
 **Éléments clés du hero** :
--  Titre sur 2 lignes centré
--  Icône du bol orange (SVG) de 80x93px
--  Grande barre de recherche arrondie (border-radius: 50px)
--  Bouton orange "Rechercher" avec icône
--  Padding généreux pour respiration visuelle
+
+-   Titre sur 2 lignes centré
+-   Icône du bol orange (SVG) de 80x93px
+-   Grande barre de recherche arrondie (border-radius: 50px)
+-   Bouton orange "Rechercher" avec icône
+-   Padding généreux pour respiration visuelle
 
 **Section "Dernières recettes"** :
 
@@ -4522,19 +4717,19 @@ J'ai complètement revu `templates/home/index.html.twig` pour correspondre au wi
             <div class="card h-100">
                 <!-- Image -->
                 {% if recette.image %}
-                    <img src="/uploads/recettes/{{ recette.image }}" 
-                         class="card-img-top" 
+                    <img src="/uploads/recettes/{{ recette.image }}"
+                         class="card-img-top"
                          style="height: 250px; object-fit: cover;">
                 {% else %}
-                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
                          style="height: 250px;">
                         <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
                     </div>
                 {% endif %}
-                
+
                 <div class="card-body">
                     <h5 class="card-title">{{ recette.nom }}</h5>
-                    
+
                     <!-- Étoiles de notation -->
                     <div class="mb-2">
                         {% if recette.moyenneNotes %}
@@ -4551,13 +4746,13 @@ J'ai complètement revu `templates/home/index.html.twig` pour correspondre au wi
                             {% endfor %}
                         {% endif %}
                     </div>
-                    
+
                     <!-- Description tronquée -->
                     <p class="card-text text-muted small">
                         {{ recette.description|length > 80 ? recette.description|slice(0, 80) ~ '...' : recette.description }}
                     </p>
-                    
-                    <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
+
+                    <a href="{{ path('app_recette_show', {'id': recette.id}) }}"
                        class="btn btn-outline-success btn-sm">
                         <i class="bi bi-eye"></i> Voir
                     </a>
@@ -4575,14 +4770,15 @@ J'ai complètement revu `templates/home/index.html.twig` pour correspondre au wi
 ```
 
 **Gestion des cartes de recettes** :
--  3 colonnes (col-md-4)
--  Image fixe à 250px de hauteur avec object-fit: cover
--  Placeholder si pas d'image (icône Bootstrap)
--  Étoiles de notation oranges
--  Description limitée à 80 caractères
--  Bouton "Voir" vert outline
--  Message informatif si aucune recette
--  Effet hover sur les cartes (élévation)
+
+-   3 colonnes (col-md-4)
+-   Image fixe à 250px de hauteur avec object-fit: cover
+-   Placeholder si pas d'image (icône Bootstrap)
+-   Étoiles de notation oranges
+-   Description limitée à 80 caractères
+-   Bouton "Voir" vert outline
+-   Message informatif si aucune recette
+-   Effet hover sur les cartes (élévation)
 
 ### 16.5 Vérification du HomeController
 
@@ -4618,56 +4814,61 @@ class HomeController extends AbstractController
 ```
 
 **Points importants** :
--  Injection de `RecetteRepository`
--  `findBy()` avec tri par dateCreation DESC
--  Limite de 3 recettes
--  Variable `dernieresRecettes` passée au template
+
+-   Injection de `RecetteRepository`
+-   `findBy()` avec tri par dateCreation DESC
+-   Limite de 3 recettes
+-   Variable `dernieresRecettes` passée au template
 
 ### 16.6 Tests de l'interface finalisée
 
 J'ai testé tous les éléments visuels :
--  Logo SVG s'affiche correctement dans la navbar
--  Hero section avec titre, icône et barre de recherche
--  Icône du bol orange bien centrée
--  Barre de recherche arrondie avec bouton orange
--  Section "Dernières recettes" avec 3 cartes
--  Images des recettes affichées correctement
--  Étoiles de notation en orange
--  Effet hover sur les cartes
--  Footer structuré en 4 colonnes
--  Logo dans le footer en bas à droite
--  Responsive sur mobile
+
+-   Logo SVG s'affiche correctement dans la navbar
+-   Hero section avec titre, icône et barre de recherche
+-   Icône du bol orange bien centrée
+-   Barre de recherche arrondie avec bouton orange
+-   Section "Dernières recettes" avec 3 cartes
+-   Images des recettes affichées correctement
+-   Étoiles de notation en orange
+-   Effet hover sur les cartes
+-   Footer structuré en 4 colonnes
+-   Logo dans le footer en bas à droite
+-   Responsive sur mobile
 
 ### 16.7 Comparaison wireframe vs résultat final
 
 **Page d'accueil** :
 
-| Élément | Wireframe | Avant | Après |
-|---------|-----------|-------|-------|
-| Logo navbar |  Présent |  Incomplet |  Complet |
-| Titre hero |  2 lignes |  Absent |  Présent |
-| Icône bol |  Orange centré |  Absent |  Présent |
-| Barre recherche |  Grande arrondie |  Petite |  Grande |
-| Bouton recherche |  Orange |  Vert |  Orange |
-| Section recettes |  3 cartes |  Basique |  3 cartes |
-| Footer |  4 colonnes |  Simple |  4 colonnes |
+| Élément          | Wireframe       | Avant     | Après      |
+| ---------------- | --------------- | --------- | ---------- |
+| Logo navbar      | Présent         | Incomplet | Complet    |
+| Titre hero       | 2 lignes        | Absent    | Présent    |
+| Icône bol        | Orange centré   | Absent    | Présent    |
+| Barre recherche  | Grande arrondie | Petite    | Grande     |
+| Bouton recherche | Orange          | Vert      | Orange     |
+| Section recettes | 3 cartes        | Basique   | 3 cartes   |
+| Footer           | 4 colonnes      | Simple    | 4 colonnes |
 
-**Résultat** : L'interface correspond maintenant exactement au wireframe ! 
+**Résultat** : L'interface correspond maintenant exactement au wireframe !
 
 ### 16.8 Fichiers modifiés
 
 **Nouveaux fichiers** :
--  `public/css/app.css` - CSS complet avec palette
--  `templates/_flash_messages.html.twig` - Messages animés
+
+-   `public/css/app.css` - CSS complet avec palette
+-   `templates/_flash_messages.html.twig` - Messages animés
 
 **Fichiers modifiés** :
--  `templates/base.html.twig` - Logo + Footer complet
--  `templates/home/index.html.twig` - Hero + Recettes
--  `src/Controller/HomeController.php` - Passage des recettes
+
+-   `templates/base.html.twig` - Logo + Footer complet
+-   `templates/home/index.html.twig` - Hero + Recettes
+-   `src/Controller/HomeController.php` - Passage des recettes
 
 ### 16.9 Points d'amélioration appliqués
 
 **UX améliorée** :
+
 1. Barre de recherche arrondie et grande (plus visible)
 2. Bouton orange contrasté (appel à l'action clair)
 3. Cartes avec effet hover (feedback visuel)
@@ -4675,6 +4876,7 @@ J'ai testé tous les éléments visuels :
 5. Footer complet (informations structurées)
 
 **Design cohérent** :
+
 1. Palette de couleurs respectée partout
 2. Typographie hiérarchisée (h1, h2, h3)
 3. Espacement généreux (py-5, mb-4)
@@ -4682,6 +4884,7 @@ J'ai testé tous les éléments visuels :
 5. Layout responsive (col-md-X)
 
 **Performance** :
+
 1. CSS organisé par sections
 2. Variables CSS pour maintenance facile
 3. Animations légères (0.3s, 0.5s)
@@ -4725,36 +4928,39 @@ HomeController:
 - Passage au template
 
 Tests:
-- ✅ Interface identique au wireframe
-- ✅ Logo SVG complet
-- ✅ Hero section complète
-- ✅ Footer structuré
-- ✅ Recettes s'affichent
-- ✅ Responsive testé
-- ✅ Animations fluides"
+-  Interface identique au wireframe
+-  Logo SVG complet
+-  Hero section complète
+-  Footer structuré
+-  Recettes s'affichent
+-  Responsive testé
+-  Animations fluides"
 ```
 
 ---
 
-## ÉTAPE 17 : CORRECTIONS DE LA RECHERCHE ET COHÉRENCE VISUELLE 🔧
+## ÉTAPE 17 : CORRECTIONS DE LA RECHERCHE ET COHÉRENCE VISUELLE
 
 ### 17.1 Problèmes identifiés après tests
 
 Après avoir finalisé l'interface selon le wireframe, plusieurs problèmes sont apparus lors des tests utilisateurs :
 
 **Problèmes de routing** :
-- ❌ La recherche depuis l'accueil pointait vers `/recette` au lieu de `/recherche`
-- ❌ L'utilisateur ne tombait pas sur la bonne page de résultats
+
+-   La recherche depuis l'accueil pointait vers `/recette` au lieu de `/recherche`
+-   L'utilisateur ne tombait pas sur la bonne page de résultats
 
 **Problèmes visuels** :
-- ❌ Navbar en blanc (`bg-white`), body en beige → incohérence
-- ❌ Footer en gris clair (`bg-light`), body en beige → incohérence
-- ❌ CSS de pagination disparu après modifications
+
+-   Navbar en blanc (`bg-white`), body en beige → incohérence
+-   Footer en gris clair (`bg-light`), body en beige → incohérence
+-   CSS de pagination disparu après modifications
 
 **Problèmes fonctionnels** :
-- ❌ Recherche par ingrédients ne trouvait qu'une seule recette
-- ❌ Recherche textuelle trop stricte (ne gérait pas pluriel/minuscules)
-- ❌ Beaucoup moins de résultats sur `/recherche` que sur `/recette`
+
+-   Recherche par ingrédients ne trouvait qu'une seule recette
+-   Recherche textuelle trop stricte (ne gérait pas pluriel/minuscules)
+-   Beaucoup moins de résultats sur `/recherche` que sur `/recette`
 
 ### 17.2 Correction du routing de recherche
 
@@ -4771,13 +4977,15 @@ Après avoir finalisé l'interface selon le wireframe, plusieurs problèmes sont
 ```
 
 **Explication** :
-- La barre de recherche sur la home doit pointer vers la page de recherche par ingrédients
-- `app_recette_index` = page avec toutes les recettes + filtres avancés
-- `app_search` = page de recherche par ingrédients spécifiques
+
+-   La barre de recherche sur la home doit pointer vers la page de recherche par ingrédients
+-   `app_recette_index` = page avec toutes les recettes + filtres avancés
+-   `app_search` = page de recherche par ingrédients spécifiques
 
 **Résultat** :
-- ✅ Taper "tomate" sur la home → redirige vers `/recherche?q=tomate`
-- ✅ Page cohérente avec le wireframe "02 - Recherche Recettes"
+
+-   Taper "tomate" sur la home → redirige vers `/recherche?q=tomate`
+-   Page cohérente avec le wireframe "02 - Recherche Recettes"
 
 ### 17.3 Cohérence visuelle navbar/footer/body
 
@@ -4793,7 +5001,7 @@ Après avoir finalisé l'interface selon le wireframe, plusieurs problèmes sont
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
 
 <!-- APRÈS -->
-<nav class="navbar navbar-expand-lg navbar-light border-bottom" 
+<nav class="navbar navbar-expand-lg navbar-light border-bottom"
      style="background-color: var(--background-color);">
 ```
 
@@ -4803,16 +5011,17 @@ Après avoir finalisé l'interface selon le wireframe, plusieurs problèmes sont
 <footer class="bg-light py-4 mt-5 border-top">
 
 <!-- APRÈS -->
-<footer class="py-4 mt-5 border-top" 
+<footer class="py-4 mt-5 border-top"
         style="background-color: var(--background-color);">
 ```
 
 **Résultat** :
-- ✅ Navbar en beige (#FCF8F5)
-- ✅ Body en beige (#FCF8F5)
-- ✅ Footer en beige (#FCF8F5)
-- ✅ Bordures subtiles pour séparer visuellement
-- ✅ Cohérence parfaite avec le wireframe
+
+-   Navbar en beige (#FCF8F5)
+-   Body en beige (#FCF8F5)
+-   Footer en beige (#FCF8F5)
+-   Bordures subtiles pour séparer visuellement
+-   Cohérence parfaite avec le wireframe
 
 ### 17.4 Ajout du CSS de pagination
 
@@ -4890,7 +5099,7 @@ Le CSS de pagination avait été oublié lors des modifications précédentes. J
         font-size: 0.875rem;
         flex-wrap: wrap;
     }
-    
+
     .page-link {
         padding: 0.375rem 0.5rem;
         min-width: 32px;
@@ -4900,13 +5109,14 @@ Le CSS de pagination avait été oublié lors des modifications précédentes. J
 ```
 
 **Caractéristiques** :
-- ✅ Couleur verte pour les liens (var(--success-color))
-- ✅ Effet hover avec fond vert
-- ✅ Page active en vert avec texte blanc
-- ✅ Pages désactivées en gris avec opacité
-- ✅ Coins arrondis sur premier/dernier élément
-- ✅ Responsive pour mobile
-- ✅ Focus avec ombre verte pour accessibilité
+
+-   Couleur verte pour les liens (var(--success-color))
+-   Effet hover avec fond vert
+-   Page active en vert avec texte blanc
+-   Pages désactivées en gris avec opacité
+-   Coins arrondis sur premier/dernier élément
+-   Responsive pour mobile
+-   Focus avec ombre verte pour accessibilité
 
 ### 17.5 Problème de la recherche par ingrédients
 
@@ -4915,12 +5125,14 @@ Le CSS de pagination avait été oublié lors des modifications précédentes. J
 **Cause identifiée** : Deux problèmes dans le code :
 
 1. **SearchController** : Recherche trop stricte
+
 ```php
 // Problème : cherche uniquement "Tomate" exact
 $ingredient = $ingredientRepository->findOneBy(['nom' => ucfirst($term)]);
 ```
 
 2. **RecetteRepository::findByIngredients()** : Requête trop complexe
+
 ```php
 // Problème : JOIN multiples avec alias dynamiques (ri0, ri1, i0, i1...)
 foreach ($ingredientIds as $index => $ingredientId) {
@@ -4953,20 +5165,20 @@ class SearchController extends AbstractController
 {
     #[Route('/recherche', name: 'app_search')]
     public function index(
-        Request $request, 
-        IngredientRepository $ingredientRepository, 
+        Request $request,
+        IngredientRepository $ingredientRepository,
         RecetteRepository $recetteRepository
     ): Response {
         $ingredients = $ingredientRepository->findAll();
         $selectedIngredients = [];
         $recettes = [];
-        
+
         // Recherche textuelle depuis l'accueil
         $query = $request->query->get('q');
         if ($query) {
             // Séparer les termes
             $searchTerms = array_map('trim', explode(',', $query));
-            
+
             foreach ($searchTerms as $term) {
                 if (strlen($term) >= 2) {
                     // Chercher avec différentes variations
@@ -4976,7 +5188,7 @@ class SearchController extends AbstractController
                         ucfirst(strtolower($term)) . 's',  // "Tomates"
                         strtolower($term) . 's',           // "tomates"
                     ];
-                    
+
                     foreach ($variations as $variation) {
                         $ingredient = $ingredientRepository->findOneBy(['nom' => $variation]);
                         if ($ingredient && !in_array($ingredient, $selectedIngredients, true)) {
@@ -4987,26 +5199,26 @@ class SearchController extends AbstractController
                 }
             }
         }
-        
+
         // Recherche par IDs d'ingrédients
         $ingredientIds = $request->query->get('ingredients');
         if ($ingredientIds) {
             $selectedIngredientIds = explode(',', $ingredientIds);
             $selectedIngredientsById = $ingredientRepository->findBy(['id' => $selectedIngredientIds]);
-            
+
             foreach ($selectedIngredientsById as $ingredient) {
                 if (!in_array($ingredient, $selectedIngredients, true)) {
                     $selectedIngredients[] = $ingredient;
                 }
             }
         }
-        
+
         // Rechercher les recettes si des ingrédients sont sélectionnés
         if (!empty($selectedIngredients)) {
             $selectedIngredientIds = array_map(fn($i) => $i->getId(), $selectedIngredients);
             $recettes = $recetteRepository->findByIngredients($selectedIngredientIds);
         }
-        
+
         return $this->render('search/index.html.twig', [
             'ingredients' => $ingredients,
             'selectedIngredients' => $selectedIngredients,
@@ -5017,11 +5229,12 @@ class SearchController extends AbstractController
 ```
 
 **Améliorations** :
--  Gère 4 variations de chaque terme de recherche
--  Singulier/pluriel : "Tomate" et "Tomates"
--  Majuscules/minuscules : "tomate" et "Tomate"
--  Évite les doublons avec `in_array()` strict
--  Minimum 2 caractères pour éviter les recherches trop larges
+
+-   Gère 4 variations de chaque terme de recherche
+-   Singulier/pluriel : "Tomate" et "Tomates"
+-   Majuscules/minuscules : "tomate" et "Tomate"
+-   Évite les doublons avec `in_array()` strict
+-   Minimum 2 caractères pour éviter les recherches trop larges
 
 ### 17.7 Solution 2 : RecetteRepository simplifié
 
@@ -5040,7 +5253,7 @@ public function findByIngredients(array $ingredientIds): array
     if (empty($ingredientIds)) {
         return [];
     }
-    
+
     return $this->createQueryBuilder('r')
         ->innerJoin('r.recetteIngredients', 'ri')
         ->innerJoin('ri.ingredient', 'i')
@@ -5055,17 +5268,18 @@ public function findByIngredients(array $ingredientIds): array
 
 **Comparaison avant/après** :
 
-| Aspect | Avant | Après |
-|--------|-------|-------|
-| Complexité | JOIN dynamiques avec boucle | JOIN simples |
-| Condition WHERE | OR multiples | IN simple |
-| Lisibilité | Difficile | Claire |
-| Performance | Moyenne | Meilleure |
-| Résultats | 1 recette | Toutes les recettes |
+| Aspect          | Avant                       | Après               |
+| --------------- | --------------------------- | ------------------- |
+| Complexité      | JOIN dynamiques avec boucle | JOIN simples        |
+| Condition WHERE | OR multiples                | IN simple           |
+| Lisibilité      | Difficile                   | Claire              |
+| Performance     | Moyenne                     | Meilleure           |
+| Résultats       | 1 recette                   | Toutes les recettes |
 
 **Explication technique** :
 
 **Avant** :
+
 ```php
 // Créait : ri0, ri1, i0, i1... pour chaque ingrédient
 // WHERE i0.id = :ingredient0 OR i1.id = :ingredient1 OR...
@@ -5073,9 +5287,11 @@ foreach ($ingredientIds as $index => $ingredientId) {
     $qb->leftJoin('r.recetteIngredients', 'ri' . $index);
 }
 ```
-- Compliqué, générait des alias uniques, condition OR longue
+
+-   Compliqué, générait des alias uniques, condition OR longue
 
 **Après** :
+
 ```php
 // Un seul alias 'ri' et 'i'
 // WHERE i.id IN (1, 2, 3)
@@ -5083,11 +5299,13 @@ foreach ($ingredientIds as $index => $ingredientId) {
 ->innerJoin('ri.ingredient', 'i')
 ->where('i.id IN (:ingredientIds)')
 ```
-- Simple, efficace, SQL optimisé avec IN
+
+-   Simple, efficace, SQL optimisé avec IN
 
 **Résultat SQL généré** :
+
 ```sql
-SELECT r.* 
+SELECT r.*
 FROM recette r
 INNER JOIN recette_ingredient ri ON r.id = ri.recette_id
 INNER JOIN ingredient i ON ri.ingredient_id = i.id
@@ -5101,110 +5319,127 @@ ORDER BY r.date_creation DESC
 J'ai effectué une série de tests pour valider les corrections :
 
 **Test 1 : Recherche depuis l'accueil**
-- Action : Taper "tomate" dans la barre de recherche home
-- Résultat attendu : Redirection vers `/recherche?q=tomate`
--  Fonctionne correctement
+
+-   Action : Taper "tomate" dans la barre de recherche home
+-   Résultat attendu : Redirection vers `/recherche?q=tomate`
+-   Fonctionne correctement
 
 **Test 2 : Variations de recherche**
-- Actions testées :
-  - "tomate" (minuscule, singulier)
-  - "Tomate" (majuscule, singulier)
-  - "tomates" (minuscule, pluriel)
-  - "Tomates" (majuscule, pluriel)
--  Toutes les variations trouvent les mêmes recettes
+
+-   Actions testées :
+    -   "tomate" (minuscule, singulier)
+    -   "Tomate" (majuscule, singulier)
+    -   "tomates" (minuscule, pluriel)
+    -   "Tomates" (majuscule, pluriel)
+-   Toutes les variations trouvent les mêmes recettes
 
 **Test 3 : Recherche multiple**
-- Action : Taper "tomate, oeuf"
-- Résultat attendu : Recettes avec tomates OU oeufs
--  Affiche toutes les recettes correspondantes
+
+-   Action : Taper "tomate, oeuf"
+-   Résultat attendu : Recettes avec tomates OU oeufs
+-   Affiche toutes les recettes correspondantes
 
 **Test 4 : Comparaison quantité**
+
 ```bash
 # Requête SQL de vérification
-SELECT COUNT(DISTINCT r.id) 
+SELECT COUNT(DISTINCT r.id)
 FROM recette r
 INNER JOIN recette_ingredient ri ON r.id = ri.recette_id
 INNER JOIN ingredient i ON ri.ingredient_id = i.id
 WHERE i.nom LIKE '%tomate%'
 ```
-- Résultat : Même nombre sur `/recherche` et dans la requête SQL [OK]
+
+-   Résultat : Même nombre sur `/recherche` et dans la requête SQL [OK]
 
 **Test 5 : Cohérence visuelle**
--  Navbar beige
--  Body beige
--  Footer beige
--  Bordures subtiles
--  Pagination verte avec hover
+
+-   Navbar beige
+-   Body beige
+-   Footer beige
+-   Bordures subtiles
+-   Pagination verte avec hover
 
 **Test 6 : Pagination**
--  Numéros verts
--  Hover change fond en vert
--  Page active en vert avec texte blanc
--  Responsive sur mobile
+
+-   Numéros verts
+-   Hover change fond en vert
+-   Page active en vert avec texte blanc
+-   Responsive sur mobile
 
 ### 17.9 Problèmes résolus - Récapitulatif
 
-| Problème | Solution | Statut |
-|----------|----------|--------|
-| Routing incorrect (home → recette) | Changé vers app_search |  |
-| Navbar blanche | background-color beige |  |
-| Footer gris | background-color beige |  |
-| CSS pagination manquant | Ajouté styles complets |  |
-| Recherche stricte | Variations nom (4 cas) |  |
-| JOIN complexes | Simplifié avec IN |  |
-| 1 seule recette trouvée | Toutes recettes trouvées |  |
-| Incohérence visuelle | Palette cohérente |  |
+| Problème                           | Solution                 | Statut |
+| ---------------------------------- | ------------------------ | ------ |
+| Routing incorrect (home → recette) | Changé vers app_search   |        |
+| Navbar blanche                     | background-color beige   |        |
+| Footer gris                        | background-color beige   |        |
+| CSS pagination manquant            | Ajouté styles complets   |        |
+| Recherche stricte                  | Variations nom (4 cas)   |        |
+| JOIN complexes                     | Simplifié avec IN        |        |
+| 1 seule recette trouvée            | Toutes recettes trouvées |        |
+| Incohérence visuelle               | Palette cohérente        |        |
 
 ### 17.10 Impacts sur l'expérience utilisateur
 
 **Avant les corrections** :
--  Utilisateur tape "tomate" sur home → arrive sur page recettes générale (confusion)
--  Couleurs incohérentes (blanc/gris/beige mélangés)
--  Recherche ne trouve presque rien (frustration)
--  Pagination sans style (non professionnel)
+
+-   Utilisateur tape "tomate" sur home → arrive sur page recettes générale (confusion)
+-   Couleurs incohérentes (blanc/gris/beige mélangés)
+-   Recherche ne trouve presque rien (frustration)
+-   Pagination sans style (non professionnel)
 
 **Après les corrections** :
--  Utilisateur tape "tomate" → arrive sur page recherche dédiée (logique)
--  Design cohérent avec wireframe (professionnel)
--  Recherche trouve toutes les recettes pertinentes (satisfaction)
--  Pagination stylisée et fonctionnelle (polissage)
+
+-   Utilisateur tape "tomate" → arrive sur page recherche dédiée (logique)
+-   Design cohérent avec wireframe (professionnel)
+-   Recherche trouve toutes les recettes pertinentes (satisfaction)
+-   Pagination stylisée et fonctionnelle (polissage)
 
 ### 17.11 Fichiers modifiés
 
 **Templates** :
--  `templates/home/index.html.twig` - Routing corrigé
--  `templates/base.html.twig` - Couleurs cohérentes
+
+-   `templates/home/index.html.twig` - Routing corrigé
+-   `templates/base.html.twig` - Couleurs cohérentes
 
 **Contrôleurs** :
--  `src/Controller/SearchController.php` - Variations de recherche
+
+-   `src/Controller/SearchController.php` - Variations de recherche
 
 **Repositories** :
--  `src/Repository/RecetteRepository.php` - Méthode simplifiée
+
+-   `src/Repository/RecetteRepository.php` - Méthode simplifiée
 
 **CSS** :
--  `public/css/app.css` - Styles pagination ajoutés
+
+-   `public/css/app.css` - Styles pagination ajoutés
 
 ### 17.12 Bonnes pratiques appliquées
 
 **Architecture** :
-- Séparation claire : `/recette` (toutes recettes) vs `/recherche` (par ingrédients)
-- Repository responsable des requêtes complexes
-- Contrôleur gère la logique métier (variations)
+
+-   Séparation claire : `/recette` (toutes recettes) vs `/recherche` (par ingrédients)
+-   Repository responsable des requêtes complexes
+-   Contrôleur gère la logique métier (variations)
 
 **Performance** :
-- Requête SQL optimisée avec `IN` au lieu de multiples `OR`
-- `GROUP BY` pour éviter doublons
-- Index sur `i.id` utilisé efficacement
+
+-   Requête SQL optimisée avec `IN` au lieu de multiples `OR`
+-   `GROUP BY` pour éviter doublons
+-   Index sur `i.id` utilisé efficacement
 
 **UX** :
-- Recherche flexible (accepte variations)
-- Feedback visuel cohérent (palette unique)
-- Pagination accessible (focus, hover)
+
+-   Recherche flexible (accepte variations)
+-   Feedback visuel cohérent (palette unique)
+-   Pagination accessible (focus, hover)
 
 **Maintenabilité** :
-- Code simplifié et lisible
-- Variables CSS pour cohérence
-- Commentaires explicatifs
+
+-   Code simplifié et lisible
+-   Variables CSS pour cohérence
+-   Commentaires explicatifs
 
 ### 17.13 Commit de correction
 
@@ -5250,42 +5485,46 @@ Tests:
 
 ---
 
-## ÉTAPE 18 : PAGE DÉTAIL RECETTE SELON WIREFRAME 03 
+## ÉTAPE 18 : PAGE DÉTAIL RECETTE SELON WIREFRAME 03
 
 ### 18.1 Analyse du wireframe 03 - Fiche Recette
 
 Le wireframe présente une page de détail complète avec plusieurs éléments importants :
 
 **Éléments du header** :
-- Bouton "← Retour aux recettes" en haut à gauche
-- Bouton "🧡 Ajouter aux Favoris" en haut à droite
-- Image de la recette centrée et grande
+
+-   Bouton "← Retour aux recettes" en haut à gauche
+-   Bouton "🧡 Ajouter aux Favoris" en haut à droite
+-   Image de la recette centrée et grande
 
 **Informations principales** :
-- Titre de la recette (h1 vert)
-- Étoiles de notation avec nombre d'avis
-- 3 icônes : Temps (⏱️), Difficulté (👤), Personnes (👥)
-- Auteur et date de publication
+
+-   Titre de la recette (h1 vert)
+-   Étoiles de notation avec nombre d'avis
+-   3 icônes : Temps (⏱️), Difficulté (👤), Personnes (👥)
+-   Auteur et date de publication
 
 **Structure en 2 colonnes** :
-- Colonne gauche : Ingrédients avec checkboxes
-- Colonne droite : Étapes de préparation numérotées
+
+-   Colonne gauche : Ingrédients avec checkboxes
+-   Colonne droite : Étapes de préparation numérotées
 
 **Section commentaires** :
-- Formulaire avec textarea et bouton orange "Publier le commentaire"
-- Liste des commentaires avec avatar circulaire
-- Note en étoiles pour chaque commentaire
+
+-   Formulaire avec textarea et bouton orange "Publier le commentaire"
+-   Liste des commentaires avec avatar circulaire
+-   Note en étoiles pour chaque commentaire
 
 ### 18.2 Comparaison avec la page existante
 
-| Élément | Wireframe | Page actuelle | À faire |
-|---------|-----------|---------------|---------|
-| Bouton retour |  En haut à gauche |  Manquant | Ajouter |
-| Bouton favoris |  En haut à droite |  Présent (API) | Améliorer UI |
-| Layout 2 colonnes |  Ingrédients \| Préparation |  1 colonne | Modifier |
-| Checkboxes ingrédients |  Interactives |  Simple liste | Ajouter |
-| Avatar commentaires |  Rond avec initiale |  Manquant | Ajouter |
-| Bouton publier |  Orange | Présent | Styliser |
+| Élément                | Wireframe                  | Page actuelle | À faire      |
+| ---------------------- | -------------------------- | ------------- | ------------ |
+| Bouton retour          | En haut à gauche           | Manquant      | Ajouter      |
+| Bouton favoris         | En haut à droite           | Présent (API) | Améliorer UI |
+| Layout 2 colonnes      | Ingrédients \| Préparation | 1 colonne     | Modifier     |
+| Checkboxes ingrédients | Interactives               | Simple liste  | Ajouter      |
+| Avatar commentaires    | Rond avec initiale         | Manquant      | Ajouter      |
+| Bouton publier         | Orange                     | Présent       | Styliser     |
 
 ### 18.3 Implémentation du template show.html.twig
 
@@ -5318,15 +5557,16 @@ J'ai créé un template complet qui respecte le wireframe :
     <a href="{{ path('app_recette_index') }}" class="btn btn-outline-success">
         <i class="bi bi-arrow-left"></i> Retour aux recettes
     </a>
-    
+
     <!-- Bouton favoris ici -->
 </div>
 ```
 
 **Caractéristiques** :
-- Bouton vert outline
-- Icône flèche gauche Bootstrap Icons
-- Lien vers la page index des recettes
+
+-   Bouton vert outline
+-   Icône flèche gauche Bootstrap Icons
+-   Lien vers la page index des recettes
 
 ### 18.5 Bouton favoris avec AJAX
 
@@ -5336,9 +5576,9 @@ Le controller API `FavoriController` dans `src/Controller/Api/` retourne déjà 
 
 ```twig
 {% if app.user %}
-    <button type="button" 
-            class="btn btn-warning" 
-            id="favoriBtn" 
+    <button type="button"
+            class="btn btn-warning"
+            id="favoriBtn"
             data-recette-id="{{ recette.id }}"
             data-is-favorite="{{ isFavorite ? 'true' : 'false' }}">
         <i class="bi bi-heart{{ isFavorite ? '-fill' : '' }}" id="favoriIcon"></i>
@@ -5350,40 +5590,43 @@ Le controller API `FavoriController` dans `src/Controller/Api/` retourne déjà 
 **JavaScript AJAX** :
 
 ```javascript
-document.getElementById('favoriBtn').addEventListener('click', async function() {
-    const btn = this;
-    const recetteId = btn.dataset.recetteId;
-    
-    // Appel API
-    const response = await fetch(`/api/favori/toggle/${recetteId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-    });
-    
-    const data = await response.json();
-    
-    if (data.success) {
-        // Mettre à jour l'icône et le texte
-        if (data.isFavorite) {
-            icon.classList.add('bi-heart-fill');
-            text.textContent = 'Retirer des favoris';
-        } else {
-            icon.classList.remove('bi-heart-fill');
-            text.textContent = 'Ajouter aux Favoris';
+document
+    .getElementById("favoriBtn")
+    .addEventListener("click", async function () {
+        const btn = this;
+        const recetteId = btn.dataset.recetteId;
+
+        // Appel API
+        const response = await fetch(`/api/favori/toggle/${recetteId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            // Mettre à jour l'icône et le texte
+            if (data.isFavorite) {
+                icon.classList.add("bi-heart-fill");
+                text.textContent = "Retirer des favoris";
+            } else {
+                icon.classList.remove("bi-heart-fill");
+                text.textContent = "Ajouter aux Favoris";
+            }
+
+            // Animation
+            icon.style.transform = "scale(1.3)";
+            setTimeout(() => (icon.style.transform = "scale(1)"), 200);
         }
-        
-        // Animation
-        icon.style.transform = 'scale(1.3)';
-        setTimeout(() => icon.style.transform = 'scale(1)', 200);
-    }
-});
+    });
 ```
 
 **Avantages de l'approche AJAX** :
--  Pas de rechargement de page
--  Feedback immédiat avec animation
--  Meilleure UX
--  Utilise le controller API existant
+
+-   Pas de rechargement de page
+-   Feedback immédiat avec animation
+-   Meilleure UX
+-   Utilise le controller API existant
 
 ### 18.6 Image principale de la recette
 
@@ -5391,11 +5634,11 @@ document.getElementById('favoriBtn').addEventListener('click', async function() 
 <div class="row justify-content-center mb-4">
     <div class="col-lg-8">
         {% if recette.image %}
-            <img src="/uploads/recettes/{{ recette.image }}" 
-                 class="img-fluid rounded shadow" 
+            <img src="/uploads/recettes/{{ recette.image }}"
+                 class="img-fluid rounded shadow"
                  style="width: 100%; max-height: 500px; object-fit: cover;">
         {% else %}
-            <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+            <div class="bg-light rounded d-flex align-items-center justify-content-center"
                  style="height: 400px;">
                 <i class="bi bi-image text-muted" style="font-size: 5rem;"></i>
             </div>
@@ -5405,11 +5648,12 @@ document.getElementById('favoriBtn').addEventListener('click', async function() 
 ```
 
 **Caractéristiques** :
-- Centrée avec `col-lg-8`
-- Hauteur maximale 500px
-- `object-fit: cover` pour éviter déformation
-- Ombre portée pour effet profondeur
-- Placeholder si pas d'image
+
+-   Centrée avec `col-lg-8`
+-   Hauteur maximale 500px
+-   `object-fit: cover` pour éviter déformation
+-   Ombre portée pour effet profondeur
+-   Placeholder si pas d'image
 
 ### 18.7 Titre et informations principales
 
@@ -5418,7 +5662,7 @@ document.getElementById('favoriBtn').addEventListener('click', async function() 
 ```twig
 <div class="text-center mb-4">
     <h1 class="mb-3">{{ recette.nom }}</h1>
-    
+
     <!-- Étoiles de notation -->
     <div class="mb-3">
         {% set moyenne = recette.moyenneNotes %}
@@ -5461,7 +5705,7 @@ document.getElementById('favoriBtn').addEventListener('click', async function() 
 
 ```twig
 <p class="text-muted small">
-    Par {{ recette.user.prenom }} {{ recette.user.nom|first }}. - 
+    Par {{ recette.user.prenom }} {{ recette.user.nom|first }}. -
     {{ recette.dateCreation|date('d M Y') }}
 </p>
 ```
@@ -5503,11 +5747,11 @@ C'est l'élément clé qui correspond au wireframe !
 ```twig
 {% for recetteIngredient in recette.recetteIngredients %}
     <div class="form-check mb-2">
-        <input class="form-check-input" 
-               type="checkbox" 
+        <input class="form-check-input"
+               type="checkbox"
                id="ing{{ loop.index }}">
         <label class="form-check-label" for="ing{{ loop.index }}">
-            <span class="fw-bold text-success">{{ recetteIngredient.quantite }} {{ recetteIngredient.unite }}</span> 
+            <span class="fw-bold text-success">{{ recetteIngredient.quantite }} {{ recetteIngredient.unite }}</span>
             {{ recetteIngredient.ingredient.nom }}
         </label>
     </div>
@@ -5517,32 +5761,44 @@ C'est l'élément clé qui correspond au wireframe !
 **JavaScript localStorage** :
 
 ```javascript
-document.querySelectorAll('.form-check-input[type="checkbox"]').forEach(checkbox => {
-    const storageKey = 'recette_{{ recette.id }}_' + checkbox.id;
-    
-    // Restaurer l'état sauvegardé
-    if (localStorage.getItem(storageKey) === 'true') {
-        checkbox.checked = true;
-        checkbox.parentElement.classList.add('text-decoration-line-through', 'text-muted');
-    }
-    
-    // Sauvegarder au changement
-    checkbox.addEventListener('change', function() {
-        localStorage.setItem(storageKey, this.checked);
-        if (this.checked) {
-            this.parentElement.classList.add('text-decoration-line-through', 'text-muted');
-        } else {
-            this.parentElement.classList.remove('text-decoration-line-through', 'text-muted');
+document
+    .querySelectorAll('.form-check-input[type="checkbox"]')
+    .forEach((checkbox) => {
+        const storageKey = "recette_{{ recette.id }}_" + checkbox.id;
+
+        // Restaurer l'état sauvegardé
+        if (localStorage.getItem(storageKey) === "true") {
+            checkbox.checked = true;
+            checkbox.parentElement.classList.add(
+                "text-decoration-line-through",
+                "text-muted"
+            );
         }
+
+        // Sauvegarder au changement
+        checkbox.addEventListener("change", function () {
+            localStorage.setItem(storageKey, this.checked);
+            if (this.checked) {
+                this.parentElement.classList.add(
+                    "text-decoration-line-through",
+                    "text-muted"
+                );
+            } else {
+                this.parentElement.classList.remove(
+                    "text-decoration-line-through",
+                    "text-muted"
+                );
+            }
+        });
     });
-});
 ```
 
 **Fonctionnement** :
--  État sauvegardé par recette dans localStorage
--  Texte barré quand coché
--  Couleur grise quand coché
--  Persiste entre les visites
+
+-   État sauvegardé par recette dans localStorage
+-   Texte barré quand coché
+-   Couleur grise quand coché
+-   Persiste entre les visites
 
 ### 18.10 Étapes de préparation numérotées
 
@@ -5553,8 +5809,8 @@ document.querySelectorAll('.form-check-input[type="checkbox"]').forEach(checkbox
 <ol class="mb-0" style="padding-left: 1.5rem;">
     {% for etape in etapes %}
         {% set cleanEtape = etape|trim|replace({
-            '1. ': '', '2. ': '', '3. ': '', '4. ': '', 
-            '5. ': '', '6. ': '', '7. ': '', '8. ': '', 
+            '1. ': '', '2. ': '', '3. ': '', '4. ': '',
+            '5. ': '', '6. ': '', '7. ': '', '8. ': '',
             '9. ': '', '10. ': ''
         }) %}
         {% if cleanEtape %}
@@ -5567,10 +5823,11 @@ document.querySelectorAll('.form-check-input[type="checkbox"]').forEach(checkbox
 ```
 
 **Caractéristiques** :
-- Split par `\n` pour séparer les étapes
-- Nettoyage des numéros existants
-- Numéros verts avec CSS `li::marker`
-- Texte noir pour lisibilité
+
+-   Split par `\n` pour séparer les étapes
+-   Nettoyage des numéros existants
+-   Numéros verts avec CSS `li::marker`
+-   Texte noir pour lisibilité
 
 ### 18.11 Section commentaires avec formulaire
 
@@ -5589,16 +5846,16 @@ document.querySelectorAll('.form-check-input[type="checkbox"]').forEach(checkbox
                         }
                     }) }}
                 </div>
-                
+
                 <!-- Radio buttons pour note -->
                 <div class="mb-3">
                     {{ form_label(commentaireForm.note, 'Votre note :') }}
                     <div class="d-flex gap-2">
                         {% for choice in commentaireForm.note.vars.choices %}
-                            <input type="radio" 
-                                   class="btn-check" 
-                                   name="{{ commentaireForm.note.vars.full_name }}" 
-                                   id="note{{ choice.value }}" 
+                            <input type="radio"
+                                   class="btn-check"
+                                   name="{{ commentaireForm.note.vars.full_name }}"
+                                   id="note{{ choice.value }}"
                                    value="{{ choice.value }}">
                             <label class="btn btn-outline-warning" for="note{{ choice.value }}">
                                 <i class="bi bi-star-fill"></i> {{ choice.value }}
@@ -5606,7 +5863,7 @@ document.querySelectorAll('.form-check-input[type="checkbox"]').forEach(checkbox
                         {% endfor %}
                     </div>
                 </div>
-                
+
                 <!-- Bouton orange -->
                 <button type="submit" class="btn btn-warning px-4">
                     Publier le commentaire
@@ -5618,10 +5875,11 @@ document.querySelectorAll('.form-check-input[type="checkbox"]').forEach(checkbox
 ```
 
 **Fonctionnalités** :
--  Textarea grande pour le contenu
--  5 boutons radio stylisés pour la note
--  Bouton orange (var --cta-color)
--  Utilise le form Symfony CommentaireType
+
+-   Textarea grande pour le contenu
+-   5 boutons radio stylisés pour la note
+-   Bouton orange (var --cta-color)
+-   Utilise le form Symfony CommentaireType
 
 ### 18.12 Affichage des commentaires avec avatars
 
@@ -5634,12 +5892,12 @@ document.querySelectorAll('.form-check-input[type="checkbox"]').forEach(checkbox
             <div class="d-flex">
                 <!-- Avatar circulaire -->
                 <div class="me-3">
-                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" 
+                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center"
                          style="width: 50px; height: 50px; font-size: 1.5rem;">
                         {{ commentaire.user.prenom|slice(0, 1)|upper }}
                     </div>
                 </div>
-                
+
                 <!-- Contenu -->
                 <div class="flex-grow-1">
                     <div class="d-flex justify-content-between align-items-start mb-2">
@@ -5668,12 +5926,13 @@ document.querySelectorAll('.form-check-input[type="checkbox"]').forEach(checkbox
 ```
 
 **Éléments clés** :
-- Avatar vert avec initiale du prénom
-- Nom complet + initiale du nom (ex: "Sophie L.")
-- Date de création
-- Étoiles de notation à droite
-- Contenu du commentaire
-- Ordre inversé (plus récent en premier)
+
+-   Avatar vert avec initiale du prénom
+-   Nom complet + initiale du nom (ex: "Sophie L.")
+-   Date de création
+-   Étoiles de notation à droite
+-   Contenu du commentaire
+-   Ordre inversé (plus récent en premier)
 
 ### 18.13 CSS personnalisé pour la page détail
 
@@ -5763,26 +6022,27 @@ ol li::marker {
 ### 18.14 Controller RecetteController
 
 Le controller existant gère déjà :
--  Affichage de la recette
--  Vérification si en favoris (`isFavorite`)
--  Formulaire de commentaire (`CommentaireType`)
--  Traitement POST du commentaire
--  Incrémentation des vues
+
+-   Affichage de la recette
+-   Vérification si en favoris (`isFavorite`)
+-   Formulaire de commentaire (`CommentaireType`)
+-   Traitement POST du commentaire
+-   Incrémentation des vues
 
 **Méthode `show()`** :
 
 ```php
 #[Route('/{id}', name: 'app_recette_show', methods: ['GET', 'POST'])]
 public function show(
-    Request $request, 
-    Recette $recette, 
-    FavoriRepository $favoriRepository, 
+    Request $request,
+    Recette $recette,
+    FavoriRepository $favoriRepository,
     EntityManagerInterface $entityManager
 ): Response {
     // Incrémenter les vues
     $recette->setVue($recette->getVue() + 1);
     $entityManager->flush();
-    
+
     // Vérifier si en favoris
     $isFavorite = false;
     if ($this->getUser()) {
@@ -5791,7 +6051,7 @@ public function show(
             'recette' => $recette
         ]) !== null;
     }
-    
+
     // Formulaire commentaire
     $commentaire = new Commentaire();
     $form = $this->createForm(CommentaireType::class, $commentaire);
@@ -5820,108 +6080,123 @@ public function show(
 J'ai effectué une série de tests pour valider l'implémentation :
 
 **Test 1 : Layout et structure**
--  Bouton retour en haut à gauche
--  Bouton favoris en haut à droite (si connecté)
--  Image centrée et responsive
--  Titre, étoiles, infos bien affichés
--  2 colonnes sur desktop (Ingrédients | Préparation)
--  1 colonne sur mobile (stack vertical)
+
+-   Bouton retour en haut à gauche
+-   Bouton favoris en haut à droite (si connecté)
+-   Image centrée et responsive
+-   Titre, étoiles, infos bien affichés
+-   2 colonnes sur desktop (Ingrédients | Préparation)
+-   1 colonne sur mobile (stack vertical)
 
 **Test 2 : Checkboxes ingrédients**
-- Action : Cocher 3 ingrédients
--  Texte devient barré et grisé
--  État sauvegardé dans localStorage
-- Action : Recharger la page
--  Les 3 checkboxes restent cochées
+
+-   Action : Cocher 3 ingrédients
+-   Texte devient barré et grisé
+-   État sauvegardé dans localStorage
+-   Action : Recharger la page
+-   Les 3 checkboxes restent cochées
 
 **Test 3 : Bouton favoris AJAX**
-- Action : Cliquer "Ajouter aux Favoris"
--  Requête AJAX vers `/api/favori/toggle/{id}`
--  Icône change : `bi-heart` → `bi-heart-fill`
--  Texte change : "Ajouter aux Favoris" → "Retirer des favoris"
--  Animation scale(1.3) puis scale(1)
--  Pas de rechargement de page
-- Action : Cliquer "Retirer des favoris"
--  Revient à l'état initial
+
+-   Action : Cliquer "Ajouter aux Favoris"
+-   Requête AJAX vers `/api/favori/toggle/{id}`
+-   Icône change : `bi-heart` → `bi-heart-fill`
+-   Texte change : "Ajouter aux Favoris" → "Retirer des favoris"
+-   Animation scale(1.3) puis scale(1)
+-   Pas de rechargement de page
+-   Action : Cliquer "Retirer des favoris"
+-   Revient à l'état initial
 
 **Test 4 : Commentaires**
-- Action : Remplir le formulaire (note 5 étoiles + texte)
--  Commentaire apparaît en haut de la liste
--  Avatar vert avec initiale du prénom
--  5 étoiles affichées
--  Date du jour
--  Message flash "Votre commentaire a été publié !"
+
+-   Action : Remplir le formulaire (note 5 étoiles + texte)
+-   Commentaire apparaît en haut de la liste
+-   Avatar vert avec initiale du prénom
+-   5 étoiles affichées
+-   Date du jour
+-   Message flash "Votre commentaire a été publié !"
 
 **Test 5 : Responsive**
-- Desktop (>992px) : 2 colonnes 
-- Tablet (768-992px) : 2 colonnes 
-- Mobile (<768px) : 1 colonne (stack) 
-- Image s'adapte correctement 
+
+-   Desktop (>992px) : 2 colonnes
+-   Tablet (768-992px) : 2 colonnes
+-   Mobile (<768px) : 1 colonne (stack)
+-   Image s'adapte correctement
 
 ### 18.16 Comparaison finale wireframe vs résultat
 
-| Élément | Wireframe 03 | Résultat final | Statut |
-|---------|--------------|----------------|--------|
-| Bouton retour |  Vert outline, flèche gauche |  Identique |  |
-| Bouton favoris |  Orange avec coeur |  AJAX + animation |  |
-| Image |  Grande, centrée |  Responsive, ombre |  |
-| Titre |  H1 vert |  Vert (var --navigation-title-color) |  |
-| Étoiles |  3/5 (24 avis) |  Dynamique avec compteur |  |
-| Icônes infos |  Temps, Difficulté, Personnes |  Bootstrap Icons vertes |  |
-| 2 colonnes |  Ingrédients \| Préparation |  col-lg-6 chacune |  |
-| Checkboxes |  Interactives |  + localStorage |  |
-| Liste numérotée |  Étapes préparation |  Numéros verts |  |
-| Formulaire comm. |  Textarea + note + bouton orange |  Symfony Form |  |
-| Avatar |  Rond vert avec initiale |  50x50px, bg-success |  |
-| Liste comm. |  Avec étoiles et date |  Ordre inversé |  |
+| Élément          | Wireframe 03                    | Résultat final                      | Statut |
+| ---------------- | ------------------------------- | ----------------------------------- | ------ |
+| Bouton retour    | Vert outline, flèche gauche     | Identique                           |        |
+| Bouton favoris   | Orange avec coeur               | AJAX + animation                    |        |
+| Image            | Grande, centrée                 | Responsive, ombre                   |        |
+| Titre            | H1 vert                         | Vert (var --navigation-title-color) |        |
+| Étoiles          | 3/5 (24 avis)                   | Dynamique avec compteur             |        |
+| Icônes infos     | Temps, Difficulté, Personnes    | Bootstrap Icons vertes              |        |
+| 2 colonnes       | Ingrédients \| Préparation      | col-lg-6 chacune                    |        |
+| Checkboxes       | Interactives                    | + localStorage                      |        |
+| Liste numérotée  | Étapes préparation              | Numéros verts                       |        |
+| Formulaire comm. | Textarea + note + bouton orange | Symfony Form                        |        |
+| Avatar           | Rond vert avec initiale         | 50x50px, bg-success                 |        |
+| Liste comm.      | Avec étoiles et date            | Ordre inversé                       |        |
 
-**Conclusion** : L'implémentation correspond à 100% au wireframe ! 
+**Conclusion** : L'implémentation correspond à 100% au wireframe !
 
 ### 18.17 Fonctionnalités bonus ajoutées
 
 Au-delà du wireframe, j'ai ajouté :
 
 **localStorage pour checkboxes** :
-- Sauvegarde l'état des ingrédients cochés
-- Persiste entre les visites
-- Pratique pour faire les courses
+
+-   Sauvegarde l'état des ingrédients cochés
+-   Persiste entre les visites
+-   Pratique pour faire les courses
 
 **Animation du coeur** :
-- Scale(1.3) au clic
-- Transition smooth
-- Feedback visuel immédiat
+
+-   Scale(1.3) au clic
+-   Transition smooth
+-   Feedback visuel immédiat
 
 **Gestion erreurs AJAX** :
-- Try/catch sur la requête
-- Alert si erreur réseau
-- Bouton désactivé pendant requête
+
+-   Try/catch sur la requête
+-   Alert si erreur réseau
+-   Bouton désactivé pendant requête
 
 **Placeholder image** :
-- Icône Bootstrap si pas d'image
-- Évite zone vide
+
+-   Icône Bootstrap si pas d'image
+-   Évite zone vide
 
 **Ordre des commentaires** :
-- Plus récents en premier (`|reverse`)
-- Logique pour UX
+
+-   Plus récents en premier (`|reverse`)
+-   Logique pour UX
 
 ### 18.18 Fichiers modifiés/créés
 
 **Templates** :
--  `templates/recette/show.html.twig` - Revu complètement
+
+-   `templates/recette/show.html.twig` - Revu complètement
 
 **CSS** :
--  `public/css/app.css` - Section "PAGE DÉTAIL RECETTE"
+
+-   `public/css/app.css` - Section "PAGE DÉTAIL RECETTE"
 
 **Controllers** :
--  `src/Controller/Api/FavoriController.php` - Déjà existant, utilisé
+
+-   `src/Controller/Api/FavoriController.php` - Déjà existant, utilisé
 
 **Aucun changement nécessaire** :
--  `RecetteController::show()` - Déjà complet
--  Entity `Recette`, `Commentaire`, `Favori` - OK
+
+-   `RecetteController::show()` - Déjà complet
+-   Entity `Recette`, `Commentaire`, `Favori` - OK
 
 ### 18.19 Points d'amélioration possibles (futurs)
 
 **Pour aller plus loin** :
+
 1. **Modifier commentaire** : Bouton éditer/supprimer (si auteur)
 2. **Images multiples** : Galerie de photos pour la recette
 3. **Imprimer recette** : Bouton pour version imprimable
@@ -5936,25 +6211,28 @@ Au-delà du wireframe, j'ai ajouté :
 Après tests visuels, plusieurs différences majeures avec le wireframe ont été identifiées :
 
 **Problèmes identifiés** :
--  Image trop petite et centrée (doit être pleine largeur)
--  Titre centré (doit être aligné à gauche)
--  Étoiles centrées (doivent être alignées à gauche)
--  Ingrédients et préparation dans des cartes (doivent être simples sans bordures)
--  Quantités absurdes : "334 Pommes", "221 Sucre"
--  Colonnes non alignées
+
+-   Image trop petite et centrée (doit être pleine largeur)
+-   Titre centré (doit être aligné à gauche)
+-   Étoiles centrées (doivent être alignées à gauche)
+-   Ingrédients et préparation dans des cartes (doivent être simples sans bordures)
+-   Quantités absurdes : "334 Pommes", "221 Sucre"
+-   Colonnes non alignées
 
 **Corrections template `show.html.twig`** :
 
 1. **Image pleine largeur** :
+
 ```twig
 <div class="container-fluid px-0">
-    <img src="/uploads/recettes/{{ recette.image }}" 
-         class="img-fluid w-100" 
+    <img src="/uploads/recettes/{{ recette.image }}"
+         class="img-fluid w-100"
          style="max-height: 500px; object-fit: cover;">
 </div>
 ```
 
 2. **Titre et étoiles alignés à gauche** :
+
 ```twig
 <h1 class="text-success mb-3">{{ recette.nom }}</h1>
 <div class="mb-3">
@@ -5963,6 +6241,7 @@ Après tests visuels, plusieurs différences majeures avec le wireframe ont ét�
 ```
 
 3. **Icônes infos alignées à gauche** :
+
 ```twig
 <div class="d-flex gap-4 mb-3">
     <!-- Sans justify-content-center -->
@@ -5970,6 +6249,7 @@ Après tests visuels, plusieurs différences majeures avec le wireframe ont ét�
 ```
 
 4. **Sections sans cartes** :
+
 ```twig
 <div class="col-lg-6 mb-4">
     <h3 class="text-success mb-3">Ingrédients</h3>
@@ -6002,29 +6282,31 @@ $quantite = match($ingName) {
 **Corrections CSS `app.css`** :
 
 Nettoyage et réorganisation :
-- Suppression emojis et commentaires excessifs
-- Organisation logique des sections
-- Checkboxes vertes avec coche blanche SVG
-- Responsive sans cartes
+
+-   Suppression emojis et commentaires excessifs
+-   Organisation logique des sections
+-   Checkboxes vertes avec coche blanche SVG
+-   Responsive sans cartes
 
 **Format d'affichage** :
-- Format simple : "3oeufs" (sans espace)
-- Avec unité : "200g Farine"
-- Sans quantité : "Sel, poivre"
+
+-   Format simple : "3oeufs" (sans espace)
+-   Avec unité : "200g Farine"
+-   Sans quantité : "Sel, poivre"
 
 ### 18.21 Résultat final conforme
 
 **Comparaison wireframe vs résultat** :
 
-| Élément | Wireframe | Avant | Après |
-|---------|-----------|-------|-------|
-| Image | Pleine largeur | Petite centrée | Pleine largeur  |
-| Titre | Gauche | Centré | Gauche  |
-| Étoiles | Gauche | Centrées | Gauche  |
-| Icônes infos | Gauche | Centrées | Gauche  |
-| Sections | Sans cartes | Avec cartes | Sans cartes  |
-| Colonnes | Alignées | Décalées | Alignées  |
-| Quantités | 3oeufs, 2 tomates | 334 Pommes | 3oeufs  |
+| Élément      | Wireframe         | Avant          | Après          |
+| ------------ | ----------------- | -------------- | -------------- |
+| Image        | Pleine largeur    | Petite centrée | Pleine largeur |
+| Titre        | Gauche            | Centré         | Gauche         |
+| Étoiles      | Gauche            | Centrées       | Gauche         |
+| Icônes infos | Gauche            | Centrées       | Gauche         |
+| Sections     | Sans cartes       | Avec cartes    | Sans cartes    |
+| Colonnes     | Alignées          | Décalées       | Alignées       |
+| Quantités    | 3oeufs, 2 tomates | 334 Pommes     | 3oeufs         |
 
 ### 18.22 Commit final
 
@@ -6113,69 +6395,77 @@ Wireframe 03:
 ### Fonctionnalités à développer
 
 #### Gestion dynamique des ingrédients - TERMINÉ
-- [x] API de recherche d'ingrédients
-- [x] FormType avec champs dynamiques
-- [x] Collection Symfony fonctionnelle
-- [x] JavaScript pour ajout/suppression
-- [x] Autocomplete avec debounce
-- [x] Interface responsive
-- [x] Tests complets réussis
-- [x] Mode création et édition
+
+-   [x] API de recherche d'ingrédients
+-   [x] FormType avec champs dynamiques
+-   [x] Collection Symfony fonctionnelle
+-   [x] JavaScript pour ajout/suppression
+-   [x] Autocomplete avec debounce
+-   [x] Interface responsive
+-   [x] Tests complets réussis
+-   [x] Mode création et édition
 
 #### Recherche avancée - TERMINÉ
-- [x] Formulaire de recherche avec filtres multiples
-- [x] Filtre par catégorie
-- [x] Filtre par difficulté
-- [x] Filtre par temps de préparation
-- [x] Recherche textuelle (nom, ingrédients)
-- [x] Tri dynamique (date, note, temps)
-- [x] Pagination avec KnpPaginatorBundle
-- [x] Interface collapsible
-- [x] URLs partageables
+
+-   [x] Formulaire de recherche avec filtres multiples
+-   [x] Filtre par catégorie
+-   [x] Filtre par difficulté
+-   [x] Filtre par temps de préparation
+-   [x] Recherche textuelle (nom, ingrédients)
+-   [x] Tri dynamique (date, note, temps)
+-   [x] Pagination avec KnpPaginatorBundle
+-   [x] Interface collapsible
+-   [x] URLs partageables
 
 #### Pages institutionnelles
-- [ ] Page Contact avec formulaire
-- [ ] Page CGU (Conditions Générales d'Utilisation)
-- [ ] Page Mentions Légales
-- [ ] Page RGPD / Politique de confidentialité
-- [ ] Page À propos
+
+-   [ ] Page Contact avec formulaire
+-   [ ] Page CGU (Conditions Générales d'Utilisation)
+-   [ ] Page Mentions Légales
+-   [ ] Page RGPD / Politique de confidentialité
+-   [ ] Page À propos
 
 #### Profil utilisateur avancé
-- [ ] Modification avatar
-- [ ] Modification bio
-- [ ] Statistiques personnelles
-- [ ] Badge et gamification
 
-####  API REST
-- [ ] Endpoints API pour recettes
-- [ ] Documentation API (OpenAPI)
-- [ ] Authentification JWT
-- [ ] Rate limiting
+-   [ ] Modification avatar
+-   [ ] Modification bio
+-   [ ] Statistiques personnelles
+-   [ ] Badge et gamification
 
-####  Tests
-- [ ] Tests unitaires (PHPUnit)
-- [ ] Tests fonctionnels
-- [ ] Tests d'intégration
-- [ ] Couverture de code >70%
+#### API REST
 
-####  Performance
-- [ ] Cache Symfony
-- [ ] Optimisation requêtes Doctrine
-- [ ] Lazy loading images
-- [ ] Pagination
+-   [ ] Endpoints API pour recettes
+-   [ ] Documentation API (OpenAPI)
+-   [ ] Authentification JWT
+-   [ ] Rate limiting
 
-####  Sécurité
-- [ ] CSRF tokens partout
-- [ ] Validation stricte formulaires
-- [ ] Rate limiting connexion
-- [ ] Audit sécurité
+#### Tests
+
+-   [ ] Tests unitaires (PHPUnit)
+-   [ ] Tests fonctionnels
+-   [ ] Tests d'intégration
+-   [ ] Couverture de code >70%
+
+#### Performance
+
+-   [ ] Cache Symfony
+-   [ ] Optimisation requêtes Doctrine
+-   [ ] Lazy loading images
+-   [ ] Pagination
+
+#### Sécurité
+
+-   [ ] CSRF tokens partout
+-   [ ] Validation stricte formulaires
+-   [ ] Rate limiting connexion
+-   [ ] Audit sécurité
 
 ### Améliorations techniques
 
-- [ ] Migration vers Symfony 7.4 (si nouvelle version)
-- [ ] Mise en place CI/CD (GitHub Actions)
-- [ ] Docker Compose complet (Nginx, PHP, MySQL)
-- [ ] Documentation développeur (README détaillé)
+-   [ ] Migration vers Symfony 7.3 (si nouvelle version)
+-   [ ] Mise en place CI/CD (GitHub Actions)
+-   [ ] Docker Compose complet (Nginx, PHP, MySQL)
+-   [ ] Documentation développeur (README détaillé)
 
 ---
 
@@ -6185,29 +6475,33 @@ Wireframe 03:
 
 Le projet Les Restes est actuellement dans un état fonctionnel avec les fonctionnalités suivantes opérationnelles :
 
+-
 **Backend complet** :
-- Architecture Symfony 7.4 solide
-- Base de données MySQL bien structurée
-- Entités avec relations complexes (User, Recette, Ingredient, Categorie, Commentaire, Favori)
-- Système d'authentification sécurisé
-- API REST pour recherche d'ingrédients
+
+-   Architecture Symfony 7.3 solide
+-   Base de données MySQL bien structurée
+-   Entités avec relations complexes (User, Recette, Ingredient, Categorie, Commentaire, Favori)
+-   Système d'authentification sécurisé
+-   API REST pour recherche d'ingrédients
 
 **Fonctionnalités utilisateur** :
-- Inscription et connexion
-- Création et gestion de recettes avec ingrédients dynamiques
-- Upload d'images optimisé
-- Système de favoris avec AJAX
-- Système de commentaires et notation complet
-- Recherche avancée avec filtres multiples
-- Pagination professionnelle
-- Profil utilisateur avec onglets
+
+-   Inscription et connexion
+-   Création et gestion de recettes avec ingrédients dynamiques
+-   Upload d'images optimisé
+-   Système de favoris avec AJAX
+-   Système de commentaires et notation complet
+-   Recherche avancée avec filtres multiples
+-   Pagination professionnelle
+-   Profil utilisateur avec onglets
 
 **Interface utilisateur** :
-- Design moderne avec Bootstrap 5
-- Navigation responsive
-- Templates cohérents et professionnels
-- Images uniformes avec fallback
-- Formulaires optimisés
+
+-   Design moderne avec Bootstrap 5
+-   Navigation responsive
+-   Templates cohérents et professionnels
+-   Images uniformes avec fallback
+-   Formulaires optimisés
 
 ### Points forts du projet
 
@@ -6217,4703 +6511,4070 @@ Le projet Les Restes est actuellement dans un état fonctionnel avec les fonctio
 4. **Fonctionnalités AJAX** : Favoris sans rechargement de page
 5. **Optimisations UX** : Formulaires compacts, images uniformes
 
-### Compétences démontrées
+-### Compétences démontrées
 
-- Maîtrise de Symfony 7.4
-- Gestion de base de données avec Doctrine
-- Sécurité et authentification
-- Upload de fichiers avec VichUploader
-- Frontend moderne (Bootstrap, JavaScript)
-- API REST (favoris, recherche d'ingrédients)
-- Git et méthodologie de développement
-- Formulaires complexes avec Collections
-- QueryBuilder et requêtes Doctrine avancées
-- Pagination et filtrage de résultats
-- JavaScript moderne (autocomplete, debounce, AJAX)
+-   Maîtrise de Symfony 7.3
+
+**Note technique :**
+
+-   Les contrôleurs ont été normalisés pour passer les formulaires à Twig sous forme de `FormView` (ex. `->createView()`). Cela améliore la compatibilité entre Symfony et Twig et évite des comportements dépendants de versions.
+-   Gestion de base de données avec Doctrine
+-   Sécurité et authentification
+-   Upload de fichiers avec VichUploader
+-   Frontend moderne (Bootstrap, JavaScript)
+-   API REST (favoris, recherche d'ingrédients)
+-   Git et méthodologie de développement
+-   Formulaires complexes avec Collections
+-   QueryBuilder et requêtes Doctrine avancées
+-   Pagination et filtrage de résultats
+-   JavaScript moderne (autocomplete, debounce, AJAX)
 
 ### Préparation pour la soutenance
 
 Ce projet démontre ma capacité à :
-- Concevoir une application web complète
-- Utiliser un framework PHP moderne
-- Créer une interface utilisateur professionnelle
-- Gérer un projet avec Git
-- Documenter mon travail de manière détaillée
+
+-   Concevoir une application web complète
+-   Utiliser un framework PHP moderne
+-   Créer une interface utilisateur professionnelle
+-   Gérer un projet avec Git
+-   Documenter mon travail de manière détaillée
 
 ---
- 
 
- 
+---
 
---- 
+## ÉTAPE 19 : ADMINISTRATION DES INGRÉDIENTS
 
- 
+### 19.1 Contexte et besoin
 
-## ÉTAPE 19 : ADMINISTRATION DES INGRÉDIENTS 
+Le projet nécessite une interface d'administration pour gérer les ingrédients de manière centralisée. Cette fonctionnalité permet aux administrateurs de :
 
- 
+-   Créer de nouveaux ingrédients
 
-### 19.1 Contexte et besoin 
+-   Modifier les ingrédients existants
 
- 
+-   Supprimer les ingrédients non utilisés
 
-Le projet nécessite une interface d'administration pour gérer les ingrédients de manière centralisée. Cette fonctionnalité permet aux administrateurs de : 
+-   Rechercher et paginer les ingrédients
 
-- Créer de nouveaux ingrédients 
+-   Voir l'utilisation des ingrédients dans les recettes
 
-- Modifier les ingrédients existants 
+**Compétences démontrées** :
 
-- Supprimer les ingrédients non utilisés 
+-   Gestion des rôles et permissions (ROLE_ADMIN)
 
-- Rechercher et paginer les ingrédients 
+-   CRUD complet en administration
 
-- Voir l'utilisation des ingrédients dans les recettes 
+-   Recherche et pagination
 
- 
+-   Validation des suppressions
 
-**Compétences démontrées** : 
+### 19.2 Configuration du rôle ADMIN
 
-- Gestion des rôles et permissions (ROLE_ADMIN) 
+**Attribution du rôle via SQL** :
 
-- CRUD complet en administration 
+```bash
 
-- Recherche et pagination 
+php bin/console doctrine:query:sql "UPDATE user SET roles = '[\"ROLE_USER\", \"ROLE_ADMIN\"]' WHERE email = 'admin@lesrestes.com'"
 
-- Validation des suppressions 
 
- 
 
-### 19.2 Configuration du rôle ADMIN 
+# Vérification
 
- 
+php bin/console doctrine:query:sql "SELECT email, roles FROM user"
 
-**Attribution du rôle via SQL** : 
+```
 
- 
+**Résultat** :
 
-```bash 
+```
 
-php bin/console doctrine:query:sql "UPDATE user SET roles = '[\"ROLE_USER\", \"ROLE_ADMIN\"]' WHERE email = 'admin@lesrestes.com'" 
+email                 | roles
 
- 
+admin@lesrestes.com   | ["ROLE_USER", "ROLE_ADMIN"]
 
-# Vérification 
+```
 
-php bin/console doctrine:query:sql "SELECT email, roles FROM user" 
+### 19.3 Création du formulaire IngredientType
 
-``` 
+**Fichier** : `src/Form/IngredientType.php`
 
- 
+```php
 
-**Résultat** : 
+<?php
 
-``` 
 
-email                 | roles 
 
-admin@lesrestes.com   | ["ROLE_USER", "ROLE_ADMIN"] 
+namespace App\Form;
 
-``` 
 
- 
 
-### 19.3 Création du formulaire IngredientType 
+use App\Entity\Ingredient;
 
- 
+use Symfony\Component\Form\AbstractType;
 
-**Fichier** : `src/Form/IngredientType.php` 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
- 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-```php 
+use Symfony\Component\Form\FormBuilderInterface;
 
-<?php 
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
- 
+use Symfony\Component\Validator\Constraints\Length;
 
-namespace App\Form; 
+use Symfony\Component\Validator\Constraints\NotBlank;
 
- 
 
-use App\Entity\Ingredient; 
 
-use Symfony\Component\Form\AbstractType; 
+class IngredientType extends AbstractType
 
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType; 
+{
 
-use Symfony\Component\Form\Extension\Core\Type\TextType; 
+    public function buildForm(FormBuilderInterface $builder, array $options): void
 
-use Symfony\Component\Form\FormBuilderInterface; 
+    {
 
-use Symfony\Component\OptionsResolver\OptionsResolver; 
+        $builder
 
-use Symfony\Component\Validator\Constraints\Length; 
+            ->add('nom', TextType::class, [
 
-use Symfony\Component\Validator\Constraints\NotBlank; 
+                'label' => 'Nom de l\'ingrédient',
 
- 
+                'attr' => [
 
-class IngredientType extends AbstractType 
+                    'class' => 'form-control',
 
-{ 
+                    'placeholder' => 'Ex: Tomate, Oignon, Farine...'
 
-    public function buildForm(FormBuilderInterface $builder, array $options): void 
+                ],
 
-    { 
+                'constraints' => [
 
-        $builder 
+                    new NotBlank([
 
-            ->add('nom', TextType::class, [ 
+                        'message' => 'Le nom de l\'ingrédient est obligatoire'
 
-                'label' => 'Nom de l\'ingrédient', 
+                    ]),
 
-                'attr' => [ 
+                    new Length([
 
-                    'class' => 'form-control', 
+                        'min' => 2,
 
-                    'placeholder' => 'Ex: Tomate, Oignon, Farine...' 
+                        'max' => 100,
 
-                ], 
+                        'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
 
-                'constraints' => [ 
+                        'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères'
 
-                    new NotBlank([ 
+                    ])
 
-                        'message' => 'Le nom de l\'ingrédient est obligatoire' 
+                ]
 
-                    ]), 
+            ])
 
-                    new Length([ 
+            ->add('unite', ChoiceType::class, [
 
-                        'min' => 2, 
+                'label' => 'Unité par défaut',
 
-                        'max' => 100, 
+                'attr' => [
 
-                        'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères', 
+                    'class' => 'form-select'
 
-                        'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères' 
+                ],
 
-                    ]) 
+                'choices' => [
 
-                ] 
+                    'Gramme (g)' => 'g',
 
-            ]) 
+                    'Kilogramme (kg)' => 'kg',
 
-            ->add('unite', ChoiceType::class, [ 
+                    'Millilitre (ml)' => 'ml',
 
-                'label' => 'Unité par défaut', 
+                    'Centilitre (cl)' => 'cl',
 
-                'attr' => [ 
+                    'Litre (L)' => 'L',
 
-                    'class' => 'form-select' 
+                    'Pièce' => 'pièce',
 
-                ], 
+                    'Cuillère à soupe' => 'c. à soupe',
 
-                'choices' => [ 
+                    'Cuillère à café' => 'c. à café',
 
-                    'Gramme (g)' => 'g', 
+                    'Pincée' => 'pincée',
 
-                    'Kilogramme (kg)' => 'kg', 
+                    'Tranche' => 'tranche',
 
-                    'Millilitre (ml)' => 'ml', 
+                    'Gousse' => 'gousse',
 
-                    'Centilitre (cl)' => 'cl', 
+                ],
 
-                    'Litre (L)' => 'L', 
+                'placeholder' => 'Choisir une unité',
 
-                    'Pièce' => 'pièce', 
+                'required' => false
 
-                    'Cuillère à soupe' => 'c. à soupe', 
+            ]);
 
-                    'Cuillère à café' => 'c. à café', 
+    }
 
-                    'Pincée' => 'pincée', 
 
-                    'Tranche' => 'tranche', 
 
-                    'Gousse' => 'gousse', 
+    public function configureOptions(OptionsResolver $resolver): void
 
-                ], 
+    {
 
-                'placeholder' => 'Choisir une unité', 
+        $resolver->setDefaults([
 
-                'required' => false 
+            'data_class' => Ingredient::class,
 
-            ]); 
+        ]);
 
-    } 
+    }
 
- 
+}
 
-    public function configureOptions(OptionsResolver $resolver): void 
+```
 
-    { 
+**Caractéristiques du formulaire** :
 
-        $resolver->setDefaults([ 
+-   Champ `nom` avec validation (2-100 caractères)
 
-            'data_class' => Ingredient::class, 
+-   Champ `unite` avec choix prédéfinis
 
-        ]); 
+-   Placeholder informatif
 
-    } 
+-   Classes Bootstrap intégrées
 
-} 
+### 19.4 Création du contrôleur AdminIngredientController
 
-``` 
+**Fichier** : `src/Controller/Admin/AdminIngredientController.php`
 
- 
+```php
 
-**Caractéristiques du formulaire** : 
+<?php
 
-- Champ `nom` avec validation (2-100 caractères) 
 
-- Champ `unite` avec choix prédéfinis 
 
-- Placeholder informatif 
+namespace App\Controller\Admin;
 
-- Classes Bootstrap intégrées 
 
- 
 
-### 19.4 Création du contrôleur AdminIngredientController 
+use App\Entity\Ingredient;
 
- 
+use App\Form\IngredientType;
 
-**Fichier** : `src/Controller/Admin/AdminIngredientController.php` 
+use App\Repository\IngredientRepository;
 
- 
+use Doctrine\ORM\EntityManagerInterface;
 
-```php 
+use Knp\Component\Pager\PaginatorInterface;
 
-<?php 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
- 
+use Symfony\Component\HttpFoundation\Request;
 
-namespace App\Controller\Admin; 
+use Symfony\Component\HttpFoundation\Response;
 
- 
+use Symfony\Component\Routing\Attribute\Route;
 
-use App\Entity\Ingredient; 
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-use App\Form\IngredientType; 
 
-use App\Repository\IngredientRepository; 
 
-use Doctrine\ORM\EntityManagerInterface; 
+#[Route('/admin/ingredients')]
 
-use Knp\Component\Pager\PaginatorInterface; 
+#[IsGranted('ROLE_ADMIN')]
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; 
+class AdminIngredientController extends AbstractController
 
-use Symfony\Component\HttpFoundation\Request; 
+{
 
-use Symfony\Component\HttpFoundation\Response; 
+    #[Route('', name: 'app_admin_ingredient_index', methods: ['GET'])]
 
-use Symfony\Component\Routing\Attribute\Route; 
+    public function index(
 
-use Symfony\Component\Security\Http\Attribute\IsGranted; 
+        Request $request,
 
- 
+        IngredientRepository $ingredientRepository,
 
-#[Route('/admin/ingredients')] 
+        PaginatorInterface $paginator
 
-#[IsGranted('ROLE_ADMIN')] 
+    ): Response {
 
-class AdminIngredientController extends AbstractController 
+        $search = $request->query->get('search', '');
 
-{ 
 
-    #[Route('', name: 'app_admin_ingredient_index', methods: ['GET'])] 
 
-    public function index( 
+        $queryBuilder = $ingredientRepository->createQueryBuilder('i')
 
-        Request $request, 
+            ->orderBy('i.nom', 'ASC');
 
-        IngredientRepository $ingredientRepository, 
 
-        PaginatorInterface $paginator 
 
-    ): Response { 
+        if ($search) {
 
-        $search = $request->query->get('search', ''); 
+            $queryBuilder
 
-         
+                ->where('i.nom LIKE :search')
 
-        $queryBuilder = $ingredientRepository->createQueryBuilder('i') 
+                ->setParameter('search', '%' . $search . '%');
 
-            ->orderBy('i.nom', 'ASC'); 
+        }
 
-         
 
-        if ($search) { 
 
-            $queryBuilder 
+        $pagination = $paginator->paginate(
 
-                ->where('i.nom LIKE :search') 
+            $queryBuilder,
 
-                ->setParameter('search', '%' . $search . '%'); 
+            $request->query->getInt('page', 1),
 
-        } 
+            20
 
-         
+        );
 
-        $pagination = $paginator->paginate( 
 
-            $queryBuilder, 
 
-            $request->query->getInt('page', 1), 
+        return $this->render('admin/ingredient/index.html.twig', [
 
-            20 
+            'ingredients' => $pagination,
 
-        ); 
+            'search' => $search,
 
-         
+        ]);
 
-        return $this->render('admin/ingredient/index.html.twig', [ 
+    }
 
-            'ingredients' => $pagination, 
 
-            'search' => $search, 
 
-        ]); 
+    #[Route('/new', name: 'app_admin_ingredient_new', methods: ['GET', 'POST'])]
 
-    } 
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
 
- 
+    {
 
-    #[Route('/new', name: 'app_admin_ingredient_new', methods: ['GET', 'POST'])] 
+        $ingredient = new Ingredient();
 
-    public function new(Request $request, EntityManagerInterface $entityManager): Response 
+        $form = $this->createForm(IngredientType::class, $ingredient);
 
-    { 
+        $form->handleRequest($request);
 
-        $ingredient = new Ingredient(); 
 
-        $form = $this->createForm(IngredientType::class, $ingredient); 
 
-        $form->handleRequest($request); 
+        if ($form->isSubmitted() && $form->isValid()) {
 
- 
+            $entityManager->persist($ingredient);
 
-        if ($form->isSubmitted() && $form->isValid()) { 
+            $entityManager->flush();
 
-            $entityManager->persist($ingredient); 
 
-            $entityManager->flush(); 
 
- 
+            $this->addFlash('success', 'L\'ingrédient a été ajouté avec succès.');
 
-            $this->addFlash('success', 'L\'ingrédient a été ajouté avec succès.'); 
 
- 
 
-            return $this->redirectToRoute('app_admin_ingredient_index'); 
+            return $this->redirectToRoute('app_admin_ingredient_index');
 
-        } 
+        }
 
- 
 
-        return $this->render('admin/ingredient/new.html.twig', [ 
 
-            'ingredient' => $ingredient, 
+        return $this->render('admin/ingredient/new.html.twig', [
 
-            'form' => $form, 
+            'ingredient' => $ingredient,
 
-        ]); 
+            'form' => $form,
 
-    } 
+        ]);
 
- 
+    }
 
-    #[Route('/{id}/edit', name: 'app_admin_ingredient_edit', methods: ['GET', 'POST'])] 
 
-    public function edit( 
 
-        Request $request, 
+    #[Route('/{id}/edit', name: 'app_admin_ingredient_edit', methods: ['GET', 'POST'])]
 
-        Ingredient $ingredient, 
+    public function edit(
 
-        EntityManagerInterface $entityManager 
+        Request $request,
 
-    ): Response { 
+        Ingredient $ingredient,
 
-        $form = $this->createForm(IngredientType::class, $ingredient); 
+        EntityManagerInterface $entityManager
 
-        $form->handleRequest($request); 
+    ): Response {
 
- 
+        $form = $this->createForm(IngredientType::class, $ingredient);
 
-        if ($form->isSubmitted() && $form->isValid()) { 
+        $form->handleRequest($request);
 
-            $entityManager->flush(); 
 
- 
 
-            $this->addFlash('success', 'L\'ingrédient a été modifié avec succès.'); 
+        if ($form->isSubmitted() && $form->isValid()) {
 
- 
+            $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_ingredient_index'); 
 
-        } 
 
- 
+            $this->addFlash('success', 'L\'ingrédient a été modifié avec succès.');
 
-        return $this->render('admin/ingredient/edit.html.twig', [ 
 
-            'ingredient' => $ingredient, 
 
-            'form' => $form, 
+            return $this->redirectToRoute('app_admin_ingredient_index');
 
-        ]); 
+        }
 
-    } 
 
- 
 
-    #[Route('/{id}', name: 'app_admin_ingredient_delete', methods: ['POST'])] 
+        return $this->render('admin/ingredient/edit.html.twig', [
 
-    public function delete( 
+            'ingredient' => $ingredient,
 
-        Request $request, 
+            'form' => $form,
 
-        Ingredient $ingredient, 
+        ]);
 
-        EntityManagerInterface $entityManager 
+    }
 
-    ): Response { 
 
-        if ($this->isCsrfTokenValid('delete' . $ingredient->getId(), $request->request->get('_token'))) { 
 
-            // Vérifier si l'ingrédient est utilisé dans des recettes 
+    #[Route('/{id}', name: 'app_admin_ingredient_delete', methods: ['POST'])]
 
-            if ($ingredient->getRecetteIngredients()->count() > 0) { 
+    public function delete(
 
-                $this->addFlash('danger', 'Impossible de supprimer cet ingrédient car il est utilisé dans des recettes.'); 
+        Request $request,
 
-            } else { 
+        Ingredient $ingredient,
 
-                $entityManager->remove($ingredient); 
+        EntityManagerInterface $entityManager
 
-                $entityManager->flush(); 
+    ): Response {
 
-                $this->addFlash('success', 'L\'ingrédient a été supprimé avec succès.'); 
+        if ($this->isCsrfTokenValid('delete' . $ingredient->getId(), $request->request->get('_token'))) {
 
-            } 
+            // Vérifier si l'ingrédient est utilisé dans des recettes
 
-        } 
+            if ($ingredient->getRecetteIngredients()->count() > 0) {
 
- 
+                $this->addFlash('danger', 'Impossible de supprimer cet ingrédient car il est utilisé dans des recettes.');
 
-        return $this->redirectToRoute('app_admin_ingredient_index'); 
+            } else {
 
-    } 
+                $entityManager->remove($ingredient);
 
-} 
+                $entityManager->flush();
 
-``` 
+                $this->addFlash('success', 'L\'ingrédient a été supprimé avec succès.');
 
- 
+            }
 
-**Fonctionnalités implémentées** : 
+        }
 
-- **Index** : Liste paginée avec recherche 
 
-- **New** : Création avec validation 
 
-- **Edit** : Modification avec message flash 
+        return $this->redirectToRoute('app_admin_ingredient_index');
 
-- **Delete** : Suppression avec vérification d'utilisation 
+    }
 
-- **Protection** : Attribut `#[IsGranted('ROLE_ADMIN')]` 
+}
 
-- **CSRF** : Protection sur la suppression 
+```
 
- 
+**Fonctionnalités implémentées** :
 
-### 19.5 Templates admin 
+-   **Index** : Liste paginée avec recherche
 
- 
+-   **New** : Création avec validation
 
-**Création du dossier** : 
+-   **Edit** : Modification avec message flash
 
-```bash 
+-   **Delete** : Suppression avec vérification d'utilisation
 
-mkdir -p templates/admin/ingredient 
+-   **Protection** : Attribut `#[IsGranted('ROLE_ADMIN')]`
 
-``` 
+-   **CSRF** : Protection sur la suppression
 
- 
+### 19.5 Templates admin
 
-#### Template index.html.twig 
+**Création du dossier** :
 
- 
+```bash
 
-**Fichier** : `templates/admin/ingredient/index.html.twig` 
+mkdir -p templates/admin/ingredient
 
- 
+```
 
-```twig 
+#### Template index.html.twig
 
-{% extends 'base.html.twig' %} 
+**Fichier** : `templates/admin/ingredient/index.html.twig`
 
- 
+```twig
 
-{% block title %}Gestion des ingrédients - Admin{% endblock %} 
+{% extends 'base.html.twig' %}
 
- 
 
-{% block body %} 
 
-<div class="container my-4"> 
+{% block title %}Gestion des ingrédients - Admin{% endblock %}
 
-    <div class="d-flex justify-content-between align-items-center mb-4"> 
 
-        <h1 class="text-success">Gestion des ingrédients</h1> 
 
-        <a href="{{ path('app_admin_ingredient_new') }}" class="btn btn-success"> 
+{% block body %}
 
-            <i class="bi bi-plus-circle"></i> Nouvel ingrédient 
+<div class="container my-4">
 
-        </a> 
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-    </div> 
+        <h1 class="text-success">Gestion des ingrédients</h1>
 
- 
+        <a href="{{ path('app_admin_ingredient_new') }}" class="btn btn-success">
 
-    <!-- Barre de recherche --> 
+            <i class="bi bi-plus-circle"></i> Nouvel ingrédient
 
-    <div class="card mb-4"> 
+        </a>
 
-        <div class="card-body"> 
+    </div>
 
-            <form method="get" class="row g-3"> 
 
-                <div class="col-md-10"> 
 
-                    <input type="text"  
+    <!-- Barre de recherche -->
 
-                           name="search"  
+    <div class="card mb-4">
 
-                           class="form-control"  
+        <div class="card-body">
 
-                           placeholder="Rechercher un ingrédient..." 
+            <form method="get" class="row g-3">
 
-                           value="{{ search }}"> 
+                <div class="col-md-10">
 
-                </div> 
+                    <input type="text"
 
-                <div class="col-md-2"> 
+                           name="search"
 
-                    <button type="submit" class="btn btn-primary w-100"> 
+                           class="form-control"
 
-                        <i class="bi bi-search"></i> Rechercher 
+                           placeholder="Rechercher un ingrédient..."
 
-                    </button> 
+                           value="{{ search }}">
 
-                </div> 
+                </div>
 
-            </form> 
+                <div class="col-md-2">
 
-            {% if search %} 
+                    <button type="submit" class="btn btn-primary w-100">
 
-                <div class="mt-2"> 
+                        <i class="bi bi-search"></i> Rechercher
 
-                    <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-sm btn-outline-secondary"> 
+                    </button>
 
-                        <i class="bi bi-x"></i> Effacer la recherche 
+                </div>
 
-                    </a> 
+            </form>
 
-                </div> 
+            {% if search %}
 
-            {% endif %} 
+                <div class="mt-2">
 
-        </div> 
+                    <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-sm btn-outline-secondary">
 
-    </div> 
+                        <i class="bi bi-x"></i> Effacer la recherche
 
- 
+                    </a>
 
-    <!-- Statistiques --> 
+                </div>
 
-    <div class="row mb-4"> 
+            {% endif %}
 
-        <div class="col-md-4"> 
+        </div>
 
-            <div class="card border-success"> 
+    </div>
 
-                <div class="card-body text-center"> 
 
-                    <h3 class="text-success">{{ ingredients.getTotalItemCount() }}</h3> 
 
-                    <p class="text-muted mb-0">Total ingrédients</p> 
+    <!-- Statistiques -->
 
-                </div> 
+    <div class="row mb-4">
 
-            </div> 
+        <div class="col-md-4">
 
-        </div> 
+            <div class="card border-success">
 
-    </div> 
+                <div class="card-body text-center">
 
- 
+                    <h3 class="text-success">{{ ingredients.getTotalItemCount() }}</h3>
 
-    <!-- Table des ingrédients --> 
+                    <p class="text-muted mb-0">Total ingrédients</p>
 
-    <div class="card shadow-sm"> 
+                </div>
 
-        <div class="card-body"> 
+            </div>
 
-            {% if ingredients|length > 0 %} 
+        </div>
 
-                <div class="table-responsive"> 
+    </div>
 
-                    <table class="table table-hover"> 
 
-                        <thead class="table-success"> 
 
-                            <tr> 
+    <!-- Table des ingrédients -->
 
-                                <th>ID</th> 
+    <div class="card shadow-sm">
 
-                                <th>Nom</th> 
+        <div class="card-body">
 
-                                <th>Unité par défaut</th> 
+            {% if ingredients|length > 0 %}
 
-                                <th>Utilisé dans</th> 
+                <div class="table-responsive">
 
-                                <th class="text-end">Actions</th> 
+                    <table class="table table-hover">
 
-                            </tr> 
+                        <thead class="table-success">
 
-                        </thead> 
+                            <tr>
 
-                        <tbody> 
+                                <th>ID</th>
 
-                            {% for ingredient in ingredients %} 
+                                <th>Nom</th>
 
-                                <tr> 
+                                <th>Unité par défaut</th>
 
-                                    <td>{{ ingredient.id }}</td> 
+                                <th>Utilisé dans</th>
 
-                                    <td> 
+                                <th class="text-end">Actions</th>
 
-                                        <strong>{{ ingredient.nom }}</strong> 
+                            </tr>
 
-                                    </td> 
+                        </thead>
 
-                                    <td> 
+                        <tbody>
 
-                                        {% if ingredient.unite %} 
+                            {% for ingredient in ingredients %}
 
-                                            <span class="badge bg-secondary">{{ ingredient.unite }}</span> 
+                                <tr>
 
-                                        {% else %} 
+                                    <td>{{ ingredient.id }}</td>
 
-                                            <span class="text-muted">Non définie</span> 
+                                    <td>
 
-                                        {% endif %} 
+                                        <strong>{{ ingredient.nom }}</strong>
 
-                                    </td> 
+                                    </td>
 
-                                    <td> 
+                                    <td>
 
-                                        <span class="badge bg-info"> 
+                                        {% if ingredient.unite %}
 
-                                            {{ ingredient.recetteIngredients|length }} recette(s) 
+                                            <span class="badge bg-secondary">{{ ingredient.unite }}</span>
 
-                                        </span> 
+                                        {% else %}
 
-                                    </td> 
+                                            <span class="text-muted">Non définie</span>
 
-                                    <td class="text-end"> 
+                                        {% endif %}
 
-                                        <a href="{{ path('app_admin_ingredient_edit', {'id': ingredient.id}) }}"  
+                                    </td>
 
-                                           class="btn btn-sm btn-outline-primary"> 
+                                    <td>
 
-                                            <i class="bi bi-pencil"></i> 
+                                        <span class="badge bg-info">
 
-                                        </a> 
+                                            {{ ingredient.recetteIngredients|length }} recette(s)
 
-                                         
+                                        </span>
 
-                                        {% if ingredient.recetteIngredients|length == 0 %} 
+                                    </td>
 
-                                            <form method="post"  
+                                    <td class="text-end">
 
-                                                  action="{{ path('app_admin_ingredient_delete', {'id': ingredient.id}) }}"  
+                                        <a href="{{ path('app_admin_ingredient_edit', {'id': ingredient.id}) }}"
 
-                                                  class="d-inline" 
+                                           class="btn btn-sm btn-outline-primary">
 
-                                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet ingrédient ?');"> 
+                                            <i class="bi bi-pencil"></i>
 
-                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ingredient.id) }}"> 
+                                        </a>
 
-                                                <button class="btn btn-sm btn-outline-danger"> 
 
-                                                    <i class="bi bi-trash"></i> 
 
-                                                </button> 
+                                        {% if ingredient.recetteIngredients|length == 0 %}
 
-                                            </form> 
+                                            <form method="post"
 
-                                        {% else %} 
+                                                  action="{{ path('app_admin_ingredient_delete', {'id': ingredient.id}) }}"
 
-                                            <button class="btn btn-sm btn-outline-danger" disabled title="Utilisé dans des recettes"> 
+                                                  class="d-inline"
 
-                                                <i class="bi bi-trash"></i> 
+                                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet ingrédient ?');">
 
-                                            </button> 
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ingredient.id) }}">
 
-                                        {% endif %} 
+                                                <button class="btn btn-sm btn-outline-danger">
 
-                                    </td> 
+                                                    <i class="bi bi-trash"></i>
 
-                                </tr> 
+                                                </button>
 
-                            {% endfor %} 
+                                            </form>
 
-                        </tbody> 
+                                        {% else %}
 
-                    </table> 
+                                            <button class="btn btn-sm btn-outline-danger" disabled title="Utilisé dans des recettes">
 
-                </div> 
+                                                <i class="bi bi-trash"></i>
 
- 
+                                            </button>
 
-                <!-- Pagination --> 
+                                        {% endif %}
 
-                <div class="d-flex justify-content-center mt-4"> 
+                                    </td>
 
-                    {{ knp_pagination_render(ingredients) }} 
+                                </tr>
 
-                </div> 
+                            {% endfor %}
 
-            {% else %} 
+                        </tbody>
 
-                <div class="text-center py-5"> 
+                    </table>
 
-                    <i class="bi bi-inbox fs-1 text-muted"></i> 
+                </div>
 
-                    <p class="text-muted mt-3">Aucun ingrédient trouvé</p> 
 
-                    {% if search %} 
 
-                        <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-outline-secondary"> 
+                <!-- Pagination -->
 
-                            Voir tous les ingrédients 
+                <div class="d-flex justify-content-center mt-4">
 
-                        </a> 
+                    {{ knp_pagination_render(ingredients) }}
 
-                    {% endif %} 
+                </div>
 
-                </div> 
+            {% else %}
 
-            {% endif %} 
+                <div class="text-center py-5">
 
-        </div> 
+                    <i class="bi bi-inbox fs-1 text-muted"></i>
 
-    </div> 
+                    <p class="text-muted mt-3">Aucun ingrédient trouvé</p>
 
-</div> 
+                    {% if search %}
 
-{% endblock %} 
+                        <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-outline-secondary">
 
-``` 
+                            Voir tous les ingrédients
 
- 
+                        </a>
 
-**Éléments clés** : 
+                    {% endif %}
 
-- Bouton "Nouvel ingrédient" en haut à droite 
+                </div>
 
-- Barre de recherche avec bouton d'effacement 
+            {% endif %}
 
-- Statistique : Total ingrédients 
+        </div>
 
-- Table responsive avec colonnes : ID, Nom, Unité, Utilisation, Actions 
+    </div>
 
-- Bouton suppression désactivé si ingrédient utilisé 
+</div>
 
-- Pagination KnpPaginator 
+{% endblock %}
 
-- Message si aucun résultat 
+```
 
- 
+**Éléments clés** :
 
-#### Template new.html.twig 
+-   Bouton "Nouvel ingrédient" en haut à droite
 
- 
+-   Barre de recherche avec bouton d'effacement
 
-**Fichier** : `templates/admin/ingredient/new.html.twig` 
+-   Statistique : Total ingrédients
 
- 
+-   Table responsive avec colonnes : ID, Nom, Unité, Utilisation, Actions
 
-```twig 
+-   Bouton suppression désactivé si ingrédient utilisé
 
-{% extends 'base.html.twig' %} 
+-   Pagination KnpPaginator
 
- 
+-   Message si aucun résultat
 
-{% block title %}Nouvel ingrédient - Admin{% endblock %} 
+#### Template new.html.twig
 
- 
+**Fichier** : `templates/admin/ingredient/new.html.twig`
 
-{% block body %} 
+```twig
 
-<div class="container my-4"> 
+{% extends 'base.html.twig' %}
 
-    <div class="row"> 
 
-        <div class="col-lg-6 mx-auto"> 
 
-            <div class="mb-4"> 
+{% block title %}Nouvel ingrédient - Admin{% endblock %}
 
-                <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-outline-secondary"> 
 
-                    <i class="bi bi-arrow-left"></i> Retour à la liste 
 
-                </a> 
+{% block body %}
 
-            </div> 
+<div class="container my-4">
 
- 
+    <div class="row">
 
-            <div class="card shadow-sm"> 
+        <div class="col-lg-6 mx-auto">
 
-                <div class="card-header bg-success text-white"> 
+            <div class="mb-4">
 
-                    <h4 class="mb-0"> 
+                <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-outline-secondary">
 
-                        <i class="bi bi-plus-circle"></i> Nouvel ingrédient 
+                    <i class="bi bi-arrow-left"></i> Retour à la liste
 
-                    </h4> 
+                </a>
 
-                </div> 
+            </div>
 
-                <div class="card-body"> 
 
-                    {{ form_start(form) }} 
 
-                     
+            <div class="card shadow-sm">
 
-                    <div class="mb-3"> 
+                <div class="card-header bg-success text-white">
 
-                        {{ form_label(form.nom, null, {'label_attr': {'class': 'form-label fw-bold'}}) }} 
+                    <h4 class="mb-0">
 
-                        <span class="text-danger">*</span> 
+                        <i class="bi bi-plus-circle"></i> Nouvel ingrédient
 
-                        {{ form_widget(form.nom) }} 
+                    </h4>
 
-                        {{ form_errors(form.nom) }} 
+                </div>
 
-                    </div> 
+                <div class="card-body">
 
- 
+                    {{ form_start(form) }}
 
-                    <div class="mb-4"> 
 
-                        {{ form_label(form.unite, null, {'label_attr': {'class': 'form-label fw-bold'}}) }} 
 
-                        {{ form_widget(form.unite) }} 
+                    <div class="mb-3">
 
-                        {{ form_errors(form.unite) }} 
+                        {{ form_label(form.nom, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
 
-                        <small class="form-text text-muted"> 
+                        <span class="text-danger">*</span>
 
-                            Unité par défaut utilisée dans l'autocomplete 
+                        {{ form_widget(form.nom) }}
 
-                        </small> 
+                        {{ form_errors(form.nom) }}
 
-                    </div> 
+                    </div>
 
- 
 
-                    <div class="d-flex justify-content-between"> 
 
-                        <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-secondary"> 
+                    <div class="mb-4">
 
-                            Annuler 
+                        {{ form_label(form.unite, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
 
-                        </a> 
+                        {{ form_widget(form.unite) }}
 
-                        <button type="submit" class="btn btn-success"> 
+                        {{ form_errors(form.unite) }}
 
-                            <i class="bi bi-check-circle"></i> Ajouter 
+                        <small class="form-text text-muted">
 
-                        </button> 
+                            Unité par défaut utilisée dans l'autocomplete
 
-                    </div> 
+                        </small>
 
- 
+                    </div>
 
-                    {{ form_end(form) }} 
 
-                </div> 
 
-            </div> 
+                    <div class="d-flex justify-content-between">
 
-        </div> 
+                        <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-secondary">
 
-    </div> 
+                            Annuler
 
-</div> 
+                        </a>
 
-{% endblock %} 
+                        <button type="submit" class="btn btn-success">
 
-``` 
+                            <i class="bi bi-check-circle"></i> Ajouter
 
- 
+                        </button>
 
-#### Template edit.html.twig 
+                    </div>
 
- 
 
-**Fichier** : `templates/admin/ingredient/edit.html.twig` 
 
- 
+                    {{ form_end(form) }}
 
-```twig 
+                </div>
 
-{% extends 'base.html.twig' %} 
+            </div>
 
- 
+        </div>
 
-{% block title %}Modifier {{ ingredient.nom }} - Admin{% endblock %} 
+    </div>
 
- 
+</div>
 
-{% block body %} 
+{% endblock %}
 
-<div class="container my-4"> 
+```
 
-    <div class="row"> 
+#### Template edit.html.twig
 
-        <div class="col-lg-6 mx-auto"> 
+**Fichier** : `templates/admin/ingredient/edit.html.twig`
 
-            <div class="mb-4"> 
+```twig
 
-                <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-outline-secondary"> 
+{% extends 'base.html.twig' %}
 
-                    <i class="bi bi-arrow-left"></i> Retour à la liste 
 
-                </a> 
 
-            </div> 
+{% block title %}Modifier {{ ingredient.nom }} - Admin{% endblock %}
 
- 
 
-            <div class="card shadow-sm"> 
 
-                <div class="card-header bg-primary text-white"> 
+{% block body %}
 
-                    <h4 class="mb-0"> 
+<div class="container my-4">
 
-                        <i class="bi bi-pencil"></i> Modifier l'ingrédient 
+    <div class="row">
 
-                    </h4> 
+        <div class="col-lg-6 mx-auto">
 
-                </div> 
+            <div class="mb-4">
 
-                <div class="card-body"> 
+                <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-outline-secondary">
 
-                    {{ form_start(form) }} 
+                    <i class="bi bi-arrow-left"></i> Retour à la liste
 
-                     
+                </a>
 
-                    <div class="mb-3"> 
+            </div>
 
-                        {{ form_label(form.nom, null, {'label_attr': {'class': 'form-label fw-bold'}}) }} 
 
-                        <span class="text-danger">*</span> 
 
-                        {{ form_widget(form.nom) }} 
+            <div class="card shadow-sm">
 
-                        {{ form_errors(form.nom) }} 
+                <div class="card-header bg-primary text-white">
 
-                    </div> 
+                    <h4 class="mb-0">
 
- 
+                        <i class="bi bi-pencil"></i> Modifier l'ingrédient
 
-                    <div class="mb-4"> 
+                    </h4>
 
-                        {{ form_label(form.unite, null, {'label_attr': {'class': 'form-label fw-bold'}}) }} 
+                </div>
 
-                        {{ form_widget(form.unite) }} 
+                <div class="card-body">
 
-                        {{ form_errors(form.unite) }} 
+                    {{ form_start(form) }}
 
-                        <small class="form-text text-muted"> 
 
-                            Unité par défaut utilisée dans l'autocomplete 
 
-                        </small> 
+                    <div class="mb-3">
 
-                    </div> 
+                        {{ form_label(form.nom, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
 
- 
+                        <span class="text-danger">*</span>
 
-                    <!-- Info utilisation --> 
+                        {{ form_widget(form.nom) }}
 
-                    {% if ingredient.recetteIngredients|length > 0 %} 
+                        {{ form_errors(form.nom) }}
 
-                        <div class="alert alert-info"> 
+                    </div>
 
-                            <i class="bi bi-info-circle"></i> 
 
-                            Cet ingrédient est utilisé dans <strong>{{ ingredient.recetteIngredients|length }}</strong> recette(s). 
 
-                        </div> 
+                    <div class="mb-4">
 
-                    {% endif %} 
+                        {{ form_label(form.unite, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
 
- 
+                        {{ form_widget(form.unite) }}
 
-                    <div class="d-flex justify-content-between"> 
+                        {{ form_errors(form.unite) }}
 
-                        <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-secondary"> 
+                        <small class="form-text text-muted">
 
-                            Annuler 
+                            Unité par défaut utilisée dans l'autocomplete
 
-                        </a> 
+                        </small>
 
-                        <button type="submit" class="btn btn-primary"> 
+                    </div>
 
-                            <i class="bi bi-check-circle"></i> Enregistrer 
 
-                        </button> 
 
-                    </div> 
+                    <!-- Info utilisation -->
 
- 
+                    {% if ingredient.recetteIngredients|length > 0 %}
 
-                    {{ form_end(form) }} 
+                        <div class="alert alert-info">
 
-                </div> 
+                            <i class="bi bi-info-circle"></i>
 
-            </div> 
+                            Cet ingrédient est utilisé dans <strong>{{ ingredient.recetteIngredients|length }}</strong> recette(s).
 
-        </div> 
+                        </div>
 
-    </div> 
+                    {% endif %}
 
-</div> 
 
-{% endblock %} 
 
-``` 
+                    <div class="d-flex justify-content-between">
 
- 
+                        <a href="{{ path('app_admin_ingredient_index') }}" class="btn btn-secondary">
 
-### 19.6 Ajout du lien admin dans la navbar 
+                            Annuler
 
- 
+                        </a>
 
-**Fichier** : `templates/partials/_navbar.html.twig` 
+                        <button type="submit" class="btn btn-primary">
 
- 
+                            <i class="bi bi-check-circle"></i> Enregistrer
 
-Ajout dans la section utilisateur connecté : 
+                        </button>
 
- 
+                    </div>
 
-```twig 
 
-{% if app.user %} 
 
-    <!-- ... autres liens ... --> 
+                    {{ form_end(form) }}
 
-     
+                </div>
 
-    {% if is_granted('ROLE_ADMIN') %} 
+            </div>
 
-        <li class="nav-item"> 
+        </div>
 
-            <a class="nav-link" href="{{ path('app_admin_ingredient_index') }}"> 
+    </div>
 
-                <i class="bi bi-gear"></i> Admin Ingrédients 
+</div>
 
-            </a> 
+{% endblock %}
 
-        </li> 
+```
 
-    {% endif %} 
+### 19.6 Ajout du lien admin dans la navbar
 
-{% endif %} 
+**Fichier** : `templates/partials/_navbar.html.twig`
 
-``` 
+Ajout dans la section utilisateur connecté :
 
- 
+```twig
 
-**Caractéristiques** : 
+{% if app.user %}
 
-- Visible uniquement pour ROLE_ADMIN 
+    <!-- ... autres liens ... -->
 
-- Icône engrenage 
 
-- Accès rapide à l'interface admin 
 
- 
+    {% if is_granted('ROLE_ADMIN') %}
 
-### 19.7 Tests de l'administration 
+        <li class="nav-item">
 
- 
+            <a class="nav-link" href="{{ path('app_admin_ingredient_index') }}">
 
-**Tests effectués** : 
+                <i class="bi bi-gear"></i> Admin Ingrédients
 
- 
+            </a>
 
-1. **Accès** : 
+        </li>
 
-   -  Utilisateur normal ne voit pas le lien 
+    {% endif %}
 
-   -  Admin voit le lien dans la navbar 
+{% endif %}
 
-   -  URL `/admin/ingredients` protégée (403 si non admin) 
+```
 
- 
+**Caractéristiques** :
 
-2. **Liste** : 
+-   Visible uniquement pour ROLE_ADMIN
 
-   -  Affichage de tous les ingrédients 
+-   Icône engrenage
 
-   -  Recherche par nom fonctionne 
+-   Accès rapide à l'interface admin
 
-   -  Pagination 20 par page 
+### 19.7 Tests de l'administration
 
-   -  Compteur d'utilisation correct 
+**Tests effectués** :
 
- 
+1. **Accès** :
 
-3. **Création** : 
+    - Utilisateur normal ne voit pas le lien
 
-   -  Formulaire s'affiche 
+    - Admin voit le lien dans la navbar
 
-   -  Validation nom obligatoire 
+    - URL `/admin/ingredients` protégée (403 si non admin)
 
-   -  Unité optionnelle 
+2. **Liste** :
 
-   -  Message flash succès 
+    - Affichage de tous les ingrédients
 
-   -  Redirection vers liste 
+    - Recherche par nom fonctionne
 
- 
+    - Pagination 20 par page
 
-4. **Modification** : 
+    - Compteur d'utilisation correct
 
-   -  Formulaire pré-rempli 
+3. **Création** :
 
-   -  Alert si utilisé dans recettes 
+    - Formulaire s'affiche
 
-   -  Modification sauvegardée 
+    - Validation nom obligatoire
 
-   -  Message flash 
+    - Unité optionnelle
 
- 
+    - Message flash succès
 
-5. **Suppression** : 
+    - Redirection vers liste
 
-   - ✅ Bouton désactivé si utilisé 
+4. **Modification** :
 
-   - ✅ Confirmation JavaScript 
+    - Formulaire pré-rempli
 
-   - ✅ Token CSRF vérifié 
+    - Alert si utilisé dans recettes
 
-   - ✅ Message d'erreur si utilisé 
+    - Modification sauvegardée
 
-   - ✅ Suppression OK si non utilisé 
+    - Message flash
 
- 
+5. **Suppression** :
 
-### 19.8 Commits 
+    - ✅ Bouton désactivé si utilisé
 
- 
+    - ✅ Confirmation JavaScript
 
-```bash 
+    - ✅ Token CSRF vérifié
 
-git checkout -b feature/admin-ingredients 
+    - ✅ Message d'erreur si utilisé
 
- 
+    - ✅ Suppression OK si non utilisé
 
-git add src/Form/IngredientType.php 
+### 19.8 Commits
 
-git commit -m "feat: Formulaire gestion ingrédients 
+```bash
 
- 
+git checkout -b feature/admin-ingredients
 
-- Création IngredientType 
 
-- Champs: nom, unite 
 
-- Validation complète 
+git add src/Form/IngredientType.php
 
-- Choix unités prédéfinies" 
+git commit -m "feat: Formulaire gestion ingrédients
 
- 
 
-git add src/Controller/Admin/ 
 
-git commit -m "feat: Controller admin ingrédients avec CRUD complet 
+- Création IngredientType
 
- 
+- Champs: nom, unite
 
-- Liste ingrédients avec recherche et pagination 
+- Validation complète
 
-- Ajout nouvel ingrédient 
+- Choix unités prédéfinies"
 
-- Modification ingrédient 
 
-- Suppression ingrédient (si non utilisé) 
 
-- Protection ROLE_ADMIN 
+git add src/Controller/Admin/
 
-- Vérification usage dans recettes avant suppression 
+git commit -m "feat: Controller admin ingrédients avec CRUD complet
 
-- Messages flash confirmation" 
 
- 
 
-git add templates/admin/ingredient/ 
+- Liste ingrédients avec recherche et pagination
 
-git commit -m "feat: Templates admin gestion ingrédients 
+- Ajout nouvel ingrédient
 
- 
+- Modification ingrédient
 
-INDEX: 
+- Suppression ingrédient (si non utilisé)
 
-- Liste paginée ingrédients 
+- Protection ROLE_ADMIN
 
-- Barre recherche 
+- Vérification usage dans recettes avant suppression
 
-- Statistiques total ingrédients 
+- Messages flash confirmation"
 
-- Colonne usage dans recettes 
 
-- Actions édition/suppression 
 
-- Bouton suppression désactivé si utilisé 
+git add templates/admin/ingredient/
 
- 
+git commit -m "feat: Templates admin gestion ingrédients
 
-NEW: 
 
-- Formulaire ajout ingrédient 
 
-- Design carte Bootstrap 
+INDEX:
 
-- Validation front 
+- Liste paginée ingrédients
 
- 
+- Barre recherche
 
-EDIT: 
+- Statistiques total ingrédients
 
-- Formulaire modification ingrédient 
+- Colonne usage dans recettes
 
-- Alerte si utilisé dans recettes 
+- Actions édition/suppression
 
-- Design cohérent 
+- Bouton suppression désactivé si utilisé
 
- 
 
-Interface moderne et intuitive" 
 
- 
+NEW:
 
-git add templates/partials/_navbar.html.twig 
+- Formulaire ajout ingrédient
 
-git commit -m "feat: Ajout lien admin ingrédients dans navbar 
+- Design carte Bootstrap
 
- 
+- Validation front
 
-- Visible uniquement pour ROLE_ADMIN 
 
-- Icône engrenage 
 
-- Accès rapide interface admin" 
+EDIT:
 
- 
+- Formulaire modification ingrédient
 
-git push origin feature/admin-ingredients 
+- Alerte si utilisé dans recettes
 
-git checkout master 
+- Design cohérent
 
-git merge feature/admin-ingredients 
 
-git push origin master 
 
-git branch -d feature/admin-ingredients 
+Interface moderne et intuitive"
 
-``` 
 
- 
 
---- 
+git add templates/partials/_navbar.html.twig
 
- 
+git commit -m "feat: Ajout lien admin ingrédients dans navbar
 
-## ÉTAPE 20 : PAGES LÉGALES OBLIGATOIRES 
 
- 
 
-### 20.1 Contexte et obligation RGPD 
+- Visible uniquement pour ROLE_ADMIN
 
- 
+- Icône engrenage
 
-Toute application web collectant des données personnelles doit respecter le **RGPD (Règlement Général sur la Protection des Données)**. Les pages suivantes sont **obligatoires** : 
+- Accès rapide interface admin"
 
- 
 
-1. **Contact** : Formulaire de contact 
 
-2. **Mentions Légales** : Informations légales sur l'éditeur 
+git push origin feature/admin-ingredients
 
-3. **Politique de Confidentialité** : Gestion des données personnelles 
+git checkout master
 
-4. **CGU (Conditions Générales d'Utilisation)** : Règles d'utilisation du site 
+git merge feature/admin-ingredients
 
- 
+git push origin master
 
-### 20.2 Création du contrôleur LegalController 
+git branch -d feature/admin-ingredients
 
- 
+```
 
-**Fichier** : `src/Controller/LegalController.php` 
+---
 
- 
+## ÉTAPE 20 : PAGES LÉGALES OBLIGATOIRES
 
-```php 
+### 20.1 Contexte et obligation RGPD
 
-<?php 
+Toute application web collectant des données personnelles doit respecter le **RGPD (Règlement Général sur la Protection des Données)**. Les pages suivantes sont **obligatoires** :
 
- 
+1. **Contact** : Formulaire de contact
 
-namespace App\Controller; 
+2. **Mentions Légales** : Informations légales sur l'éditeur
 
- 
+3. **Politique de Confidentialité** : Gestion des données personnelles
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; 
+4. **CGU (Conditions Générales d'Utilisation)** : Règles d'utilisation du site
 
-use Symfony\Component\HttpFoundation\Response; 
+### 20.2 Création du contrôleur LegalController
 
-use Symfony\Component\Routing\Attribute\Route; 
+**Fichier** : `src/Controller/LegalController.php`
 
- 
+```php
 
-class LegalController extends AbstractController 
+<?php
 
-{ 
 
-    #[Route('/mentions-legales', name: 'app_mentions_legales')] 
 
-    public function mentionsLegales(): Response 
+namespace App\Controller;
 
-    { 
 
-        return $this->render('legal/mentions-legales.html.twig'); 
 
-    } 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
- 
+use Symfony\Component\HttpFoundation\Response;
 
-    #[Route('/politique-confidentialite', name: 'app_politique_confidentialite')] 
+use Symfony\Component\Routing\Attribute\Route;
 
-    public function politiqueConfidentialite(): Response 
 
-    { 
 
-        return $this->render('legal/politique-confidentialite.html.twig'); 
+class LegalController extends AbstractController
 
-    } 
+{
 
- 
+    #[Route('/mentions-legales', name: 'app_mentions_legales')]
 
-    #[Route('/cgu', name: 'app_cgu')] 
+    public function mentionsLegales(): Response
 
-    public function cgu(): Response 
+    {
 
-    { 
+        return $this->render('legal/mentions-legales.html.twig');
 
-        return $this->render('legal/cgu.html.twig'); 
+    }
 
-    } 
 
-} 
 
-``` 
+    #[Route('/politique-confidentialite', name: 'app_politique_confidentialite')]
 
- 
+    public function politiqueConfidentialite(): Response
 
-### 20.3 Page Contact 
+    {
 
- 
+        return $this->render('legal/politique-confidentialite.html.twig');
 
-#### Création du formulaire ContactType 
+    }
 
- 
 
-**Fichier** : `src/Form/ContactType.php` 
 
- 
+    #[Route('/cgu', name: 'app_cgu')]
 
-```php 
+    public function cgu(): Response
 
-<?php 
+    {
 
- 
+        return $this->render('legal/cgu.html.twig');
 
-namespace App\Form; 
+    }
 
- 
+}
 
-use Symfony\Component\Form\AbstractType; 
+```
 
-use Symfony\Component\Form\Extension\Core\Type\EmailType; 
+### 20.3 Page Contact
 
-use Symfony\Component\Form\Extension\Core\Type\TextareaType; 
+#### Création du formulaire ContactType
 
-use Symfony\Component\Form\Extension\Core\Type\TextType; 
+**Fichier** : `src/Form/ContactType.php`
 
-use Symfony\Component\Form\FormBuilderInterface; 
+```php
 
-use Symfony\Component\OptionsResolver\OptionsResolver; 
+<?php
 
-use Symfony\Component\Validator\Constraints\Email; 
 
-use Symfony\Component\Validator\Constraints\Length; 
 
-use Symfony\Component\Validator\Constraints\NotBlank; 
+namespace App\Form;
 
- 
 
-class ContactType extends AbstractType 
 
-{ 
+use Symfony\Component\Form\AbstractType;
 
-    public function buildForm(FormBuilderInterface $builder, array $options): void 
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
-    { 
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-        $builder 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-            ->add('nom', TextType::class, [ 
+use Symfony\Component\Form\FormBuilderInterface;
 
-                'label' => 'Nom', 
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-                'attr' => [ 
+use Symfony\Component\Validator\Constraints\Email;
 
-                    'class' => 'form-control', 
+use Symfony\Component\Validator\Constraints\Length;
 
-                    'placeholder' => 'Votre nom' 
+use Symfony\Component\Validator\Constraints\NotBlank;
 
-                ], 
 
-                'constraints' => [ 
 
-                    new NotBlank(['message' => 'Le nom est obligatoire']), 
+class ContactType extends AbstractType
 
-                    new Length(['min' => 2, 'max' => 50]) 
+{
 
-                ] 
+    public function buildForm(FormBuilderInterface $builder, array $options): void
 
-            ]) 
+    {
 
-            ->add('email', EmailType::class, [ 
+        $builder
 
-                'label' => 'Email', 
+            ->add('nom', TextType::class, [
 
-                'attr' => [ 
+                'label' => 'Nom',
 
-                    'class' => 'form-control', 
+                'attr' => [
 
-                    'placeholder' => 'votre.email@exemple.com' 
+                    'class' => 'form-control',
 
-                ], 
+                    'placeholder' => 'Votre nom'
 
-                'constraints' => [ 
+                ],
 
-                    new NotBlank(['message' => 'L\'email est obligatoire']), 
+                'constraints' => [
 
-                    new Email(['message' => 'Email invalide']) 
+                    new NotBlank(['message' => 'Le nom est obligatoire']),
 
-                ] 
+                    new Length(['min' => 2, 'max' => 50])
 
-            ]) 
+                ]
 
-            ->add('sujet', TextType::class, [ 
+            ])
 
-                'label' => 'Sujet', 
+            ->add('email', EmailType::class, [
 
-                'attr' => [ 
+                'label' => 'Email',
 
-                    'class' => 'form-control', 
+                'attr' => [
 
-                    'placeholder' => 'Objet de votre message' 
+                    'class' => 'form-control',
 
-                ], 
+                    'placeholder' => 'votre.email@exemple.com'
 
-                'constraints' => [ 
+                ],
 
-                    new NotBlank(['message' => 'Le sujet est obligatoire']), 
+                'constraints' => [
 
-                    new Length(['min' => 5, 'max' => 100]) 
+                    new NotBlank(['message' => 'L\'email est obligatoire']),
 
-                ] 
+                    new Email(['message' => 'Email invalide'])
 
-            ]) 
+                ]
 
-            ->add('message', TextareaType::class, [ 
+            ])
 
-                'label' => 'Message', 
+            ->add('sujet', TextType::class, [
 
-                'attr' => [ 
+                'label' => 'Sujet',
 
-                    'class' => 'form-control', 
+                'attr' => [
 
-                    'rows' => 6, 
+                    'class' => 'form-control',
 
-                    'placeholder' => 'Votre message...' 
+                    'placeholder' => 'Objet de votre message'
 
-                ], 
+                ],
 
-                'constraints' => [ 
+                'constraints' => [
 
-                    new NotBlank(['message' => 'Le message est obligatoire']), 
+                    new NotBlank(['message' => 'Le sujet est obligatoire']),
 
-                    new Length(['min' => 10]) 
+                    new Length(['min' => 5, 'max' => 100])
 
-                ] 
+                ]
 
-            ]); 
+            ])
 
-    } 
+            ->add('message', TextareaType::class, [
 
- 
+                'label' => 'Message',
 
-    public function configureOptions(OptionsResolver $resolver): void 
+                'attr' => [
 
-    { 
+                    'class' => 'form-control',
 
-        $resolver->setDefaults([]); 
+                    'rows' => 6,
 
-    } 
+                    'placeholder' => 'Votre message...'
 
-} 
+                ],
 
-``` 
+                'constraints' => [
 
- 
+                    new NotBlank(['message' => 'Le message est obligatoire']),
 
-#### Création du contrôleur ContactController 
+                    new Length(['min' => 10])
 
- 
+                ]
 
-**Fichier** : `src/Controller/ContactController.php` 
+            ]);
 
- 
+    }
 
-```php 
 
-<?php 
 
- 
+    public function configureOptions(OptionsResolver $resolver): void
 
-namespace App\Controller; 
+    {
 
- 
+        $resolver->setDefaults([]);
 
-use App\Form\ContactType; 
+    }
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; 
+}
 
-use Symfony\Component\HttpFoundation\Request; 
+```
 
-use Symfony\Component\HttpFoundation\Response; 
+#### Création du contrôleur ContactController
 
-use Symfony\Component\Routing\Attribute\Route; 
+**Fichier** : `src/Controller/ContactController.php`
 
- 
+```php
 
-class ContactController extends AbstractController 
+<?php
 
-{ 
 
-    #[Route('/contact', name: 'app_contact')] 
 
-    public function index(Request $request): Response 
+namespace App\Controller;
 
-    { 
 
-        $form = $this->createForm(ContactType::class); 
 
-        $form->handleRequest($request); 
+use App\Form\ContactType;
 
- 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-        if ($form->isSubmitted() && $form->isValid()) { 
+use Symfony\Component\HttpFoundation\Request;
 
-            $data = $form->getData(); 
+use Symfony\Component\HttpFoundation\Response;
 
-             
+use Symfony\Component\Routing\Attribute\Route;
 
-            // TODO: Envoyer un email à l'administrateur 
 
-            // Pour l'instant, on simule l'envoi 
 
-             
+class ContactController extends AbstractController
 
-            $this->addFlash('success', 'Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.'); 
+{
 
-             
+    #[Route('/contact', name: 'app_contact')]
 
-            return $this->redirectToRoute('app_contact'); 
+    public function index(Request $request): Response
 
-        } 
+    {
 
- 
+        $form = $this->createForm(ContactType::class);
 
-        return $this->render('contact/index.html.twig', [ 
+        $form->handleRequest($request);
 
-            'contactForm' => $form, 
 
-        ]); 
 
-    } 
+        if ($form->isSubmitted() && $form->isValid()) {
 
-} 
+            $data = $form->getData();
 
-``` 
 
- 
 
-#### Template contact/index.html.twig 
+            // TODO: Envoyer un email à l'administrateur
 
- 
+            // Pour l'instant, on simule l'envoi
 
-**Fichier** : `templates/contact/index.html.twig` 
 
- 
 
-```twig 
+            $this->addFlash('success', 'Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.');
 
-{% extends 'base.html.twig' %} 
 
- 
 
-{% block title %}Contact - Les Restes{% endblock %} 
+            return $this->redirectToRoute('app_contact');
 
- 
+        }
 
-{% block body %} 
 
-<div class="container my-5"> 
 
-    <div class="row"> 
+        return $this->render('contact/index.html.twig', [
 
-        <div class="col-lg-8 mx-auto"> 
+            'contactForm' => $form,
 
-            <h1 class="mb-4 text-success">Nous contacter</h1> 
+        ]);
 
-             
+    }
 
-            <p class="lead mb-4"> 
+}
 
-                Une question, une suggestion ou un problème ? N'hésitez pas à nous contacter via le formulaire ci-dessous. 
+```
 
-            </p> 
+#### Template contact/index.html.twig
 
- 
+**Fichier** : `templates/contact/index.html.twig`
 
-            <div class="card shadow-sm"> 
+```twig
 
-                <div class="card-body p-4"> 
+{% extends 'base.html.twig' %}
 
-                    {{ form_start(contactForm) }} 
 
-                     
 
-                    <div class="mb-3"> 
+{% block title %}Contact - Les Restes{% endblock %}
 
-                        {{ form_row(contactForm.nom) }} 
 
-                    </div> 
 
- 
+{% block body %}
 
-                    <div class="mb-3"> 
+<div class="container my-5">
 
-                        {{ form_row(contactForm.email) }} 
+    <div class="row">
 
-                    </div> 
+        <div class="col-lg-8 mx-auto">
 
- 
+            <h1 class="mb-4 text-success">Nous contacter</h1>
 
-                    <div class="mb-3"> 
 
-                        {{ form_row(contactForm.sujet) }} 
 
-                    </div> 
+            <p class="lead mb-4">
 
- 
+                Une question, une suggestion ou un problème ? N'hésitez pas à nous contacter via le formulaire ci-dessous.
 
-                    <div class="mb-4"> 
+            </p>
 
-                        {{ form_row(contactForm.message) }} 
 
-                    </div> 
 
- 
+            <div class="card shadow-sm">
 
-                    <button type="submit" class="btn btn-success btn-lg w-100"> 
+                <div class="card-body p-4">
 
-                        <i class="bi bi-send"></i> Envoyer le message 
+                    {{ form_start(contactForm) }}
 
-                    </button> 
 
- 
 
-                    {{ form_end(contactForm) }} 
+                    <div class="mb-3">
 
-                </div> 
+                        {{ form_row(contactForm.nom) }}
 
-            </div> 
+                    </div>
 
- 
 
-            <!-- Informations de contact --> 
 
-            <div class="row mt-5"> 
+                    <div class="mb-3">
 
-                <div class="col-md-4"> 
+                        {{ form_row(contactForm.email) }}
 
-                    <div class="text-center"> 
+                    </div>
 
-                        <i class="bi bi-envelope fs-1 text-success"></i> 
 
-                        <h5 class="mt-3">Email</h5> 
 
-                        <p class="text-muted">contact@lesrestes.com</p> 
+                    <div class="mb-3">
 
-                    </div> 
+                        {{ form_row(contactForm.sujet) }}
 
-                </div> 
+                    </div>
 
-                <div class="col-md-4"> 
 
-                    <div class="text-center"> 
 
-                        <i class="bi bi-geo-alt fs-1 text-success"></i> 
+                    <div class="mb-4">
 
-                        <h5 class="mt-3">Adresse</h5> 
+                        {{ form_row(contactForm.message) }}
 
-                        <p class="text-muted">666 Rue du Paradis<br>31000 Toulouse</p> 
+                    </div>
 
-                    </div> 
 
-                </div> 
 
-                <div class="col-md-4"> 
+                    <button type="submit" class="btn btn-success btn-lg w-100">
 
-                    <div class="text-center"> 
+                        <i class="bi bi-send"></i> Envoyer le message
 
-                        <i class="bi bi-clock fs-1 text-success"></i> 
+                    </button>
 
-                        <h5 class="mt-3">Horaires</h5> 
 
-                        <p class="text-muted">Lun-Ven: 9h-18h</p> 
 
-                    </div> 
+                    {{ form_end(contactForm) }}
 
-                </div> 
+                </div>
 
-            </div> 
+            </div>
 
-        </div> 
 
-    </div> 
 
-</div> 
+            <!-- Informations de contact -->
 
-{% endblock %} 
+            <div class="row mt-5">
 
-``` 
+                <div class="col-md-4">
 
- 
+                    <div class="text-center">
 
-### 20.4 Page Mentions Légales 
+                        <i class="bi bi-envelope fs-1 text-success"></i>
 
- 
+                        <h5 class="mt-3">Email</h5>
 
-**Fichier** : `templates/legal/mentions-legales.html.twig` 
+                        <p class="text-muted">contact@lesrestes.com</p>
 
- 
+                    </div>
 
-```twig 
+                </div>
 
-{% extends 'base.html.twig' %} 
+                <div class="col-md-4">
 
- 
+                    <div class="text-center">
 
-{% block title %}Mentions Légales - Les Restes{% endblock %} 
+                        <i class="bi bi-geo-alt fs-1 text-success"></i>
 
- 
+                        <h5 class="mt-3">Adresse</h5>
 
-{% block body %} 
+                        <p class="text-muted">666 Rue du Paradis<br>31000 Toulouse</p>
 
-<div class="container my-5"> 
+                    </div>
 
-    <div class="row"> 
+                </div>
 
-        <div class="col-lg-8 mx-auto"> 
+                <div class="col-md-4">
 
-            <h1 class="mb-4 text-success">Mentions Légales</h1> 
+                    <div class="text-center">
 
- 
+                        <i class="bi bi-clock fs-1 text-success"></i>
 
-            <div class="card shadow-sm mb-4"> 
+                        <h5 class="mt-3">Horaires</h5>
 
-                <div class="card-body"> 
+                        <p class="text-muted">Lun-Ven: 9h-18h</p>
 
-                    <h3>1. Éditeur du site</h3> 
+                    </div>
 
-                    <p> 
+                </div>
 
-                        <strong>Nom du site :</strong> Les Restes<br> 
+            </div>
 
-                        <strong>URL :</strong> https://lesrestes.com<br> 
+        </div>
 
-                        <strong>Propriétaire :</strong> Bah Shabadine<br> 
+    </div>
 
-                        <strong>Adresse :</strong> 666 Rue du Paradis, 31000 Toulouse<br> 
+</div>
 
-                        <strong>Email :</strong> contact@lesrestes.com 
+{% endblock %}
 
-                    </p> 
+```
 
- 
+### 20.4 Page Mentions Légales
 
-                    <h3 class="mt-4">2. Hébergeur</h3> 
+**Fichier** : `templates/legal/mentions-legales.html.twig`
 
-                    <p> 
+```twig
 
-                        <strong>Nom :</strong> Render (ou Heroku selon déploiement)<br> 
+{% extends 'base.html.twig' %}
 
-                        <strong>Adresse :</strong> [Adresse hébergeur]<br> 
 
-                        <strong>Site web :</strong> [URL hébergeur] 
 
-                    </p> 
+{% block title %}Mentions Légales - Les Restes{% endblock %}
 
- 
 
-                    <h3 class="mt-4">3. Propriété intellectuelle</h3> 
 
-                    <p> 
+{% block body %}
 
-                        L'ensemble du contenu de ce site (textes, images, vidéos, etc.) est protégé par le droit d'auteur.  
+<div class="container my-5">
 
-                        Toute reproduction, même partielle, est interdite sans autorisation préalable. 
+    <div class="row">
 
-                    </p> 
+        <div class="col-lg-8 mx-auto">
 
- 
+            <h1 class="mb-4 text-success">Mentions Légales</h1>
 
-                    <h3 class="mt-4">4. Protection des données personnelles</h3> 
 
-                    <p> 
 
-                        Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles.  
+            <div class="card shadow-sm mb-4">
 
-                        Pour exercer ce droit, contactez-nous à : contact@lesrestes.com 
+                <div class="card-body">
 
-                    </p> 
+                    <h3>1. Éditeur du site</h3>
 
-                    <p> 
+                    <p>
 
-                        Pour plus d'informations, consultez notre  
+                        <strong>Nom du site :</strong> Les Restes<br>
 
-                        <a href="{{ path('app_politique_confidentialite') }}">Politique de Confidentialité</a>. 
+                        <strong>URL :</strong> https://lesrestes.com<br>
 
-                    </p> 
+                        <strong>Propriétaire :</strong> Bah Shabadine<br>
 
- 
+                        <strong>Adresse :</strong> 666 Rue du Paradis, 31000 Toulouse<br>
 
-                    <h3 class="mt-4">5. Cookies</h3> 
+                        <strong>Email :</strong> contact@lesrestes.com
 
-                    <p> 
+                    </p>
 
-                        Ce site utilise des cookies pour améliorer l'expérience utilisateur.  
 
-                        En poursuivant votre navigation, vous acceptez l'utilisation de cookies. 
 
-                    </p> 
+                    <h3 class="mt-4">2. Hébergeur</h3>
 
-                </div> 
+                    <p>
 
-            </div> 
+                        <strong>Nom :</strong> Render (ou Heroku selon déploiement)<br>
 
-        </div> 
+                        <strong>Adresse :</strong> [Adresse hébergeur]<br>
 
-    </div> 
+                        <strong>Site web :</strong> [URL hébergeur]
 
-</div> 
+                    </p>
 
-{% endblock %} 
 
-``` 
 
- 
+                    <h3 class="mt-4">3. Propriété intellectuelle</h3>
 
-### 20.5 Page Politique de Confidentialité 
+                    <p>
 
- 
+                        L'ensemble du contenu de ce site (textes, images, vidéos, etc.) est protégé par le droit d'auteur.
 
-**Fichier** : `templates/legal/politique-confidentialite.html.twig` 
+                        Toute reproduction, même partielle, est interdite sans autorisation préalable.
 
- 
+                    </p>
 
-```twig 
 
-{% extends 'base.html.twig' %} 
 
- 
+                    <h3 class="mt-4">4. Protection des données personnelles</h3>
 
-{% block title %}Politique de Confidentialité - Les Restes{% endblock %} 
+                    <p>
 
- 
+                        Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles.
 
-{% block body %} 
+                        Pour exercer ce droit, contactez-nous à : contact@lesrestes.com
 
-<div class="container my-5"> 
+                    </p>
 
-    <div class="row"> 
+                    <p>
 
-        <div class="col-lg-8 mx-auto"> 
+                        Pour plus d'informations, consultez notre
 
-            <h1 class="mb-4 text-success">Politique de Confidentialité</h1> 
+                        <a href="{{ path('app_politique_confidentialite') }}">Politique de Confidentialité</a>.
 
- 
+                    </p>
 
-            <div class="card shadow-sm mb-4"> 
 
-                <div class="card-body"> 
 
-                    <h3>1. Collecte des données personnelles</h3> 
+                    <h3 class="mt-4">5. Cookies</h3>
 
-                    <p> 
+                    <p>
 
-                        Nous collectons les données suivantes : 
+                        Ce site utilise des cookies pour améliorer l'expérience utilisateur.
 
-                    </p> 
+                        En poursuivant votre navigation, vous acceptez l'utilisation de cookies.
 
-                    <ul> 
+                    </p>
 
-                        <li><strong>Données d'inscription :</strong> nom, prénom, adresse email</li> 
+                </div>
 
-                        <li><strong>Données de navigation :</strong> adresse IP, cookies, pages visitées</li> 
+            </div>
 
-                        <li><strong>Contenu créé :</strong> recettes, commentaires, favoris</li> 
+        </div>
 
-                    </ul> 
+    </div>
 
- 
+</div>
 
-                    <h3 class="mt-4">2. Finalité de la collecte</h3> 
+{% endblock %}
 
-                    <p> 
+```
 
-                        Vos données sont utilisées pour : 
+### 20.5 Page Politique de Confidentialité
 
-                    </p> 
+**Fichier** : `templates/legal/politique-confidentialite.html.twig`
 
-                    <ul> 
+```twig
 
-                        <li>Gérer votre compte utilisateur</li> 
+{% extends 'base.html.twig' %}
 
-                        <li>Vous permettre de publier des recettes et commentaires</li> 
 
-                        <li>Améliorer nos services</li> 
 
-                        <li>Vous envoyer des notifications (si activées)</li> 
+{% block title %}Politique de Confidentialité - Les Restes{% endblock %}
 
-                    </ul> 
 
- 
 
-                    <h3 class="mt-4">3. Conservation des données</h3> 
+{% block body %}
 
-                    <p> 
+<div class="container my-5">
 
-                        Vos données sont conservées : 
+    <div class="row">
 
-                    </p> 
+        <div class="col-lg-8 mx-auto">
 
-                    <ul> 
+            <h1 class="mb-4 text-success">Politique de Confidentialité</h1>
 
-                        <li><strong>Compte actif :</strong> tant que votre compte existe</li> 
 
-                        <li><strong>Compte supprimé :</strong> anonymisation immédiate des données</li> 
 
-                        <li><strong>Logs techniques :</strong> 12 mois maximum</li> 
+            <div class="card shadow-sm mb-4">
 
-                    </ul> 
+                <div class="card-body">
 
- 
+                    <h3>1. Collecte des données personnelles</h3>
 
-                    <h3 class="mt-4">4. Vos droits (RGPD)</h3> 
+                    <p>
 
-                    <p> 
+                        Nous collectons les données suivantes :
 
-                        Vous disposez des droits suivants : 
+                    </p>
 
-                    </p> 
+                    <ul>
 
-                    <ul> 
+                        <li><strong>Données d'inscription :</strong> nom, prénom, adresse email</li>
 
-                        <li><strong>Droit d'accès :</strong> obtenir une copie de vos données</li> 
+                        <li><strong>Données de navigation :</strong> adresse IP, cookies, pages visitées</li>
 
-                        <li><strong>Droit de rectification :</strong> corriger vos données</li> 
+                        <li><strong>Contenu créé :</strong> recettes, commentaires, favoris</li>
 
-                        <li><strong>Droit à l'effacement :</strong> supprimer votre compte</li> 
+                    </ul>
 
-                        <li><strong>Droit d'opposition :</strong> refuser certains traitements</li> 
 
-                        <li><strong>Droit à la portabilité :</strong> récupérer vos données</li> 
 
-                    </ul> 
+                    <h3 class="mt-4">2. Finalité de la collecte</h3>
 
-                    <p> 
+                    <p>
 
-                        Pour exercer ces droits, contactez-nous à : <strong>contact@lesrestes.com</strong> 
+                        Vos données sont utilisées pour :
 
-                    </p> 
+                    </p>
 
- 
+                    <ul>
 
-                    <h3 class="mt-4">5. Sécurité</h3> 
+                        <li>Gérer votre compte utilisateur</li>
 
-                    <p> 
+                        <li>Vous permettre de publier des recettes et commentaires</li>
 
-                        Nous mettons en œuvre toutes les mesures techniques et organisationnelles pour protéger vos données : 
+                        <li>Améliorer nos services</li>
 
-                    </p> 
+                        <li>Vous envoyer des notifications (si activées)</li>
 
-                    <ul> 
+                    </ul>
 
-                        <li>Chiffrement des mots de passe (bcrypt)</li> 
 
-                        <li>Connexion HTTPS sécurisée</li> 
 
-                        <li>Accès restreint aux données</li> 
+                    <h3 class="mt-4">3. Conservation des données</h3>
 
-                        <li>Sauvegardes régulières</li> 
+                    <p>
 
-                    </ul> 
+                        Vos données sont conservées :
 
- 
+                    </p>
 
-                    <h3 class="mt-4">6. Cookies</h3> 
+                    <ul>
 
-                    <p> 
+                        <li><strong>Compte actif :</strong> tant que votre compte existe</li>
 
-                        Ce site utilise des cookies pour : 
+                        <li><strong>Compte supprimé :</strong> anonymisation immédiate des données</li>
 
-                    </p> 
+                        <li><strong>Logs techniques :</strong> 12 mois maximum</li>
 
-                    <ul> 
+                    </ul>
 
-                        <li><strong>Session :</strong> maintenir votre connexion</li> 
 
-                        <li><strong>Préférences :</strong> sauvegarder vos choix (ingrédients cochés)</li> 
 
-                    </ul> 
+                    <h3 class="mt-4">4. Vos droits (RGPD)</h3>
 
-                    <p> 
+                    <p>
 
-                        Vous pouvez désactiver les cookies dans les paramètres de votre navigateur. 
+                        Vous disposez des droits suivants :
 
-                    </p> 
+                    </p>
 
- 
+                    <ul>
 
-                    <h3 class="mt-4">7. Partage des données</h3> 
+                        <li><strong>Droit d'accès :</strong> obtenir une copie de vos données</li>
 
-                    <p> 
+                        <li><strong>Droit de rectification :</strong> corriger vos données</li>
 
-                        Vos données ne sont <strong>jamais vendues ni partagées</strong> avec des tiers,  
+                        <li><strong>Droit à l'effacement :</strong> supprimer votre compte</li>
 
-                        sauf obligation légale (décision de justice, autorités compétentes). 
+                        <li><strong>Droit d'opposition :</strong> refuser certains traitements</li>
 
-                    </p> 
+                        <li><strong>Droit à la portabilité :</strong> récupérer vos données</li>
 
- 
+                    </ul>
 
-                    <h3 class="mt-4">8. Contact</h3> 
+                    <p>
 
-                    <p> 
+                        Pour exercer ces droits, contactez-nous à : <strong>contact@lesrestes.com</strong>
 
-                        Pour toute question relative à la protection de vos données personnelles :<br> 
+                    </p>
 
-                        Email : <strong>contact@lesrestes.com</strong><br> 
 
-                        Adresse : 666 Rue du Paradis, 31000 Toulouse 
 
-                    </p> 
+                    <h3 class="mt-4">5. Sécurité</h3>
 
- 
+                    <p>
 
-                    <p class="mt-4"> 
+                        Nous mettons en œuvre toutes les mesures techniques et organisationnelles pour protéger vos données :
 
-                        <em>Dernière mise à jour : Novembre 2025</em> 
+                    </p>
 
-                    </p> 
+                    <ul>
 
-                </div> 
+                        <li>Chiffrement des mots de passe (bcrypt)</li>
 
-            </div> 
+                        <li>Connexion HTTPS sécurisée</li>
 
-        </div> 
+                        <li>Accès restreint aux données</li>
 
-    </div> 
+                        <li>Sauvegardes régulières</li>
 
-</div> 
+                    </ul>
 
-{% endblock %} 
 
-``` 
 
- 
+                    <h3 class="mt-4">6. Cookies</h3>
 
-### 20.6 Page CGU (Conditions Générales d'Utilisation) 
+                    <p>
 
- 
+                        Ce site utilise des cookies pour :
 
-**Fichier** : `templates/legal/cgu.html.twig` 
+                    </p>
 
- 
+                    <ul>
 
-```twig 
+                        <li><strong>Session :</strong> maintenir votre connexion</li>
 
-{% extends 'base.html.twig' %} 
+                        <li><strong>Préférences :</strong> sauvegarder vos choix (ingrédients cochés)</li>
 
- 
+                    </ul>
 
-{% block title %}Conditions Générales d'Utilisation - Les Restes{% endblock %} 
+                    <p>
 
- 
+                        Vous pouvez désactiver les cookies dans les paramètres de votre navigateur.
 
-{% block body %} 
+                    </p>
 
-<div class="container my-5"> 
 
-    <div class="row"> 
 
-        <div class="col-lg-8 mx-auto"> 
+                    <h3 class="mt-4">7. Partage des données</h3>
 
-            <h1 class="mb-4 text-success">Conditions Générales d'Utilisation</h1> 
+                    <p>
 
- 
+                        Vos données ne sont <strong>jamais vendues ni partagées</strong> avec des tiers,
 
-            <div class="card shadow-sm mb-4"> 
+                        sauf obligation légale (décision de justice, autorités compétentes).
 
-                <div class="card-body"> 
+                    </p>
 
-                    <h3>1. Objet</h3> 
 
-                    <p> 
 
-                        Les présentes Conditions Générales d'Utilisation (CGU) régissent l'accès et l'utilisation du site <strong>Les Restes</strong>. 
+                    <h3 class="mt-4">8. Contact</h3>
 
-                        En accédant au site, vous acceptez sans réserve les présentes CGU. 
+                    <p>
 
-                    </p> 
+                        Pour toute question relative à la protection de vos données personnelles :<br>
 
- 
+                        Email : <strong>contact@lesrestes.com</strong><br>
 
-                    <h3 class="mt-4">2. Inscription et compte utilisateur</h3> 
+                        Adresse : 666 Rue du Paradis, 31000 Toulouse
 
-                    <p> 
+                    </p>
 
-                        <strong>2.1 Conditions d'inscription</strong><br> 
 
-                        Pour utiliser certaines fonctionnalités, vous devez créer un compte en fournissant des informations exactes et à jour. 
 
-                    </p> 
+                    <p class="mt-4">
 
-                    <p> 
+                        <em>Dernière mise à jour : Novembre 2025</em>
 
-                        <strong>2.2 Responsabilité</strong><br> 
+                    </p>
 
-                        Vous êtes responsable de la confidentialité de votre mot de passe et de toutes les activités effectuées depuis votre compte. 
+                </div>
 
-                    </p> 
+            </div>
 
-                    <p> 
+        </div>
 
-                        <strong>2.3 Suppression de compte</strong><br> 
+    </div>
 
-                        Vous pouvez supprimer votre compte à tout moment depuis votre profil. La suppression est immédiate et définitive. 
+</div>
 
-                    </p> 
+{% endblock %}
 
- 
+```
 
-                    <h3 class="mt-4">3. Utilisation du service</h3> 
+### 20.6 Page CGU (Conditions Générales d'Utilisation)
 
-                    <p> 
+**Fichier** : `templates/legal/cgu.html.twig`
 
-                        <strong>3.1 Contenu publié</strong><br> 
+```twig
 
-                        Vous vous engagez à ne pas publier de contenu : 
+{% extends 'base.html.twig' %}
 
-                    </p> 
 
-                    <ul> 
 
-                        <li>Illégal, offensant, diffamatoire</li> 
+{% block title %}Conditions Générales d'Utilisation - Les Restes{% endblock %}
 
-                        <li>Violant des droits d'auteur</li> 
 
-                        <li>Contenant des virus ou codes malveillants</li> 
 
-                        <li>À caractère publicitaire non sollicité</li> 
+{% block body %}
 
-                    </ul> 
+<div class="container my-5">
 
-                    <p> 
+    <div class="row">
 
-                        <strong>3.2 Modération</strong><br> 
+        <div class="col-lg-8 mx-auto">
 
-                        Nous nous réservons le droit de supprimer tout contenu ne respectant pas ces règles, sans préavis. 
+            <h1 class="mb-4 text-success">Conditions Générales d'Utilisation</h1>
 
-                    </p> 
 
- 
 
-                    <h3 class="mt-4">4. Propriété intellectuelle</h3> 
+            <div class="card shadow-sm mb-4">
 
-                    <p> 
+                <div class="card-body">
 
-                        <strong>4.1 Contenu du site</strong><br> 
+                    <h3>1. Objet</h3>
 
-                        Le design, les textes, les images et le code source du site sont protégés par le droit d'auteur. 
+                    <p>
 
-                    </p> 
+                        Les présentes Conditions Générales d'Utilisation (CGU) régissent l'accès et l'utilisation du site <strong>Les Restes</strong>.
 
-                    <p> 
+                        En accédant au site, vous acceptez sans réserve les présentes CGU.
 
-                        <strong>4.2 Contenu utilisateur</strong><br> 
+                    </p>
 
-                        Vous conservez la propriété intellectuelle de vos recettes. En les publiant, vous accordez à <strong>Les Restes</strong>  
 
-                        une licence non exclusive pour les afficher sur le site. 
 
-                    </p> 
+                    <h3 class="mt-4">2. Inscription et compte utilisateur</h3>
 
- 
+                    <p>
 
-                    <h3 class="mt-4">5. Responsabilité</h3> 
+                        <strong>2.1 Conditions d'inscription</strong><br>
 
-                    <p> 
+                        Pour utiliser certaines fonctionnalités, vous devez créer un compte en fournissant des informations exactes et à jour.
 
-                        <strong>5.1 Disponibilité</strong><br> 
+                    </p>
 
-                        Nous nous efforçons d'assurer la disponibilité du site 24h/24, mais ne garantissons pas un accès sans interruption. 
+                    <p>
 
-                    </p> 
+                        <strong>2.2 Responsabilité</strong><br>
 
-                    <p> 
+                        Vous êtes responsable de la confidentialité de votre mot de passe et de toutes les activités effectuées depuis votre compte.
 
-                        <strong>5.2 Contenu utilisateur</strong><br> 
+                    </p>
 
-                        Nous ne sommes pas responsables du contenu publié par les utilisateurs.  
+                    <p>
 
-                        Chaque utilisateur est responsable de ses propres publications. 
+                        <strong>2.3 Suppression de compte</strong><br>
 
-                    </p> 
+                        Vous pouvez supprimer votre compte à tout moment depuis votre profil. La suppression est immédiate et définitive.
 
-                    <p> 
+                    </p>
 
-                        <strong>5.3 Recettes</strong><br> 
 
-                        Les recettes sont fournies à titre informatif. Nous ne garantissons pas leur exactitude ni leur résultat.  
 
-                        Consultez un professionnel en cas d'allergies ou restrictions alimentaires. 
+                    <h3 class="mt-4">3. Utilisation du service</h3>
 
-                    </p> 
+                    <p>
 
- 
+                        <strong>3.1 Contenu publié</strong><br>
 
-                    <h3 class="mt-4">6. Données personnelles</h3> 
+                        Vous vous engagez à ne pas publier de contenu :
 
-                    <p> 
+                    </p>
 
-                        La collecte et le traitement de vos données personnelles sont décrits dans notre  
+                    <ul>
 
-                        <a href="{{ path('app_politique_confidentialite') }}">Politique de Confidentialité</a>. 
+                        <li>Illégal, offensant, diffamatoire</li>
 
-                    </p> 
+                        <li>Violant des droits d'auteur</li>
 
- 
+                        <li>Contenant des virus ou codes malveillants</li>
 
-                    <h3 class="mt-4">7. Modification des CGU</h3> 
+                        <li>À caractère publicitaire non sollicité</li>
 
-                    <p> 
+                    </ul>
 
-                        Nous nous réservons le droit de modifier les présentes CGU à tout moment.  
+                    <p>
 
-                        Les modifications prennent effet dès leur publication sur le site. 
+                        <strong>3.2 Modération</strong><br>
 
-                    </p> 
+                        Nous nous réservons le droit de supprimer tout contenu ne respectant pas ces règles, sans préavis.
 
- 
+                    </p>
 
-                    <h3 class="mt-4">8. Loi applicable</h3> 
 
-                    <p> 
 
-                        Les présentes CGU sont soumises au droit français.  
+                    <h3 class="mt-4">4. Propriété intellectuelle</h3>
 
-                        Tout litige sera soumis aux tribunaux compétents de Toulouse. 
+                    <p>
 
-                    </p> 
+                        <strong>4.1 Contenu du site</strong><br>
 
- 
+                        Le design, les textes, les images et le code source du site sont protégés par le droit d'auteur.
 
-                    <h3 class="mt-4">9. Contact</h3> 
+                    </p>
 
-                    <p> 
+                    <p>
 
-                        Pour toute question relative aux CGU :<br> 
+                        <strong>4.2 Contenu utilisateur</strong><br>
 
-                        Email : <strong>contact@lesrestes.com</strong><br> 
+                        Vous conservez la propriété intellectuelle de vos recettes. En les publiant, vous accordez à <strong>Les Restes</strong>
 
-                        Adresse : 666 Rue du Paradis, 31000 Toulouse 
+                        une licence non exclusive pour les afficher sur le site.
 
-                    </p> 
+                    </p>
 
- 
 
-                    <p class="mt-4"> 
 
-                        <em>Dernière mise à jour : Novembre 2025</em> 
+                    <h3 class="mt-4">5. Responsabilité</h3>
 
-                    </p> 
+                    <p>
 
-                </div> 
+                        <strong>5.1 Disponibilité</strong><br>
 
-            </div> 
+                        Nous nous efforçons d'assurer la disponibilité du site 24h/24, mais ne garantissons pas un accès sans interruption.
 
-        </div> 
+                    </p>
 
-    </div> 
+                    <p>
 
-</div> 
+                        <strong>5.2 Contenu utilisateur</strong><br>
 
-{% endblock %} 
+                        Nous ne sommes pas responsables du contenu publié par les utilisateurs.
 
-``` 
+                        Chaque utilisateur est responsable de ses propres publications.
 
- 
+                    </p>
 
-### 20.7 Ajout des liens dans le footer 
+                    <p>
 
- 
+                        <strong>5.3 Recettes</strong><br>
 
-**Fichier** : `templates/base.html.twig` 
+                        Les recettes sont fournies à titre informatif. Nous ne garantissons pas leur exactitude ni leur résultat.
 
- 
+                        Consultez un professionnel en cas d'allergies ou restrictions alimentaires.
 
-Modification du footer pour inclure les liens légaux : 
+                    </p>
 
- 
 
-```twig 
 
-<footer class="py-4 mt-5 border-top"  
+                    <h3 class="mt-4">6. Données personnelles</h3>
 
-        style="background-color: var(--background-color);"> 
+                    <p>
 
-    <div class="container"> 
+                        La collecte et le traitement de vos données personnelles sont décrits dans notre
 
-        <div class="row"> 
+                        <a href="{{ path('app_politique_confidentialite') }}">Politique de Confidentialité</a>.
 
-            <!-- Colonne 1 : Mentions légales --> 
+                    </p>
 
-            <div class="col-md-3"> 
 
-                <h6 class="fw-bold mb-3">Mentions légales</h6> 
 
-                <ul class="list-unstyled"> 
+                    <h3 class="mt-4">7. Modification des CGU</h3>
 
-                    <li><a href="{{ path('app_mentions_legales') }}" class="text-muted">Mentions légales</a></li> 
+                    <p>
 
-                    <li><a href="{{ path('app_politique_confidentialite') }}" class="text-muted">Politique de confidentialité</a></li> 
+                        Nous nous réservons le droit de modifier les présentes CGU à tout moment.
 
-                    <li><a href="{{ path('app_cgu') }}" class="text-muted">CGU</a></li> 
+                        Les modifications prennent effet dès leur publication sur le site.
 
-                    <li><a href="{{ path('app_contact') }}" class="text-muted">Contact</a></li> 
+                    </p>
 
-                </ul> 
 
-                <p class="small mb-0 text-muted">Copyright © 2025</p> 
 
-            </div> 
+                    <h3 class="mt-4">8. Loi applicable</h3>
 
-             
+                    <p>
 
-            <!-- ... Autres colonnes ... --> 
+                        Les présentes CGU sont soumises au droit français.
 
-        </div> 
+                        Tout litige sera soumis aux tribunaux compétents de Toulouse.
 
-    </div> 
+                    </p>
 
-</footer> 
 
-``` 
 
- 
+                    <h3 class="mt-4">9. Contact</h3>
 
-### 20.8 Tests des pages légales 
+                    <p>
 
- 
+                        Pour toute question relative aux CGU :<br>
 
-**Tests effectués** : 
+                        Email : <strong>contact@lesrestes.com</strong><br>
 
- 
+                        Adresse : 666 Rue du Paradis, 31000 Toulouse
 
-1. **Page Contact** : 
+                    </p>
 
-   - ✅ Formulaire s'affiche 
 
-   - ✅ Validation fonctionne 
 
-   - ✅ Message flash après soumission 
+                    <p class="mt-4">
 
-   - ✅ Informations de contact affichées 
+                        <em>Dernière mise à jour : Novembre 2025</em>
 
- 
+                    </p>
 
-2. **Mentions Légales** : 
+                </div>
 
-   - ✅ Informations éditeur présentes 
+            </div>
 
-   - ✅ Hébergeur mentionné 
+        </div>
 
-   - ✅ Propriété intellectuelle 
+    </div>
 
-   - ✅ Lien vers politique de confidentialité 
+</div>
 
- 
+{% endblock %}
 
-3. **Politique de Confidentialité** : 
+```
 
-   - ✅ Collecte des données expliquée 
+### 20.7 Ajout des liens dans le footer
 
-   - ✅ Droits RGPD listés 
+**Fichier** : `templates/base.html.twig`
 
-   - ✅ Sécurité décrite 
+Modification du footer pour inclure les liens légaux :
 
-   - ✅ Contact mentionné 
+```twig
 
- 
+<footer class="py-4 mt-5 border-top"
 
-4. **CGU** : 
+        style="background-color: var(--background-color);">
 
-   - ✅ Conditions d'inscription 
+    <div class="container">
 
-   - ✅ Règles d'utilisation 
+        <div class="row">
 
-   - ✅ Propriété intellectuelle 
+            <!-- Colonne 1 : Mentions légales -->
 
-   - ✅ Responsabilités 
+            <div class="col-md-3">
 
- 
+                <h6 class="fw-bold mb-3">Mentions légales</h6>
 
-5. **Footer** : 
+                <ul class="list-unstyled">
 
-   - ✅ Liens fonctionnels 
+                    <li><a href="{{ path('app_mentions_legales') }}" class="text-muted">Mentions légales</a></li>
 
-   - ✅ Visible sur toutes les pages 
+                    <li><a href="{{ path('app_politique_confidentialite') }}" class="text-muted">Politique de confidentialité</a></li>
 
-   - ✅ Design cohérent 
+                    <li><a href="{{ path('app_cgu') }}" class="text-muted">CGU</a></li>
 
- 
+                    <li><a href="{{ path('app_contact') }}" class="text-muted">Contact</a></li>
 
-### 20.9 Commits 
+                </ul>
 
- 
+                <p class="small mb-0 text-muted">Copyright © 2025</p>
 
-```bash 
+            </div>
 
-git checkout -b feature/pages-legales 
 
- 
 
-git add src/Form/ContactType.php src/Controller/ContactController.php templates/contact/ 
+            <!-- ... Autres colonnes ... -->
 
-git commit -m "feat: Page contact avec formulaire 
+        </div>
 
- 
+    </div>
 
-- Formulaire ContactType (nom, email, sujet, message) 
+</footer>
 
-- Validation complète 
+```
 
-- ContactController avec traitement 
+### 20.8 Tests des pages légales
 
-- Template responsive 
+**Tests effectués** :
 
-- Informations de contact affichées 
+1. **Page Contact** :
 
-- Message flash succès" 
+    - ✅ Formulaire s'affiche
 
- 
+    - ✅ Validation fonctionne
 
-git add src/Controller/LegalController.php templates/legal/ 
+    - ✅ Message flash après soumission
 
-git commit -m "feat: Pages légales complètes (RGPD) 
+    - ✅ Informations de contact affichées
 
- 
+2. **Mentions Légales** :
 
-MENTIONS LÉGALES: 
+    - ✅ Informations éditeur présentes
 
-- Éditeur du site 
+    - ✅ Hébergeur mentionné
 
-- Hébergeur 
+    - ✅ Propriété intellectuelle
 
-- Propriété intellectuelle 
+    - ✅ Lien vers politique de confidentialité
 
-- Protection données 
+3. **Politique de Confidentialité** :
 
-- Cookies 
+    - ✅ Collecte des données expliquée
 
- 
+    - ✅ Droits RGPD listés
 
-POLITIQUE CONFIDENTIALITÉ: 
+    - ✅ Sécurité décrite
 
-- Collecte données personnelles 
+    - ✅ Contact mentionné
 
-- Finalités traitement 
+4. **CGU** :
 
-- Conservation données 
+    - ✅ Conditions d'inscription
 
-- Droits RGPD (accès, rectification, effacement) 
+    - ✅ Règles d'utilisation
 
-- Sécurité (bcrypt, HTTPS) 
+    - ✅ Propriété intellectuelle
 
-- Cookies 
+    - ✅ Responsabilités
 
-- Pas de partage données 
+5. **Footer** :
 
- 
+    - ✅ Liens fonctionnels
 
-CGU: 
+    - ✅ Visible sur toutes les pages
 
-- Objet 
+    - ✅ Design cohérent
 
-- Inscription et compte 
+### 20.9 Commits
 
-- Utilisation service 
+```bash
 
-- Propriété intellectuelle 
+git checkout -b feature/pages-legales
 
-- Responsabilité 
 
-- Loi applicable 
 
- 
+git add src/Form/ContactType.php src/Controller/ContactController.php templates/contact/
 
-Conformité RGPD complète" 
+git commit -m "feat: Page contact avec formulaire
 
- 
 
-git add templates/base.html.twig 
 
-git commit -m "feat: Ajout liens pages légales dans footer 
+- Formulaire ContactType (nom, email, sujet, message)
 
- 
+- Validation complète
 
-- Mentions légales 
+- ContactController avec traitement
 
-- Politique de confidentialité 
+- Template responsive
 
-- CGU 
+- Informations de contact affichées
 
-- Contact 
+- Message flash succès"
 
-- Copyright 2025" 
 
- 
 
-git push origin feature/pages-legales 
+git add src/Controller/LegalController.php templates/legal/
 
-git checkout master 
+git commit -m "feat: Pages légales complètes (RGPD)
 
-git merge feature/pages-legales 
 
-git push origin master 
 
-git branch -d feature/pages-legales 
+MENTIONS LÉGALES:
 
-``` 
+- Éditeur du site
 
- 
+- Hébergeur
 
---- 
+- Propriété intellectuelle
 
- 
+- Protection données
 
-## ÉTAPE 21 : PAGE 404 PERSONNALISÉE 
+- Cookies
 
- 
 
-### 21.1 Contexte 
 
- 
+POLITIQUE CONFIDENTIALITÉ:
 
-Par défaut, Symfony affiche une page d'erreur 404 basique. Pour améliorer l'expérience utilisateur, nous allons créer une **page 404 personnalisée** avec : 
+- Collecte données personnelles
 
-- Design cohérent avec le site 
+- Finalités traitement
 
-- Message friendly 
+- Conservation données
 
-- Liens utiles pour naviguer 
+- Droits RGPD (accès, rectification, effacement)
 
-- Animation SVG 
+- Sécurité (bcrypt, HTTPS)
 
- 
+- Cookies
 
-### 21.2 Création du controller ErrorController 
+- Pas de partage données
 
- 
 
-**Fichier** : `src/Controller/ErrorController.php` 
 
- 
+CGU:
 
-```php 
+- Objet
 
-<?php 
+- Inscription et compte
 
- 
+- Utilisation service
 
-namespace App\Controller; 
+- Propriété intellectuelle
 
- 
+- Responsabilité
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; 
+- Loi applicable
 
-use Symfony\Component\HttpFoundation\Response; 
 
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface; 
 
- 
+Conformité RGPD complète"
 
-class ErrorController extends AbstractController 
 
-{ 
 
-    public function show(\Throwable $exception): Response 
+git add templates/base.html.twig
 
-    { 
+git commit -m "feat: Ajout liens pages légales dans footer
 
-        $statusCode = $exception instanceof HttpExceptionInterface  
 
-            ? $exception->getStatusCode()  
 
-            : 500; 
+- Mentions légales
 
- 
+- Politique de confidentialité
 
-        return $this->render('bundles/TwigBundle/Exception/error' . $statusCode . '.html.twig', [ 
+- CGU
 
-            'status_code' => $statusCode, 
+- Contact
 
-            'status_text' => $exception->getMessage(), 
+- Copyright 2025"
 
-        ], new Response('', $statusCode)); 
 
-    } 
 
-} 
+git push origin feature/pages-legales
 
-``` 
+git checkout master
 
- 
+git merge feature/pages-legales
 
-### 21.3 Configuration du controller d'erreur 
+git push origin master
 
- 
+git branch -d feature/pages-legales
 
-**Fichier** : `config/packages/framework.yaml` 
+```
 
- 
+---
 
-```yaml 
+## ÉTAPE 21 : PAGE 404 PERSONNALISÉE
 
-framework: 
+### 21.1 Contexte
 
-    error_controller: App\Controller\ErrorController::show 
+Par défaut, Symfony affiche une page d'erreur 404 basique. Pour améliorer l'expérience utilisateur, nous allons créer une **page 404 personnalisée** avec :
 
-``` 
+-   Design cohérent avec le site
 
- 
+-   Message friendly
 
-### 21.4 Template error404.html.twig 
+-   Liens utiles pour naviguer
 
- 
+-   Animation SVG
 
-**Fichier** : `templates/bundles/TwigBundle/Exception/error404.html.twig` 
+### 21.2 Création du controller ErrorController
 
- 
+**Fichier** : `src/Controller/ErrorController.php`
 
-```twig 
+```php
 
-{% extends 'base.html.twig' %} 
+<?php
 
- 
 
-{% block title %}404 - Page non trouvée{% endblock %} 
 
- 
+namespace App\Controller;
 
-{% block body %} 
 
-<div class="container my-5"> 
 
-    <div class="row justify-content-center"> 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-        <div class="col-md-8 text-center"> 
+use Symfony\Component\HttpFoundation\Response;
 
-            <!-- Animation SVG 404 --> 
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-            <div class="mb-4"> 
 
-                <svg width="300" height="200" viewBox="0 0 300 200"> 
 
-                    <text x="150" y="120"  
+class ErrorController extends AbstractController
 
-                          text-anchor="middle"  
+{
 
-                          font-size="120"  
+    public function show(\Throwable $exception): Response
 
-                          font-weight="bold"  
+    {
 
-                          fill="var(--success-color)" 
+        $statusCode = $exception instanceof HttpExceptionInterface
 
-                          opacity="0.2"> 
+            ? $exception->getStatusCode()
 
-                        404 
+            : 500;
 
-                    </text> 
 
-                    <text x="150" y="150"  
 
-                          text-anchor="middle"  
+        return $this->render('bundles/TwigBundle/Exception/error' . $statusCode . '.html.twig', [
 
-                          font-size="24"  
+            'status_code' => $statusCode,
 
-                          fill="var(--text-color)"> 
+            'status_text' => $exception->getMessage(),
 
-                        Oups ! 
+        ], new Response('', $statusCode));
 
-                    </text> 
+    }
 
-                </svg> 
+}
 
-            </div> 
+```
 
- 
+### 21.3 Configuration du controller d'erreur
 
-            <!-- Message principal --> 
+**Fichier** : `config/packages/framework.yaml`
 
-            <h1 class="mb-3 text-success">Page non trouvée</h1> 
+```yaml
+framework:
+    error_controller: App\Controller\ErrorController::show
+```
 
-            <p class="lead text-muted mb-4"> 
+### 21.4 Template error404.html.twig
 
-                Désolé, la page que vous recherchez n'existe pas ou a été déplacée. 
+**Fichier** : `templates/bundles/TwigBundle/Exception/error404.html.twig`
 
-            </p> 
+```twig
 
- 
+{% extends 'base.html.twig' %}
 
-            <!-- Suggestions --> 
 
-            <div class="card shadow-sm mb-4"> 
 
-                <div class="card-body"> 
+{% block title %}404 - Page non trouvée{% endblock %}
 
-                    <h5 class="card-title mb-3"> 
 
-                        <i class="bi bi-lightbulb text-warning"></i> Suggestions 
 
-                    </h5> 
+{% block body %}
 
-                    <div class="row"> 
+<div class="container my-5">
 
-                        <div class="col-md-4 mb-3"> 
+    <div class="row justify-content-center">
 
-                            <a href="{{ path('app_home') }}" class="btn btn-outline-success w-100"> 
+        <div class="col-md-8 text-center">
 
-                                <i class="bi bi-house"></i><br> 
+            <!-- Animation SVG 404 -->
 
-                                Retour à l'accueil 
+            <div class="mb-4">
 
-                            </a> 
+                <svg width="300" height="200" viewBox="0 0 300 200">
 
-                        </div> 
+                    <text x="150" y="120"
 
-                        <div class="col-md-4 mb-3"> 
+                          text-anchor="middle"
 
-                            <a href="{{ path('app_recette_index') }}" class="btn btn-outline-success w-100"> 
+                          font-size="120"
 
-                                <i class="bi bi-book"></i><br> 
+                          font-weight="bold"
 
-                                Voir les recettes 
+                          fill="var(--success-color)"
 
-                            </a> 
+                          opacity="0.2">
 
-                        </div> 
+                        404
 
-                        <div class="col-md-4 mb-3"> 
+                    </text>
 
-                            <a href="{{ path('app_contact') }}" class="btn btn-outline-success w-100"> 
+                    <text x="150" y="150"
 
-                                <i class="bi bi-envelope"></i><br> 
+                          text-anchor="middle"
 
-                                Nous contacter 
+                          font-size="24"
 
-                            </a> 
+                          fill="var(--text-color)">
 
-                        </div> 
+                        Oups !
 
-                    </div> 
+                    </text>
 
-                </div> 
+                </svg>
 
-            </div> 
+            </div>
 
- 
 
-            <!-- Barre de recherche --> 
 
-            <div class="card shadow-sm"> 
+            <!-- Message principal -->
 
-                <div class="card-body"> 
+            <h1 class="mb-3 text-success">Page non trouvée</h1>
 
-                    <h5 class="card-title mb-3"> 
+            <p class="lead text-muted mb-4">
 
-                        <i class="bi bi-search"></i> Rechercher une recette 
+                Désolé, la page que vous recherchez n'existe pas ou a été déplacée.
 
-                    </h5> 
+            </p>
 
-                    <form action="{{ path('app_search') }}" method="GET"> 
 
-                        <div class="input-group input-group-lg"> 
 
-                            <input type="text"  
+            <!-- Suggestions -->
 
-                                   name="q"  
+            <div class="card shadow-sm mb-4">
 
-                                   class="form-control"  
+                <div class="card-body">
 
-                                   placeholder="Ex: tomates, œufs..."> 
+                    <h5 class="card-title mb-3">
 
-                            <button class="btn btn-success" type="submit"> 
+                        <i class="bi bi-lightbulb text-warning"></i> Suggestions
 
-                                <i class="bi bi-search"></i> Rechercher 
+                    </h5>
 
-                            </button> 
+                    <div class="row">
 
-                        </div> 
+                        <div class="col-md-4 mb-3">
 
-                    </form> 
+                            <a href="{{ path('app_home') }}" class="btn btn-outline-success w-100">
 
-                </div> 
+                                <i class="bi bi-house"></i><br>
 
-            </div> 
+                                Retour à l'accueil
 
-        </div> 
+                            </a>
 
-    </div> 
+                        </div>
 
-</div> 
+                        <div class="col-md-4 mb-3">
 
- 
+                            <a href="{{ path('app_recette_index') }}" class="btn btn-outline-success w-100">
 
-<style> 
+                                <i class="bi bi-book"></i><br>
 
-@keyframes fadeIn { 
+                                Voir les recettes
 
-    from { opacity: 0; transform: translateY(20px); } 
+                            </a>
 
-    to { opacity: 1; transform: translateY(0); } 
+                        </div>
 
-} 
+                        <div class="col-md-4 mb-3">
 
- 
+                            <a href="{{ path('app_contact') }}" class="btn btn-outline-success w-100">
 
-.container { 
+                                <i class="bi bi-envelope"></i><br>
 
-    animation: fadeIn 0.5s ease; 
+                                Nous contacter
 
-} 
+                            </a>
 
- 
+                        </div>
 
-svg text:first-child { 
+                    </div>
 
-    animation: pulse 2s ease-in-out infinite; 
+                </div>
 
-} 
+            </div>
 
- 
 
-@keyframes pulse { 
 
-    0%, 100% { opacity: 0.2; } 
+            <!-- Barre de recherche -->
 
-    50% { opacity: 0.4; } 
+            <div class="card shadow-sm">
 
-} 
+                <div class="card-body">
 
-</style> 
+                    <h5 class="card-title mb-3">
 
-{% endblock %} 
+                        <i class="bi bi-search"></i> Rechercher une recette
 
-``` 
+                    </h5>
 
- 
+                    <form action="{{ path('app_search') }}" method="GET">
 
-**Éléments clés** : 
+                        <div class="input-group input-group-lg">
 
-- SVG animé avec "404" en grand 
+                            <input type="text"
 
-- Message friendly et rassurant 
+                                   name="q"
 
-- 3 boutons de navigation (Accueil, Recettes, Contact) 
+                                   class="form-control"
 
-- Barre de recherche fonctionnelle 
+                                   placeholder="Ex: tomates, œufs...">
 
-- Animation fadeIn au chargement 
+                            <button class="btn btn-success" type="submit">
 
-- Animation pulse sur le 404 
+                                <i class="bi bi-search"></i> Rechercher
 
- 
+                            </button>
 
-### 21.5 Template error500.html.twig (optionnel) 
+                        </div>
 
- 
+                    </form>
 
-**Fichier** : `templates/bundles/TwigBundle/Exception/error500.html.twig` 
+                </div>
 
- 
+            </div>
 
-```twig 
+        </div>
 
-{% extends 'base.html.twig' %} 
+    </div>
 
- 
+</div>
 
-{% block title %}500 - Erreur serveur{% endblock %} 
 
- 
 
-{% block body %} 
+<style>
 
-<div class="container my-5"> 
+@keyframes fadeIn {
 
-    <div class="row justify-content-center"> 
+    from { opacity: 0; transform: translateY(20px); }
 
-        <div class="col-md-8 text-center"> 
+    to { opacity: 1; transform: translateY(0); }
 
-            <div class="mb-4"> 
+}
 
-                <i class="bi bi-exclamation-triangle text-danger" style="font-size: 8rem;"></i> 
 
-            </div> 
 
- 
+.container {
 
-            <h1 class="mb-3 text-danger">Erreur serveur</h1> 
+    animation: fadeIn 0.5s ease;
 
-            <p class="lead text-muted mb-4"> 
+}
 
-                Une erreur inattendue s'est produite. Nous travaillons à résoudre le problème. 
 
-            </p> 
 
- 
+svg text:first-child {
 
-            <div class="d-flex gap-3 justify-content-center"> 
+    animation: pulse 2s ease-in-out infinite;
 
-                <a href="{{ path('app_home') }}" class="btn btn-success"> 
+}
 
-                    <i class="bi bi-house"></i> Retour à l'accueil 
 
-                </a> 
 
-                <a href="{{ path('app_contact') }}" class="btn btn-outline-secondary"> 
+@keyframes pulse {
 
-                    <i class="bi bi-envelope"></i> Signaler le problème 
+    0%, 100% { opacity: 0.2; }
 
-                </a> 
+    50% { opacity: 0.4; }
 
-            </div> 
+}
 
-        </div> 
+</style>
 
-    </div> 
+{% endblock %}
 
-</div> 
+```
 
-{% endblock %} 
+**Éléments clés** :
 
-``` 
+-   SVG animé avec "404" en grand
 
- 
+-   Message friendly et rassurant
 
-### 21.6 Template error.html.twig (fallback générique) 
+-   3 boutons de navigation (Accueil, Recettes, Contact)
 
- 
+-   Barre de recherche fonctionnelle
 
-**Fichier** : `templates/bundles/TwigBundle/Exception/error.html.twig` 
+-   Animation fadeIn au chargement
 
- 
+-   Animation pulse sur le 404
 
-```twig 
+### 21.5 Template error500.html.twig (optionnel)
 
-{% extends 'base.html.twig' %} 
+**Fichier** : `templates/bundles/TwigBundle/Exception/error500.html.twig`
 
- 
+```twig
 
-{% block title %}Erreur {{ status_code }}{% endblock %} 
+{% extends 'base.html.twig' %}
 
- 
 
-{% block body %} 
 
-<div class="container my-5"> 
+{% block title %}500 - Erreur serveur{% endblock %}
 
-    <div class="row justify-content-center"> 
 
-        <div class="col-md-8 text-center"> 
 
-            <h1 class="mb-3 text-warning">Erreur {{ status_code }}</h1> 
+{% block body %}
 
-            <p class="lead text-muted mb-4"> 
+<div class="container my-5">
 
-                Une erreur est survenue. Veuillez réessayer ultérieurement. 
+    <div class="row justify-content-center">
 
-            </p> 
+        <div class="col-md-8 text-center">
 
- 
+            <div class="mb-4">
 
-            <a href="{{ path('app_home') }}" class="btn btn-success"> 
+                <i class="bi bi-exclamation-triangle text-danger" style="font-size: 8rem;"></i>
 
-                <i class="bi bi-house"></i> Retour à l'accueil 
+            </div>
 
-            </a> 
 
-        </div> 
 
-    </div> 
+            <h1 class="mb-3 text-danger">Erreur serveur</h1>
 
-</div> 
+            <p class="lead text-muted mb-4">
 
-{% endblock %} 
+                Une erreur inattendue s'est produite. Nous travaillons à résoudre le problème.
 
-``` 
+            </p>
 
- 
 
-### 21.7 Tests de la page 404 
 
- 
+            <div class="d-flex gap-3 justify-content-center">
 
-**Méthode 1 : Mode dev (affiche Symfony Profiler)** 
+                <a href="{{ path('app_home') }}" class="btn btn-success">
 
-``` 
+                    <i class="bi bi-house"></i> Retour à l'accueil
 
-# Tester une URL inexistante 
+                </a>
 
-http://127.0.0.1:8004/page-qui-nexiste-pas 
+                <a href="{{ path('app_contact') }}" class="btn btn-outline-secondary">
 
-``` 
+                    <i class="bi bi-envelope"></i> Signaler le problème
 
-En mode dev, Symfony affiche le Profiler avec les détails de l'erreur. 
+                </a>
 
- 
+            </div>
 
-**Méthode 2 : Mode prod (affiche la page custom)** 
+        </div>
 
-```bash 
+    </div>
 
-# Passer en mode prod temporairement 
+</div>
 
-APP_ENV=prod php bin/console cache:clear 
+{% endblock %}
 
-symfony server:start 
+```
 
- 
+### 21.6 Template error.html.twig (fallback générique)
 
-# Tester l'URL 
+**Fichier** : `templates/bundles/TwigBundle/Exception/error.html.twig`
 
-http://127.0.0.1:8004/page-qui-nexiste-pas 
+```twig
 
-``` 
+{% extends 'base.html.twig' %}
 
-La page 404 personnalisée s'affiche ! 
 
- 
 
-**Résultat attendu** : 
+{% block title %}Erreur {{ status_code }}{% endblock %}
 
-- ✅ Design cohérent avec le site 
 
-- ✅ SVG "404" animé 
 
-- ✅ Message friendly 
+{% block body %}
 
-- ✅ 3 boutons de navigation 
+<div class="container my-5">
 
-- ✅ Barre de recherche fonctionnelle 
+    <div class="row justify-content-center">
 
-- ✅ Animation au chargement 
+        <div class="col-md-8 text-center">
 
- 
+            <h1 class="mb-3 text-warning">Erreur {{ status_code }}</h1>
 
-### 21.8 Commit 
+            <p class="lead text-muted mb-4">
 
- 
+                Une erreur est survenue. Veuillez réessayer ultérieurement.
 
-```bash 
+            </p>
 
-git checkout -b feature/page-404 
 
- 
 
-git add src/Controller/ErrorController.php config/packages/framework.yaml 
+            <a href="{{ path('app_home') }}" class="btn btn-success">
 
-git commit -m "feat: Controller erreur personnalisé 
+                <i class="bi bi-house"></i> Retour à l'accueil
 
- 
+            </a>
 
-- ErrorController avec gestion status codes 
+        </div>
 
-- Configuration dans framework.yaml 
+    </div>
 
-- Support 404, 500 et erreur générique" 
+</div>
 
- 
+{% endblock %}
 
-git add templates/bundles/TwigBundle/Exception/ 
+```
 
-git commit -m "feat: Pages erreur personnalisées 
+### 21.7 Tests de la page 404
 
- 
+**Méthode 1 : Mode dev (affiche Symfony Profiler)**
 
-ERROR 404: 
+```
 
-- SVG animé '404' avec pulse 
+# Tester une URL inexistante
 
-- Message friendly rassurant 
+http://127.0.0.1:8004/page-qui-nexiste-pas
 
-- 3 boutons navigation (Accueil, Recettes, Contact) 
+```
 
-- Barre recherche fonctionnelle 
+En mode dev, Symfony affiche le Profiler avec les détails de l'erreur.
 
-- Animation fadeIn 
+**Méthode 2 : Mode prod (affiche la page custom)**
 
-- Design cohérent palette 
+```bash
 
- 
+# Passer en mode prod temporairement
 
-ERROR 500: 
+APP_ENV=prod php bin/console cache:clear
 
-- Icône warning rouge 
+symfony server:start
 
-- Message erreur serveur 
 
-- Boutons retour accueil + signaler 
 
- 
+# Tester l'URL
 
-ERROR GÉNÉRIQUE: 
+http://127.0.0.1:8004/page-qui-nexiste-pas
 
-- Template fallback pour autres codes 
+```
 
-- Message simple 
+La page 404 personnalisée s'affiche !
 
-- Bouton retour accueil 
+**Résultat attendu** :
 
- 
+-   ✅ Design cohérent avec le site
 
-Animations CSS: 
+-   ✅ SVG "404" animé
 
-- fadeIn conteneur (0.5s) 
+-   ✅ Message friendly
 
-- pulse SVG 404 (2s infinite) 
+-   ✅ 3 boutons de navigation
 
- 
+-   ✅ Barre de recherche fonctionnelle
 
-Tests mode prod OK" 
+-   ✅ Animation au chargement
 
- 
+### 21.8 Commit
 
-git push origin feature/page-404 
+```bash
 
-git checkout master 
+git checkout -b feature/page-404
 
-git merge feature/page-404 
 
-git push origin master 
 
-git branch -d feature/page-404 
+git add src/Controller/ErrorController.php config/packages/framework.yaml
 
-``` 
+git commit -m "feat: Controller erreur personnalisé
 
- 
 
---- 
 
- 
+- ErrorController avec gestion status codes
 
-## ÉTAPE 22 : RESPONSIVE DESIGN COMPLET 
+- Configuration dans framework.yaml
 
- 
+- Support 404, 500 et erreur générique"
 
-### 22.1 Contexte et objectifs 
 
- 
 
-Le site doit être **parfaitement utilisable sur tous les appareils** : 
+git add templates/bundles/TwigBundle/Exception/
 
-- Desktop (>992px) 
+git commit -m "feat: Pages erreur personnalisées
 
-- Tablet (768px-992px) 
 
-- Mobile (< 768px) 
 
- 
+ERROR 404:
 
-**Objectifs** : 
+- SVG animé '404' avec pulse
 
-- Navigation mobile avec hamburger 
+- Message friendly rassurant
 
-- Formulaires touch-friendly 
+- 3 boutons navigation (Accueil, Recettes, Contact)
 
-- Images adaptatives 
+- Barre recherche fonctionnelle
 
-- Textes lisibles 
+- Animation fadeIn
 
-- Boutons cliquables (44x44px minimum) 
+- Design cohérent palette
 
- 
 
-### 22.2 Création du fichier responsive.css 
 
- 
+ERROR 500:
 
-**Fichier** : `public/css/responsive.css` 
+- Icône warning rouge
 
- 
+- Message erreur serveur
 
-```css 
+- Boutons retour accueil + signaler
 
+
+
+ERROR GÉNÉRIQUE:
+
+- Template fallback pour autres codes
+
+- Message simple
+
+- Bouton retour accueil
+
+
+
+Animations CSS:
+
+- fadeIn conteneur (0.5s)
+
+- pulse SVG 404 (2s infinite)
+
+
+
+Tests mode prod OK"
+
+
+
+git push origin feature/page-404
+
+git checkout master
+
+git merge feature/page-404
+
+git push origin master
+
+git branch -d feature/page-404
+
+```
+
+---
+
+## ÉTAPE 22 : RESPONSIVE DESIGN COMPLET
+
+### 22.1 Contexte et objectifs
+
+Le site doit être **parfaitement utilisable sur tous les appareils** :
+
+-   Desktop (>992px)
+
+-   Tablet (768px-992px)
+
+-   Mobile (< 768px)
+
+**Objectifs** :
+
+-   Navigation mobile avec hamburger
+
+-   Formulaires touch-friendly
+
+-   Images adaptatives
+
+-   Textes lisibles
+
+-   Boutons cliquables (44x44px minimum)
+
+### 22.2 Création du fichier responsive.css
+
+**Fichier** : `public/css/responsive.css`
+
+```css
 /* 
 
 LES RESTES - Styles responsive 
 
 Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥1400 
 
-*/ 
-
- 
+*/
 
 /* ============================================ 
 
    NAVBAR MOBILE 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 991px) { 
+@media (max-width: 991px) {
+    .navbar-nav {
+        padding: 1rem 0;
+    }
 
-    .navbar-nav { 
+    .navbar-nav .nav-link {
+        padding: 0.75rem 1rem;
+    }
 
-        padding: 1rem 0; 
+    .navbar-collapse {
+        background: #fff;
 
-    } 
+        border-radius: 0.5rem;
 
-     
+        margin-top: 1rem;
 
-    .navbar-nav .nav-link { 
-
-        padding: 0.75rem 1rem; 
-
-    } 
-
-     
-
-    .navbar-collapse { 
-
-        background: #fff; 
-
-        border-radius: 0.5rem; 
-
-        margin-top: 1rem; 
-
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-
-    } 
-
-} 
-
- 
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+}
 
 /* ============================================ 
 
    HERO SECTION 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 2rem 0 !important;
 
-    .hero-section { 
+        min-height: auto !important;
+    }
 
-        padding: 2rem 0 !important; 
+    .hero-section h1 {
+        font-size: 2rem !important;
+    }
 
-        min-height: auto !important; 
+    .hero-section .lead {
+        font-size: 1rem !important;
+    }
 
-    } 
+    .hero-section .btn {
+        width: 100%;
 
-     
-
-    .hero-section h1 { 
-
-        font-size: 2rem !important; 
-
-    } 
-
-     
-
-    .hero-section .lead { 
-
-        font-size: 1rem !important; 
-
-    } 
-
-     
-
-    .hero-section .btn { 
-
-        width: 100%; 
-
-        margin-bottom: 0.5rem; 
-
-    } 
-
-} 
-
- 
+        margin-bottom: 0.5rem;
+    }
+}
 
 /* ============================================ 
 
    CARDS RECETTES 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 576px) { 
+@media (max-width: 576px) {
+    .card {
+        margin-bottom: 1rem;
+    }
 
-    .card { 
+    .card-img-top {
+        height: 200px !important;
+    }
 
-        margin-bottom: 1rem; 
+    .card-title {
+        font-size: 1.1rem;
+    }
 
-    } 
-
-     
-
-    .card-img-top { 
-
-        height: 200px !important; 
-
-    } 
-
-     
-
-    .card-title { 
-
-        font-size: 1.1rem; 
-
-    } 
-
-     
-
-    .card-body { 
-
-        padding: 1rem; 
-
-    } 
-
-} 
-
- 
+    .card-body {
+        padding: 1rem;
+    }
+}
 
 /* ============================================ 
 
    FORMULAIRES 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
+    .form-control,
+    .form-select {
+        font-size: 16px !important; /* Évite zoom auto iOS */
+    }
 
-    .form-control, 
+    .ingredient-row .col-md-5,
+    .ingredient-row .col-md-3,
+    .ingredient-row .col-md-2 {
+        flex: 0 0 100%;
 
-    .form-select { 
+        max-width: 100%;
 
-        font-size: 16px !important; /* Évite zoom auto iOS */ 
+        margin-bottom: 0.5rem;
+    }
 
-    } 
+    .ingredient-row .row {
+        flex-direction: column;
+    }
 
-     
+    .etape-row .col-auto {
+        flex: 0 0 100%;
 
-    .ingredient-row .col-md-5, 
+        max-width: 100%;
 
-    .ingredient-row .col-md-3, 
-
-    .ingredient-row .col-md-2 { 
-
-        flex: 0 0 100%; 
-
-        max-width: 100%; 
-
-        margin-bottom: 0.5rem; 
-
-    } 
-
-     
-
-    .ingredient-row .row { 
-
-        flex-direction: column; 
-
-    } 
-
-     
-
-    .etape-row .col-auto { 
-
-        flex: 0 0 100%; 
-
-        max-width: 100%; 
-
-        margin-bottom: 0.5rem; 
-
-    } 
-
-} 
-
- 
+        margin-bottom: 0.5rem;
+    }
+}
 
 /* ============================================ 
 
    DÉTAIL RECETTE 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 992px) { 
+@media (max-width: 992px) {
+    .recipe-detail-image {
+        max-height: 300px !important;
+    }
 
-    .recipe-detail-image { 
+    .recipe-info-icons {
+        flex-direction: column;
 
-        max-height: 300px !important; 
+        gap: 0.5rem !important;
+    }
 
-    } 
+    .recipe-info-icons > div {
+        width: 100%;
 
-     
-
-    .recipe-info-icons { 
-
-        flex-direction: column; 
-
-        gap: 0.5rem !important; 
-
-    } 
-
-     
-
-    .recipe-info-icons > div { 
-
-        width: 100%; 
-
-        text-align: center; 
-
-    } 
-
-} 
-
- 
+        text-align: center;
+    }
+}
 
 /* ============================================ 
 
    PROFIL UTILISATEUR 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
+    .nav-tabs {
+        flex-direction: column;
 
-    .nav-tabs { 
+        border-bottom: none;
+    }
 
-        flex-direction: column; 
+    .nav-tabs .nav-link {
+        border-radius: 0.375rem;
 
-        border-bottom: none; 
+        margin-bottom: 0.5rem;
 
-    } 
+        border: 1px solid #dee2e6;
+    }
 
-     
+    .nav-tabs .nav-link.active {
+        background-color: var(--success-color);
 
-    .nav-tabs .nav-link { 
+        color: white;
 
-        border-radius: 0.375rem; 
+        border-color: var(--success-color);
+    }
 
-        margin-bottom: 0.5rem; 
+    .profile-header {
+        text-align: center;
+    }
 
-        border: 1px solid #dee2e6; 
+    .profile-stats {
+        flex-direction: column;
 
-    } 
-
-     
-
-    .nav-tabs .nav-link.active { 
-
-        background-color: var(--success-color); 
-
-        color: white; 
-
-        border-color: var(--success-color); 
-
-    } 
-
-     
-
-    .profile-header { 
-
-        text-align: center; 
-
-    } 
-
-     
-
-    .profile-stats { 
-
-        flex-direction: column; 
-
-        gap: 1rem !important; 
-
-    } 
-
-} 
-
- 
+        gap: 1rem !important;
+    }
+}
 
 /* ============================================ 
 
    TABLEAUX 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
+    .table-responsive {
+        border: none;
+    }
 
-    .table-responsive { 
+    .table {
+        font-size: 0.875rem;
+    }
 
-        border: none; 
+    .table th,
+    .table td {
+        padding: 0.5rem;
 
-    } 
+        white-space: nowrap;
+    }
 
-     
+    /* Cacher colonnes moins importantes sur mobile */
 
-    .table { 
-
-        font-size: 0.875rem; 
-
-    } 
-
-     
-
-    .table th, 
-
-    .table td { 
-
-        padding: 0.5rem; 
-
-        white-space: nowrap; 
-
-    } 
-
-     
-
-    /* Cacher colonnes moins importantes sur mobile */ 
-
-    .table .hide-mobile { 
-
-        display: none; 
-
-    } 
-
-} 
-
- 
+    .table .hide-mobile {
+        display: none;
+    }
+}
 
 /* ============================================ 
 
    COMMENTAIRES 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 576px) { 
+@media (max-width: 576px) {
+    .comment-avatar {
+        width: 40px !important;
 
-    .comment-avatar { 
+        height: 40px !important;
 
-        width: 40px !important; 
+        font-size: 1.2rem !important;
+    }
 
-        height: 40px !important; 
+    .comment-header {
+        flex-direction: column;
 
-        font-size: 1.2rem !important; 
+        align-items: flex-start !important;
+    }
 
-    } 
-
-     
-
-    .comment-header { 
-
-        flex-direction: column; 
-
-        align-items: flex-start !important; 
-
-    } 
-
-     
-
-    .comment-stars { 
-
-        margin-top: 0.5rem; 
-
-    } 
-
-} 
-
- 
+    .comment-stars {
+        margin-top: 0.5rem;
+    }
+}
 
 /* ============================================ 
 
    BOUTONS 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 576px) { 
+@media (max-width: 576px) {
+    .btn-group {
+        flex-direction: column;
 
-    .btn-group { 
+        width: 100%;
+    }
 
-        flex-direction: column; 
+    .btn-group > .btn {
+        width: 100%;
 
-        width: 100%; 
+        margin-bottom: 0.5rem;
+    }
 
-    } 
+    .d-flex.gap-2 {
+        flex-direction: column !important;
 
-     
+        gap: 0.5rem !important;
+    }
 
-    .btn-group > .btn { 
-
-        width: 100%; 
-
-        margin-bottom: 0.5rem; 
-
-    } 
-
-     
-
-    .d-flex.gap-2 { 
-
-        flex-direction: column !important; 
-
-        gap: 0.5rem !important; 
-
-    } 
-
-     
-
-    .d-flex.gap-2 > * { 
-
-        width: 100% !important; 
-
-    } 
-
-} 
-
- 
+    .d-flex.gap-2 > * {
+        width: 100% !important;
+    }
+}
 
 /* ============================================ 
 
    SEARCH BAR 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
+    .search-form .col-md-10,
+    .search-form .col-md-2 {
+        flex: 0 0 100%;
 
-    .search-form .col-md-10, 
+        max-width: 100%;
 
-    .search-form .col-md-2 { 
+        margin-bottom: 0.5rem;
+    }
 
-        flex: 0 0 100%; 
+    .search-filters {
+        flex-direction: column;
+    }
 
-        max-width: 100%; 
+    .search-filters .col-md-4,
+    .search-filters .col-md-2 {
+        flex: 0 0 100%;
 
-        margin-bottom: 0.5rem; 
+        max-width: 100%;
 
-    } 
-
-     
-
-    .search-filters { 
-
-        flex-direction: column; 
-
-    } 
-
-     
-
-    .search-filters .col-md-4, 
-
-    .search-filters .col-md-2 { 
-
-        flex: 0 0 100%; 
-
-        max-width: 100%; 
-
-        margin-bottom: 0.5rem; 
-
-    } 
-
-} 
-
- 
+        margin-bottom: 0.5rem;
+    }
+}
 
 /* ============================================ 
 
    PAGINATION 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 576px) { 
+@media (max-width: 576px) {
+    .pagination {
+        font-size: 0.875rem;
+    }
 
-    .pagination { 
-
-        font-size: 0.875rem; 
-
-    } 
-
-     
-
-    .pagination .page-link { 
-
-        padding: 0.375rem 0.75rem; 
-
-    } 
-
-} 
-
- 
+    .pagination .page-link {
+        padding: 0.375rem 0.75rem;
+    }
+}
 
 /* ============================================ 
 
    FOOTER 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
+    footer .col-md-3 {
+        text-align: center;
 
-    footer .col-md-3 { 
+        margin-bottom: 2rem;
+    }
 
-        text-align: center; 
-
-        margin-bottom: 2rem; 
-
-    } 
-
-     
-
-    footer ul { 
-
-        padding-left: 0; 
-
-    } 
-
-} 
-
- 
+    footer ul {
+        padding-left: 0;
+    }
+}
 
 /* ============================================ 
 
    MODALS 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 576px) { 
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 0.5rem;
+    }
 
-    .modal-dialog { 
+    .modal-content {
+        border-radius: 0.5rem;
+    }
 
-        margin: 0.5rem; 
+    .modal-header,
+    .modal-footer {
+        padding: 1rem;
+    }
 
-    } 
-
-     
-
-    .modal-content { 
-
-        border-radius: 0.5rem; 
-
-    } 
-
-     
-
-    .modal-header, 
-
-    .modal-footer { 
-
-        padding: 1rem; 
-
-    } 
-
-     
-
-    .modal-body { 
-
-        padding: 1.5rem 1rem; 
-
-    } 
-
-} 
-
- 
+    .modal-body {
+        padding: 1.5rem 1rem;
+    }
+}
 
 /* ============================================ 
 
    UTILITAIRES RESPONSIVE 
 
-============================================ */ 
+============================================ */
 
- 
+/* Espacement réduit sur mobile */
 
-/* Espacement réduit sur mobile */ 
+@media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
 
-@media (max-width: 768px) { 
+        padding-right: 1rem;
+    }
 
-    .container { 
+    .my-5 {
+        margin-top: 2rem !important;
 
-        padding-left: 1rem; 
+        margin-bottom: 2rem !important;
+    }
 
-        padding-right: 1rem; 
+    .py-5 {
+        padding-top: 2rem !important;
 
-    } 
+        padding-bottom: 2rem !important;
+    }
+}
 
-     
+/* Texte responsive */
 
-    .my-5 { 
+@media (max-width: 576px) {
+    h1 {
+        font-size: 1.75rem;
+    }
 
-        margin-top: 2rem !important; 
+    h2 {
+        font-size: 1.5rem;
+    }
 
-        margin-bottom: 2rem !important; 
+    h3 {
+        font-size: 1.25rem;
+    }
 
-    } 
+    .display-1 {
+        font-size: 3rem;
+    }
 
-     
+    .display-4 {
+        font-size: 2rem;
+    }
+}
 
-    .py-5 { 
+/* Images responsive */
 
-        padding-top: 2rem !important; 
+@media (max-width: 768px) {
+    img {
+        max-width: 100%;
 
-        padding-bottom: 2rem !important; 
+        height: auto;
+    }
+}
 
-    } 
+/* Débordement texte */
 
-} 
+@media (max-width: 576px) {
+    .text-truncate-mobile {
+        overflow: hidden;
 
- 
+        text-overflow: ellipsis;
 
-/* Texte responsive */ 
+        white-space: nowrap;
+    }
+}
 
-@media (max-width: 576px) { 
+/* Cacher éléments sur mobile */
 
-    h1 { 
+.hide-on-mobile {
+    display: block;
+}
 
-        font-size: 1.75rem; 
+@media (max-width: 768px) {
+    .hide-on-mobile {
+        display: none !important;
+    }
+}
 
-    } 
+/* Afficher uniquement sur mobile */
 
-     
+.show-on-mobile {
+    display: none;
+}
 
-    h2 { 
-
-        font-size: 1.5rem; 
-
-    } 
-
-     
-
-    h3 { 
-
-        font-size: 1.25rem; 
-
-    } 
-
-     
-
-    .display-1 { 
-
-        font-size: 3rem; 
-
-    } 
-
-     
-
-    .display-4 { 
-
-        font-size: 2rem; 
-
-    } 
-
-} 
-
- 
-
-/* Images responsive */ 
-
-@media (max-width: 768px) { 
-
-    img { 
-
-        max-width: 100%; 
-
-        height: auto; 
-
-    } 
-
-} 
-
- 
-
-/* Débordement texte */ 
-
-@media (max-width: 576px) { 
-
-    .text-truncate-mobile { 
-
-        overflow: hidden; 
-
-        text-overflow: ellipsis; 
-
-        white-space: nowrap; 
-
-    } 
-
-} 
-
- 
-
-/* Cacher éléments sur mobile */ 
-
-.hide-on-mobile { 
-
-    display: block; 
-
-} 
-
- 
-
-@media (max-width: 768px) { 
-
-    .hide-on-mobile { 
-
-        display: none !important; 
-
-    } 
-
-} 
-
- 
-
-/* Afficher uniquement sur mobile */ 
-
-.show-on-mobile { 
-
-    display: none; 
-
-} 
-
- 
-
-@media (max-width: 768px) { 
-
-    .show-on-mobile { 
-
-        display: block !important; 
-
-    } 
-
-} 
-
- 
+@media (max-width: 768px) {
+    .show-on-mobile {
+        display: block !important;
+    }
+}
 
 /* ============================================ 
 
    TOUCH FRIENDLY (44x44px minimum) 
 
-============================================ */ 
+============================================ */
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
+    .btn {
+        min-height: 44px;
 
-    .btn { 
+        padding: 0.75rem 1rem;
+    }
 
-        min-height: 44px; 
+    .nav-link {
+        min-height: 44px;
 
-        padding: 0.75rem 1rem; 
+        display: flex;
 
-    } 
+        align-items: center;
+    }
 
-     
+    .form-check-input {
+        width: 1.5rem;
 
-    .nav-link { 
+        height: 1.5rem;
+    }
 
-        min-height: 44px; 
+    .form-check-label {
+        padding-left: 0.5rem;
+    }
+}
 
-        display: flex; 
+/* Empêcher zoom sur focus input iOS */
 
-        align-items: center; 
+@media (max-width: 768px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    textarea,
+    select {
+        font-size: 16px !important;
+    }
+}
+```
 
-    } 
+### 22.3 Ajout de l'import dans app.css
 
-     
+**Fichier** : `public/css/app.css`
 
-    .form-check-input { 
-
-        width: 1.5rem; 
-
-        height: 1.5rem; 
-
-    } 
-
-     
-
-    .form-check-label { 
-
-        padding-left: 0.5rem; 
-
-    } 
-
-} 
-
- 
-
-/* Empêcher zoom sur focus input iOS */ 
-
-@media (max-width: 768px) { 
-
-    input[type="text"], 
-
-    input[type="email"], 
-
-    input[type="password"], 
-
-    input[type="number"], 
-
-    textarea, 
-
-    select { 
-
-        font-size: 16px !important; 
-
-    } 
-
-} 
-
-``` 
-
- 
-
-### 22.3 Ajout de l'import dans app.css 
-
- 
-
-**Fichier** : `public/css/app.css` 
-
- 
-
-```css 
-
+```css
 /* 
 
 LES RESTES - Fichier principal CSS 
 
 Imports de tous les modules 
 
-*/ 
+*/
 
- 
+/* Base et variables */
 
-/* Base et variables */ 
+@import url("base.css");
 
-@import url('base.css'); 
+/* Composants */
 
- 
+@import url("navbar.css");
 
-/* Composants */ 
+@import url("footer.css");
 
-@import url('navbar.css'); 
+@import url("cards.css");
 
-@import url('footer.css'); 
+@import url("modals.css");
 
-@import url('cards.css'); 
+@import url("forms.css");
 
-@import url('modals.css'); 
+@import url("pagination.css");
 
-@import url('forms.css'); 
+@import url("recipe-form.css");
 
-@import url('pagination.css'); 
+/* Responsive */
 
-@import url('recipe-form.css'); 
+@import url("responsive.css");
 
- 
+/* Utilitaires */
 
-/* Responsive */ 
+@import url("utilities.css");
+```
 
-@import url('responsive.css'); 
+### 22.4 Vérification de la navbar responsive
 
- 
+**Fichier** : `templates/partials/_navbar.html.twig`
 
-/* Utilitaires */ 
+Vérifier que le toggler est bien présent :
 
-@import url('utilities.css'); 
+```twig
 
-``` 
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
 
- 
+    <div class="container">
 
-### 22.4 Vérification de la navbar responsive 
+        <a class="navbar-brand text-success fw-bold" href="{{ path('app_home') }}">
 
- 
+            <i class="bi bi-app-indicator"></i> Les Restes
 
-**Fichier** : `templates/partials/_navbar.html.twig` 
+        </a>
 
- 
 
-Vérifier que le toggler est bien présent : 
 
- 
+        <!-- Bouton hamburger pour mobile -->
 
-```twig 
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top"> 
+            <span class="navbar-toggler-icon"></span>
 
-    <div class="container"> 
+        </button>
 
-        <a class="navbar-brand text-success fw-bold" href="{{ path('app_home') }}"> 
 
-            <i class="bi bi-app-indicator"></i> Les Restes 
 
-        </a> 
+        <div class="collapse navbar-collapse" id="navbarNav">
 
-         
+            <!-- ... reste du contenu ... -->
 
-        <!-- Bouton hamburger pour mobile --> 
+        </div>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"> 
+    </div>
 
-            <span class="navbar-toggler-icon"></span> 
+</nav>
 
-        </button> 
+```
 
-         
+### 22.5 Optimisation de la grille recettes
 
-        <div class="collapse navbar-collapse" id="navbarNav"> 
+**Fichier** : `templates/recette/index.html.twig`
 
-            <!-- ... reste du contenu ... --> 
+Change la grille pour être plus responsive :
 
-        </div> 
+```twig
 
-    </div> 
+<div class="row">
 
-</nav> 
+    {% for recette in recettes %}
 
-``` 
+        <div class="col-12 col-sm-6 col-lg-4 mb-4">
 
- 
+            {% include 'recette/partials/_recipe_card.html.twig' with {'recette': recette} %}
 
-### 22.5 Optimisation de la grille recettes 
+        </div>
 
- 
+    {% endfor %}
 
-**Fichier** : `templates/recette/index.html.twig` 
+</div>
 
- 
+```
 
-Change la grille pour être plus responsive : 
+**Breakpoints** :
 
- 
+-   `col-12` : Mobile (1 colonne)
 
-```twig 
+-   `col-sm-6` : Tablet (2 colonnes)
 
-<div class="row"> 
+-   `col-lg-4` : Desktop (3 colonnes)
 
-    {% for recette in recettes %} 
+### 22.6 Optimisation du formulaire recette mobile
 
-        <div class="col-12 col-sm-6 col-lg-4 mb-4"> 
+**Fichier** : `templates/recette/new.html.twig`
 
-            {% include 'recette/partials/_recipe_card.html.twig' with {'recette': recette} %} 
+Change la structure des colonnes :
 
-        </div> 
+```twig
 
-    {% endfor %} 
+<!-- Temps et personnes -->
 
-</div> 
+<div class="row mb-3">
 
-``` 
+    <div class="col-12 col-md-6 mb-3 mb-md-0">
 
- 
+        {{ form_label(form.tempsCuisson, 'Temps de préparation (min.)', {'label_attr': {'class': 'form-label fw-bold'}}) }}
 
-**Breakpoints** : 
+        <div class="input-group">
 
-- `col-12` : Mobile (1 colonne) 
+            {{ form_widget(form.tempsCuisson, {'attr': {'class': 'form-control', 'placeholder': '15'}}) }}
 
-- `col-sm-6` : Tablet (2 colonnes) 
+            <span class="input-group-text">minutes</span>
 
-- `col-lg-4` : Desktop (3 colonnes) 
+        </div>
 
- 
+        {{ form_errors(form.tempsCuisson) }}
 
-### 22.6 Optimisation du formulaire recette mobile 
+    </div>
 
- 
 
-**Fichier** : `templates/recette/new.html.twig` 
 
- 
+    <div class="col-12 col-md-6">
 
-Change la structure des colonnes : 
+        {{ form_label(form.nombrePersonnes, 'Nombre de personnes', {'label_attr': {'class': 'form-label fw-bold'}}) }}
 
- 
+        {{ form_widget(form.nombrePersonnes, {'attr': {'class': 'form-control', 'placeholder': '4'}}) }}
 
-```twig 
+        {{ form_errors(form.nombrePersonnes) }}
 
-<!-- Temps et personnes --> 
+    </div>
 
-<div class="row mb-3"> 
+</div>
 
-    <div class="col-12 col-md-6 mb-3 mb-md-0"> 
+```
 
-        {{ form_label(form.tempsCuisson, 'Temps de préparation (min.)', {'label_attr': {'class': 'form-label fw-bold'}}) }} 
+### 22.7 Optimisation des onglets profil pour mobile
 
-        <div class="input-group"> 
+**Fichier** : `templates/profil/index.html.twig`
 
-            {{ form_widget(form.tempsCuisson, {'attr': {'class': 'form-control', 'placeholder': '15'}}) }} 
+Ajoute des classes responsive aux tabs :
 
-            <span class="input-group-text">minutes</span> 
+```twig
 
-        </div> 
+<ul class="nav nav-tabs nav-fill mb-4" id="profilTab" role="tablist">
 
-        {{ form_errors(form.tempsCuisson) }} 
+    <li class="nav-item" role="presentation">
 
-    </div> 
+        <button class="nav-link active" id="recettes-tab" data-bs-toggle="tab" data-bs-target="#recettes" type="button">
 
-     
+            <i class="bi bi-book"></i>
 
-    <div class="col-12 col-md-6"> 
+            <span class="d-none d-sm-inline">Mes</span> Recettes
 
-        {{ form_label(form.nombrePersonnes, 'Nombre de personnes', {'label_attr': {'class': 'form-label fw-bold'}}) }} 
+        </button>
 
-        {{ form_widget(form.nombrePersonnes, {'attr': {'class': 'form-control', 'placeholder': '4'}}) }} 
+    </li>
 
-        {{ form_errors(form.nombrePersonnes) }} 
+    <li class="nav-item" role="presentation">
 
-    </div> 
+        <button class="nav-link" id="favoris-tab" data-bs-toggle="tab" data-bs-target="#favoris" type="button">
 
-</div> 
+            <i class="bi bi-heart"></i>
 
-``` 
+            <span class="d-none d-sm-inline">Mes</span> Favoris
 
- 
+        </button>
 
-### 22.7 Optimisation des onglets profil pour mobile 
+    </li>
 
- 
+    <li class="nav-item" role="presentation">
 
-**Fichier** : `templates/profil/index.html.twig` 
+        <button class="nav-link" id="parametres-tab" data-bs-toggle="tab" data-bs-target="#parametres" type="button">
 
- 
+            <i class="bi bi-gear"></i> Paramètres
 
-Ajoute des classes responsive aux tabs : 
+        </button>
 
- 
+    </li>
 
-```twig 
+</ul>
 
-<ul class="nav nav-tabs nav-fill mb-4" id="profilTab" role="tablist"> 
+```
 
-    <li class="nav-item" role="presentation"> 
+**Classes ajoutées** :
 
-        <button class="nav-link active" id="recettes-tab" data-bs-toggle="tab" data-bs-target="#recettes" type="button"> 
+-   `nav-fill` : Onglets prennent toute la largeur
 
-            <i class="bi bi-book"></i> 
+-   `d-none d-sm-inline` : Cacher "Mes" sur très petit écran
 
-            <span class="d-none d-sm-inline">Mes</span> Recettes 
+### 22.8 Tests sur différentes tailles
 
-        </button> 
+**Outils de test** :
 
-    </li> 
+1. **Chrome DevTools** (F12) :
 
-    <li class="nav-item" role="presentation"> 
+    - Toggle device toolbar (Ctrl+Shift+M)
 
-        <button class="nav-link" id="favoris-tab" data-bs-toggle="tab" data-bs-target="#favoris" type="button"> 
+    - Tester : iPhone SE, iPhone 12 Pro, iPad, Desktop
 
-            <i class="bi bi-heart"></i> 
+2. **Vérifier :**
 
-            <span class="d-none d-sm-inline">Mes</span> Favoris 
+    - Navigation fluide
 
-        </button> 
+    - Texte lisible
 
-    </li> 
+    - Boutons cliquables (min 44x44px)
 
-    <li class="nav-item" role="presentation"> 
+    - Images bien dimensionnées
 
-        <button class="nav-link" id="parametres-tab" data-bs-toggle="tab" data-bs-target="#parametres" type="button"> 
+    - Pas de débordement horizontal
 
-            <i class="bi bi-gear"></i> Paramètres 
+    - Formulaires utilisables
 
-        </button> 
+### 22.9 Checklist finale testée
 
-    </li> 
+**Sur mobile (< 768px)** :
 
-</ul> 
+-   Navbar hamburger fonctionne
 
-``` 
+-   Home page lisible
 
- 
+-   Liste recettes 1 colonne
 
-**Classes ajoutées** : 
+-   Détail recette scrollable
 
-- `nav-fill` : Onglets prennent toute la largeur 
+-   Formulaire recette utilisable
 
-- `d-none d-sm-inline` : Cacher "Mes" sur très petit écran 
+-   Profil onglets accessibles
 
- 
+-   Contact formulaire OK
 
-### 22.8 Tests sur différentes tailles 
+-   Pages légales lisibles
 
- 
+-   Footer cent Modals auth full screen
 
-**Outils de test** : 
+-   Pas de scroll horizontal
 
- 
+-   Boutons cliquables facilement
 
-1. **Chrome DevTools** (F12) : 
+### 22.10 Commits
 
-   - Toggle device toolbar (Ctrl+Shift+M) 
+```bash
 
-   - Tester : iPhone SE, iPhone 12 Pro, iPad, Desktop 
+git checkout -b feature/responsive-mobile
 
- 
 
-2. **Vérifier :** 
 
-   -  Navigation fluide 
+git add public/css/responsive.css public/css/app.css
 
-   -  Texte lisible 
+git commit -m "feat: Ajout fichier CSS responsive complet
 
-   -  Boutons cliquables (min 44x44px) 
 
-   -  Images bien dimensionnées 
 
-   -  Pas de débordement horizontal 
+BREAKPOINTS:
 
-   -  Formulaires utilisables 
+- Mobile xs: <576px
 
- 
+- Mobile sm: 576px-768px
 
-### 22.9 Checklist finale testée 
+- Tablette md: 768px-992px
 
- 
+- Desktop lg: 992px+
 
-**Sur mobile (< 768px)** : 
 
--  Navbar hamburger fonctionne 
 
--  Home page lisible 
+OPTIMISATIONS:
 
--  Liste recettes 1 colonne 
+- Navbar collapse mobile
 
--  Détail recette scrollable 
+- Hero section responsive
 
--  Formulaire recette utilisable 
+- Cards recettes adaptatives
 
--  Profil onglets accessibles 
+- Formulaires touch-friendly
 
--  Contact formulaire OK 
+- Détail recette mobile
 
--  Pages légales lisibles 
+- Profil onglets verticaux mobile
 
--  Footer cent Modals auth full screen 
+- Tableaux responsive
 
--  Pas de scroll horizontal 
+- Commentaires compacts mobile
 
--  Boutons cliquables facilement 
+- Boutons pleine largeur mobile
 
- 
+- Search bar vertical mobile
 
-### 22.10 Commits 
+- Footer centré mobile
 
- 
+- Modals plein écran mobile
 
-```bash 
 
-git checkout -b feature/responsive-mobile 
 
- 
+UTILITAIRES:
 
-git add public/css/responsive.css public/css/app.css 
+- Espacements réduits mobile
 
-git commit -m "feat: Ajout fichier CSS responsive complet 
+- Textes responsive
 
- 
+- Images auto-resize
 
-BREAKPOINTS: 
+- Classes hide/show-on-mobile
 
-- Mobile xs: <576px 
+- Touch targets 44x44px minimum
 
-- Mobile sm: 576px-768px 
+- Prévention zoom iOS sur inputs
 
-- Tablette md: 768px-992px 
 
-- Desktop lg: 992px+ 
 
- 
+Import dans app.css"
 
-OPTIMISATIONS: 
 
-- Navbar collapse mobile 
 
-- Hero section responsive 
+git add templates/base.html.twig
 
-- Cards recettes adaptatives 
+git commit -m "fix: Ajout meta viewport pour responsive
 
-- Formulaires touch-friendly 
 
-- Détail recette mobile 
 
-- Profil onglets verticaux mobile 
+- Meta viewport width=device-width
 
-- Tableaux responsive 
+- Initial scale 1.0
 
-- Commentaires compacts mobile 
+- Support responsive mobile"
 
-- Boutons pleine largeur mobile 
 
-- Search bar vertical mobile 
 
-- Footer centré mobile 
+git add templates/partials/_navbar.html.twig
 
-- Modals plein écran mobile 
+git commit -m "fix: Optimisation navbar responsive
 
- 
 
-UTILITAIRES: 
 
-- Espacements réduits mobile 
+- Bouton hamburger visible mobile
 
-- Textes responsive 
+- Collapse propre
 
-- Images auto-resize 
+- Navigation verticale mobile
 
-- Classes hide/show-on-mobile 
+- Touch targets adéquats"
 
-- Touch targets 44x44px minimum 
 
-- Prévention zoom iOS sur inputs 
 
- 
+git add templates/recette/index.html.twig
 
-Import dans app.css" 
+git commit -m "fix: Grille recettes responsive
 
- 
 
-git add templates/base.html.twig 
 
-git commit -m "fix: Ajout meta viewport pour responsive 
+- col-12: mobile full width
 
- 
+- col-sm-6: 2 colonnes tablette
 
-- Meta viewport width=device-width 
+- col-lg-4: 3 colonnes desktop
 
-- Initial scale 1.0 
+- Espacement adaptatif"
 
-- Support responsive mobile" 
 
- 
 
-git add templates/partials/_navbar.html.twig 
+git add templates/recette/new.html.twig
 
-git commit -m "fix: Optimisation navbar responsive 
+git commit -m "fix: Formulaire recette responsive
 
- 
 
-- Bouton hamburger visible mobile 
 
-- Collapse propre 
+- Colonnes empilées mobile
 
-- Navigation verticale mobile 
+- Inputs full width mobile
 
-- Touch targets adéquats" 
+- Espacements adaptés
 
- 
+- Touch-friendly"
 
-git add templates/recette/index.html.twig 
 
-git commit -m "fix: Grille recettes responsive 
 
- 
+git add templates/profil/index.html.twig
 
-- col-12: mobile full width 
+git commit -m "fix: Profil utilisateur responsive
 
-- col-sm-6: 2 colonnes tablette 
 
-- col-lg-4: 3 colonnes desktop 
 
-- Espacement adaptatif" 
+- Onglets verticaux mobile
 
- 
+- Textes abrégés mobile
 
-git add templates/recette/new.html.twig 
+- Stats empilées
 
-git commit -m "fix: Formulaire recette responsive 
+- Interface adaptative"
 
- 
 
-- Colonnes empilées mobile 
 
-- Inputs full width mobile 
+git push origin feature/responsive-mobile
 
-- Espacements adaptés 
+git checkout master
 
-- Touch-friendly" 
+git merge feature/responsive-mobile
 
- 
+git push origin master
 
-git add templates/profil/index.html.twig 
+git branch -d feature/responsive-mobile
 
-git commit -m "fix: Profil utilisateur responsive 
+```
 
- 
+---
 
-- Onglets verticaux mobile 
+## CONCLUSION GÉNÉRALE
 
-- Textes abrégés mobile 
+Le projet **Les Restes** est maintenant dans un état **professionnel et complet** avec :
 
-- Stats empilées 
+### Fonctionnalités implémentées
 
-- Interface adaptative" 
+-   Authentification complète
 
- 
+-   CRUD recettes avec ingrédients dynamiques
 
-git push origin feature/responsive-mobile 
+-   Système de favoris AJAX
 
-git checkout master 
+-   Commentaires et notation
 
-git merge feature/responsive-mobile 
+-   Recherche avancée avec filtres
 
-git push origin master 
+-   Pagination professionnelle
 
-git branch -d feature/responsive-mobile 
+-   Administration des ingrédients
 
-``` 
+-   Pages légales complètes (RGPD)
 
- 
+-   Page 404 personnalisée
 
---- 
+-   Design responsive complet
 
- 
+### Compétences REAC validées
 
-## CONCLUSION GÉNÉRALE 
+-   Développer composants accès données SQL
 
- 
+-   Développer partie dynamique interfaces
 
-Le projet **Les Restes** est maintenant dans un état **professionnel et complet** avec : 
+-   Gestion fichiers (VichUploader)
 
- 
+-   Sécurité (bcrypt, CSRF, ROLE_ADMIN)
 
-### Fonctionnalités implémentées 
+-   Architecture MVC Symfony
 
--  Authentification complète 
+### Points forts
 
--  CRUD recettes avec ingrédients dynamiques 
+-   Code propre et organisé
 
--  Système de favoris AJAX 
+-   Git avec branches feature
 
--  Commentaires et notation 
+-   Documentation complète
 
--  Recherche avancée avec filtres 
+-   Interface moderne et responsive
 
--  Pagination professionnelle 
+-   Conformité RGPD
 
--  Administration des ingrédients 
+**Le projet est prêt pour la soutenance d'avril 2026 !**
 
--  Pages légales complètes (RGPD) 
+---
 
--  Page 404 personnalisée 
-
--  Design responsive complet 
-
- 
-
-### Compétences REAC validées 
-
--  Développer composants accès données SQL 
-
--  Développer partie dynamique interfaces 
-
--  Gestion fichiers (VichUploader) 
-
--  Sécurité (bcrypt, CSRF, ROLE_ADMIN) 
-
--  Architecture MVC Symfony 
-
- 
-
-### Points forts 
-
-- Code propre et organisé 
-
-- Git avec branches feature 
-
-- Documentation complète 
-
-- Interface moderne et responsive 
-
-- Conformité RGPD 
-
- 
-
-**Le projet est prêt pour la soutenance d'avril 2026 !** 
-
- 
-
---- 
-
- 
-
-*Documentation complète - Novembre 2025* 
-**Dernière mise à jour** : Novembre 2025 
-**Statut** : En développement actif 
+_Documentation complète - Novembre 2025_
+**Dernière mise à jour** : Novembre 2025
+**Statut** : En développement actif
 **Graduation prévue** : Avril 2026
 
 ---
 
-*Documentation rédigée dans le cadre du Titre Professionnel DWWM - Dawan Toulouse*
+_Documentation rédigée dans le cadre du Titre Professionnel DWWM - Dawan Toulouse_

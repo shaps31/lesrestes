@@ -4,19 +4,19 @@ Imports de tous les modules
 */
 
 /* Base et variables */
-@import url('base.css');
+@import url("base.css");
 
 /* Composants */
-@import url('navbar.css');
-@import url('footer.css');
-@import url('cards.css');
-@import url('modals.css');
-@import url('forms.css');
-@import url('pagination.css');
-@import url('recipe-form.css');
+@import url("navbar.css");
+@import url("footer.css");
+@import url("cards.css");
+@import url("modals.css");
+@import url("forms.css");
+@import url("pagination.css");
+@import url("recipe-form.css");
 
 /* Responsive */
-@import url('responsive.css');
+@import url("responsive.css");
 
 /* Utilitaires */
-@import url('utilities.css');
+@import url("utilities.css");

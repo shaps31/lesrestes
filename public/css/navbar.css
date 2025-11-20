@@ -35,7 +35,7 @@ LES RESTES - Navigation
 }
 
 .navbar-nav .nav-link.active::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -8px;
     left: 0;
@@ -75,7 +75,7 @@ LES RESTES - Navigation
     .navbar-nav {
         padding-top: 1rem;
     }
-    
+
     .navbar-nav .nav-link.active::after {
         display: none;
     }

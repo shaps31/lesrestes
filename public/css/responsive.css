@@ -10,11 +10,11 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     .navbar-nav {
         padding: 1rem 0;
     }
-    
+
     .navbar-nav .nav-link {
         padding: 0.75rem 1rem;
     }
-    
+
     .navbar-collapse {
         background: #fff;
         border-radius: 0.5rem;
@@ -31,15 +31,15 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
         padding: 2rem 0 !important;
         min-height: auto !important;
     }
-    
+
     .hero-section h1 {
         font-size: 2rem !important;
     }
-    
+
     .hero-section .lead {
         font-size: 1rem !important;
     }
-    
+
     .hero-section .btn {
         width: 100%;
         margin-bottom: 0.5rem;
@@ -53,15 +53,15 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     .card {
         margin-bottom: 1rem;
     }
-    
+
     .card-img-top {
         height: 200px !important;
     }
-    
+
     .card-title {
         font-size: 1.1rem;
     }
-    
+
     .card-body {
         padding: 1rem;
     }
@@ -75,7 +75,7 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     .form-select {
         font-size: 16px !important; /* Évite zoom auto iOS */
     }
-    
+
     .ingredient-row .col-md-5,
     .ingredient-row .col-md-3,
     .ingredient-row .col-md-2 {
@@ -83,11 +83,11 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
         max-width: 100%;
         margin-bottom: 0.5rem;
     }
-    
+
     .ingredient-row .row {
         flex-direction: column;
     }
-    
+
     .etape-row .col-auto {
         flex: 0 0 100%;
         max-width: 100%;
@@ -102,12 +102,12 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     .recipe-detail-image {
         max-height: 300px !important;
     }
-    
+
     .recipe-info-icons {
         flex-direction: column;
         gap: 0.5rem !important;
     }
-    
+
     .recipe-info-icons > div {
         width: 100%;
         text-align: center;
@@ -122,23 +122,23 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
         flex-direction: column;
         border-bottom: none;
     }
-    
+
     .nav-tabs .nav-link {
         border-radius: 0.375rem;
         margin-bottom: 0.5rem;
         border: 1px solid #dee2e6;
     }
-    
+
     .nav-tabs .nav-link.active {
         background-color: var(--success-color);
         color: white;
         border-color: var(--success-color);
     }
-    
+
     .profile-header {
         text-align: center;
     }
-    
+
     .profile-stats {
         flex-direction: column;
         gap: 1rem !important;
@@ -152,17 +152,17 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     .table-responsive {
         border: none;
     }
-    
+
     .table {
         font-size: 0.875rem;
     }
-    
+
     .table th,
     .table td {
         padding: 0.5rem;
         white-space: nowrap;
     }
-    
+
     /* Cacher colonnes moins importantes sur mobile */
     .table .hide-mobile {
         display: none;
@@ -178,12 +178,12 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
         height: 40px !important;
         font-size: 1.2rem !important;
     }
-    
+
     .comment-header {
         flex-direction: column;
         align-items: flex-start !important;
     }
-    
+
     .comment-stars {
         margin-top: 0.5rem;
     }
@@ -197,17 +197,17 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
         flex-direction: column;
         width: 100%;
     }
-    
+
     .btn-group > .btn {
         width: 100%;
         margin-bottom: 0.5rem;
     }
-    
+
     .d-flex.gap-2 {
         flex-direction: column !important;
         gap: 0.5rem !important;
     }
-    
+
     .d-flex.gap-2 > * {
         width: 100% !important;
     }
@@ -223,11 +223,11 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
         max-width: 100%;
         margin-bottom: 0.5rem;
     }
-    
+
     .search-filters {
         flex-direction: column;
     }
-    
+
     .search-filters .col-md-4,
     .search-filters .col-md-2 {
         flex: 0 0 100%;
@@ -243,7 +243,7 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     .pagination {
         font-size: 0.875rem;
     }
-    
+
     .pagination .page-link {
         padding: 0.375rem 0.75rem;
     }
@@ -257,7 +257,7 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
         text-align: center;
         margin-bottom: 2rem;
     }
-    
+
     footer ul {
         padding-left: 0;
     }
@@ -270,16 +270,16 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     .modal-dialog {
         margin: 0.5rem;
     }
-    
+
     .modal-content {
         border-radius: 0.5rem;
     }
-    
+
     .modal-header,
     .modal-footer {
         padding: 1rem;
     }
-    
+
     .modal-body {
         padding: 1.5rem 1rem;
     }
@@ -295,12 +295,12 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
         padding-left: 1rem;
         padding-right: 1rem;
     }
-    
+
     .my-5 {
         margin-top: 2rem !important;
         margin-bottom: 2rem !important;
     }
-    
+
     .py-5 {
         padding-top: 2rem !important;
         padding-bottom: 2rem !important;
@@ -312,19 +312,19 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     h1 {
         font-size: 1.75rem;
     }
-    
+
     h2 {
         font-size: 1.5rem;
     }
-    
+
     h3 {
         font-size: 1.25rem;
     }
-    
+
     .display-1 {
         font-size: 3rem;
     }
-    
+
     .display-4 {
         font-size: 2rem;
     }
@@ -377,18 +377,18 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
         min-height: 44px;
         padding: 0.75rem 1rem;
     }
-    
+
     .nav-link {
         min-height: 44px;
         display: flex;
         align-items: center;
     }
-    
+
     .form-check-input {
         width: 1.5rem;
         height: 1.5rem;
     }
-    
+
     .form-check-label {
         padding-left: 0.5rem;
     }

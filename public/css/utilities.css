@@ -168,3 +168,27 @@ footer .text-muted {
     border-color: #495057 !important;
     color: #fff !important;
 }
+
+/* Bouton Outline Primary (Ajouter ingrédient) */
+.btn-outline-primary {
+    color: #0a58ca !important;
+    border-color: #0a58ca !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+    background-color: #0a58ca !important;
+    border-color: #0a58ca !important;
+    color: #fff !important;
+}
+
+/* Touch targets accessibles (min 24px) */
+.form-control,
+.form-select {
+    min-height: 38px !important;
+}
+
+.form-control-sm,
+.form-select-sm {
+    min-height: 32px !important;
+}

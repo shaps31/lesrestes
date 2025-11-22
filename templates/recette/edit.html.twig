@@ -7,22 +7,22 @@
     <!-- Header avec retour -->
     <div class="mb-4">
         <a href="{{ path('app_profil') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Retour à mon profil
+            <i class="bi bi-arrow-left" aria-hidden="true"></i> Retour à mon profil
         </a>
     </div>
     
     <div class="row">
         <div class="col-lg-8 mx-auto">
-            <h2 class="mb-4">Modifier ma recette</h2>
+            <h1 class="mb-4">Modifier ma recette</h1>
             
             {{ include('recette/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
             
             <!-- Actions supplémentaires -->
             <div class="mt-4 pt-3 border-top">
-                <h6 class="text-muted">Actions</h6>
+                <h2 class="h6 text-muted">Actions</h2>
                 <div class="d-flex gap-2">
                     <a href="{{ path('app_recette_show', {'id': recette.id}) }}" class="btn btn-outline-primary">
-                        <i class="bi bi-eye"></i> Aperçu
+                        <i class="bi bi-eye" aria-hidden="true"></i> Aperçu
                     </a>
                     {{ include('recette/_delete_form.html.twig') }}
                 </div>

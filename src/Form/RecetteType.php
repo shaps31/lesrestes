@@ -37,7 +37,7 @@ class RecetteType extends AbstractType
                 'class' => Categorie::class,
                 'choice_label' => 'nom',
             ])
-            // AJOUTEZ CETTE LIGNE SI ELLE N'EXISTE PAS
+            
             ->add('recetteIngredients', CollectionType::class, [
                 'entry_type' => RecetteIngredientType::class,
                 'entry_options' => ['label' => false],

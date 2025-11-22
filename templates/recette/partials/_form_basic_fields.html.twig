@@ -1,0 +1,19 @@
+{# Champs de base : nom, description, image #}
+<div class="mb-3">
+    {{ form_label(form.nom, 'Nom de la recette', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+    <span class="text-danger" aria-hidden="true">*</span>
+    {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Ex: Gratin de légumes', 'aria-required': 'true'}}) }}
+    {{ form_errors(form.nom) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 3, 'placeholder': 'Décrivez votre recette...'}}) }}
+    {{ form_errors(form.description) }}
+</div>
+
+<div class="mb-3">
+    <label for="recette_imageFile_file" class="form-label fw-bold">Image</label>
+    {{ form_widget(form.imageFile) }}
+    {{ form_errors(form.imageFile) }}
+</div>

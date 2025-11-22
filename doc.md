@@ -11082,6 +11082,67 @@ Les pages `/login` et `/register` utilisent le même système :
 
 ---
 
+### 24.13 Audit page Créer Recette (`/recette/new`)
+
+**Score initial** : 86%
+
+**Problèmes détectés** :
+
+| #   | Problème          | Élément                                                  |
+| --- | ----------------- | -------------------------------------------------------- |
+| 1   | Boutons sans nom  | Boutons supprimer étape/ingrédient (icône seule)         |
+| 2   | Contraste couleur | Bouton "Annuler" `.btn-outline-secondary`                |
+| 3   | Hiérarchie titres | h1 → h5 (saute niveaux)                                  |
+| 4   | Label manquant    | Input image VichUploader                                 |
+| 5   | Champs orphelins  | "Difficulté" et "Recette ingredients" affichés en double |
+
+**Corrections appliquées** :
+
+#### Fichier `templates/recette/new.html.twig`
+
+-   `h5` Ingrédients → `<h2 class="h5">`
+-   `h5` Étapes → `<h2 class="h5">`
+-   Difficulté : `<div>` → `<fieldset>` + `<legend>`
+-   Label image : `for="recette_imageFile_file"`
+-   Boutons supprimer ingrédient : `aria-label="Supprimer cet ingrédient"`
+-   `aria-hidden="true"` sur toutes les icônes
+-   <!-- Champs cachés (déjà gérés manuellement) -->
+<div class="d-none">
+    {{ form_row(form.difficulte) }}
+    {{ form_row(form.recetteIngredients) }}
+</div>
+
+{{ form_end(form) }} => pour éviter doublons
+
+#### Fichier `public/js/recipe-form.js`
+
+-   Bouton supprimer ingrédient (dynamique) : `aria-label`
+-   Bouton supprimer étape (dynamique) : `aria-label`
+-   Input étape : `aria-label="Étape X"`
+-   Badge étape : `aria-hidden="true"`
+-   Toutes les icônes : `aria-hidden="true"`
+-   Fonction `renumberEtapes()` : mise à jour des `aria-label`
+
+#### Fichier `public/css/utilities.css`
+
+-   `.btn-outline-secondary` : couleur `#495057` pour contraste 4.5:1
+
+**Score final** : **100%** ✅
+
+### 24.14 Pages restantes à auditer
+
+| Page             | Route                | Statut     |
+| ---------------- | -------------------- | ---------- |
+| Homepage         | `/`                  | ✅ 100%    |
+| Login            | `/login`             | ✅ 100%    |
+| Register         | `/register`          | ✅ 100%    |
+| Liste recettes   | `/recettes`          | ✅ 100%    |
+| Détail recette   | `/recette/{id}`      | ✅ 100%    |
+| Créer recette    | `/recette/new`       | ✅ 100%    |
+| Modifier recette | `/recette/{id}/edit` | 🔄 À faire |
+| Profil           | `/profil`            | 🔄 À faire |
+| Contact          | `/contact`           | 🔄 À faire |
+
 ## CONCLUSION GÉNÉRALE
 
 Le projet **Les Restes** est maintenant dans un état **professionnel et complet** avec :

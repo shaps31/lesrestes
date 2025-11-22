@@ -1,0 +1,26 @@
+{# Collection d'ingrédients #}
+<div class="mb-4">
+    <h2 class="h5 form-label fw-bold">Ingrédients</h2>
+    
+    <div id="ingredients-wrapper"
+         data-prototype="{{ form_widget(form.recetteIngredients.vars.prototype)|e('html_attr') }}"
+         data-index="{{ form.recetteIngredients|length }}">
+        
+        {% for ingredientForm in form.recetteIngredients %}
+            <div class="ingredient-item mb-2">
+                {{ form_widget(ingredientForm) }}
+                <button type="button" 
+                        class="btn btn-sm btn-outline-danger remove-ingredient"
+                        aria-label="Supprimer cet ingrédient">
+                    <i class="bi bi-trash" aria-hidden="true"></i>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <button type="button" class="btn btn-outline-primary btn-sm" id="add-ingredient">
+        <i class="bi bi-plus-circle" aria-hidden="true"></i> Ajouter un ingrédient
+    </button>
+    
+    {{ form_errors(form.recetteIngredients) }}
+</div>

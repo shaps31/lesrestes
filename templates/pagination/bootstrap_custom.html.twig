@@ -4,15 +4,13 @@
             {# Bouton Précédent #}
             {% if previous is defined %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): previous})) }}" aria-label="Previous">
+                    <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): previous})) }}" aria-label="Page précédente">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
             {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </span>
+                <li class="page-item disabled" aria-disabled="true">
+                    <span class="page-link" aria-hidden="true">&laquo;</span>
                 </li>
             {% endif %}
 
@@ -23,7 +21,7 @@
                         <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
                     </li>
                 {% else %}
-                    <li class="page-item active">
+                    <li class="page-item active" aria-current="page">
                         <span class="page-link">{{ page }}</span>
                     </li>
                 {% endif %}
@@ -32,15 +30,13 @@
             {# Bouton Suivant #}
             {% if next is defined %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): next})) }}" aria-label="Next">
+                    <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): next})) }}" aria-label="Page suivante">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
             {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </span>
+                <li class="page-item disabled" aria-disabled="true">
+                    <span class="page-link" aria-hidden="true">&raquo;</span>
                 </li>
             {% endif %}
         </ul>

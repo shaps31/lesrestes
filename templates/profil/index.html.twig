@@ -18,23 +18,25 @@
                     <!-- Avatar -->
                     {% if user.photo %}
                         <img src="/uploads/profils/{{ user.photo }}" 
-                             alt="{{ user.prenom }}" 
+                             alt="Photo de profil de {{ user.prenom }}" 
                              class="rounded-circle mx-auto mb-3"
                              style="width: 120px; height: 120px; object-fit: cover;">
                     {% else %}
                         <div class="rounded-circle bg-success d-flex align-items-center justify-content-center mx-auto mb-3" 
-                             style="width: 120px; height: 120px;">
-                            <i class="bi bi-person-fill text-white" style="font-size: 3rem;"></i>
+                             style="width: 120px; height: 120px;"
+                             role="img"
+                             aria-label="Avatar par défaut">
+                            <i class="bi bi-person-fill text-white" aria-hidden="true" style="font-size: 3rem;"></i>
                         </div>
                     {% endif %}
                     
                     <!-- Nom et email -->
-                    <h4 class="text-success mb-1">{{ user.prenom }} {{ user.nom }}</h4>
+                    <h2 class="h4 text-success mb-1">{{ user.prenom }} {{ user.nom }}</h2>
                     <p class="text-muted mb-3">{{ user.email }}</p>
                     
                     <!-- Bouton modifier -->
                    <a href="{{ path('app_profil_edit') }}" class="btn btn-outline-success">
-                        <i class="bi bi-pencil"></i> Modifier profil
+                        <i class="bi bi-pencil" aria-hidden="true"></i> Modifier profil
                     </a>
                 </div>
             </div>
@@ -44,12 +46,12 @@
         <div class="col-lg-7">
             <div class="card border-success h-100">
                 <div class="card-body p-4 d-flex flex-column justify-content-center">
-                    <h5 class="text-success mb-4 text-center">Recettes</h5>
+                    <h2 class="h5 text-success mb-4 text-center">Recettes</h2>
                     
                     <div class="row align-items-center">
                         <!-- Graphique circulaire -->
                         <div class="col-md-6 text-center">
-                            <canvas id="statsChart" width="200" height="200"></canvas>
+                            <canvas id="statsChart" width="200" height="200" aria-label="Graphique des statistiques de recettes" role="img"></canvas>
                         </div>
                         
                         <!-- Légende des stats -->
@@ -80,20 +82,20 @@
         <div class="col">
             <ul class="nav nav-tabs nav-fill mb-4" id="profilTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="recettes-tab" data-bs-toggle="tab" data-bs-target="#recettes" type="button">
-                        <i class="bi bi-book"></i>
+                    <button class="nav-link active" id="recettes-tab" data-bs-toggle="tab" data-bs-target="#recettes" type="button" role="tab" aria-controls="recettes" aria-selected="true">
+                        <i class="bi bi-book" aria-hidden="true"></i>
                         <span class="d-none d-sm-inline">Mes</span> Recettes
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="favoris-tab" data-bs-toggle="tab" data-bs-target="#favoris" type="button">
-                        <i class="bi bi-heart"></i>
+                    <button class="nav-link" id="favoris-tab" data-bs-toggle="tab" data-bs-target="#favoris" type="button" role="tab" aria-controls="favoris" aria-selected="false">
+                        <i class="bi bi-heart" aria-hidden="true"></i>
                         <span class="d-none d-sm-inline">Mes</span> Favoris
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="parametres-tab" data-bs-toggle="tab" data-bs-target="#parametres" type="button">
-                        <i class="bi bi-gear"></i> Parametres
+                    <button class="nav-link" id="parametres-tab" data-bs-toggle="tab" data-bs-target="#parametres" type="button" role="tab" aria-controls="parametres" aria-selected="false">
+                        <i class="bi bi-gear" aria-hidden="true"></i> Paramètres
                     </button>
                 </li>
             </ul>
@@ -103,7 +105,7 @@
     <!-- Contenu des onglets -->
     <div class="tab-content">
         <!-- TAB 1 : Mes recettes -->
-        <div class="tab-pane fade show active" id="recettes" role="tabpanel">
+        <div class="tab-pane fade show active" id="recettes" role="tabpanel" aria-labelledby="recettes-tab">
             {% if mesRecettes.getTotalItemCount > 0 %}
                 <div class="row">
                     {% for recette in mesRecettes %}
@@ -116,24 +118,26 @@
                                          style="height: 200px; object-fit: cover;">
                                 {% else %}
                                     <div class="bg-secondary d-flex align-items-center justify-content-center" 
-                                         style="height: 200px;">
-                                        <i class="bi bi-image text-white" style="font-size: 3rem;"></i>
+                                         style="height: 200px;"
+                                         role="img"
+                                         aria-label="Aucune image">
+                                        <i class="bi bi-image text-white" aria-hidden="true" style="font-size: 3rem;"></i>
                                     </div>
                                 {% endif %}
                                 <div class="card-body">
-                                    <h5 class="card-title text-success">{{ recette.nom }}</h5>
+                                    <h3 class="h5 card-title text-success">{{ recette.nom }}</h3>
                                     
                                     <!-- Étoiles dynamiques -->
-                                    <div class="mb-2">
+                                    <div class="mb-2" role="img" aria-label="Note : {{ recette.moyenneNotes|default(0)|round }} sur 5">
                                         {% set moyenne = recette.moyenneNotes %}
                                         {% if moyenne %}
                                             {% for i in 1..5 %}
-                                                <i class="bi bi-star{{ i <= moyenne ? '-fill' : '' }} text-warning"></i>
+                                                <i class="bi bi-star{{ i <= moyenne ? '-fill' : '' }} text-warning" aria-hidden="true"></i>
                                             {% endfor %}
                                             <span class="ms-1 small text-muted">({{ recette.commentaires|length }} avis)</span>
                                         {% else %}
                                             {% for i in 1..5 %}
-                                                <i class="bi bi-star text-muted"></i>
+                                                <i class="bi bi-star text-muted" aria-hidden="true"></i>
                                             {% endfor %}
                                             <span class="ms-1 small text-muted">(0 avis)</span>
                                         {% endif %}
@@ -143,25 +147,28 @@
                                         {{ recette.description|length > 80 ? recette.description|slice(0, 80) ~ '...' : recette.description }}
                                     </p>
                                     
-                                    <!-- Boutons d'action -->
+                                    <!-- Boutons d'action CORRIGÉS -->
                                     <div class="row g-2">
                                         <div class="col-4">
                                             <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
-                                               class="btn btn-outline-success btn-sm w-100">
-                                                <i class="bi bi-eye"></i>
+                                               class="btn btn-outline-success btn-sm w-100"
+                                               aria-label="Voir {{ recette.nom }}">
+                                                <i class="bi bi-eye" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                         <div class="col-4">
                                             <a href="{{ path('app_recette_edit', {'id': recette.id}) }}" 
-                                               class="btn btn-outline-primary btn-sm w-100">
-                                                <i class="bi bi-pencil"></i>
+                                               class="btn btn-outline-primary btn-sm w-100"
+                                               aria-label="Modifier {{ recette.nom }}">
+                                                <i class="bi bi-pencil" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                         <div class="col-4">
                                             <button type="button" 
                                                     class="btn btn-outline-danger btn-sm w-100" 
-                                                    onclick="confirmerSuppression({{ recette.id }}, '{{ recette.nom }}')">
-                                                <i class="bi bi-trash"></i>
+                                                    onclick="confirmerSuppression({{ recette.id }}, '{{ recette.nom }}')"
+                                                    aria-label="Supprimer {{ recette.nom }}">
+                                                <i class="bi bi-trash" aria-hidden="true"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -172,30 +179,32 @@
                 </div>
                 
                 <!-- Pagination -->
-                <div class="d-flex justify-content-center mt-4">
-                    {{ knp_pagination_render(mesRecettes) }}
-                </div>
+                <nav aria-label="Pagination des recettes">
+                    <div class="d-flex justify-content-center mt-4">
+                        {{ knp_pagination_render(mesRecettes) }}
+                    </div>
+                </nav>
                 
                 <!-- Bouton ajouter -->
                 <div class="text-center mt-4">
                     <a href="{{ path('app_recette_new') }}" class="btn btn-success btn-lg">
-                        <i class="bi bi-plus-circle"></i> Ajouter une recette
+                        <i class="bi bi-plus-circle" aria-hidden="true"></i> Ajouter une recette
                     </a>
                 </div>
             {% else %}
                 <div class="text-center py-5">
-                    <i class="bi bi-journal-plus text-muted" style="font-size: 4rem;"></i>
-                    <h5 class="mt-3 text-muted">Aucune recette publiée</h5>
+                    <i class="bi bi-journal-plus text-muted" aria-hidden="true" style="font-size: 4rem;"></i>
+                    <h3 class="mt-3 text-muted">Aucune recette publiée</h3>
                     <p class="text-muted">Partagez votre première recette anti-gaspi !</p>
                     <a href="{{ path('app_recette_new') }}" class="btn btn-success mt-3">
-                        <i class="bi bi-plus-circle"></i> Publier une recette
+                        <i class="bi bi-plus-circle" aria-hidden="true"></i> Publier une recette
                     </a>
                 </div>
             {% endif %}
         </div>
         
         <!-- TAB 2 : Mes favoris -->
-        <div class="tab-pane fade" id="favoris" role="tabpanel">
+        <div class="tab-pane fade" id="favoris" role="tabpanel" aria-labelledby="favoris-tab">
             {% if mesFavoris.getTotalItemCount > 0 %}
                 <div class="row">
                     {% for favori in mesFavoris %}
@@ -209,24 +218,26 @@
                                          style="height: 200px; object-fit: cover;">
                                 {% else %}
                                     <div class="bg-secondary d-flex align-items-center justify-content-center" 
-                                         style="height: 200px;">
-                                        <i class="bi bi-image text-white" style="font-size: 3rem;"></i>
+                                         style="height: 200px;"
+                                         role="img"
+                                         aria-label="Aucune image">
+                                        <i class="bi bi-image text-white" aria-hidden="true" style="font-size: 3rem;"></i>
                                     </div>
                                 {% endif %}
                                 <div class="card-body">
-                                    <h5 class="card-title text-success">{{ recette.nom }}</h5>
+                                    <h3 class="h5 card-title text-success">{{ recette.nom }}</h3>
                                     
                                     <!-- Étoiles dynamiques -->
-                                    <div class="mb-2">
+                                    <div class="mb-2" role="img" aria-label="Note : {{ recette.moyenneNotes|default(0)|round }} sur 5">
                                         {% set moyenne = recette.moyenneNotes %}
                                         {% if moyenne %}
                                             {% for i in 1..5 %}
-                                                <i class="bi bi-star{{ i <= moyenne ? '-fill' : '' }} text-warning"></i>
+                                                <i class="bi bi-star{{ i <= moyenne ? '-fill' : '' }} text-warning" aria-hidden="true"></i>
                                             {% endfor %}
                                             <span class="ms-1 small text-muted">({{ recette.commentaires|length }})</span>
                                         {% else %}
                                             {% for i in 1..5 %}
-                                                <i class="bi bi-star text-muted"></i>
+                                                <i class="bi bi-star text-muted" aria-hidden="true"></i>
                                             {% endfor %}
                                         {% endif %}
                                     </div>
@@ -239,7 +250,7 @@
                                     <div class="d-grid mt-3">
                                         <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
                                            class="btn btn-outline-success btn-sm">
-                                            <i class="bi bi-eye"></i> Voir la recette
+                                            <i class="bi bi-eye" aria-hidden="true"></i> Voir la recette
                                         </a>
                                     </div>
                                 </div>
@@ -249,13 +260,15 @@
                 </div>
                 
                 <!-- Pagination -->
-                <div class="d-flex justify-content-center mt-4">
-                    {{ knp_pagination_render(mesFavoris) }}
-                </div>
+                <nav aria-label="Pagination des favoris">
+                    <div class="d-flex justify-content-center mt-4">
+                        {{ knp_pagination_render(mesFavoris) }}
+                    </div>
+                </nav>
             {% else %}
                 <div class="text-center py-5">
-                    <i class="bi bi-heart text-muted" style="font-size: 4rem;"></i>
-                    <h5 class="mt-3 text-muted">Aucun favori</h5>
+                    <i class="bi bi-heart text-muted" aria-hidden="true" style="font-size: 4rem;"></i>
+                    <h3 class="mt-3 text-muted">Aucun favori</h3>
                     <p class="text-muted">Ajoutez des recettes à vos favoris !</p>
                     <a href="{{ path('app_recette_index') }}" class="btn btn-outline-success">
                         Découvrir des recettes
@@ -264,56 +277,14 @@
             {% endif %}
         </div>
         
-        <!-- TAB 3 : Mon compte -->
-        <div class="tab-pane fade" id="compte" role="tabpanel">
+        <!-- TAB 3 : Paramètres -->
+        <div class="tab-pane fade" id="parametres" role="tabpanel" aria-labelledby="parametres-tab">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="card border-success">
                         <div class="card-body p-4">
-                            <h5 class="text-success mb-4">Paramètres du compte</h5>
-                            
-                            <form>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Prénom</label>
-                                    <input type="text" class="form-control" value="{{ user.prenom }}">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Nom</label>
-                                    <input type="text" class="form-control" value="{{ user.nom }}">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Email</label>
-                                    <input type="email" class="form-control" value="{{ user.email }}">
-                                </div>
-                                
-                                <hr class="my-4">
-                                
-                                <h6 class="text-success mb-3">Changer le mot de passe</h6>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label">Mot de passe actuel</label>
-                                    <input type="password" class="form-control">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label">Nouveau mot de passe</label>
-                                    <input type="password" class="form-control">
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <label class="form-label">Confirmer le mot de passe</label>
-                                    <input type="password" class="form-control">
-                                </div>
-                                
-                                <div class="d-flex justify-content-between">
-                                    <button type="button" class="btn btn-outline-secondary">Annuler</button>
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="bi bi-check-circle"></i> Enregistrer
-                                    </button>
-                                </div>
-                            </form>
+                            <h3 class="h5 text-success mb-4">Paramètres du compte</h3>
+                            <p class="text-muted">Fonctionnalité à venir...</p>
                         </div>
                     </div>
                 </div>
@@ -322,28 +293,13 @@
     </div>
 </div>
 
-<style>
-/* Onglet actif : fond vert + texte blanc */
-.nav-pills .nav-link.active {
-    background-color: #198754 !important; /* vert Bootstrap */
-    color: #fff !important;
-}
-
-/* Onglets inactifs : texte vert léger */
-.nav-pills .nav-link {
-    color: #198754;
-}
-
-
-</style>
-
 <!-- Modal suppression -->
-<div class="modal fade" id="deleteModal" tabindex="-1">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirmer la suppression</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <h2 class="h5 modal-title" id="deleteModalLabel">Confirmer la suppression</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
             <div class="modal-body">
                 <p>Êtes-vous sûr de vouloir supprimer <strong id="recetteName"></strong> ?</p>
@@ -354,13 +310,32 @@
                 <form method="post" id="deleteForm" style="display: inline;">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
                     <button type="submit" class="btn btn-danger">
-                        <i class="bi bi-trash"></i> Supprimer
+                        <i class="bi bi-trash" aria-hidden="true"></i> Supprimer
                     </button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+/* Onglet actif : fond vert + texte blanc */
+.nav-tabs .nav-link.active {
+    background-color: #198754 !important;
+    color: #fff !important;
+    border-color: #198754 !important;
+}
+
+/* Onglets inactifs : texte vert foncé pour contraste */
+.nav-tabs .nav-link {
+    color: #0f5132 !important;
+}
+
+.nav-tabs .nav-link:hover {
+    color: #198754 !important;
+    border-color: #198754 !important;
+}
+</style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>

@@ -1,0 +1,55 @@
+<nav aria-label="Navigation pagination">
+    <ul class="pagination">
+        {% if first is defined and current != first %}
+            <li class="page-item">
+                <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): first})) }}" aria-label="Première page">
+                    &laquo;&laquo;
+                </a>
+            </li>
+        {% endif %}
+
+        {% if previous is defined %}
+            <li class="page-item">
+                <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): previous})) }}" aria-label="Page précédente">
+                    &laquo;
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled" aria-disabled="true">
+                <span class="page-link" aria-hidden="true">&laquo;</span>
+            </li>
+        {% endif %}
+
+        {% for page in pagesInRange %}
+            {% if page != current %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+                </li>
+            {% else %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">{{ page }}</span>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if next is defined %}
+            <li class="page-item">
+                <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): next})) }}" aria-label="Page suivante">
+                    &raquo;
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled" aria-disabled="true">
+                <span class="page-link" aria-hidden="true">&raquo;</span>
+            </li>
+        {% endif %}
+
+        {% if last is defined and current != last %}
+            <li class="page-item">
+                <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): last})) }}" aria-label="Dernière page">
+                    &raquo;&raquo;
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

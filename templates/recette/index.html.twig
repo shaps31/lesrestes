@@ -1,189 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Toutes les recettes - Les Restes{% endblock %}
+{% block title %}Modifier {{ recette.nom }} - Les Restes{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1 class="mb-4">Toutes les recettes</h1>
-    
-    <!-- Formulaire de recherche avancée -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="card-title mb-0">
-                    <i class="bi bi-funnel"></i> Recherche avancée
-                </h5>
-                <button class="btn btn-outline-secondary btn-sm" 
-                        type="button" 
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#searchCollapse">
-                    <i class="bi bi-chevron-down"></i>
-                </button>
-            </div>
-            
-            <div class="collapse" id="searchCollapse">
-                {{ form_start(searchForm, {'attr': {'class': 'row g-3'}}) }}
-                    <div class="col-md-4">
-                        {{ form_row(searchForm.query, {'label_attr': {'class': 'form-label'}}) }}
-                    </div>
-                    
-                    <div class="col-md-2">
-                        {{ form_row(searchForm.categorie, {'label_attr': {'class': 'form-label'}}) }}
-                    </div>
-                    
-                    <div class="col-md-2">
-                        {{ form_row(searchForm.difficulte, {'label_attr': {'class': 'form-label'}}) }}
-                    </div>
-                    
-                    <div class="col-md-2">
-                        {{ form_row(searchForm.tempsMax, {'label_attr': {'class': 'form-label'}}) }}
-                    </div>
-                    
-                    <div class="col-md-2">
-                        {{ form_row(searchForm.tri, {'label_attr': {'class': 'form-label'}}) }}
-                    </div>
-                    
-                    <div class="col-12 d-flex gap-2">
-                        <button type="submit" class="btn btn-success">
-                            <i class="bi bi-search"></i> Rechercher
-                        </button>
-                        <a href="{{ path('app_recette_index') }}" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-clockwise"></i> Reset
-                        </a>
-                    </div>
-                {{ form_end(searchForm) }}
-            </div>
-        </div>
+<div class="container my-4">
+    <div class="mb-4">
+        <a href="{{ path('app_profil') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left" aria-hidden="true"></i> Retour à mon profil
+        </a>
     </div>
     
-    <!-- Résultats -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>{{ recettes.getTotalItemCount() }} recette(s) trouvée(s)</h3>
-        {% if app.user %}
-            <a href="{{ path('app_recette_new') }}" class="btn btn-success">
-                <i class="bi bi-plus"></i> Publier une recette
-            </a>
-        {% endif %}
-    </div>
-    
-    <!-- Grille des recettes -->
     <div class="row">
-        {% for recette in recettes %}
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100">
-                    <!-- Image -->
-                    {% if recette.image %}
-                        <img src="/uploads/recettes/{{ recette.image }}" 
-                             class="card-img-top" 
-                             style="height: 250px; object-fit: cover;" 
-                             alt="{{ recette.nom }}">
-                    {% else %}
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
-                             style="height: 250px;">
-                            <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
-                        </div>
-                    {% endif %}
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">{{ recette.nom }}</h5>
-                        
-                        <!-- Étoiles et avis -->
-                        <div class="mb-2">
-                            {% if recette.moyenneNotes %}
-                                {% for i in 1..5 %}
-                                    {% if i <= recette.moyenneNotes %}
-                                        <i class="bi bi-star-fill text-warning"></i>
-                                    {% else %}
-                                        <i class="bi bi-star text-warning"></i>
-                                    {% endif %}
-                                {% endfor %}
-                            {% else %}
-                                {% for i in 1..5 %}
-                                    <i class="bi bi-star text-warning"></i>
-                                {% endfor %}
-                            {% endif %}
-                            {% if recette.commentaires|length > 0 %}
-                                <span class="ms-1 small text-muted">({{ recette.commentaires|length }})</span>
-                            {% else %}
-                                <span class="text-muted small">Pas encore d'avis</span>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Description -->
-                        <p class="card-text text-muted small">
-                            {{ recette.description|length > 100 ? recette.description|slice(0, 100) ~ '...' : recette.description }}
-                        </p>
-                        
-                        <!-- Infos rapides -->
-                        <div class="row text-center small text-muted mb-3">
-                            <div class="col-4">
-                                <i class="bi bi-clock"></i> {{ recette.tempsCuisson }}min
-                            </div>
-                            <div class="col-4">
-                                <i class="bi bi-person-gear"></i> 
-                                {% if recette.difficulte == 1 %}Facile
-                                {% elseif recette.difficulte == 2 %}Moyen
-                                {% else %}Difficile{% endif %}
-                            </div>
-                            <div class="col-4">
-                                <i class="bi bi-people"></i> {{ recette.nombrePersonnes }}
-                            </div>
-                        </div>
-                        
-                        <!-- Auteur et bouton -->
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-muted">Par {{ recette.user.prenom }}</small>
-                            <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
-                               class="btn btn-outline-success btn-sm">
-                                <i class="bi bi-eye"></i> Voir
-                            </a>
-                        </div>
-                    </div>
+        <div class="col-lg-8 mx-auto">
+            <h1 class="mb-4">Modifier ma recette</h1>
+            
+            {{ include('recette/_form.html.twig', {'button_label': 'Mettre à jour', 'recette': recette}) }}
+            
+            <!-- Actions supplémentaires -->
+            <div class="mt-4 pt-3 border-top">
+                <h2 class="h6 text-muted">Actions</h2>
+                <div class="d-flex gap-2">
+                    <a href="{{ path('app_recette_show', {'id': recette.id}) }}" class="btn btn-outline-primary">
+                        <i class="bi bi-eye" aria-hidden="true"></i> Aperçu
+                    </a>
+                    {{ include('recette/_delete_form.html.twig') }}
                 </div>
             </div>
-        {% endfor %}
-    </div>
-    
-    {% if recettes|length == 0 %}
-        <div class="text-center py-5">
-            <i class="bi bi-search fs-1 text-muted"></i>
-            <h4 class="text-muted mt-3">Aucune recette trouvée</h4>
-            <p class="text-muted">Essayez de modifier vos critères de recherche</p>
-            <a href="{{ path('app_recette_index') }}" class="btn btn-success">
-                Voir toutes les recettes
-            </a>
         </div>
-    {% endif %}
-    
-    <!-- Pagination -->
-   {% if recettes.pageCount > 1 %}
-        <div class="d-flex justify-content-center mt-4">
-            {{ knp_pagination_render(recettes) }}
-        </div>
-    {% endif %}
-    
-    <!-- Stats -->
-    <div class="text-center mt-3 text-muted small">
-        {% set pagination = recettes.getPaginationData() %}
-        Affichage de {{ pagination.firstItemNumber }} à {{ pagination.lastItemNumber }} sur {{ recettes.getTotalItemCount() }} recette(s)
     </div>
 </div>
+{% endblock %}
 
-
-
-<script>
-// Ouvrir automatiquement le panneau si des filtres sont appliqués
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const hasFilters = Array.from(urlParams.keys()).some(key => 
-        key.startsWith('recherche_avancee') && urlParams.get(key)
-    );
-    
-    if (hasFilters) {
-        new bootstrap.Collapse(document.getElementById('searchCollapse'), {
-            show: true
+{% block javascripts %}
+    <script src="/js/recipe-form.js"></script>
+    <script>
+        // Charger les étapes existantes en mode édition
+        document.addEventListener('DOMContentLoaded', function() {
+            const etapesHidden = document.getElementById('etapes-hidden');
+            const etapesContainer = document.getElementById('etapes-collection');
+            const addEtapeBtn = document.getElementById('add-etape');
+            
+            if (etapesHidden && etapesHidden.value && etapesContainer) {
+                const etapes = etapesHidden.value.split('\n').filter(e => e.trim());
+                
+                etapes.forEach(function(etape, index) {
+                    // Nettoyer le numéro de l'étape
+                    const cleanEtape = etape.replace(/^\d+\.\s*/, '').trim();
+                    if (cleanEtape) {
+                        const newEtape = document.createElement('div');
+                        newEtape.className = 'etape-row mb-2';
+                        newEtape.innerHTML = `
+                            <div class="row g-2 align-items-center">
+                                <div class="col-auto">
+                                    <span class="badge bg-success" aria-hidden="true">${index + 1}</span>
+                                </div>
+                                <div class="col">
+                                    <input type="text" 
+                                           class="form-control etape-input" 
+                                           value="${cleanEtape}"
+                                           aria-label="Étape ${index + 1}"
+                                           data-index="${index + 1}">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-outline-danger btn-sm remove-etape" aria-label="Supprimer cette étape">
+                                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        etapesContainer.appendChild(newEtape);
+                    }
+                });
+            }
         });
-    }
-});
-</script>
+    </script>
 {% endblock %}

@@ -1,0 +1,51 @@
+/*
+LES RESTES - Pagination
+*/
+
+nav[aria-label="Page navigation"] ul.pagination {
+    margin: 2rem 0;
+}
+
+nav[aria-label="Page navigation"] ul.pagination li.page-item a.page-link,
+nav[aria-label="Page navigation"] ul.pagination li.page-item span.page-link {
+    color: #2E7D32 !important;
+    background-color: white !important;
+    border: 1px solid #dee2e6 !important;
+    padding: 0.5rem 0.75rem !important;
+    border-radius: 0.375rem !important;
+    transition: all 0.3s ease !important;
+    margin: 0 0.25rem;
+}
+
+nav[aria-label="Page navigation"] ul.pagination li.page-item a.page-link:hover {
+    color: white !important;
+    background-color: #4CAF50 !important;
+    border-color: #4CAF50 !important;
+    transform: translateY(-2px);
+}
+
+nav[aria-label="Page navigation"] ul.pagination li.page-item.active span.page-link {
+    background-color: #4CAF50 !important;
+    border-color: #4CAF50 !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+nav[aria-label="Page navigation"] ul.pagination li.page-item.disabled span.page-link {
+    color: #6c757d !important;
+    background-color: #f8f9fa !important;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive pagination */
+@media (max-width: 576px) {
+    nav[aria-label="Page navigation"] ul.pagination {
+        font-size: 0.875rem;
+    }
+    
+    nav[aria-label="Page navigation"] ul.pagination li.page-item a.page-link,
+    nav[aria-label="Page navigation"] ul.pagination li.page-item span.page-link {
+        padding: 0.375rem 0.5rem !important;
+    }
+}

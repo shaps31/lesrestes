@@ -154,7 +154,7 @@ final class RecetteController extends AbstractController
     return $this->render('recette/show.html.twig', [
         'recette' => $recette,
         'isFavorite' => $isFavorite,
-        'commentaireForm' => $form,
+        'commentaireForm' => $form->createView(),
     ]);
     }
 

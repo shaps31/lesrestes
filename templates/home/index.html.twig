@@ -12,7 +12,7 @@
     
     <!-- Icône du bol orange -->
     <div class="mb-4">
-        <svg width="80" height="93" viewBox="0 0 49 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg aria-hidden="true" width="80" height="93" viewBox="0 0 49 57" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12.1523 0C12.1523 0 9.73828 1.65469 9.57422 2.95078C9.41016 4.27852 11.6367 5.20547 11.4023 6.52266C11.25 7.39336 9.45703 8.325 9.45703 8.325C9.45703 8.325 13.9922 7.93125 14.4141 6.18047C14.7539 4.79531 12.0938 4.23398 11.7188 2.8582C11.4727 1.92773 12.1523 0 12.1523 0ZM37.2773 0.573047C37.2773 0.573047 34.3711 2.16445 34.3594 3.55547C34.3477 4.40391 36.0469 4.57148 36.0938 5.41875C36.1523 6.42188 34.3008 7.84219 34.3008 7.84219C34.3008 7.84219 38.2383 7.3957 38.7656 5.85352C39.082 4.94297 37.6641 4.23516 37.4062 3.30703C37.1602 2.42812 37.2773 0.573047 37.2773 0.573047ZM24.75 0.603516C24.75 0.603516 21.5977 2.21484 21.832 3.58594C21.9961 4.51523 24.2461 3.89297 24.375 4.82812C24.5742 6.35273 20.9062 7.87266 20.9062 7.87266C20.9062 7.87266 27.5273 7.70391 27.7969 5.26289C27.9258 4.10508 25.4531 4.35 24.8789 3.3375C24.4219 2.54414 24.75 0.603516 24.75 0.603516ZM0 10.4145V12.5238H48.75V10.4145H0ZM1.875 14.7504C0.178125 24.934 3.85547 30.934 8.74219 34.4613C8.32031 31.5551 7.08984 28.7074 4.63359 26.0004C9.31641 27.2309 12.9961 31.7191 14.6367 36.2191C14.9062 34.016 14.9062 32.9965 16.9219 31.0394C16.5586 33.9457 18.2344 34.1449 19.4062 33.7816C22.3711 32.8559 23.5781 29.1527 20.6484 24.5355C26.2266 27.1957 26.3086 30.2074 27.2461 34.3441C26.9648 30.4535 30.0938 28.8949 32.3672 30.3598C27.082 33.0199 31.4062 35.3051 33.1758 35.8676C37.8633 37.3676 41.3789 30.4418 43.3945 25.2035C43.9453 27.5238 43.4883 29.8559 42.6328 32.1762C46.1016 28.5082 48.2461 23.0004 46.875 14.7504H1.875ZM23.4727 35.2816L3.16406 46.9652C3.48047 49.1215 4.21875 50.9965 5.36719 52.6488L16.1484 47.4809L6.92578 54.5004C7.32422 54.8988 7.75781 55.2738 8.21484 55.6371L16.9688 50.6098C16.9688 50.5277 16.957 50.434 16.957 50.3519C16.957 45.9926 20.5312 42.4301 24.9023 42.4301C26.1445 42.4301 27.3164 42.7113 28.3594 43.2152C28.0781 41.6449 27.5039 40.0394 26.625 38.6215L15.5039 43.3207L25.1719 36.6996C24.6562 36.1723 24.0938 35.6918 23.4727 35.2816ZM30.375 42.0316C30.5625 42.8754 30.6797 43.7191 30.7266 44.5394L30.75 44.9965C32.0508 46.4027 32.8477 48.2894 32.8477 50.3519C32.8477 51.266 32.6953 52.1449 32.4023 52.9535L43.1133 55.8129C43.6523 55.0746 44.1211 54.3129 44.4961 53.5394L37.1016 50.6449L45.3164 51.4535C45.4219 51.1019 45.5039 50.7621 45.5742 50.4105L34.1953 46.391L45.8203 48.2074C45.8438 47.5277 45.8086 46.8363 45.7266 46.1332L30.375 42.0316ZM24.9023 44.6215C21.7148 44.6215 19.1484 47.1762 19.1484 50.3519C19.1484 53.5277 21.7148 56.0824 24.9023 56.0824C28.1016 56.0824 30.668 53.5277 30.668 50.3519C30.668 47.1762 28.1016 44.6215 24.9023 44.6215ZM24.3281 46.0043C29.4609 46.0043 31.1719 54.3949 24.3281 54.3949C27.4453 51.6879 27.8203 48.8988 24.3281 46.0043ZM24.3516 47.1527C21.8203 49.2504 22.0898 51.2777 24.3516 53.2465C19.3828 53.2465 20.625 47.1527 24.3516 47.1527Z" fill="#F08A00"/>
         </svg>
     </div>
@@ -22,15 +22,20 @@
         <div class="col-md-8">
             <form action="{{ path('app_search') }}" method="GET">
                 <div class="input-group input-group-lg mb-4">
-                    <input type="text" 
+                    <label for="search-ingredients" class="visually-hidden">
+                        Rechercher des recettes par ingrédients
+                    </label>
+                    <input type="text"
+                           id="search-ingredients"
                            class="form-control" 
                            name="q" 
                            placeholder="Entrez vos ingrédients (ex: tomates, œufs, fromage...)" 
                            style="border-radius: 50px 0 0 50px; padding: 1rem 1.5rem;">
                     <button class="btn btn-warning" 
                             type="submit" 
+                            aria-label="Rechercher des recettes par ingrédients"
                             style="border-radius: 0 50px 50px 0; padding: 0 2rem; font-weight: bold;">
-                        <i class="bi bi-search"></i> Rechercher
+                        <i class="bi bi-search" aria-hidden="true"></i> Rechercher
                     </button>
                 </div>
             </form>
@@ -57,22 +62,24 @@
                          alt="{{ recette.nom }}">
                 {% else %}
                     <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
-                         style="height: 250px;">
-                        <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
+                         style="height: 250px;"
+                         role="img"
+                         aria-label="Aucune image disponible">
+                        <i class="bi bi-image text-muted" aria-hidden="true" style="font-size: 4rem;"></i>
                     </div>
                 {% endif %}
                 
                 <div class="card-body">
-                    <h5 class="card-title">{{ recette.nom }}</h5>
+                    <h3 class="card-title">{{ recette.nom }}</h3>
                     
                     <!-- Étoiles de notation -->
-                    <div class="mb-2">
+                    <div class="mb-2" role="img" aria-label="Note : {{ recette.moyenneNotes|default(0)|round }} sur 5 étoiles">
                         {% if recette.moyenneNotes %}
                             {% for i in 1..5 %}
                                 {% if i <= recette.moyenneNotes %}
-                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning" aria-hidden="true"></i>
                                 {% else %}
-                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning" aria-hidden="true"></i>
                                 {% endif %}
                             {% endfor %}
                             {% if recette.commentaires|length > 0 %}
@@ -80,7 +87,7 @@
                             {% endif %}
                         {% else %}
                             {% for i in 1..5 %}
-                                <i class="bi bi-star text-warning"></i>
+                                <i class="bi bi-star text-warning" aria-hidden="true"></i>
                             {% endfor %}
                         {% endif %}
                     </div>
@@ -90,16 +97,17 @@
                     </p>
                     
                     <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
-                       class="btn btn-outline-success btn-sm">
-                        <i class="bi bi-eye"></i> Voir
+                       class="btn btn-outline-success btn-sm"
+                       aria-label="Voir la recette {{ recette.nom }}">
+                        <i class="bi bi-eye" aria-hidden="true"></i> Voir
                     </a>
                 </div>
             </div>
         </div>
     {% else %}
         <div class="col-12">
-            <div class="alert alert-info">
-                <i class="bi bi-info-circle"></i> Aucune recette disponible pour le moment.
+            <div class="alert alert-info" role="alert">
+                <i class="bi bi-info-circle" aria-hidden="true"></i> Aucune recette disponible pour le moment.
             </div>
         </div>
     {% endfor %}
@@ -108,7 +116,7 @@
 {% if dernieresRecettes|length > 0 %}
     <div class="text-center mt-4">
         <a href="{{ path('app_recette_index') }}" class="btn btn-success btn-lg">
-            <i class="bi bi-collection"></i> Voir toutes les recettes
+            <i class="bi bi-collection" aria-hidden="true"></i> Voir toutes les recettes
         </a>
     </div>
 {% endif %}

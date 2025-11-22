@@ -7,7 +7,7 @@
     <!-- Bouton retour -->
     <div class="mb-4">
         <a href="{{ path('app_profil') }}" class="btn btn-outline-success">
-            <i class="bi bi-arrow-left"></i> Retour au profil
+            <i class="bi bi-arrow-left" aria-hidden="true"></i> Retour au profil
         </a>
     </div>
     
@@ -16,7 +16,7 @@
             <div class="card border-success shadow">
                 <div class="card-body p-5">
                     <h1 class="text-center text-success mb-4">
-                        <i class="bi bi-person-circle"></i> Modifier mon profil
+                        <i class="bi bi-person-circle" aria-hidden="true"></i> Modifier mon profil
                     </h1>
                     
                     <!-- Photo actuelle -->
@@ -29,7 +29,7 @@
                         {% else %}
                             <div class="rounded-circle bg-success d-flex align-items-center justify-content-center mx-auto" 
                                  style="width: 150px; height: 150px;">
-                                <i class="bi bi-person-fill text-white" style="font-size: 4rem;"></i>
+                                <i class="bi bi-person-fill text-white" aria-hidden="true" style="font-size: 4rem;"></i>
                             </div>
                         {% endif %}
                     </div>
@@ -37,7 +37,7 @@
                     {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
                     
                     <!-- Informations personnelles -->
-                    <h5 class="text-success mb-3">Informations personnelles</h5>
+                    <h2 class="h5 text-success mb-3">Informations personnelles</h2>
                     
                     <div class="mb-3">
                         {{ form_label(form.prenom, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
@@ -70,7 +70,7 @@
                     <hr class="my-4">
                     
                     <!-- Changement de mot de passe -->
-                    <h5 class="text-success mb-3">Changer le mot de passe (optionnel)</h5>
+                    <h2 class="h5 text-success mb-3">Changer le mot de passe (optionnel)</h2>
                     
                     <div class="mb-3">
                         {{ form_label(form.currentPassword, null, {'label_attr': {'class': 'form-label'}}) }}
@@ -96,7 +96,7 @@
                             Annuler
                         </a>
                         <button type="submit" class="btn btn-success px-4">
-                            <i class="bi bi-check-circle"></i> Enregistrer les modifications
+                            <i class="bi bi-check-circle" aria-hidden="true"></i> Enregistrer les modifications
                         </button>
                     </div>
                     

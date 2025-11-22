@@ -4,34 +4,42 @@ LES RESTES - Classes utilitaires
 
 /* Boutons */
 .btn-primary {
-    background-color: var(--success-color);
-    border-color: var(--success-color);
+    background-color: #2e7d32 !important;
+    border-color: #2e7d32 !important;
+    color: #fff !important;
 }
 
-.btn-primary:hover {
-    background-color: #45a049;
-    border-color: #45a049;
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #1b5e20 !important;
+    border-color: #1b5e20 !important;
+    color: #fff !important;
 }
 
 .btn-success {
-    background-color: var(--success-color);
-    border-color: var(--success-color);
+    background-color: #2e7d32 !important;
+    border-color: #2e7d32 !important;
+    color: #fff !important;
 }
 
-.btn-success:hover {
-    background-color: #45a049;
-    border-color: #45a049;
+.btn-success:hover,
+.btn-success:focus {
+    background-color: #1b5e20 !important;
+    border-color: #1b5e20 !important;
+    color: #fff !important;
 }
 
 .btn-warning {
-    background-color: var(--cta-color);
-    border-color: var(--cta-color);
-    color: white;
+    background-color: #e65100 !important;
+    border-color: #e65100 !important;
+    color: #fff !important;
 }
 
-.btn-warning:hover {
-    background-color: #e07a00;
-    border-color: #e07a00;
+.btn-warning:hover,
+.btn-warning:focus {
+    background-color: #bf360c !important;
+    border-color: #bf360c !important;
+    color: #fff !important;
 }
 
 .btn-warning:disabled {
@@ -39,16 +47,40 @@ LES RESTES - Classes utilitaires
     cursor: not-allowed;
 }
 
+.btn-outline-danger {
+    color: #c62828 !important;
+    border-color: #c62828 !important;
+}
+
+.btn-outline-danger:hover,
+.btn-outline-danger:focus {
+    background-color: #c62828 !important;
+    border-color: #c62828 !important;
+    color: #fff !important;
+}
+
+.btn-outline-success {
+    color: #2e7d32 !important;
+    border-color: #2e7d32 !important;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:focus {
+    background-color: #2e7d32 !important;
+    border-color: #2e7d32 !important;
+    color: #fff !important;
+}
+
 /* Messages flash */
 .alert-success {
     background-color: rgba(76, 175, 80, 0.1);
-    border-color: var(--success-color);
-    color: var(--navigation-title-color);
+    border-color: #2e7d32;
+    color: #1b5e20;
 }
 
 .alert-danger {
     background-color: rgba(255, 56, 60, 0.1);
-    border-color: var(--error-color);
+    border-color: #c62828;
     color: #721c24;
 }
 
@@ -91,13 +123,35 @@ LES RESTES - Classes utilitaires
 
 /* Helpers */
 .text-success {
-    color: var(--success-color) !important;
+    color: #2e7d32 !important;
 }
 
 .bg-success {
-    background-color: var(--success-color) !important;
+    background-color: #2e7d32 !important;
 }
 
 .border-success {
-    border-color: var(--success-color) !important;
+    border-color: #2e7d32 !important;
+}
+
+/* ===== ACCESSIBILITÉ - CONTRASTE ===== */
+
+/* Liens navigation actifs */
+.navbar .nav-link.active {
+    color: #1b5e20 !important;
+}
+
+/* Footer - liens accessibles */
+footer a {
+    color: #1565c0 !important;
+}
+
+footer a:hover,
+footer a:focus {
+    color: #0d47a1 !important;
+}
+
+/* Footer - texte muted plus visible */
+footer .text-muted {
+    color: #5f6368 !important;
 }

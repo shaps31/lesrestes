@@ -2,45 +2,51 @@
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="{{ path('app_home') }}">
             <img src="{{ asset('images/logo.svg') }}" alt="Les Restes" height="40" class="me-2">
-            <span class="fw-bold text-success">LeRestes</span>
+            <span class="fw-bold" style="color: #2e7d32;">LeRestes</span>
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler" 
+                type="button" 
+                data-bs-toggle="collapse" 
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Ouvrir le menu de navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link {{ app.request.get('_route') == 'app_home' ? 'active' : '' }}" 
-                       href="{{ path('app_home') }}">
+                    <a class="nav-link {{ app.request.get('_route') == 'app_home' ? 'active' : '' }}"
+                        href="{{ path('app_home') }}">
                         Accueil
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ app.request.get('_route') starts with 'app_recette' ? 'active' : '' }}" 
-                       href="{{ path('app_recette_index') }}">
+                    <a class="nav-link {{ app.request.get('_route') starts with 'app_recette' ? 'active' : '' }}"
+                        href="{{ path('app_recette_index') }}">
                         Recettes
                     </a>
                 </li>
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_admin_ingredient_index') }}">
-                            <i class="bi bi-gear"></i> Admin
+                            <i class="bi bi-gear" aria-hidden="true"></i> Admin
                         </a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link {{ app.request.get('_route') == 'app_contact' ? 'active' : '' }}" 
-                       href="{{ path('app_contact') }}">
+                    <a class="nav-link {{ app.request.get('_route') == 'app_contact' ? 'active' : '' }}"
+                        href="{{ path('app_contact') }}">
                         Contact
                     </a>
                 </li>
                 
                 {% if app.user %}
                     <li class="nav-item">
-                        <a class="nav-link {{ app.request.get('_route') starts with 'app_profil' ? 'active' : '' }}" 
-                           href="{{ path('app_profil') }}">
+                        <a class="nav-link {{ app.request.get('_route') starts with 'app_profil' ? 'active' : '' }}"
+                            href="{{ path('app_profil') }}">
                             Profil
                         </a>
                     </li>

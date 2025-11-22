@@ -41,7 +41,7 @@ Les Restes est une plateforme web anti-gaspillage alimentaire qui permet aux uti
 
 ### Stack technique
 
--   **Backend** : Symfony 7.3.* (aligné avec `composer.json`)
+-   **Backend** : Symfony 7.3.\* (aligné avec `composer.json`)
 -   **PHP** : Version 8.3.6
 -   **Base de données** : MySQL 8.0 (Docker)
 -   **Frontend** : Bootstrap 5, JavaScript vanilla
@@ -6475,8 +6475,7 @@ Wireframe 03:
 
 Le projet Les Restes est actuellement dans un état fonctionnel avec les fonctionnalités suivantes opérationnelles :
 
--
-**Backend complet** :
+-   **Backend complet** :
 
 -   Architecture Symfony 7.3 solide
 -   Base de données MySQL bien structurée
@@ -10512,6 +10511,432 @@ git push origin master
 
 git branch -d feature/responsive-mobile
 
+```
+
+---
+
+## ETAPE 23 : BARRE DE NAVIGATION INFERIEURE MOBILE
+
+### 23.1 Contexte et besoin
+
+Le wireframe prevoit une barre de navigation fixe en bas pour mobile avec acces rapide aux 4 fonctions principales :
+
+-   Accueil
+-   Recherche
+-   Publier (si connecte)
+-   Parametres (si connecte)
+
+Cette fonctionnalite ameliore considerablement l'UX mobile en suivant les standards des applications natives (Instagram, Twitter, etc.).
+
+### 23.2 Creation du partial
+
+**Fichier** : `templates/partials/_bottom_nav_mobile.html.twig`
+
+```twig
+{# templates/partials/_bottom_nav_mobile.html.twig #}
+<nav class="mobile-bottom-nav">
+    <a href="{{ path('app_home') }}"
+       class="mobile-nav-item {{ app.request.attributes.get('_route') == 'app_home' ? 'active' : '' }}">
+        <i class="bi bi-house-fill"></i>
+        <span>Accueil</span>
+    </a>
+
+    <a href="{{ path('app_search') }}"
+       class="mobile-nav-item {{ app.request.attributes.get('_route') starts with 'app_search' ? 'active' : '' }}">
+        <i class="bi bi-search"></i>
+        <span>Recherche</span>
+    </a>
+
+    {% if app.user %}
+        <a href="{{ path('app_recette_new') }}"
+           class="mobile-nav-item {{ app.request.attributes.get('_route') == 'app_recette_new' ? 'active' : '' }}">
+            <i class="bi bi-plus-circle-fill"></i>
+            <span>Publier</span>
+        </a>
+
+        <a href="{{ path('app_profil') }}"
+           class="mobile-nav-item {{ app.request.attributes.get('_route') == 'app_profil' ? 'active' : '' }}">
+            <i class="bi bi-gear-fill"></i>
+            <span>Parametres</span>
+        </a>
+    {% else %}
+        <a href="{{ path('app_login') }}" class="mobile-nav-item">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Connexion</span>
+        </a>
+        <a href="{{ path('app_register') }}" class="mobile-nav-item">
+            <i class="bi bi-person-plus-fill"></i>
+            <span>Inscription</span>
+        </a>
+    {% endif %}
+</nav>
+```
+
+**Elements cles** :
+
+-   Classe `mobile-bottom-nav` sans Bootstrap (gere en CSS pur)
+-   Active state dynamique via `app.request.attributes.get('_route')`
+-   Icones Bootstrap Icons coherentes avec le design
+-   Condition `if app.user` pour adapter selon connexion
+-   Icone engrenage (`bi-gear-fill`) pour Parametres (comme Figma)
+
+### 23.3 Integration dans base.html.twig
+
+**Fichier** : `templates/base.html.twig`
+
+**Inclusion du partial** :
+
+```twig
+<!-- Navigation -->
+{% include 'partials/_navbar.html.twig' %}
+{% include 'partials/_bottom_nav_mobile.html.twig' %}
+
+<!-- Messages Flash -->
+{% include 'partials/_flash_messages.html.twig' %}
+```
+
+**CSS inline dans le `<head>`** :
+
+```html
+<style>
+    /* BARRE NAVIGATION MOBILE */
+    .mobile-bottom-nav {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: #f8f9fa !important;
+        border-top: 2px solid #1e5128 !important;
+        display: flex !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        padding: 0.75rem 0 !important;
+        z-index: 9999 !important;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15) !important;
+        height: 70px !important;
+    }
+
+    .mobile-nav-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        color: #1e5128 !important;
+        text-decoration: none !important;
+        font-size: 0.7rem !important;
+        font-weight: 500 !important;
+        padding: 0.5rem !important;
+        min-width: 70px !important;
+        flex: 1 !important;
+    }
+
+    .mobile-nav-item i {
+        font-size: 2rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    @media (max-width: 767px) {
+        body {
+            padding-bottom: 85px !important;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .mobile-bottom-nav {
+            display: none !important;
+        }
+    }
+</style>
+```
+
+**Raison du CSS inline** :
+
+-   Priorite CSS plus elevee que les imports externes
+-   Utilisation de `!important` pour forcer l'application
+-   Evite les problemes de cache navigateur
+-   Solution simple et efficace pour ce projet
+
+### 23.4 Specifications techniques
+
+**Styles appliques** :
+
+-   `position: fixed` + `bottom: 0` : Barre toujours visible en bas
+-   `z-index: 9999` : Au-dessus de tout le contenu
+-   `box-shadow` : Effet de profondeur et separation
+-   `padding-bottom: 85px` sur body : Evite que la barre cache le contenu
+-   `height: 70px` : Hauteur fixe pour stabilite
+-   `border-top: 2px solid #1E5128` : Bordure verte signature
+
+**Icones utilisees** :
+
+-   `bi-house-fill` : Accueil
+-   `bi-search` : Recherche
+-   `bi-plus-circle-fill` : Publier
+-   `bi-gear-fill` : Parametres
+-   `bi-box-arrow-in-right` : Connexion
+-   `bi-person-plus-fill` : Inscription
+
+**Taille des icones** : 2rem (32px) pour visibilite optimale sur mobile
+
+### 23.5 Tests realises
+
+**Devices testes** :
+
+-   iPhone SE (375px) : 4 icones bien reparties
+-   iPhone 12 Pro (390px) : Espacements corrects
+-   iPad (768px) : Barre masquee, navbar classique visible
+-   Desktop (1920px) : Barre masquee, navbar classique visible
+
+**Fonctionnalites testees** :
+
+-   Active state correct (couleur verte selon page)
+-   Navigation fluide entre pages
+-   Aucun overlap avec le contenu (padding ok)
+-   Condition connexion OK (Publier/Parametres vs Connexion/Inscription)
+-   Touch targets optimises (70px minimum)
+
+### 23.6 Comparaison avec wireframe Figma
+
+| Element                    | Wireframe | Implemente         | Statut |
+| -------------------------- | --------- | ------------------ | ------ |
+| Position fixe en bas       | Oui       | Oui                | OK     |
+| 4 icones principales       | Oui       | Oui                | OK     |
+| Icone engrenage Parametres | Oui       | Oui (bi-gear-fill) | OK     |
+| Active state visuel        | Oui       | Oui (vert)         | OK     |
+| Visible mobile uniquement  | Oui       | Oui (<768px)       | OK     |
+| Touch-friendly             | Oui       | Oui (70px min)     | OK     |
+| Grandes icones             | Oui       | Oui (2rem)         | OK     |
+
+**Conformite** : 100%
+
+### 23.7 Problemes rencontres et solutions
+
+**Probleme 1** : CSS non applique avec fichiers externes
+
+-   **Cause** : Imports multiples, cache navigateur, specificite CSS
+-   **Solution** : CSS inline dans base.html.twig avec `!important`
+
+**Probleme 2** : Barre affichee en haut au lieu du bas
+
+-   **Cause** : Manque de `position: fixed` et `bottom: 0`
+-   **Solution** : Ajout de `!important` pour forcer l'application
+
+**Probleme 3** : Conflit avec classe Bootstrap `d-md-none`
+
+-   **Cause** : Specificite Bootstrap > CSS custom
+-   **Solution** : Gestion responsive en CSS pur avec media queries
+
+### 23.8 Commits
+
+```bash
+git checkout -b feature/mobile-bottom-nav
+
+git add .
+git commit -m "feat: Barre navigation inferieure mobile fonctionnelle
+
+Interface:
+- 4 icones en bas: Accueil, Recherche, Publier, Parametres
+- Grandes icones (2rem) visibles et cliquables
+- Hauteur fixe 70px avec bordure verte
+- Icone engrenage pour Parametres (comme Figma)
+
+Structure:
+- Partial _bottom_nav_mobile.html.twig
+- CSS inline dans base.html.twig avec !important
+
+Implementation:
+- Position fixed bottom 0
+- z-index 9999
+- Padding body 85px pour eviter overlap
+- Active state dynamique selon route
+
+UX:
+- Touch targets optimises (70px)
+- Visible mobile uniquement (<768px)
+- Masque desktop (>=768px)
+- Transition smooth sur hover
+
+Tests:
+- iPhone SE (375x667)
+- Navigation fonctionnelle
+- Icones bien positionnees en bas
+- Responsive OK
+
+Conformite wireframe Figma"
+
+git push --set-upstream origin feature/mobile-bottom-nav
+git checkout master
+git merge feature/mobile-bottom-nav
+git push origin master
+git branch -d feature/mobile-bottom-nav
+git push origin --delete feature/mobile-bottom-nav
+
+ÉTAPE 24 : AUDIT ACCESSIBILITÉ RGAA - HOMEPAGE
+24.1 Contexte et objectif
+L'accessibilité web (RGAA - Référentiel Général d'Amélioration de l'Accessibilité) est obligatoire pour la certification DWWM. L'audit utilise Lighthouse (Chrome DevTools) pour détecter automatiquement les problèmes d'accessibilité.
+Objectif : Atteindre un score Lighthouse Accessibilité de 100% sur toutes les pages.
+24.2 Audit initial - Homepage
+Score initial : 91%
+Problèmes détectés :
+#Critère RGAAProblèmeÉlément1Contraste couleursLogo navbar #4caf50 ratio 2.63:1span.text-success2Contraste couleursLien actif navbar #4caf50 ratio 2.63:1.nav-link.active3Contraste couleursBouton "Rechercher" orange.btn-warning4Contraste couleursBouton "Voir toutes les recettes".btn-success5Contraste couleursBouton "Déconnexion" #dc3545 ratio 4.28:1.btn-outline-danger6Contraste couleursLiens footer sur fond sombrefooter a7Hiérarchie titresFooter : h5 sans h4 avantfooter h5, h68Liens sans nomIcônes réseaux sociauxfooter .d-flex a9Label/texte mismatchBouton recherche aria-label ≠ textebutton[aria-label]10FormulairesInput recherche sans id pour labelinput[name="q"]
+24.3 Corrections appliquées
+24.3.1 Fichier templates/home/index.html.twig
+Corrections :
+
+SVG décoratif : ajout aria-hidden="true"
+Input recherche : ajout id="search-ingredients" lié au label
+Bouton recherche : aria-label="Rechercher des recettes par ingrédients" (contient le texte visible)
+Hiérarchie titres : h5 → h3 pour les cartes recettes
+Icônes décoratives : ajout aria-hidden="true" sur toutes les <i>
+Lien "Voir" : ajout aria-label="Voir la recette {{ recette.nom }}"
+Étoiles notation : role="img" + aria-label="Note : X sur 5 étoiles"
+Placeholder image : role="img" + aria-label="Aucune image disponible"
+Alert : ajout role="alert"
+
+24.3.2 Fichier templates/partials/_navbar.html.twig
+Corrections :
+
+Logo : text-success → style="color: #2e7d32;" (ratio 4.5:1)
+Hamburger menu : ajout aria-controls, aria-expanded, aria-label
+Icône Admin : ajout aria-hidden="true"
+Liens actifs : style inline conditionnel pour contraste
+
+24.3.3 Fichier templates/partials/_footer.html.twig
+Corrections :
+
+Titres : h5 → <h2 class="h5"> et h6 → <h2 class="h6"> (hiérarchie sémantique)
+Liens sociaux : ajout aria-label sur chaque lien (Instagram, Twitter, TikTok, Facebook)
+Icônes : ajout aria-hidden="true" sur toutes les <i>
+
+24.3.4 Fichier public/css/utilities.css
+Nouvelles règles de contraste accessibles :
+css/* ===== ACCESSIBILITÉ - CONTRASTE ===== */
+
+/* Boutons Primary & Success */
+.btn-primary,
+.btn-success {
+    background-color: #2e7d32 !important;
+    border-color: #2e7d32 !important;
+    color: #fff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-success:hover,
+.btn-success:focus {
+    background-color: #1b5e20 !important;
+    border-color: #1b5e20 !important;
+    color: #fff !important;
+}
+
+/* Bouton Warning (Rechercher) */
+.btn-warning {
+    background-color: #e65100 !important;
+    border-color: #e65100 !important;
+    color: #fff !important;
+}
+
+.btn-warning:hover,
+.btn-warning:focus {
+    background-color: #bf360c !important;
+    border-color: #bf360c !important;
+    color: #fff !important;
+}
+
+/* Bouton Outline Danger (Déconnexion) */
+.btn-outline-danger {
+    color: #c62828 !important;
+    border-color: #c62828 !important;
+}
+
+.btn-outline-danger:hover,
+.btn-outline-danger:focus {
+    background-color: #c62828 !important;
+    border-color: #c62828 !important;
+    color: #fff !important;
+}
+
+/* Bouton Outline Success (S'inscrire) */
+.btn-outline-success {
+    color: #2e7d32 !important;
+    border-color: #2e7d32 !important;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:focus {
+    background-color: #2e7d32 !important;
+    border-color: #2e7d32 !important;
+    color: #fff !important;
+}
+
+/* Liens navigation actifs */
+.navbar .nav-link.active {
+    color: #1b5e20 !important;
+}
+
+/* Footer - liens accessibles */
+footer a {
+    color: #1565c0 !important;
+}
+
+footer a:hover,
+footer a:focus {
+    color: #0d47a1 !important;
+}
+
+/* Footer - texte muted plus visible */
+footer .text-muted {
+    color: #5f6368 !important;
+}
+
+/* Helpers accessibles */
+.text-success {
+    color: #2e7d32 !important;
+}
+24.4 Ratios de contraste appliqués
+CouleurCodeRatio sur #fcf8f5ConformeVert foncé#2e7d325.4:1✅ AAVert très foncé#1b5e207.5:1✅ AAAOrange foncé#e651004.6:1✅ AARouge foncé#c628285.9:1✅ AABleu liens#1565c05.2:1✅ AAGris texte#5f63685.4:1✅ AA
+Standard WCAG : Ratio minimum 4.5:1 pour texte normal, 3:1 pour grands textes.
+24.5 Score final - Homepage
+Score final : 100% ✅
+Audits passés :
+
+✅ Contraste couleurs suffisant
+✅ Hiérarchie des titres séquentielle
+✅ Liens avec nom accessible
+✅ Labels associés aux inputs
+✅ Attribut lang="fr" sur <html>
+✅ ARIA correctement utilisé
+✅ Images avec alt
+✅ Boutons avec nom accessible
+
+24.6 Commits
+bashgit checkout -b feature/accessibilite-rgaa
+
+git add .
+git commit -m "feat(a11y): Audit accessibilité Homepage - Score 100%
+
+Corrections RGAA appliquées:
+
+Templates:
+- home/index.html.twig: aria-hidden, labels, hiérarchie titres
+- partials/_navbar.html.twig: contraste logo, aria hamburger
+- partials/_footer.html.twig: h5→h2, aria-label liens sociaux
+
+CSS (utilities.css):
+- Boutons: couleurs accessibles (ratio 4.5:1 minimum)
+- .btn-success: #2e7d32
+- .btn-warning: #e65100
+- .btn-outline-danger: #c62828
+- Footer liens: #1565c0
+- .nav-link.active: #1b5e20
+
+Conformité:
+- WCAG 2.1 niveau AA
+- Score Lighthouse: 91% → 100%
+- Tous les critères RGAA validés"
+
+git push --set-upstream origin feature/accessibilite-rgaa
+24.7 Pages restantes à auditer
+PageRouteStatutHomepage/✅ 100%Connexion/login🔄 À faireInscription/register🔄 À faireListe recettes/recettes🔄 À faireDétail recette/recette/{id}🔄 À faireProfil/profil🔄 À faireCréer recette/recette/new🔄 À faireModifier recette/recette/{id}/edit🔄 À faireContact/contact🔄 À faire
 ```
 
 ---

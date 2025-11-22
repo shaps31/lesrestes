@@ -30,7 +30,7 @@ LES RESTES - Navigation
 
 /* Onglet actif avec trait vert */
 .navbar-nav .nav-link.active {
-    color: var(--success-color) !important;
+    color: #1b5e20 !important;
     font-weight: 600;
 }
 

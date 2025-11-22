@@ -1,6 +1,7 @@
- <!-- Section Commentaires -->
+<!-- Section Commentaires -->
+<div class="container">
     <div class="mb-5">
-        <h3 class="text-success mb-4">Commentaires ({{ recette.commentaires|length }})</h3>
+        <h2 class="text-success mb-4">Commentaires ({{ recette.commentaires|length }})</h2>
 
         <!-- Formulaire -->
         {% if app.user %}
@@ -13,7 +14,7 @@
                     </div>
                     <div class="mb-3">
                         {{ form_label(commentaireForm.note, 'Votre note :') }}
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2" role="radiogroup" aria-label="Choisir une note">
                             {% for choice in commentaireForm.note.vars.choices %}
                                 <input type="radio" 
                                        class="btn-check" 
@@ -21,7 +22,7 @@
                                        id="note{{ choice.value }}" 
                                        value="{{ choice.value }}">
                                 <label class="btn btn-outline-warning btn-sm" for="note{{ choice.value }}">
-                                    <i class="bi bi-star-fill"></i> {{ choice.value }}
+                                    <i class="bi bi-star-fill" aria-hidden="true"></i> {{ choice.value }}
                                 </label>
                             {% endfor %}
                         </div>
@@ -35,28 +36,29 @@
 
         <!-- Liste commentaires -->
         {% for commentaire in recette.commentaires|reverse %}
-            <div class="d-flex mb-3 pb-3 border-bottom">
+            <article class="d-flex mb-3 pb-3 border-bottom">
                 <div class="me-3">
                     <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" 
-                         style="width: 50px; height: 50px; font-size: 1.5rem;">
+                         style="width: 50px; height: 50px; font-size: 1.5rem;"
+                         aria-hidden="true">
                         {{ commentaire.user.prenom|slice(0, 1)|upper }}
                     </div>
                 </div>
                 <div class="flex-grow-1">
                     <div class="d-flex justify-content-between mb-2">
                         <div>
-                            <h6 class="mb-0">{{ commentaire.user.prenom }} {{ commentaire.user.nom|slice(0, 1) }}.</h6>
+                            <h3 class="h6 mb-0">{{ commentaire.user.prenom }} {{ commentaire.user.nom|slice(0, 1) }}.</h3>
                             <small class="text-muted">{{ commentaire.dateCreation|date('d/m/Y') }}</small>
                         </div>
-                        <div>
+                        <div role="img" aria-label="Note : {{ commentaire.note }} sur 5">
                             {% for i in 1..5 %}
-                                <i class="bi bi-star{{ i <= commentaire.note ? '-fill' : '' }} text-warning"></i>
+                                <i class="bi bi-star{{ i <= commentaire.note ? '-fill' : '' }} text-warning" aria-hidden="true"></i>
                             {% endfor %}
                         </div>
                     </div>
                     <p class="mb-0">{{ commentaire.contenu }}</p>
                 </div>
-            </div>
+            </article>
         {% endfor %}
     </div>
 </div>

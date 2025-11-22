@@ -10937,6 +10937,81 @@ Conformité:
 git push --set-upstream origin feature/accessibilite-rgaa
 24.7 Pages restantes à auditer
 PageRouteStatutHomepage/✅ 100%Connexion/login🔄 À faireInscription/register🔄 À faireListe recettes/recettes🔄 À faireDétail recette/recette/{id}🔄 À faireProfil/profil🔄 À faireCréer recette/recette/new🔄 À faireModifier recette/recette/{id}/edit🔄 À faireContact/contact🔄 À faire
+
+
+
+### 24.8 Audit page Recettes Index (`/recettes`)
+
+**Score initial** : 89%
+
+**Problèmes détectés** :
+
+| # | Problème | Élément | Fichier |
+|---|----------|---------|---------|
+| 1 | ARIA prohibé | `span.page-link` avec `aria-label` | Template KNP pagination |
+| 2 | Bouton sans nom | Bouton collapse recherche | `_search_form.html.twig` |
+| 3 | Hiérarchie titres | h1 → h5 (saute niveaux) | Multiples fichiers |
+
+**Corrections appliquées** :
+
+#### Fichier `templates/recette/index.html.twig`
+- `h3` → `h2` pour "X recette(s) trouvée(s)"
+- `aria-hidden="true"` sur icône bouton
+
+#### Fichier `templates/recette/partials/_recipe_card.html.twig`
+- `h5` → `<h3 class="h5">` (sémantique correcte, style préservé)
+- `aria-hidden="true"` sur toutes les icônes décoratives
+- `role="img"` + `aria-label` sur étoiles notation
+- `aria-label="Voir la recette {{ recette.nom }}"` sur lien
+- Placeholder image : `role="img"` + `aria-label`
+
+#### Fichier `templates/recette/partials/_search_form.html.twig`
+- `h5` → `<h2 class="h5">` pour "Recherche avancée"
+- Bouton collapse : `aria-expanded`, `aria-controls`, `aria-label`
+- `aria-hidden="true"` sur toutes les icônes
+
+#### Fichier `templates/recette/partials/_pagination_stats.html.twig`
+- `div` → `<nav aria-label="Pagination">` wrapper
+- `div` → `<p>` pour texte stats
+
+#### Fichier `templates/bundles/KnpPaginatorBundle/Pagination/sliding.html.twig`
+- Création template custom accessible
+- `aria-hidden="true"` sur `<span>` désactivés (remplace `aria-label` prohibé)
+- `aria-disabled="true"` sur `<li>` désactivés
+- `aria-current="page"` sur page active
+- `aria-label` sur liens navigation (précédent/suivant)
+
+**Score final** : **100%** ✅
+
+### 24.9 Audit pages Login/Register
+
+Les pages `/login` et `/register` utilisent le même système :
+- Page complète (accès direct ou redirection sécurité)
+- Modales (clic boutons navbar)
+
+**Score page `/login`** : **100%** ✅ (aucune correction nécessaire)
+
+**Corrections modales** (`templates/partials/_modals_auth.html.twig`) :
+- `aria-labelledby` sur modales
+- `aria-hidden="true"` sur modales
+- `aria-label="Fermer"` sur boutons close
+- `id` sur tous les inputs + `for` sur labels
+- `autocomplete` sur champs
+- `text-success` → `style="color: #2e7d32;"` (contraste)
+
+### 24.10 Pages restantes à auditer
+
+| Page | Route | Statut |
+|------|-------|--------|
+| Homepage | `/` | ✅ 100% |
+| Login | `/login` | ✅ 100% |
+| Register | `/register` | ✅ 100% |
+| Liste recettes | `/recettes` | ✅ 100% |
+| Détail recette | `/recette/{id}` | 🔄 À faire |
+| Profil | `/profil` | 🔄 À faire |
+| Créer recette | `/recette/new` | 🔄 À faire |
+| Modifier recette | `/recette/{id}/edit` | 🔄 À faire |
+| Contact | `/contact` | 🔄 À faire |
 ```
 
 ---

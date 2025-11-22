@@ -9,56 +9,84 @@
                 {{ form_start(commentaireForm) }}
                     <div class="mb-3">
                         {{ form_widget(commentaireForm.contenu, {
-                            'attr': {'placeholder': 'Laissez votre avis sur cette recette...'}
+                            'attr': {'placeholder': 'Laissez votre avis sur cette recette...', 'rows': 3}
                         }) }}
                     </div>
+                    
                     <div class="mb-3">
-                        {{ form_label(commentaireForm.note, 'Votre note :') }}
-                        <div class="d-flex gap-2" role="radiogroup" aria-label="Choisir une note">
-                            {% for choice in commentaireForm.note.vars.choices %}
+                        <label class="form-label">Votre note :</label>
+                        <div class="star-rating d-flex gap-1 flex-wrap" role="radiogroup" aria-label="Choisir une note">
+                            {% for i in 1..5 %}
                                 <input type="radio" 
                                        class="btn-check" 
                                        name="{{ commentaireForm.note.vars.full_name }}" 
-                                       id="note{{ choice.value }}" 
-                                       value="{{ choice.value }}">
-                                <label class="btn btn-outline-warning btn-sm" for="note{{ choice.value }}">
-                                    <i class="bi bi-star-fill" aria-hidden="true"></i> {{ choice.value }}
+                                       id="note{{ i }}" 
+                                       value="{{ i }}"
+                                       {% if i == 5 %}checked{% endif %}>
+                                <label class="btn btn-outline-warning" for="note{{ i }}">
+                                    <i class="bi bi-star-fill" aria-hidden="true"></i>
+                                    <span class="d-none d-sm-inline">{{ i }}</span>
                                 </label>
                             {% endfor %}
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-warning">
-                        Publier le commentaire
+                    
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-send" aria-hidden="true"></i> Publier le commentaire
                     </button>
-                {{ form_end(commentaireForm) }}
+                    
+                {{ form_end(commentaireForm, {'render_rest': false}) }}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <a href="{{ path('app_login') }}">Connectez-vous</a> pour laisser un commentaire.
             </div>
         {% endif %}
 
         <!-- Liste commentaires -->
-        {% for commentaire in recette.commentaires|reverse %}
-            <article class="d-flex mb-3 pb-3 border-bottom">
-                <div class="me-3">
-                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" 
-                         style="width: 50px; height: 50px; font-size: 1.5rem;"
-                         aria-hidden="true">
-                        {{ commentaire.user.prenom|slice(0, 1)|upper }}
-                    </div>
-                </div>
-                <div class="flex-grow-1">
-                    <div class="d-flex justify-content-between mb-2">
-                        <div>
-                            <h3 class="h6 mb-0">{{ commentaire.user.prenom }} {{ commentaire.user.nom|slice(0, 1) }}.</h3>
-                            <small class="text-muted">{{ commentaire.dateCreation|date('d/m/Y') }}</small>
-                        </div>
-                        <div role="img" aria-label="Note : {{ commentaire.note }} sur 5">
-                            {% for i in 1..5 %}
-                                <i class="bi bi-star{{ i <= commentaire.note ? '-fill' : '' }} text-warning" aria-hidden="true"></i>
-                            {% endfor %}
+        {% if recette.commentaires|length > 0 %}
+            {% for commentaire in recette.commentaires|reverse %}
+                <article class="d-flex mb-3 pb-3 border-bottom">
+                    <div class="me-3">
+                        <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" 
+                             style="width: 50px; height: 50px; font-size: 1.5rem;"
+                             aria-hidden="true">
+                            {{ commentaire.user.prenom|slice(0, 1)|upper }}
                         </div>
                     </div>
-                    <p class="mb-0">{{ commentaire.contenu }}</p>
-                </div>
-            </article>
-        {% endfor %}
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between mb-2">
+                            <div>
+                                <h3 class="h6 mb-0">{{ commentaire.user.prenom }} {{ commentaire.user.nom|slice(0, 1) }}.</h3>
+                                <small class="text-muted">{{ commentaire.dateCreation|date('d/m/Y') }}</small>
+                            </div>
+                            <div role="img" aria-label="Note : {{ commentaire.note }} sur 5">
+                                {% for i in 1..5 %}
+                                    <i class="bi bi-star{{ i <= commentaire.note ? '-fill' : '' }} text-warning" aria-hidden="true"></i>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <p class="mb-0">{{ commentaire.contenu }}</p>
+                    </div>
+                </article>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">Aucun commentaire pour le moment. Soyez le premier à donner votre avis !</p>
+        {% endif %}
     </div>
 </div>
+
+<style>
+/* Étoiles responsive */
+.star-rating .btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+}
+
+@media (max-width: 576px) {
+    .star-rating .btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.875rem;
+    }
+}
+</style>

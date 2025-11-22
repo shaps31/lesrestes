@@ -11340,6 +11340,42 @@ Les pages `/login` et `/register` utilisent le même système :
 
 **Note** : Pages admin non auditées (usage interne, non prioritaire pour certification)
 
+### 24.22 Refonte formulaire edit recette
+
+**Objectif** : Rendre le formulaire edit cohérent avec new
+
+**Fichiers modifiés** :
+
+#### `templates/recette/_form.html.twig`
+
+-   Formulaire unifié utilisé par new.html.twig ET edit.html.twig
+-   Upload image manuel (input file) compatible VichUploader
+-   Aperçu image existante en mode édition
+-   Ingrédients dynamiques via Symfony Collection
+-   Étapes dynamiques via JS
+
+#### `templates/recette/new.html.twig`
+
+-   Simplifié : utilise `_form.html.twig`
+-   Bloc javascripts avec recipe-form.js
+
+#### `templates/recette/edit.html.twig`
+
+-   Simplifié : utilise `_form.html.twig`
+-   Passe `recette` pour l'aperçu image
+-   Bloc javascripts avec recipe-form.js
+
+#### `public/js/recipe-form.js`
+
+-   Recherche prototype Symfony à 2 emplacements :
+    -   `#ingredients-collection[data-prototype]` (edit)
+    -   `#recette_recetteIngredients[data-prototype]` (new)
+-   Gestion dynamique ajout/suppression ingrédients
+-   Gestion dynamique ajout/suppression étapes
+-   Chargement étapes existantes en mode édition
+
+**Principe DRY respecté** : Un seul template `_form.html.twig` pour les deux pages.
+
 ## CONCLUSION GÉNÉRALE
 
 Le projet **Les Restes** est maintenant dans un état **professionnel et complet** avec :

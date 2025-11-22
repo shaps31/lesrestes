@@ -11012,7 +11012,73 @@ Les pages `/login` et `/register` utilisent le même système :
 | Créer recette | `/recette/new` | 🔄 À faire |
 | Modifier recette | `/recette/{id}/edit` | 🔄 À faire |
 | Contact | `/contact` | 🔄 À faire |
+
 ```
+
+### 24.11 Audit page Détail Recette (`/recette/{id}`)
+
+**Score initial** : 95%
+
+**Problèmes détectés** :
+
+| #   | Problème          | Élément                              | Fichier                    |
+| --- | ----------------- | ------------------------------------ | -------------------------- |
+| 1   | Contraste couleur | Bouton favori texte blanc sur orange | `_recipe_header.html.twig` |
+| 2   | Hiérarchie titres | h1 → h3 (saute h2)                   | Multiples fichiers         |
+
+**Corrections appliquées** :
+
+#### Fichier `templates/recette/show.html.twig`
+
+-   Ajout `<div class="container">` wrapper autour du `<div class="row">` pour les colonnes ingrédients/préparation
+
+#### Fichier `templates/recette/partials/_header_image.html.twig`
+
+-   Placeholder image : `role="img"` + `aria-label`
+-   `aria-hidden="true"` sur icône
+
+#### Fichier `templates/recette/partials/_recipe_header.html.twig`
+
+-   `aria-hidden="true"` sur toutes les icônes décoratives
+-   `aria-label` sur bouton favori
+-   `role="img"` + `aria-label` sur étoiles notation
+
+#### Fichier `templates/recette/partials/_ingredient_list.html.twig`
+
+-   `h3` → `h2` (hiérarchie correcte)
+
+#### Fichier `templates/recette/partials/_preparation_steps.html.twig`
+
+-   `h3` → `h2` (hiérarchie correcte)
+
+#### Fichier `templates/recette/partials/_comments_section.html.twig`
+
+-   `h3` → `h2` pour titre section
+-   `h6` → `<h3 class="h6">` pour noms commentateurs
+-   `role="img"` + `aria-label` sur notes étoiles
+-   `div` → `<article>` pour sémantique commentaires
+-   `role="radiogroup"` + `aria-label` sur sélection note
+-   `aria-hidden="true"` sur avatar/icônes
+
+#### Fichier `public/css/utilities.css`
+
+-   `.btn-warning` : texte noir (`#000`) au lieu de blanc pour contraste 4.5:1
+
+**Score final** : **100%** ✅
+
+### 24.12 Pages restantes à auditer
+
+| Page             | Route                | Statut     |
+| ---------------- | -------------------- | ---------- |
+| Homepage         | `/`                  | ✅ 100%    |
+| Login            | `/login`             | ✅ 100%    |
+| Register         | `/register`          | ✅ 100%    |
+| Liste recettes   | `/recettes`          | ✅ 100%    |
+| Détail recette   | `/recette/{id}`      | ✅ 100%    |
+| Profil           | `/profil`            | 🔄 À faire |
+| Créer recette    | `/recette/new`       | 🔄 À faire |
+| Modifier recette | `/recette/{id}/edit` | 🔄 À faire |
+| Contact          | `/contact`           | 🔄 À faire |
 
 ---
 

@@ -155,3 +155,16 @@ footer a:focus {
 footer .text-muted {
     color: #5f6368 !important;
 }
+
+/* Bouton Outline Secondary (Annuler) */
+.btn-outline-secondary {
+    color: #495057 !important;
+    border-color: #495057 !important;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+    background-color: #495057 !important;
+    border-color: #495057 !important;
+    color: #fff !important;
+}

@@ -11258,6 +11258,88 @@ Les pages `/login` et `/register` utilisent le même système :
 | Modifier profil  | `/profil/edit`       | 🔄 À faire |
 | Contact          | `/contact`           | 🔄 À faire |
 
+### 24.19 Audit page Modifier Profil (`/profil/edit`)
+
+**Score initial** : 98%
+
+**Problèmes détectés** :
+
+| #   | Problème          | Élément                    |
+| --- | ----------------- | -------------------------- |
+| 1   | Hiérarchie titres | h1 → h5 (saute h2, h3, h4) |
+
+**Corrections appliquées** :
+
+#### Fichier `templates/profil/edit.html.twig`
+
+-   `h5` "Informations personnelles" → `<h2 class="h5">`
+-   `h5` "Changer le mot de passe" → `<h2 class="h5">`
+-   `aria-hidden="true"` sur toutes les icônes
+
+**Score final** : **100%** ✅
+
+---
+
+### 24.20 Audit page Contact (`/contact`)
+
+**Score initial** : 98%
+
+**Problèmes détectés** :
+
+| #   | Problème          | Élément                    |
+| --- | ----------------- | -------------------------- |
+| 1   | Hiérarchie titres | h1 → h5 (saute h2, h3, h4) |
+
+**Corrections appliquées** :
+
+#### Fichier `templates/contact/index.html.twig`
+
+-   `h5` "Email" → `<h2 class="h5">`
+-   `h5` "Adresse" → `<h2 class="h5">`
+-   `h5` "Disponibilité" → `<h2 class="h5">`
+-   `aria-hidden="true"` sur toutes les icônes
+-   `aria-hidden="true"` sur les astérisques obligatoires
+
+**Score final** : **100%** ✅
+
+---
+
+### 24.21 Récapitulatif Audit Accessibilité RGAA
+
+| Page             | Route                | Score Initial | Score Final |
+| ---------------- | -------------------- | ------------- | ----------- |
+| Homepage         | `/`                  | 95%           | ✅ 100%     |
+| Login            | `/login`             | 100%          | ✅ 100%     |
+| Register         | `/register`          | 100%          | ✅ 100%     |
+| Liste recettes   | `/recettes`          | 89%           | ✅ 100%     |
+| Détail recette   | `/recette/{id}`      | 95%           | ✅ 100%     |
+| Créer recette    | `/recette/new`       | 86%           | ✅ 100%     |
+| Modifier recette | `/recette/{id}/edit` | 86%           | ✅ 96%      |
+| Profil           | `/profil`            | 83%           | ✅ 100%     |
+| Modifier profil  | `/profil/edit`       | 98%           | ✅ 100%     |
+| Contact          | `/contact`           | 98%           | ✅ 100%     |
+
+**Corrections globales appliquées** :
+
+-   Hiérarchie des titres (h1 → h2 → h3)
+-   `aria-hidden="true"` sur icônes décoratives
+-   `aria-label` sur boutons/liens avec icône seule
+-   Contraste couleurs (btn-warning, btn-outline-primary, btn-outline-secondary)
+-   Labels formulaires (VichUploader)
+-   Pagination accessible (KnpPaginator custom template)
+-   Modales accessibles (aria-labelledby, aria-hidden)
+-   Onglets accessibles (role, aria-controls, aria-selected)
+
+**Fichiers CSS modifiés** :
+
+-   `public/css/utilities.css` : corrections contraste couleurs
+
+**Fichiers JS modifiés** :
+
+-   `public/js/recipe-form.js` : aria-label boutons dynamiques
+
+**Note** : Pages admin non auditées (usage interne, non prioritaire pour certification)
+
 ## CONCLUSION GÉNÉRALE
 
 Le projet **Les Restes** est maintenant dans un état **professionnel et complet** avec :

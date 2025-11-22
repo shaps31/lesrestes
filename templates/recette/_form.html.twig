@@ -1,20 +1,139 @@
-{# Formulaire principal #}
+{# Formulaire recette - utilisé par new.html.twig ET edit.html.twig #}
 
 {{ form_start(form, {'attr': {'enctype': 'multipart/form-data', 'id': 'recette-form'}}) }}
 
-<!-- Champs de base -->
-{% include 'recette/partials/_form_basic_fields.html.twig' %}
+<!-- Titre -->
+<div class="mb-3">
+    {{ form_label(form.nom, 'Titre', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+    <span class="text-danger" aria-hidden="true">*</span>
+    {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Omelette anti-gaspi', 'aria-required': 'true'}}) }}
+    {{ form_errors(form.nom) }}
+</div>
 
-<!-- Métadonnées -->
-{% include 'recette/partials/_form_meta_fields.html.twig' %}
+<!-- Description -->
+<div class="mb-3">
+    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+    <span class="text-danger" aria-hidden="true">*</span>
+    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': 'Une recette pour utiliser vos restes de légumes...', 'aria-required': 'true'}}) }}
+    {{ form_errors(form.description) }}
+</div>
+
+<!-- Upload image avec aperçu -->
+<div class="mb-4">
+    <label for="recette_imageFile_file" class="form-label fw-bold">Image de la recette</label>
+    
+    {# Aperçu image existante (mode édition) #}
+    {% if recette is defined and recette.image %}
+        <div class="mb-2" id="current-image-preview">
+            <img src="/uploads/recettes/{{ recette.image }}" 
+                 alt="{{ recette.nom }}" 
+                 class="img-thumbnail" 
+                 style="max-height: 200px;">
+            <small class="d-block text-muted mt-1">Image actuelle</small>
+        </div>
+    {% endif %}
+    
+    <input type="file" 
+           id="recette_imageFile_file" 
+           name="recette[imageFile][file]" 
+           class="form-control"
+           accept="image/*">
+    
+    <small class="form-text text-muted d-block mt-2">
+        Formats acceptés : JPG, PNG, GIF. Taille max : 5MB
+    </small>
+</div>
+
+<!-- Temps et personnes -->
+<div class="row mb-3">
+    <div class="col-12 col-md-6 mb-3 mb-md-0">
+        {{ form_label(form.tempsCuisson, 'Temps de préparation (min.)', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+        <div class="input-group">
+            {{ form_widget(form.tempsCuisson, {'attr': {'class': 'form-control', 'placeholder': '15'}}) }}
+            <span class="input-group-text">minutes</span>
+        </div>
+        {{ form_errors(form.tempsCuisson) }}
+    </div>
+    <div class="col-12 col-md-6">
+        {{ form_label(form.nombrePersonnes, 'Nombre de personnes', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+        {{ form_widget(form.nombrePersonnes, {'attr': {'class': 'form-control', 'placeholder': '4'}}) }}
+        {{ form_errors(form.nombrePersonnes) }}
+    </div>
+</div>
+
+<!-- Difficulté -->
+<fieldset class="mb-4">
+    <legend class="form-label fw-bold mb-2">Difficulté</legend>
+    <div class="d-flex gap-4">
+        {% set currentDifficulte = recette is defined ? recette.difficulte : 1 %}
+        <div class="form-check form-check-inline mb-0">
+            <input class="form-check-input" type="radio" name="recette[difficulte]" id="difficulte_1" value="1" 
+                   {{ currentDifficulte == 1 ? 'checked' : '' }}>
+            <label class="form-check-label" for="difficulte_1">Facile</label>
+        </div>
+        <div class="form-check form-check-inline mb-0">
+            <input class="form-check-input" type="radio" name="recette[difficulte]" id="difficulte_2" value="2"
+                   {{ currentDifficulte == 2 ? 'checked' : '' }}>
+            <label class="form-check-label" for="difficulte_2">Moyen</label>
+        </div>
+        <div class="form-check form-check-inline mb-0">
+            <input class="form-check-input" type="radio" name="recette[difficulte]" id="difficulte_3" value="3"
+                   {{ currentDifficulte == 3 ? 'checked' : '' }}>
+            <label class="form-check-label" for="difficulte_3">Difficile</label>
+        </div>
+    </div>
+</fieldset>
+
+<hr class="my-4">
 
 <!-- Ingrédients -->
-{% include 'recette/partials/_form_ingredients.html.twig' %}
+<h2 class="h5 text-success mb-3">Ingrédients</h2>
+<div id="ingredients-collection" 
+     class="mb-3"
+     data-prototype="{{ form_widget(form.recetteIngredients.vars.prototype)|e('html_attr') }}"
+     data-index="{{ form.recetteIngredients|length }}">
+    {% for recetteIngredient in form.recetteIngredients %}
+        <div class="ingredient-row mb-2">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-5">
+                    {{ form_widget(recetteIngredient.ingredient, {'attr': {'class': 'form-select'}}) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(recetteIngredient.quantite, {'attr': {'class': 'form-control', 'placeholder': 'Qté'}}) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_widget(recetteIngredient.unite, {'attr': {'class': 'form-select'}}) }}
+                </div>
+                <div class="col-md-2">
+                    <button type="button" 
+                            class="btn btn-outline-danger w-100 remove-ingredient"
+                            aria-label="Supprimer cet ingrédient">
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<button type="button" class="btn btn-outline-success btn-sm mb-4" id="add-ingredient">
+    <i class="bi bi-plus-lg" aria-hidden="true"></i> Ajouter un ingrédient
+</button>
 
 <hr class="my-4">
 
 <!-- Étapes -->
-{% include 'recette/partials/_form_steps.html.twig' %}
+<h2 class="h5 text-success mb-3">Étapes de préparation</h2>
+<div id="etapes-collection" class="mb-3">
+    {# Les étapes seront chargées via JS #}
+</div>
+
+<button type="button" class="btn btn-outline-success btn-sm mb-4" id="add-etape">
+    <i class="bi bi-plus-lg" aria-hidden="true"></i> Ajouter une étape
+</button>
+
+<!-- Champ caché pour les étapes -->
+{{ form_widget(form.etapes, {'attr': {'id': 'etapes-hidden', 'class': 'd-none'}}) }}
 
 <!-- Catégorie -->
 <div class="mb-4">
@@ -26,11 +145,11 @@
 <!-- Boutons d'action -->
 <div class="d-flex justify-content-between mt-5">
     <a href="{{ path('app_recette_index') }}" class="btn btn-outline-secondary">
-        <i class="bi bi-x-circle"></i> Annuler
+        <i class="bi bi-x-circle" aria-hidden="true"></i> Annuler
     </a>
     <button type="submit" class="btn btn-success px-4">
-        <i class="bi bi-check-circle"></i> {{ button_label|default('Enregistrer') }}
+        <i class="bi bi-check-circle" aria-hidden="true"></i> {{ button_label|default('Enregistrer') }}
     </button>
 </div>
 
-{{ form_end(form) }}
+{{ form_end(form, {'render_rest': false}) }}

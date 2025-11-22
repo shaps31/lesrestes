@@ -10,8 +10,8 @@
             <div class="text-center mb-5">
                 <h1 class="text-success mb-3">Nous contacter</h1>
                 <p class="text-muted">
-                    Une question, une suggestion ou besoin d'aide ? N'hesitez pas a nous ecrire.
-                    <br>Nous vous repondrons dans les plus brefs delais.
+                    Une question, une suggestion ou besoin d'aide ? N'hésitez pas à nous écrire.
+                    <br>Nous vous répondrons dans les plus brefs délais.
                 </p>
             </div>
 
@@ -21,38 +21,38 @@
                     
                     <div class="mb-3">
                         {{ form_label(form.nom, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        <span class="text-danger">*</span>
+                        <span class="text-danger" aria-hidden="true">*</span>
                         {{ form_widget(form.nom) }}
                         {{ form_errors(form.nom) }}
                     </div>
 
                     <div class="mb-3">
                         {{ form_label(form.email, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        <span class="text-danger">*</span>
+                        <span class="text-danger" aria-hidden="true">*</span>
                         {{ form_widget(form.email) }}
                         {{ form_errors(form.email) }}
                     </div>
 
                     <div class="mb-3">
                         {{ form_label(form.sujet, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        <span class="text-danger">*</span>
+                        <span class="text-danger" aria-hidden="true">*</span>
                         {{ form_widget(form.sujet) }}
                         {{ form_errors(form.sujet) }}
                     </div>
 
                     <div class="mb-4">
                         {{ form_label(form.message, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        <span class="text-danger">*</span>
+                        <span class="text-danger" aria-hidden="true">*</span>
                         {{ form_widget(form.message) }}
                         {{ form_errors(form.message) }}
                         <small class="form-text text-muted">
-                            Minimum 20 caracteres, maximum 2000 caracteres
+                            Minimum 20 caractères, maximum 2000 caractères
                         </small>
                     </div>
 
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-success btn-lg">
-                            <i class="bi bi-envelope"></i> Envoyer le message
+                            <i class="bi bi-envelope" aria-hidden="true"></i> Envoyer le message
                         </button>
                     </div>
 
@@ -68,22 +68,22 @@
             <div class="row text-center">
                 <div class="col-md-4 mb-4">
                     <div class="p-4">
-                        <i class="bi bi-envelope-fill text-success fs-1 mb-3"></i>
-                        <h5 class="fw-bold">Email</h5>
+                        <i class="bi bi-envelope-fill text-success fs-1 mb-3" aria-hidden="true"></i>
+                        <h2 class="h5 fw-bold">Email</h2>
                         <p class="text-muted">Nous-contacter@Lereste.com</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="p-4">
-                        <i class="bi bi-geo-alt-fill text-success fs-1 mb-3"></i>
-                        <h5 class="fw-bold">Adresse</h5>
+                        <i class="bi bi-geo-alt-fill text-success fs-1 mb-3" aria-hidden="true"></i>
+                        <h2 class="h5 fw-bold">Adresse</h2>
                         <p class="text-muted">666 Rue du Paradis<br>31000 Toulouse</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="p-4">
-                        <i class="bi bi-clock-fill text-success fs-1 mb-3"></i>
-                        <h5 class="fw-bold">Disponibilite</h5>
+                        <i class="bi bi-clock-fill text-success fs-1 mb-3" aria-hidden="true"></i>
+                        <h2 class="h5 fw-bold">Disponibilité</h2>
                         <p class="text-muted">Lundi - Vendredi<br>9h - 18h</p>
                     </div>
                 </div>

@@ -11204,6 +11204,60 @@ Les pages `/login` et `/register` utilisent le même système :
 | Profil           | `/profil`            | 🔄 À faire |
 | Contact          | `/contact`           | 🔄 À faire |
 
+### 24.17 Audit page Profil (`/profil`)
+
+**Score initial** : 83%
+
+**Problèmes détectés** :
+
+| #   | Problème          | Élément                                     |
+| --- | ----------------- | ------------------------------------------- |
+| 1   | ARIA prohibé      | Pagination span avec aria-label             |
+| 2   | Boutons sans nom  | Boutons Supprimer recette (icône seule)     |
+| 3   | Liens sans nom    | Boutons Voir/Modifier recette (icône seule) |
+| 4   | Hiérarchie titres | h1 → h4/h5 (saute h2, h3)                   |
+| 5   | Contraste         | Onglets inactifs                            |
+
+**Corrections appliquées** :
+
+#### Fichier `templates/profil/index.html.twig`
+
+-   `h4` nom utilisateur → `<h2 class="h4">`
+-   `h5` "Recettes" stats → `<h2 class="h5">`
+-   `h5` titre cartes → `<h3 class="h5">`
+-   Boutons Voir/Modifier/Supprimer : `aria-label="Action {{ recette.nom }}"`
+-   Toutes les icônes : `aria-hidden="true"`
+-   Onglets : `role="tab"`, `aria-controls`, `aria-selected`
+-   Tab panels : `aria-labelledby`
+-   Modal suppression : `aria-labelledby`, `aria-hidden`, `aria-label` bouton close
+-   Canvas graphique : `role="img"`, `aria-label`
+-   Avatar placeholder : `role="img"`, `aria-label`
+-   Images placeholder : `role="img"`, `aria-label`
+-   CSS onglets : couleur texte `#0f5132` pour contraste
+
+#### Fichier `templates/pagination/bootstrap_custom.html.twig`
+
+-   Span désactivés : `aria-label` supprimé → `aria-hidden="true"`
+-   `<li>` disabled : `aria-disabled="true"`
+-   Page active : `aria-current="page"`
+
+**Score final** : **100%** ✅
+
+### 24.18 Pages restantes à auditer
+
+| Page             | Route                | Statut     |
+| ---------------- | -------------------- | ---------- |
+| Homepage         | `/`                  | ✅ 100%    |
+| Login            | `/login`             | ✅ 100%    |
+| Register         | `/register`          | ✅ 100%    |
+| Liste recettes   | `/recettes`          | ✅ 100%    |
+| Détail recette   | `/recette/{id}`      | ✅ 100%    |
+| Créer recette    | `/recette/new`       | ✅ 100%    |
+| Modifier recette | `/recette/{id}/edit` | ✅ 96%     |
+| Profil           | `/profil`            | ✅ 100%    |
+| Modifier profil  | `/profil/edit`       | 🔄 À faire |
+| Contact          | `/contact`           | 🔄 À faire |
+
 ## CONCLUSION GÉNÉRALE
 
 Le projet **Les Restes** est maintenant dans un état **professionnel et complet** avec :

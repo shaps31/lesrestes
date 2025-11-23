@@ -24,7 +24,19 @@
 9. [Upload d'Images et Optimisations](#étape-10--upload-dimages-et-optimisations-uiux)
 10. [Système de Commentaires](#étape-11--système-de-commentaires)
 11. [Améliorations UX](#étape-12--améliorations-ux)
-12. [Prochaines Étapes](#prochaines-étapes)
+12. [Recherche Avancée et Pagination](#étape-13--recherche-avancée-et-pagination)
+13. [Loading States et Animations CSS](#étape-14--loading-states-et-animations-css)
+14. [Messages de Feedback Améliorés](#étape-15--messages-de-feedback-améliorés)
+15. [Finalisation Interface selon Wireframe](#étape-16--finalisation-de-linterface-selon-le-wireframe)
+16. [Corrections Recherche et Cohérence Visuelle](#étape-17--corrections-de-la-recherche-et-cohérence-visuelle)
+17. [Page Détail Recette selon Wireframe](#étape-18--page-détail-recette-selon-wireframe-03)
+18. [Administration des Ingrédients](#étape-19--administration-des-ingrédients)
+19. [Pages Légales Obligatoires (RGPD)](#étape-20--pages-légales-obligatoires)
+20. [Page 404 Personnalisée](#étape-21--page-404-personnalisée)
+21. [Responsive Design Complet](#étape-22--responsive-design-complet)
+22. [Barre de Navigation Inférieure Mobile](#étape-23--barre-de-navigation-inférieure-mobile)
+23. [Audit Accessibilité RGAA](#étape-24--audit-accessibilité-rgaa)
+24. [Conclusion Générale](#conclusion-générale)
 
 ---
 
@@ -4115,10 +4127,10 @@ J'ai testé tous les éléments visuels :
 -   Boutons avec bonnes couleurs et états hover
 -   Messages flash avec animation slideInDown
 -   Auto-fermeture des success après 5 secondes
--   ✅ Formulaires avec focus vert
--   ✅ Étoiles de notation en orange
--   ✅ Pagination avec liens verts
--   ✅ Responsive testé sur mobile
+-    Formulaires avec focus vert
+-    Étoiles de notation en orange
+-    Pagination avec liens verts
+-    Responsive testé sur mobile
 -   Aucun conflit avec Bootstrap
 
 ### 13.7 Avantages de l'approche avec variables CSS
@@ -5501,7 +5513,7 @@ Le wireframe présente une page de détail complète avec plusieurs éléments i
 
 -   Titre de la recette (h1 vert)
 -   Étoiles de notation avec nombre d'avis
--   3 icônes : Temps (⏱️), Difficulté (👤), Personnes (👥)
+-   3 icônes : Temps (⏱️), Difficulté (), Personnes ()
 -   Auteur et date de publication
 
 **Structure en 2 colonnes** :
@@ -6387,158 +6399,6 @@ Wireframe 03:
  Quantités cohérentes
  Interactions fonctionnelles"
 ```
-
----
-
-## PROCHAINES ÉTAPES
-
-### Fonctionnalités à développer
-
-#### Gestion dynamique des ingrédients - TERMINÉ
-
--   [x] API de recherche d'ingrédients
--   [x] FormType avec champs dynamiques
--   [x] Collection Symfony fonctionnelle
--   [x] JavaScript pour ajout/suppression
--   [x] Autocomplete avec debounce
--   [x] Interface responsive
--   [x] Tests complets réussis
--   [x] Mode création et édition
-
-#### Recherche avancée - TERMINÉ
-
--   [x] Formulaire de recherche avec filtres multiples
--   [x] Filtre par catégorie
--   [x] Filtre par difficulté
--   [x] Filtre par temps de préparation
--   [x] Recherche textuelle (nom, ingrédients)
--   [x] Tri dynamique (date, note, temps)
--   [x] Pagination avec KnpPaginatorBundle
--   [x] Interface collapsible
--   [x] URLs partageables
-
-#### Pages institutionnelles
-
--   [ ] Page Contact avec formulaire
--   [ ] Page CGU (Conditions Générales d'Utilisation)
--   [ ] Page Mentions Légales
--   [ ] Page RGPD / Politique de confidentialité
--   [ ] Page À propos
-
-#### Profil utilisateur avancé
-
--   [ ] Modification avatar
--   [ ] Modification bio
--   [ ] Statistiques personnelles
--   [ ] Badge et gamification
-
-#### API REST
-
--   [ ] Endpoints API pour recettes
--   [ ] Documentation API (OpenAPI)
--   [ ] Authentification JWT
--   [ ] Rate limiting
-
-#### Tests
-
--   [ ] Tests unitaires (PHPUnit)
--   [ ] Tests fonctionnels
--   [ ] Tests d'intégration
--   [ ] Couverture de code >70%
-
-#### Performance
-
--   [ ] Cache Symfony
--   [ ] Optimisation requêtes Doctrine
--   [ ] Lazy loading images
--   [ ] Pagination
-
-#### Sécurité
-
--   [ ] CSRF tokens partout
--   [ ] Validation stricte formulaires
--   [ ] Rate limiting connexion
--   [ ] Audit sécurité
-
-### Améliorations techniques
-
--   [ ] Migration vers Symfony 7.3 (si nouvelle version)
--   [ ] Mise en place CI/CD (GitHub Actions)
--   [ ] Docker Compose complet (Nginx, PHP, MySQL)
--   [ ] Documentation développeur (README détaillé)
-
----
-
-## CONCLUSION
-
-### État actuel du projet
-
-Le projet Les Restes est actuellement dans un état fonctionnel avec les fonctionnalités suivantes opérationnelles :
-
--   **Backend complet** :
-
--   Architecture Symfony 7.3 solide
--   Base de données MySQL bien structurée
--   Entités avec relations complexes (User, Recette, Ingredient, Categorie, Commentaire, Favori)
--   Système d'authentification sécurisé
--   API REST pour recherche d'ingrédients
-
-**Fonctionnalités utilisateur** :
-
--   Inscription et connexion
--   Création et gestion de recettes avec ingrédients dynamiques
--   Upload d'images optimisé
--   Système de favoris avec AJAX
--   Système de commentaires et notation complet
--   Recherche avancée avec filtres multiples
--   Pagination professionnelle
--   Profil utilisateur avec onglets
-
-**Interface utilisateur** :
-
--   Design moderne avec Bootstrap 5
--   Navigation responsive
--   Templates cohérents et professionnels
--   Images uniformes avec fallback
--   Formulaires optimisés
-
-### Points forts du projet
-
-1. **Architecture propre** : Respect des standards Symfony et des bonnes pratiques
-2. **Code versionné** : Utilisation méthodique de Git avec branches thématiques
-3. **Design soigné** : Interface moderne et intuitive
-4. **Fonctionnalités AJAX** : Favoris sans rechargement de page
-5. **Optimisations UX** : Formulaires compacts, images uniformes
-
--### Compétences démontrées
-
--   Maîtrise de Symfony 7.3
-
-**Note technique :**
-
--   Les contrôleurs ont été normalisés pour passer les formulaires à Twig sous forme de `FormView` (ex. `->createView()`). Cela améliore la compatibilité entre Symfony et Twig et évite des comportements dépendants de versions.
--   Gestion de base de données avec Doctrine
--   Sécurité et authentification
--   Upload de fichiers avec VichUploader
--   Frontend moderne (Bootstrap, JavaScript)
--   API REST (favoris, recherche d'ingrédients)
--   Git et méthodologie de développement
--   Formulaires complexes avec Collections
--   QueryBuilder et requêtes Doctrine avancées
--   Pagination et filtrage de résultats
--   JavaScript moderne (autocomplete, debounce, AJAX)
-
-### Préparation pour la soutenance
-
-Ce projet démontre ma capacité à :
-
--   Concevoir une application web complète
--   Utiliser un framework PHP moderne
--   Créer une interface utilisateur professionnelle
--   Gérer un projet avec Git
--   Documenter mon travail de manière détaillée
-
----
 
 ---
 
@@ -7630,15 +7490,15 @@ Ajout dans la section utilisateur connecté :
 
 5. **Suppression** :
 
-    - ✅ Bouton désactivé si utilisé
+    -  Bouton désactivé si utilisé
 
-    - ✅ Confirmation JavaScript
+    -  Confirmation JavaScript
 
-    - ✅ Token CSRF vérifié
+    -  Token CSRF vérifié
 
-    - ✅ Message d'erreur si utilisé
+    -  Message d'erreur si utilisé
 
-    - ✅ Suppression OK si non utilisé
+    -  Suppression OK si non utilisé
 
 ### 19.8 Commits
 
@@ -8828,51 +8688,51 @@ Modification du footer pour inclure les liens légaux :
 
 1. **Page Contact** :
 
-    - ✅ Formulaire s'affiche
+    -  Formulaire s'affiche
 
-    - ✅ Validation fonctionne
+    -  Validation fonctionne
 
-    - ✅ Message flash après soumission
+    -  Message flash après soumission
 
-    - ✅ Informations de contact affichées
+    -  Informations de contact affichées
 
 2. **Mentions Légales** :
 
-    - ✅ Informations éditeur présentes
+    -  Informations éditeur présentes
 
-    - ✅ Hébergeur mentionné
+    -  Hébergeur mentionné
 
-    - ✅ Propriété intellectuelle
+    -  Propriété intellectuelle
 
-    - ✅ Lien vers politique de confidentialité
+    -  Lien vers politique de confidentialité
 
 3. **Politique de Confidentialité** :
 
-    - ✅ Collecte des données expliquée
+    -  Collecte des données expliquée
 
-    - ✅ Droits RGPD listés
+    -  Droits RGPD listés
 
-    - ✅ Sécurité décrite
+    -  Sécurité décrite
 
-    - ✅ Contact mentionné
+    -  Contact mentionné
 
 4. **CGU** :
 
-    - ✅ Conditions d'inscription
+    -  Conditions d'inscription
 
-    - ✅ Règles d'utilisation
+    -  Règles d'utilisation
 
-    - ✅ Propriété intellectuelle
+    -  Propriété intellectuelle
 
-    - ✅ Responsabilités
+    -  Responsabilités
 
 5. **Footer** :
 
-    - ✅ Liens fonctionnels
+    -  Liens fonctionnels
 
-    - ✅ Visible sur toutes les pages
+    -  Visible sur toutes les pages
 
-    - ✅ Design cohérent
+    -  Design cohérent
 
 ### 20.9 Commits
 
@@ -8956,8 +8816,8 @@ CGU:
 
 
 
-Conformité RGPD complète"
-
+Conformité  complète"
+RGPD
 
 
 git add templates/base.html.twig
@@ -9451,17 +9311,17 @@ La page 404 personnalisée s'affiche !
 
 **Résultat attendu** :
 
--   ✅ Design cohérent avec le site
+-    Design cohérent avec le site
 
--   ✅ SVG "404" animé
+-    SVG "404" animé
 
--   ✅ Message friendly
+-    Message friendly
 
--   ✅ 3 boutons de navigation
+-    3 boutons de navigation
 
--   ✅ Barre de recherche fonctionnelle
+-    Barre de recherche fonctionnelle
 
--   ✅ Animation au chargement
+-    Animation au chargement
 
 ### 21.8 Commit
 
@@ -10893,20 +10753,20 @@ footer .text-muted {
     color: #2e7d32 !important;
 }
 24.4 Ratios de contraste appliqués
-CouleurCodeRatio sur #fcf8f5ConformeVert foncé#2e7d325.4:1✅ AAVert très foncé#1b5e207.5:1✅ AAAOrange foncé#e651004.6:1✅ AARouge foncé#c628285.9:1✅ AABleu liens#1565c05.2:1✅ AAGris texte#5f63685.4:1✅ AA
+CouleurCodeRatio sur #fcf8f5ConformeVert foncé#2e7d325.4:1 AAVert très foncé#1b5e207.5:1 AAAOrange foncé#e651004.6:1 AARouge foncé#c628285.9:1 AABleu liens#1565c05.2:1 AAGris texte#5f63685.4:1 AA
 Standard WCAG : Ratio minimum 4.5:1 pour texte normal, 3:1 pour grands textes.
 24.5 Score final - Homepage
-Score final : 100% ✅
+Score final : 100% 
 Audits passés :
 
-✅ Contraste couleurs suffisant
-✅ Hiérarchie des titres séquentielle
-✅ Liens avec nom accessible
-✅ Labels associés aux inputs
-✅ Attribut lang="fr" sur <html>
-✅ ARIA correctement utilisé
-✅ Images avec alt
-✅ Boutons avec nom accessible
+ Contraste couleurs suffisant
+ Hiérarchie des titres séquentielle
+ Liens avec nom accessible
+ Labels associés aux inputs
+ Attribut lang="fr" sur <html>
+ ARIA correctement utilisé
+ Images avec alt
+ Boutons avec nom accessible
 
 24.6 Commits
 bashgit checkout -b feature/accessibilite-rgaa
@@ -10936,7 +10796,7 @@ Conformité:
 
 git push --set-upstream origin feature/accessibilite-rgaa
 24.7 Pages restantes à auditer
-PageRouteStatutHomepage/✅ 100%Connexion/login🔄 À faireInscription/register🔄 À faireListe recettes/recettes🔄 À faireDétail recette/recette/{id}🔄 À faireProfil/profil🔄 À faireCréer recette/recette/new🔄 À faireModifier recette/recette/{id}/edit🔄 À faireContact/contact🔄 À faire
+PageRouteStatutHomepage/ 100%Connexion/login À faireInscription/register À faireListe recettes/recettes À faireDétail recette/recette/{id} À faireProfil/profil À faireCréer recette/recette/new À faireModifier recette/recette/{id}/edit À faireContact/contact À faire
 
 
 
@@ -10981,7 +10841,7 @@ PageRouteStatutHomepage/✅ 100%Connexion/login🔄 À faireInscription/register
 - `aria-current="page"` sur page active
 - `aria-label` sur liens navigation (précédent/suivant)
 
-**Score final** : **100%** ✅
+**Score final** : **100%** 
 
 ### 24.9 Audit pages Login/Register
 
@@ -10989,7 +10849,7 @@ Les pages `/login` et `/register` utilisent le même système :
 - Page complète (accès direct ou redirection sécurité)
 - Modales (clic boutons navbar)
 
-**Score page `/login`** : **100%** ✅ (aucune correction nécessaire)
+**Score page `/login`** : **100%**  (aucune correction nécessaire)
 
 **Corrections modales** (`templates/partials/_modals_auth.html.twig`) :
 - `aria-labelledby` sur modales
@@ -11003,15 +10863,15 @@ Les pages `/login` et `/register` utilisent le même système :
 
 | Page | Route | Statut |
 |------|-------|--------|
-| Homepage | `/` | ✅ 100% |
-| Login | `/login` | ✅ 100% |
-| Register | `/register` | ✅ 100% |
-| Liste recettes | `/recettes` | ✅ 100% |
-| Détail recette | `/recette/{id}` | 🔄 À faire |
-| Profil | `/profil` | 🔄 À faire |
-| Créer recette | `/recette/new` | 🔄 À faire |
-| Modifier recette | `/recette/{id}/edit` | 🔄 À faire |
-| Contact | `/contact` | 🔄 À faire |
+| Homepage | `/` |  100% |
+| Login | `/login` |  100% |
+| Register | `/register` |  100% |
+| Liste recettes | `/recettes` |  100% |
+| Détail recette | `/recette/{id}` |  À faire |
+| Profil | `/profil` |  À faire |
+| Créer recette | `/recette/new` |  À faire |
+| Modifier recette | `/recette/{id}/edit` |  À faire |
+| Contact | `/contact` |  À faire |
 
 ```
 
@@ -11064,21 +10924,21 @@ Les pages `/login` et `/register` utilisent le même système :
 
 -   `.btn-warning` : texte noir (`#000`) au lieu de blanc pour contraste 4.5:1
 
-**Score final** : **100%** ✅
+**Score final** : **100%** 
 
 ### 24.12 Pages restantes à auditer
 
 | Page             | Route                | Statut     |
 | ---------------- | -------------------- | ---------- |
-| Homepage         | `/`                  | ✅ 100%    |
-| Login            | `/login`             | ✅ 100%    |
-| Register         | `/register`          | ✅ 100%    |
-| Liste recettes   | `/recettes`          | ✅ 100%    |
-| Détail recette   | `/recette/{id}`      | ✅ 100%    |
-| Profil           | `/profil`            | 🔄 À faire |
-| Créer recette    | `/recette/new`       | 🔄 À faire |
-| Modifier recette | `/recette/{id}/edit` | 🔄 À faire |
-| Contact          | `/contact`           | 🔄 À faire |
+| Homepage         | `/`                  |  100%    |
+| Login            | `/login`             |  100%    |
+| Register         | `/register`          |  100%    |
+| Liste recettes   | `/recettes`          |  100%    |
+| Détail recette   | `/recette/{id}`      |  100%    |
+| Profil           | `/profil`            |  À faire |
+| Créer recette    | `/recette/new`       |  À faire |
+| Modifier recette | `/recette/{id}/edit` |  À faire |
+| Contact          | `/contact`           |  À faire |
 
 ---
 
@@ -11127,21 +10987,21 @@ Les pages `/login` et `/register` utilisent le même système :
 
 -   `.btn-outline-secondary` : couleur `#495057` pour contraste 4.5:1
 
-**Score final** : **100%** ✅
+**Score final** : **100%** 
 
 ### 24.14 Pages restantes à auditer
 
 | Page             | Route                | Statut     |
 | ---------------- | -------------------- | ---------- |
-| Homepage         | `/`                  | ✅ 100%    |
-| Login            | `/login`             | ✅ 100%    |
-| Register         | `/register`          | ✅ 100%    |
-| Liste recettes   | `/recettes`          | ✅ 100%    |
-| Détail recette   | `/recette/{id}`      | ✅ 100%    |
-| Créer recette    | `/recette/new`       | ✅ 100%    |
-| Modifier recette | `/recette/{id}/edit` | 🔄 À faire |
-| Profil           | `/profil`            | 🔄 À faire |
-| Contact          | `/contact`           | 🔄 À faire |
+| Homepage         | `/`                  |  100%    |
+| Login            | `/login`             |  100%    |
+| Register         | `/register`          |  100%    |
+| Liste recettes   | `/recettes`          |  100%    |
+| Détail recette   | `/recette/{id}`      |  100%    |
+| Créer recette    | `/recette/new`       |  100%    |
+| Modifier recette | `/recette/{id}/edit` |  À faire |
+| Profil           | `/profil`            |  À faire |
+| Contact          | `/contact`           |  À faire |
 
 ### 24.15 Audit page Modifier Recette (`/recette/{id}/edit`)
 
@@ -11188,21 +11048,21 @@ Les pages `/login` et `/register` utilisent le même système :
 
 -   Touch targets (best practice, non bloquant WCAG AA) - sera traité lors de la refonte du formulaire edit
 
-**Score final** : **96%** ✅
+**Score final** : **96%** 
 
 ### 24.16 Pages restantes à auditer
 
 | Page             | Route                | Statut     |
 | ---------------- | -------------------- | ---------- |
-| Homepage         | `/`                  | ✅ 100%    |
-| Login            | `/login`             | ✅ 100%    |
-| Register         | `/register`          | ✅ 100%    |
-| Liste recettes   | `/recettes`          | ✅ 100%    |
-| Détail recette   | `/recette/{id}`      | ✅ 100%    |
-| Créer recette    | `/recette/new`       | ✅ 100%    |
-| Modifier recette | `/recette/{id}/edit` | ✅ 96%     |
-| Profil           | `/profil`            | 🔄 À faire |
-| Contact          | `/contact`           | 🔄 À faire |
+| Homepage         | `/`                  |  100%    |
+| Login            | `/login`             |  100%    |
+| Register         | `/register`          |  100%    |
+| Liste recettes   | `/recettes`          |  100%    |
+| Détail recette   | `/recette/{id}`      |  100%    |
+| Créer recette    | `/recette/new`       |  100%    |
+| Modifier recette | `/recette/{id}/edit` |  96%     |
+| Profil           | `/profil`            |  À faire |
+| Contact          | `/contact`           |  À faire |
 
 ### 24.17 Audit page Profil (`/profil`)
 
@@ -11241,22 +11101,22 @@ Les pages `/login` et `/register` utilisent le même système :
 -   `<li>` disabled : `aria-disabled="true"`
 -   Page active : `aria-current="page"`
 
-**Score final** : **100%** ✅
+**Score final** : **100%** 
 
 ### 24.18 Pages restantes à auditer
 
 | Page             | Route                | Statut     |
 | ---------------- | -------------------- | ---------- |
-| Homepage         | `/`                  | ✅ 100%    |
-| Login            | `/login`             | ✅ 100%    |
-| Register         | `/register`          | ✅ 100%    |
-| Liste recettes   | `/recettes`          | ✅ 100%    |
-| Détail recette   | `/recette/{id}`      | ✅ 100%    |
-| Créer recette    | `/recette/new`       | ✅ 100%    |
-| Modifier recette | `/recette/{id}/edit` | ✅ 96%     |
-| Profil           | `/profil`            | ✅ 100%    |
-| Modifier profil  | `/profil/edit`       | 🔄 À faire |
-| Contact          | `/contact`           | 🔄 À faire |
+| Homepage         | `/`                  |  100%    |
+| Login            | `/login`             |  100%    |
+| Register         | `/register`          |  100%    |
+| Liste recettes   | `/recettes`          |  100%    |
+| Détail recette   | `/recette/{id}`      |  100%    |
+| Créer recette    | `/recette/new`       |  100%    |
+| Modifier recette | `/recette/{id}/edit` |  96%     |
+| Profil           | `/profil`            |  100%    |
+| Modifier profil  | `/profil/edit`       |  À faire |
+| Contact          | `/contact`           |  À faire |
 
 ### 24.19 Audit page Modifier Profil (`/profil/edit`)
 
@@ -11276,7 +11136,7 @@ Les pages `/login` et `/register` utilisent le même système :
 -   `h5` "Changer le mot de passe" → `<h2 class="h5">`
 -   `aria-hidden="true"` sur toutes les icônes
 
-**Score final** : **100%** ✅
+**Score final** : **100%** 
 
 ---
 
@@ -11300,7 +11160,7 @@ Les pages `/login` et `/register` utilisent le même système :
 -   `aria-hidden="true"` sur toutes les icônes
 -   `aria-hidden="true"` sur les astérisques obligatoires
 
-**Score final** : **100%** ✅
+**Score final** : **100%** 
 
 ---
 
@@ -11308,16 +11168,16 @@ Les pages `/login` et `/register` utilisent le même système :
 
 | Page             | Route                | Score Initial | Score Final |
 | ---------------- | -------------------- | ------------- | ----------- |
-| Homepage         | `/`                  | 95%           | ✅ 100%     |
-| Login            | `/login`             | 100%          | ✅ 100%     |
-| Register         | `/register`          | 100%          | ✅ 100%     |
-| Liste recettes   | `/recettes`          | 89%           | ✅ 100%     |
-| Détail recette   | `/recette/{id}`      | 95%           | ✅ 100%     |
-| Créer recette    | `/recette/new`       | 86%           | ✅ 100%     |
-| Modifier recette | `/recette/{id}/edit` | 86%           | ✅ 96%      |
-| Profil           | `/profil`            | 83%           | ✅ 100%     |
-| Modifier profil  | `/profil/edit`       | 98%           | ✅ 100%     |
-| Contact          | `/contact`           | 98%           | ✅ 100%     |
+| Homepage         | `/`                  | 95%           |  100%     |
+| Login            | `/login`             | 100%          |  100%     |
+| Register         | `/register`          | 100%          |  100%     |
+| Liste recettes   | `/recettes`          | 89%           |  100%     |
+| Détail recette   | `/recette/{id}`      | 95%           |  100%     |
+| Créer recette    | `/recette/new`       | 86%           |  100%     |
+| Modifier recette | `/recette/{id}/edit` | 86%           |  96%      |
+| Profil           | `/profil`            | 83%           |  100%     |
+| Modifier profil  | `/profil/edit`       | 98%           |  100%     |
+| Contact          | `/contact`           | 98%           |  100%     |
 
 **Corrections globales appliquées** :
 
@@ -11378,55 +11238,110 @@ Les pages `/login` et `/register` utilisent le même système :
 
 ## CONCLUSION GÉNÉRALE
 
-Le projet **Les Restes** est maintenant dans un état **professionnel et complet** avec :
+### État actuel du projet (Novembre 2025)
 
-### Fonctionnalités implémentées
+Le projet Les Restes est dans un état **fonctionnel et professionnel** avec les fonctionnalités suivantes opérationnelles :
 
--   Authentification complète
+#### Backend complet
 
--   CRUD recettes avec ingrédients dynamiques
+-   Architecture Symfony 7.4 / PHP 8.3.6 solide
+-   Base de données MySQL 8.0 bien structurée
+-   Entités avec relations complexes (User, Recette, Ingredient, Categorie, Commentaire, Favori, RecetteIngredient)
+-   Système d'authentification sécurisé
+-   API REST pour recherche d'ingrédients
 
--   Système de favoris AJAX
+#### Fonctionnalités utilisateur
 
--   Commentaires et notation
+-   Inscription et connexion
+-   Création et gestion de recettes avec ingrédients dynamiques
+-   Upload d'images optimisé (VichUploader)
+-   Système de favoris avec AJAX
+-   Système de commentaires et notation complet
+-   Recherche avancée avec filtres multiples
+-   Pagination professionnelle (KnpPaginator)
+-   Profil utilisateur avec onglets
 
--   Recherche avancée avec filtres
+#### Conformité légale
 
--   Pagination professionnelle
+-   Page Contact avec formulaire
+-   Mentions Légales
+-   Politique de Confidentialité (RGPD)
+-   CGU (Conditions Générales d'Utilisation)
 
--   Administration des ingrédients
+#### Accessibilité RGAA
 
--   Pages légales complètes (RGPD)
+-   Audit Lighthouse complet (toutes pages 96-100%)
+-   Hiérarchie des titres (h1 → h2 → h3)
+-   aria-label sur boutons/liens icônes
+-   aria-hidden sur icônes décoratives
+-   Contraste couleurs conforme AA
+-   Labels formulaires accessibles
+-   Pagination accessible
 
--   Page 404 personnalisée
+#### Interface utilisateur
 
--   Design responsive complet
+-   Design moderne avec Bootstrap 5.3
+-   Navigation responsive (desktop + mobile bottom nav)
+-   Templates cohérents et professionnels
+-   Formulaires optimisés (principe DRY)
+
+---
 
 ### Compétences REAC validées
 
--   Développer composants accès données SQL
+| Compétence | Description                                                                                         | Statut           |
+| ---------- | --------------------------------------------------------------------------------------------------- | ---------------- |
+| C1         | Installer et configurer son environnement de travail                                                |                  |
+| C2         | Maquetter une interface utilisateur web                                                             |                  |
+| C3         | Réaliser une interface utilisateur avec une solution de gestion de contenu ou un framework frontend |                |
+| C4         | Développer la partie dynamique de l'interface utilisateur web                                       |                |
+| C5         | Mettre en place une base de données relationnelle                                                   |                |
+| C6         | Développer des composants d'accès aux données SQL                                                   |                |
+| C7         | Développer des composants métier côté serveur                                                       |  Tests à faire |
+| C8         | Documenter le déploiement d'une application dynamique web                                           |  À faire       |
 
--   Développer partie dynamique interfaces
+---
 
--   Gestion fichiers (VichUploader)
+### Planning restant (Décembre 2025 - Avril 2026)
 
--   Sécurité (bcrypt, CSRF, ROLE_ADMIN)
+#### Décembre 2025 - Janvier 2026
 
--   Architecture MVC Symfony
+-   [ ] Tests unitaires PHPUnit (minimum 50% couverture)
+-   [ ] Tests fonctionnels
+-   [ ] Documentation tests OWASP
 
-### Points forts
+#### Février 2026
 
--   Code propre et organisé
+-   [ ] Documentation déploiement (DEPLOIEMENT.md)
+-   [ ] README.md professionnel
+-   [ ] Jeu d'essai complet (fixtures étendues)
 
--   Git avec branches feature
+#### Mars 2026
 
--   Documentation complète
+-   [ ] Diagrammes UML (cas d'usage, classes)
+-   [ ] Veille technologique (VEILLE.md)
+-   [ ] PSR-12 (PHP-CS-Fixer)
 
--   Interface moderne et responsive
+#### Avril 2026 (avant examen)
 
--   Conformité RGPD
+-   [ ] Relecture complète
+-   [ ] Préparation soutenance
+-   [ ] Démo vidéo (optionnel)
 
-**Le projet est prêt pour la soutenance d'avril 2026 !**
+---
+
+### Points forts du projet
+
+1. **Architecture propre** : Respect des standards Symfony et des bonnes pratiques
+2. **Code versionné** : Utilisation méthodique de Git avec branches thématiques
+3. **Design soigné** : Interface moderne et accessible
+4. **Conformité RGPD** : Pages légales complètes
+5. **Accessibilité RGAA** : Scores Lighthouse 96-100%
+6. **Principe DRY** : Formulaires réutilisables (\_form.html.twig)
+
+---
+
+**Le projet est en bonne voie pour la soutenance d'avril 2026 !**
 
 ---
 

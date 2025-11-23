@@ -9,8 +9,6 @@
 **Graduation prévue** : Avril 2026
 **Status** : En développement actif
 
----
-
 ## Table des matières
 
 1. [Introduction](#introduction)
@@ -20,27 +18,31 @@
 5. [Contrôleurs CRUD](#étape-4--contrôleurs-crud)
 6. [Données de Test (Fixtures)](#étape-5--fixtures)
 7. [Templates Bootstrap](#étape-6--templates-bootstrap)
-8. [Système de Favoris](#étape-9--système-de-favoris)
-9. [Upload d'Images et Optimisations](#étape-10--upload-dimages-et-optimisations-uiux)
-10. [Système de Commentaires](#étape-11--système-de-commentaires)
-11. [Améliorations UX](#étape-12--améliorations-ux)
-12. [Recherche Avancée et Pagination](#étape-13--recherche-avancée-et-pagination)
-13. [Loading States et Animations CSS](#étape-14--loading-states-et-animations-css)
-14. [Messages de Feedback Améliorés](#étape-15--messages-de-feedback-améliorés)
-15. [Finalisation Interface selon Wireframe](#étape-16--finalisation-de-linterface-selon-le-wireframe)
-16. [Corrections Recherche et Cohérence Visuelle](#étape-17--corrections-de-la-recherche-et-cohérence-visuelle)
-17. [Page Détail Recette selon Wireframe](#étape-18--page-détail-recette-selon-wireframe-03)
-18. [Administration des Ingrédients](#étape-19--administration-des-ingrédients)
-19. [Pages Légales Obligatoires (RGPD)](#étape-20--pages-légales-obligatoires)
-20. [Page 404 Personnalisée](#étape-21--page-404-personnalisée)
-21. [Responsive Design Complet](#étape-22--responsive-design-complet)
-22. [Barre de Navigation Inférieure Mobile](#étape-23--barre-de-navigation-inférieure-mobile)
-23. [Audit Accessibilité RGAA](#étape-24--audit-accessibilité-rgaa)
-24. [Conclusion Générale](#conclusion-générale)
+
+8. [Système de Favoris](#étape-7--système-de-favoris)
+9. [Système de commentaires](#étape-9--système-de-commentaires)
+10. [Upload d’images et optimisations UI/UX](#étape-10--upload-dimages-et-optimisations-uiux)
+11. [Améliorations UX](#étape-11--améliorations-ux)
+12. [Recherche avancée et pagination](#étape-12--recherche-avancée-et-pagination)
+13. [Loading states et animations CSS](#étape-13--loading-states-et-animations-css)
+14. [Messages de feedback améliorés](#étape-14--messages-de-feedback-améliorés)
+15. [Finalisation interface selon wireframe](#étape-15--finalisation-de-linterface-selon-le-wireframe)
+16. [Corrections recherche et cohérence visuelle](#étape-16--corrections-de-la-recherche-et-cohérence-visuelle)
+17. [Page détail recette selon wireframe](#étape-17--page-détail-recette-selon-wireframe-03)
+18. [Administration des ingrédients](#étape-18--administration-des-ingrédients)
+19. [Pages légales obligatoires (RGPD)](#étape-19--pages-légales-obligatoires)
+20. [Page 404 personnalisée](#étape-20--page-404-personnalisée)
+21. [Responsive design complet](#étape-21--responsive-design-complet)
+22. [Barre de navigation inférieure mobile](#étape-22--barre-de-navigation-inférieure-mobile)
+23. [Audit accessibilité RGAA](#étape-23--audit-accessibilité-rgaa)
+24. [Tests unitaires PHPUnit](#étape-24--tests-unitaires-phpunit)
+25. [Conclusion générale](#conclusion-générale)
 
 ---
 
 ## Introduction
+
+<a id="introduction"></a>
 
 ### Contexte du projet
 
@@ -65,6 +67,8 @@ Les Restes est une plateforme web anti-gaspillage alimentaire qui permet aux uti
 ---
 
 ## ÉTAPE 1 : SETUP INITIAL
+
+<a id="etape-1-setup-initial"></a>
 
 ### 1.1 Installation de l'environnement
 
@@ -144,6 +148,8 @@ git checkout -b feature/entities
 ---
 
 ## ÉTAPE 2 : ENTITÉS PRINCIPALES
+
+<a id="etape-2-entites-principales"></a>
 
 ### 2.1 Création de l'entité User avec sécurité
 
@@ -305,6 +311,8 @@ git branch -d feature/entities
 
 ## ÉTAPE 3 : AUTHENTIFICATION
 
+<a id="etape-3-authentification"></a>
+
 ### 3.1 Création d'une nouvelle branche
 
 ```bash
@@ -392,6 +400,8 @@ git branch -d feature/authentication
 
 ## ÉTAPE 4 : CONTRÔLEURS CRUD
 
+<a id="etape-4-controleurs-crud"></a>
+
 ### 4.1 Nouvelle branche
 
 ```bash
@@ -461,6 +471,8 @@ git branch -d feature/crud-controllers
 ---
 
 ## ÉTAPE 5 : FIXTURES
+
+<a id="etape-5-fixtures"></a>
 
 ### 5.1 Nouvelle branche
 
@@ -566,6 +578,8 @@ git branch -d feature/fixtures
 ---
 
 ## ÉTAPE 6 : TEMPLATES BOOTSTRAP
+
+<a id="etape-6-templates-bootstrap"></a>
 
 ### 6.1 Nouvelle branche
 
@@ -903,15 +917,17 @@ git branch -d feature/bootstrap-templates
 
 ---
 
-## ÉTAPE 9 : SYSTÈME DE FAVORIS
+## ÉTAPE 7 : SYSTÈME DE FAVORIS
 
-### 9.1 Nouvelle branche
+<a id="etape-7-systeme-de-favoris"></a>
+
+### 7.1 Nouvelle branche
 
 ```bash
 git checkout -b feature/favoris
 ```
 
-### 9.2 Création de l'entité Favori
+### 7.2 Création de l'entité Favori
 
 ```bash
 php bin/console make:entity Favori
@@ -932,14 +948,14 @@ public function __construct()
 }
 ```
 
-### 9.3 Migration de la table Favori
+### 7.3 Migration de la table Favori
 
 ```bash
 php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 ```
 
-### 9.4 Création du contrôleur API pour les favoris
+### 7.4 Création du contrôleur API pour les favoris
 
 **Fichier `src/Controller/Api/FavoriController.php`** :
 
@@ -998,7 +1014,7 @@ class FavoriController extends AbstractController
 }
 ```
 
-### 9.5 Ajout du bouton favori dans les templates
+### 7.5 Ajout du bouton favori dans les templates
 
 **Dans `templates/recette/show.html.twig`** :
 
@@ -1014,7 +1030,7 @@ class FavoriController extends AbstractController
 {% endif %}
 ```
 
-### 9.6 JavaScript pour gérer les favoris
+### 7.6 JavaScript pour gérer les favoris
 
 **Script ajouté dans `templates/recette/show.html.twig`** :
 
@@ -1077,6 +1093,8 @@ git branch -d feature/favoris
 ---
 
 ## ÉTAPE 10 : UPLOAD D'IMAGES ET OPTIMISATIONS UI/UX
+
+<a id="etape-8-upload-images-optimisations-uiux"></a>
 
 ### 10.1 Nouvelle branche
 
@@ -4127,10 +4145,10 @@ J'ai testé tous les éléments visuels :
 -   Boutons avec bonnes couleurs et états hover
 -   Messages flash avec animation slideInDown
 -   Auto-fermeture des success après 5 secondes
--    Formulaires avec focus vert
--    Étoiles de notation en orange
--    Pagination avec liens verts
--    Responsive testé sur mobile
+-   Formulaires avec focus vert
+-   Étoiles de notation en orange
+-   Pagination avec liens verts
+-   Responsive testé sur mobile
 -   Aucun conflit avec Bootstrap
 
 ### 13.7 Avantages de l'approche avec variables CSS
@@ -7490,15 +7508,15 @@ Ajout dans la section utilisateur connecté :
 
 5. **Suppression** :
 
-    -  Bouton désactivé si utilisé
+    - Bouton désactivé si utilisé
 
-    -  Confirmation JavaScript
+    - Confirmation JavaScript
 
-    -  Token CSRF vérifié
+    - Token CSRF vérifié
 
-    -  Message d'erreur si utilisé
+    - Message d'erreur si utilisé
 
-    -  Suppression OK si non utilisé
+    - Suppression OK si non utilisé
 
 ### 19.8 Commits
 
@@ -8688,51 +8706,51 @@ Modification du footer pour inclure les liens légaux :
 
 1. **Page Contact** :
 
-    -  Formulaire s'affiche
+    - Formulaire s'affiche
 
-    -  Validation fonctionne
+    - Validation fonctionne
 
-    -  Message flash après soumission
+    - Message flash après soumission
 
-    -  Informations de contact affichées
+    - Informations de contact affichées
 
 2. **Mentions Légales** :
 
-    -  Informations éditeur présentes
+    - Informations éditeur présentes
 
-    -  Hébergeur mentionné
+    - Hébergeur mentionné
 
-    -  Propriété intellectuelle
+    - Propriété intellectuelle
 
-    -  Lien vers politique de confidentialité
+    - Lien vers politique de confidentialité
 
 3. **Politique de Confidentialité** :
 
-    -  Collecte des données expliquée
+    - Collecte des données expliquée
 
-    -  Droits RGPD listés
+    - Droits RGPD listés
 
-    -  Sécurité décrite
+    - Sécurité décrite
 
-    -  Contact mentionné
+    - Contact mentionné
 
 4. **CGU** :
 
-    -  Conditions d'inscription
+    - Conditions d'inscription
 
-    -  Règles d'utilisation
+    - Règles d'utilisation
 
-    -  Propriété intellectuelle
+    - Propriété intellectuelle
 
-    -  Responsabilités
+    - Responsabilités
 
 5. **Footer** :
 
-    -  Liens fonctionnels
+    - Liens fonctionnels
 
-    -  Visible sur toutes les pages
+    - Visible sur toutes les pages
 
-    -  Design cohérent
+    - Design cohérent
 
 ### 20.9 Commits
 
@@ -9311,17 +9329,17 @@ La page 404 personnalisée s'affiche !
 
 **Résultat attendu** :
 
--    Design cohérent avec le site
+-   Design cohérent avec le site
 
--    SVG "404" animé
+-   SVG "404" animé
 
--    Message friendly
+-   Message friendly
 
--    3 boutons de navigation
+-   3 boutons de navigation
 
--    Barre de recherche fonctionnelle
+-   Barre de recherche fonctionnelle
 
--    Animation au chargement
+-   Animation au chargement
 
 ### 21.8 Commit
 
@@ -10629,47 +10647,74 @@ git merge feature/mobile-bottom-nav
 git push origin master
 git branch -d feature/mobile-bottom-nav
 git push origin --delete feature/mobile-bottom-nav
+```
 
-ÉTAPE 24 : AUDIT ACCESSIBILITÉ RGAA - HOMEPAGE
-24.1 Contexte et objectif
-L'accessibilité web (RGAA - Référentiel Général d'Amélioration de l'Accessibilité) est obligatoire pour la certification DWWM. L'audit utilise Lighthouse (Chrome DevTools) pour détecter automatiquement les problèmes d'accessibilité.
-Objectif : Atteindre un score Lighthouse Accessibilité de 100% sur toutes les pages.
-24.2 Audit initial - Homepage
-Score initial : 91%
-Problèmes détectés :
-#Critère RGAAProblèmeÉlément1Contraste couleursLogo navbar #4caf50 ratio 2.63:1span.text-success2Contraste couleursLien actif navbar #4caf50 ratio 2.63:1.nav-link.active3Contraste couleursBouton "Rechercher" orange.btn-warning4Contraste couleursBouton "Voir toutes les recettes".btn-success5Contraste couleursBouton "Déconnexion" #dc3545 ratio 4.28:1.btn-outline-danger6Contraste couleursLiens footer sur fond sombrefooter a7Hiérarchie titresFooter : h5 sans h4 avantfooter h5, h68Liens sans nomIcônes réseaux sociauxfooter .d-flex a9Label/texte mismatchBouton recherche aria-label ≠ textebutton[aria-label]10FormulairesInput recherche sans id pour labelinput[name="q"]
-24.3 Corrections appliquées
-24.3.1 Fichier templates/home/index.html.twig
-Corrections :
+---
 
-SVG décoratif : ajout aria-hidden="true"
-Input recherche : ajout id="search-ingredients" lié au label
-Bouton recherche : aria-label="Rechercher des recettes par ingrédients" (contient le texte visible)
-Hiérarchie titres : h5 → h3 pour les cartes recettes
-Icônes décoratives : ajout aria-hidden="true" sur toutes les <i>
-Lien "Voir" : ajout aria-label="Voir la recette {{ recette.nom }}"
-Étoiles notation : role="img" + aria-label="Note : X sur 5 étoiles"
-Placeholder image : role="img" + aria-label="Aucune image disponible"
-Alert : ajout role="alert"
+## ÉTAPE 24 : AUDIT ACCESSIBILITÉ RGAA - HOMEPAGE
 
-24.3.2 Fichier templates/partials/_navbar.html.twig
-Corrections :
+### 24.1 Contexte et objectif
 
-Logo : text-success → style="color: #2e7d32;" (ratio 4.5:1)
-Hamburger menu : ajout aria-controls, aria-expanded, aria-label
-Icône Admin : ajout aria-hidden="true"
-Liens actifs : style inline conditionnel pour contraste
+L'accessibilité web (RGAA - Référentiel Général d'Amélioration de l'Accessibilité) est obligatoire pour la certification DWWM.  
+L'audit utilise Lighthouse (Chrome DevTools) pour détecter automatiquement les problèmes d'accessibilité.
 
-24.3.3 Fichier templates/partials/_footer.html.twig
-Corrections :
+**Objectif** : Atteindre un score Lighthouse Accessibilité de **100%** sur toutes les pages.
 
-Titres : h5 → <h2 class="h5"> et h6 → <h2 class="h6"> (hiérarchie sémantique)
-Liens sociaux : ajout aria-label sur chaque lien (Instagram, Twitter, TikTok, Facebook)
-Icônes : ajout aria-hidden="true" sur toutes les <i>
+---
 
-24.3.4 Fichier public/css/utilities.css
-Nouvelles règles de contraste accessibles :
-css/* ===== ACCESSIBILITÉ - CONTRASTE ===== */
+### 24.2 Audit initial - Homepage
+
+**Score initial** : 91%  
+**Problèmes détectés** :
+
+|   # | Critère RGAA         | Problème                                    | Élément               |
+| --: | -------------------- | ------------------------------------------- | --------------------- |
+|   1 | Contraste couleurs   | Logo navbar `#4caf50` ratio 2.63:1          | `span.text-success`   |
+|   2 | Contraste couleurs   | Lien actif navbar `#4caf50` ratio 2.63:1    | `.nav-link.active`    |
+|   3 | Contraste couleurs   | Bouton "Rechercher" orange                  | `.btn-warning`        |
+|   4 | Contraste couleurs   | Bouton "Voir toutes les recettes"           | `.btn-success`        |
+|   5 | Contraste couleurs   | Bouton "Déconnexion" `#dc3545` ratio 4.28:1 | `.btn-outline-danger` |
+|   6 | Contraste couleurs   | Liens footer sur fond sombre                | `footer a`            |
+|   7 | Hiérarchie titres    | Footer : `h5` sans `h4` avant               | `footer h5`, `h6`     |
+|   8 | Liens sans nom       | Icônes réseaux sociaux                      | `footer .d-flex a`    |
+|   9 | Label/texte mismatch | Bouton recherche `aria-label` ≠ texte       | `button[aria-label]`  |
+|  10 | Formulaires          | Input recherche sans `id` pour `label`      | `input[name="q"]`     |
+
+---
+
+### 24.3 Corrections appliquées
+
+#### 24.3.1 Fichier `templates/home/index.html.twig`
+
+-   SVG décoratif : `aria-hidden="true"`
+-   Input recherche : `id="search-ingredients"` lié au `label`
+-   Bouton recherche : `aria-label="Rechercher des recettes par ingrédients"`
+-   Hiérarchie titres : `h5` → `h3` pour les cartes recettes
+-   Icônes décoratives : `aria-hidden="true"` sur tous les `<i>`
+-   Lien "Voir" : `aria-label="Voir la recette {{ recette.nom }}"`
+-   Étoiles notation : `role="img"` + `aria-label="Note : X sur 5 étoiles"`
+-   Placeholder image : `role="img"` + `aria-label="Aucune image disponible"`
+-   Alert : `role="alert"`
+
+#### 24.3.2 Fichier `templates/partials/_navbar.html.twig`
+
+-   Logo : `text-success` → `style="color: #2e7d32;"` (ratio 4.5:1)
+-   Hamburger menu : `aria-controls`, `aria-expanded`, `aria-label`
+-   Icône Admin : `aria-hidden="true"`
+-   Liens actifs : style inline conditionnel pour contraste
+
+#### 24.3.3 Fichier `templates/partials/_footer.html.twig`
+
+-   Titres : `h5` → `<h2 class="h5">`, `h6` → `<h2 class="h6">`
+-   Liens sociaux : `aria-label` sur chaque lien (Instagram, Twitter, TikTok, Facebook)
+-   Icônes : `aria-hidden="true"` sur tous les `<i>`
+
+---
+
+### 24.3.4 Fichier `public/css/utilities.css`
+
+```css
+/* ===== ACCESSIBILITÉ - CONTRASTE ===== */
 
 /* Boutons Primary & Success */
 .btn-primary,
@@ -10752,26 +10797,48 @@ footer .text-muted {
 .text-success {
     color: #2e7d32 !important;
 }
-24.4 Ratios de contraste appliqués
-CouleurCodeRatio sur #fcf8f5ConformeVert foncé#2e7d325.4:1 AAVert très foncé#1b5e207.5:1 AAAOrange foncé#e651004.6:1 AARouge foncé#c628285.9:1 AABleu liens#1565c05.2:1 AAGris texte#5f63685.4:1 AA
-Standard WCAG : Ratio minimum 4.5:1 pour texte normal, 3:1 pour grands textes.
-24.5 Score final - Homepage
-Score final : 100% 
-Audits passés :
+```
 
- Contraste couleurs suffisant
- Hiérarchie des titres séquentielle
- Liens avec nom accessible
- Labels associés aux inputs
- Attribut lang="fr" sur <html>
- ARIA correctement utilisé
- Images avec alt
- Boutons avec nom accessible
+---
 
-24.6 Commits
-bashgit checkout -b feature/accessibilite-rgaa
+### 24.4 Ratios de contraste appliqués
+
+| Couleur         | Code      | Ratio sur #fcf8f5 | Conforme |
+| --------------- | --------- | ----------------- | -------- |
+| Vert foncé      | `#2e7d32` | 5.4:1             | AA       |
+| Vert très foncé | `#1b5e20` | 7.5:1             | AAA      |
+| Orange foncé    | `#e65100` | 4.6:1             | AA       |
+| Rouge foncé     | `#c62828` | 5.9:1             | AA       |
+| Bleu liens      | `#1565c0` | 5.2:1             | AA       |
+| Gris texte      | `#5f6368` | 5.4:1             | AA       |
+
+**Standard WCAG** : Ratio minimum 4.5:1 pour texte normal, 3:1 pour grands textes.
+
+---
+
+### 24.5 Score final - Homepage
+
+**Score final** : 100%  
+**Audits passés** :
+
+-   Contraste couleurs suffisant
+-   Hiérarchie des titres séquentielle
+-   Liens avec nom accessible
+-   Labels associés aux inputs
+-   Attribut `lang="fr"` sur `<html>`
+-   ARIA correctement utilisé
+-   Images avec `alt`
+-   Boutons avec nom accessible
+
+---
+
+### 24.6 Commits
+
+```bash
+git checkout -b feature/accessibilite-rgaa
 
 git add .
+
 git commit -m "feat(a11y): Audit accessibilité Homepage - Score 100%
 
 Corrections RGAA appliquées:
@@ -10795,10 +10862,25 @@ Conformité:
 - Tous les critères RGAA validés"
 
 git push --set-upstream origin feature/accessibilite-rgaa
-24.7 Pages restantes à auditer
-PageRouteStatutHomepage/ 100%Connexion/login À faireInscription/register À faireListe recettes/recettes À faireDétail recette/recette/{id} À faireProfil/profil À faireCréer recette/recette/new À faireModifier recette/recette/{id}/edit À faireContact/contact À faire
+```
 
+---
 
+### 24.7 Pages restantes à auditer
+
+| Page             | Route                | Statut  |
+| ---------------- | -------------------- | ------- |
+| Homepage         | `/`                  | 100%    |
+| Connexion        | `/login`             | À faire |
+| Inscription      | `/register`          | À faire |
+| Liste recettes   | `/recettes`          | À faire |
+| Détail recette   | `/recette/{id}`      | À faire |
+| Profil           | `/profil`            | À faire |
+| Créer recette    | `/recette/new`       | À faire |
+| Modifier recette | `/recette/{id}/edit` | À faire |
+| Contact          | `/contact`           | À faire |
+
+---
 
 ### 24.8 Audit page Recettes Index (`/recettes`)
 
@@ -10806,74 +10888,81 @@ PageRouteStatutHomepage/ 100%Connexion/login À faireInscription/register À fai
 
 **Problèmes détectés** :
 
-| # | Problème | Élément | Fichier |
-|---|----------|---------|---------|
-| 1 | ARIA prohibé | `span.page-link` avec `aria-label` | Template KNP pagination |
-| 2 | Bouton sans nom | Bouton collapse recherche | `_search_form.html.twig` |
-| 3 | Hiérarchie titres | h1 → h5 (saute niveaux) | Multiples fichiers |
+| #   | Problème          | Élément                            | Fichier                  |
+| --- | ----------------- | ---------------------------------- | ------------------------ |
+| 1   | ARIA prohibé      | `span.page-link` avec `aria-label` | Template KNP pagination  |
+| 2   | Bouton sans nom   | Bouton collapse recherche          | `_search_form.html.twig` |
+| 3   | Hiérarchie titres | h1 → h5 (saute niveaux)            | Multiples fichiers       |
 
 **Corrections appliquées** :
 
 #### Fichier `templates/recette/index.html.twig`
-- `h3` → `h2` pour "X recette(s) trouvée(s)"
-- `aria-hidden="true"` sur icône bouton
+
+-   `h3` → `h2` pour "X recette(s) trouvée(s)"
+-   `aria-hidden="true"` sur icône bouton
 
 #### Fichier `templates/recette/partials/_recipe_card.html.twig`
-- `h5` → `<h3 class="h5">` (sémantique correcte, style préservé)
-- `aria-hidden="true"` sur toutes les icônes décoratives
-- `role="img"` + `aria-label` sur étoiles notation
-- `aria-label="Voir la recette {{ recette.nom }}"` sur lien
-- Placeholder image : `role="img"` + `aria-label`
+
+-   `h5` → `<h3 class="h5">` (sémantique correcte, style préservé)
+-   `aria-hidden="true"` sur toutes les icônes décoratives
+-   `role="img"` + `aria-label` sur étoiles notation
+-   `aria-label="Voir la recette {{ recette.nom }}"` sur lien
+-   Placeholder image : `role="img"` + `aria-label`
 
 #### Fichier `templates/recette/partials/_search_form.html.twig`
-- `h5` → `<h2 class="h5">` pour "Recherche avancée"
-- Bouton collapse : `aria-expanded`, `aria-controls`, `aria-label`
-- `aria-hidden="true"` sur toutes les icônes
+
+-   `h5` → `<h2 class="h5">` pour "Recherche avancée"
+-   Bouton collapse : `aria-expanded`, `aria-controls`, `aria-label`
+-   `aria-hidden="true"` sur toutes les icônes
 
 #### Fichier `templates/recette/partials/_pagination_stats.html.twig`
-- `div` → `<nav aria-label="Pagination">` wrapper
-- `div` → `<p>` pour texte stats
+
+-   `div` → `<nav aria-label="Pagination">` wrapper
+-   `div` → `<p>` pour texte stats
 
 #### Fichier `templates/bundles/KnpPaginatorBundle/Pagination/sliding.html.twig`
-- Création template custom accessible
-- `aria-hidden="true"` sur `<span>` désactivés (remplace `aria-label` prohibé)
-- `aria-disabled="true"` sur `<li>` désactivés
-- `aria-current="page"` sur page active
-- `aria-label` sur liens navigation (précédent/suivant)
 
-**Score final** : **100%** 
+-   Création template custom accessible
+-   `aria-hidden="true"` sur `<span>` désactivés (remplace `aria-label` prohibé)
+-   `aria-disabled="true"` sur `<li>` désactivés
+-   `aria-current="page"` sur page active
+-   `aria-label` sur liens navigation (précédent/suivant)
+
+**Score final** : **100%**
 
 ### 24.9 Audit pages Login/Register
 
 Les pages `/login` et `/register` utilisent le même système :
-- Page complète (accès direct ou redirection sécurité)
-- Modales (clic boutons navbar)
 
-**Score page `/login`** : **100%**  (aucune correction nécessaire)
+-   Page complète (accès direct ou redirection sécurité)
+-   Modales (clic boutons navbar)
+
+**Score page `/login`** : **100%** (aucune correction nécessaire)
 
 **Corrections modales** (`templates/partials/_modals_auth.html.twig`) :
-- `aria-labelledby` sur modales
-- `aria-hidden="true"` sur modales
-- `aria-label="Fermer"` sur boutons close
-- `id` sur tous les inputs + `for` sur labels
-- `autocomplete` sur champs
-- `text-success` → `style="color: #2e7d32;"` (contraste)
+
+-   `aria-labelledby` sur modales
+-   `aria-hidden="true"` sur modales
+-   `aria-label="Fermer"` sur boutons close
+-   `id` sur tous les inputs + `for` sur labels
+-   `autocomplete` sur champs
+-   `text-success` → `style="color: #2e7d32;"` (contraste)
 
 ### 24.10 Pages restantes à auditer
 
-| Page | Route | Statut |
-|------|-------|--------|
-| Homepage | `/` |  100% |
-| Login | `/login` |  100% |
-| Register | `/register` |  100% |
-| Liste recettes | `/recettes` |  100% |
-| Détail recette | `/recette/{id}` |  À faire |
-| Profil | `/profil` |  À faire |
-| Créer recette | `/recette/new` |  À faire |
-| Modifier recette | `/recette/{id}/edit` |  À faire |
-| Contact | `/contact` |  À faire |
+| Page             | Route                | Statut  |
+| ---------------- | -------------------- | ------- |
+| Homepage         | `/`                  | 100%    |
+| Login            | `/login`             | 100%    |
+| Register         | `/register`          | 100%    |
+| Liste recettes   | `/recettes`          | 100%    |
+| Détail recette   | `/recette/{id}`      | À faire |
+| Profil           | `/profil`            | À faire |
+| Créer recette    | `/recette/new`       | À faire |
+| Modifier recette | `/recette/{id}/edit` | À faire |
+| Contact          | `/contact`           | À faire |
 
-```
+---
 
 ### 24.11 Audit page Détail Recette (`/recette/{id}`)
 
@@ -10884,61 +10973,63 @@ Les pages `/login` et `/register` utilisent le même système :
 | #   | Problème          | Élément                              | Fichier                    |
 | --- | ----------------- | ------------------------------------ | -------------------------- |
 | 1   | Contraste couleur | Bouton favori texte blanc sur orange | `_recipe_header.html.twig` |
-| 2   | Hiérarchie titres | h1 → h3 (saute h2)                   | Multiples fichiers         |
+| 2   | Hiérarchie titres | `h1 → h3` (saute `h2`)               | Multiples fichiers         |
 
 **Corrections appliquées** :
 
-#### Fichier `templates/recette/show.html.twig`
+#### `templates/recette/show.html.twig`
 
--   Ajout `<div class="container">` wrapper autour du `<div class="row">` pour les colonnes ingrédients/préparation
+-   Ajout du wrapper `<div class="container">` autour du `<div class="row">` pour les colonnes ingrédients/préparation
 
-#### Fichier `templates/recette/partials/_header_image.html.twig`
+#### `templates/recette/partials/_header_image.html.twig`
 
 -   Placeholder image : `role="img"` + `aria-label`
--   `aria-hidden="true"` sur icône
+-   Icône décorative : `aria-hidden="true"`
 
-#### Fichier `templates/recette/partials/_recipe_header.html.twig`
+#### `templates/recette/partials/_recipe_header.html.twig`
 
--   `aria-hidden="true"` sur toutes les icônes décoratives
--   `aria-label` sur bouton favori
--   `role="img"` + `aria-label` sur étoiles notation
+-   Icônes décoratives : `aria-hidden="true"`
+-   Bouton favori : `aria-label`
+-   Étoiles notation : `role="img"` + `aria-label`
 
-#### Fichier `templates/recette/partials/_ingredient_list.html.twig`
+#### `templates/recette/partials/_ingredient_list.html.twig`
 
--   `h3` → `h2` (hiérarchie correcte)
+-   Titre `h3` → `h2` (hiérarchie correcte)
 
-#### Fichier `templates/recette/partials/_preparation_steps.html.twig`
+#### `templates/recette/partials/_preparation_steps.html.twig`
 
--   `h3` → `h2` (hiérarchie correcte)
+-   Titre `h3` → `h2` (hiérarchie correcte)
 
-#### Fichier `templates/recette/partials/_comments_section.html.twig`
+#### `templates/recette/partials/_comments_section.html.twig`
 
--   `h3` → `h2` pour titre section
--   `h6` → `<h3 class="h6">` pour noms commentateurs
--   `role="img"` + `aria-label` sur notes étoiles
--   `div` → `<article>` pour sémantique commentaires
--   `role="radiogroup"` + `aria-label` sur sélection note
--   `aria-hidden="true"` sur avatar/icônes
+-   Titre section : `h3` → `h2`
+-   Noms commentateurs : `h6` → `<h3 class="h6">`
+-   Étoiles : `role="img"` + `aria-label`
+-   Bloc commentaire : `div` → `<article>`
+-   Sélection note : `role="radiogroup"` + `aria-label`
+-   Icônes/avatar : `aria-hidden="true"`
 
-#### Fichier `public/css/utilities.css`
+#### `public/css/utilities.css`
 
 -   `.btn-warning` : texte noir (`#000`) au lieu de blanc pour contraste 4.5:1
 
-**Score final** : **100%** 
+**Score final** : **100%**
+
+---
 
 ### 24.12 Pages restantes à auditer
 
-| Page             | Route                | Statut     |
-| ---------------- | -------------------- | ---------- |
-| Homepage         | `/`                  |  100%    |
-| Login            | `/login`             |  100%    |
-| Register         | `/register`          |  100%    |
-| Liste recettes   | `/recettes`          |  100%    |
-| Détail recette   | `/recette/{id}`      |  100%    |
-| Profil           | `/profil`            |  À faire |
-| Créer recette    | `/recette/new`       |  À faire |
-| Modifier recette | `/recette/{id}/edit` |  À faire |
-| Contact          | `/contact`           |  À faire |
+| Page             | Route                | Statut  |
+| ---------------- | -------------------- | ------- |
+| Homepage         | `/`                  | 100%    |
+| Login            | `/login`             | 100%    |
+| Register         | `/register`          | 100%    |
+| Liste recettes   | `/recettes`          | 100%    |
+| Détail recette   | `/recette/{id}`      | 100%    |
+| Profil           | `/profil`            | À faire |
+| Créer recette    | `/recette/new`       | À faire |
+| Modifier recette | `/recette/{id}/edit` | À faire |
+| Contact          | `/contact`           | À faire |
 
 ---
 
@@ -10987,21 +11078,21 @@ Les pages `/login` et `/register` utilisent le même système :
 
 -   `.btn-outline-secondary` : couleur `#495057` pour contraste 4.5:1
 
-**Score final** : **100%** 
+**Score final** : **100%**
 
 ### 24.14 Pages restantes à auditer
 
-| Page             | Route                | Statut     |
-| ---------------- | -------------------- | ---------- |
-| Homepage         | `/`                  |  100%    |
-| Login            | `/login`             |  100%    |
-| Register         | `/register`          |  100%    |
-| Liste recettes   | `/recettes`          |  100%    |
-| Détail recette   | `/recette/{id}`      |  100%    |
-| Créer recette    | `/recette/new`       |  100%    |
-| Modifier recette | `/recette/{id}/edit` |  À faire |
-| Profil           | `/profil`            |  À faire |
-| Contact          | `/contact`           |  À faire |
+| Page             | Route                | Statut  |
+| ---------------- | -------------------- | ------- |
+| Homepage         | `/`                  | 100%    |
+| Login            | `/login`             | 100%    |
+| Register         | `/register`          | 100%    |
+| Liste recettes   | `/recettes`          | 100%    |
+| Détail recette   | `/recette/{id}`      | 100%    |
+| Créer recette    | `/recette/new`       | 100%    |
+| Modifier recette | `/recette/{id}/edit` | À faire |
+| Profil           | `/profil`            | À faire |
+| Contact          | `/contact`           | À faire |
 
 ### 24.15 Audit page Modifier Recette (`/recette/{id}/edit`)
 
@@ -11048,21 +11139,21 @@ Les pages `/login` et `/register` utilisent le même système :
 
 -   Touch targets (best practice, non bloquant WCAG AA) - sera traité lors de la refonte du formulaire edit
 
-**Score final** : **96%** 
+**Score final** : **96%**
 
 ### 24.16 Pages restantes à auditer
 
-| Page             | Route                | Statut     |
-| ---------------- | -------------------- | ---------- |
-| Homepage         | `/`                  |  100%    |
-| Login            | `/login`             |  100%    |
-| Register         | `/register`          |  100%    |
-| Liste recettes   | `/recettes`          |  100%    |
-| Détail recette   | `/recette/{id}`      |  100%    |
-| Créer recette    | `/recette/new`       |  100%    |
-| Modifier recette | `/recette/{id}/edit` |  96%     |
-| Profil           | `/profil`            |  À faire |
-| Contact          | `/contact`           |  À faire |
+| Page             | Route                | Statut  |
+| ---------------- | -------------------- | ------- |
+| Homepage         | `/`                  | 100%    |
+| Login            | `/login`             | 100%    |
+| Register         | `/register`          | 100%    |
+| Liste recettes   | `/recettes`          | 100%    |
+| Détail recette   | `/recette/{id}`      | 100%    |
+| Créer recette    | `/recette/new`       | 100%    |
+| Modifier recette | `/recette/{id}/edit` | 96%     |
+| Profil           | `/profil`            | À faire |
+| Contact          | `/contact`           | À faire |
 
 ### 24.17 Audit page Profil (`/profil`)
 
@@ -11101,22 +11192,22 @@ Les pages `/login` et `/register` utilisent le même système :
 -   `<li>` disabled : `aria-disabled="true"`
 -   Page active : `aria-current="page"`
 
-**Score final** : **100%** 
+**Score final** : **100%**
 
 ### 24.18 Pages restantes à auditer
 
-| Page             | Route                | Statut     |
-| ---------------- | -------------------- | ---------- |
-| Homepage         | `/`                  |  100%    |
-| Login            | `/login`             |  100%    |
-| Register         | `/register`          |  100%    |
-| Liste recettes   | `/recettes`          |  100%    |
-| Détail recette   | `/recette/{id}`      |  100%    |
-| Créer recette    | `/recette/new`       |  100%    |
-| Modifier recette | `/recette/{id}/edit` |  96%     |
-| Profil           | `/profil`            |  100%    |
-| Modifier profil  | `/profil/edit`       |  À faire |
-| Contact          | `/contact`           |  À faire |
+| Page             | Route                | Statut  |
+| ---------------- | -------------------- | ------- |
+| Homepage         | `/`                  | 100%    |
+| Login            | `/login`             | 100%    |
+| Register         | `/register`          | 100%    |
+| Liste recettes   | `/recettes`          | 100%    |
+| Détail recette   | `/recette/{id}`      | 100%    |
+| Créer recette    | `/recette/new`       | 100%    |
+| Modifier recette | `/recette/{id}/edit` | 96%     |
+| Profil           | `/profil`            | 100%    |
+| Modifier profil  | `/profil/edit`       | À faire |
+| Contact          | `/contact`           | À faire |
 
 ### 24.19 Audit page Modifier Profil (`/profil/edit`)
 
@@ -11136,7 +11227,7 @@ Les pages `/login` et `/register` utilisent le même système :
 -   `h5` "Changer le mot de passe" → `<h2 class="h5">`
 -   `aria-hidden="true"` sur toutes les icônes
 
-**Score final** : **100%** 
+**Score final** : **100%**
 
 ---
 
@@ -11160,7 +11251,7 @@ Les pages `/login` et `/register` utilisent le même système :
 -   `aria-hidden="true"` sur toutes les icônes
 -   `aria-hidden="true"` sur les astérisques obligatoires
 
-**Score final** : **100%** 
+**Score final** : **100%**
 
 ---
 
@@ -11168,16 +11259,16 @@ Les pages `/login` et `/register` utilisent le même système :
 
 | Page             | Route                | Score Initial | Score Final |
 | ---------------- | -------------------- | ------------- | ----------- |
-| Homepage         | `/`                  | 95%           |  100%     |
-| Login            | `/login`             | 100%          |  100%     |
-| Register         | `/register`          | 100%          |  100%     |
-| Liste recettes   | `/recettes`          | 89%           |  100%     |
-| Détail recette   | `/recette/{id}`      | 95%           |  100%     |
-| Créer recette    | `/recette/new`       | 86%           |  100%     |
-| Modifier recette | `/recette/{id}/edit` | 86%           |  96%      |
-| Profil           | `/profil`            | 83%           |  100%     |
-| Modifier profil  | `/profil/edit`       | 98%           |  100%     |
-| Contact          | `/contact`           | 98%           |  100%     |
+| Homepage         | `/`                  | 95%           | 100%        |
+| Login            | `/login`             | 100%          | 100%        |
+| Register         | `/register`          | 100%          | 100%        |
+| Liste recettes   | `/recettes`          | 89%           | 100%        |
+| Détail recette   | `/recette/{id}`      | 95%           | 100%        |
+| Créer recette    | `/recette/new`       | 86%           | 100%        |
+| Modifier recette | `/recette/{id}/edit` | 86%           | 96%         |
+| Profil           | `/profil`            | 83%           | 100%        |
+| Modifier profil  | `/profil/edit`       | 98%           | 100%        |
+| Contact          | `/contact`           | 98%           | 100%        |
 
 **Corrections globales appliquées** :
 
@@ -11236,6 +11327,87 @@ Les pages `/login` et `/register` utilisent le même système :
 
 **Principe DRY respecté** : Un seul template `_form.html.twig` pour les deux pages.
 
+## ÉTAPE 25 : TESTS UNITAIRES PHPUNIT
+
+### 25.1 Configuration
+
+PHPUnit 12.4.3 est installé via Symfony Test Pack.
+
+**Structure des tests :**
+
+```
+
+tests/
+├── bootstrap.php
+├── Entity/
+│ ├── UserTest.php
+│ ├── RecetteTest.php
+│ ├── IngredientTest.php
+│ └── CommentaireTest.php
+└── Controller/
+└── HomeControllerTest.php
+
+```
+
+### 25.2 Tests des Entités
+
+#### UserTest.php
+
+-   `testGettersSetters()` : Vérifie email, nom, prénom, password
+-   `testRoles()` : Vérifie ROLE_USER par défaut et ajout ROLE_ADMIN
+-   `testUserIdentifier()` : Vérifie que l'identifiant est l'email
+
+#### RecetteTest.php
+
+-   `testGettersSetters()` : Vérifie nom, description, tempsCuisson, nombrePersonnes, difficulté
+-   `testUserRelation()` : Vérifie la relation avec User
+-   `testDateCreation()` : Vérifie que DateTimeImmutable est créé
+-   `testMoyenneNotes()` : Vérifie le calcul (0 sans commentaires)
+-   `testVues()` : Vérifie le compteur de vues
+
+#### IngredientTest.php
+
+-   `testGettersSetters()` : Vérifie nom et unité
+-   `testRecetteIngredientsCollection()` : Vérifie la collection vide
+
+#### CommentaireTest.php
+
+-   `testGettersSetters()` : Vérifie contenu et note
+-   `testUserRelation()` : Vérifie la relation avec User
+-   `testRecetteRelation()` : Vérifie la relation avec Recette
+-   `testDateCreation()` : Vérifie que DateTimeImmutable est créé
+
+### 25.3 Tests des Controllers
+
+#### HomeControllerTest.php
+
+-   `testHomePageReturnsResponse()` : Vérifie que la page d'accueil répond
+
+### 25.4 Résultats
+
+```bash
+php bin/phpunit
+PHPUnit 12.4.3 by Sebastian Bergmann and contributors.
+OK (15 tests, 26 assertions)
+```
+
+**Récapitulatif :**
+| Fichier | Tests | Assertions |
+|---------|-------|------------|
+| UserTest | 3 | 8 |
+| RecetteTest | 5 | 9 |
+| IngredientTest | 2 | 3 |
+| CommentaireTest | 4 | 5 |
+| HomeControllerTest | 1 | 1 |
+| **Total** | **15** | **26** |
+
+### 25.5 Commit
+
+```bash
+git add tests/
+git commit -m "feat: Tests PHPUnit entites et controller - 15 tests, 26 assertions"
+```
+
 ## CONCLUSION GÉNÉRALE
 
 ### État actuel du projet (Novembre 2025)
@@ -11289,16 +11461,16 @@ Le projet Les Restes est dans un état **fonctionnel et professionnel** avec les
 
 ### Compétences REAC validées
 
-| Compétence | Description                                                                                         | Statut           |
-| ---------- | --------------------------------------------------------------------------------------------------- | ---------------- |
-| C1         | Installer et configurer son environnement de travail                                                |                  |
-| C2         | Maquetter une interface utilisateur web                                                             |                  |
-| C3         | Réaliser une interface utilisateur avec une solution de gestion de contenu ou un framework frontend |                |
-| C4         | Développer la partie dynamique de l'interface utilisateur web                                       |                |
-| C5         | Mettre en place une base de données relationnelle                                                   |                |
-| C6         | Développer des composants d'accès aux données SQL                                                   |                |
-| C7         | Développer des composants métier côté serveur                                                       |  Tests à faire |
-| C8         | Documenter le déploiement d'une application dynamique web                                           |  À faire       |
+| Compétence | Description                                                                                         | Statut        |
+| ---------- | --------------------------------------------------------------------------------------------------- | ------------- |
+| C1         | Installer et configurer son environnement de travail                                                |               |
+| C2         | Maquetter une interface utilisateur web                                                             |               |
+| C3         | Réaliser une interface utilisateur avec une solution de gestion de contenu ou un framework frontend |               |
+| C4         | Développer la partie dynamique de l'interface utilisateur web                                       |               |
+| C5         | Mettre en place une base de données relationnelle                                                   |               |
+| C6         | Développer des composants d'accès aux données SQL                                                   |               |
+| C7         | Développer des composants métier côté serveur                                                       | Tests à faire |
+| C8         | Documenter le déploiement d'une application dynamique web                                           | À faire       |
 
 ---
 
@@ -11353,3 +11525,5 @@ _Documentation complète - Novembre 2025_
 ---
 
 _Documentation rédigée dans le cadre du Titre Professionnel DWWM - Dawan Toulouse_
+
+---

@@ -31,6 +31,24 @@ footer .bi {
     font-size: 1.2rem;
 }
 
+footer .social-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+footer .social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    text-align: center;
+}
+
 @media (max-width: 768px) {
     footer .row > div {
         margin-bottom: 1.5rem;

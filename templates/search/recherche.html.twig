@@ -54,27 +54,24 @@
         {% endif %}
         
         <!-- Barre de recherche TEXTUELLE -->
-        <div class="row justify-content-center">
-            <div class="col-md-8">
+        <div class="row justify-content-center mb-4">
+            <div class="col-11 col-md-8">
                 <form action="{{ path('app_search') }}" method="GET">
-                    <div class="input-group input-group-lg mb-4">
-                        <input type="text" 
-                               class="form-control" 
-                               name="q" 
-                               value="{{ app.request.query.get('q') }}" 
-                               placeholder="Ou tapez vos ingrédients ici... (ex: tomates, mozzarella)"
-                               style="border-radius: 50px 0 0 50px; padding: 1rem 1.5rem;">
-                        <button class="btn btn-warning" 
-                                type="submit"
-                                style="border-radius: 0 50px 50px 0; padding: 0 2rem; font-weight: bold;">
-                            <i class="bi bi-search"></i> Rechercher
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
+                <div style="display: flex !important; flex-wrap: nowrap !important;">
+                       <input type="text" 
+                          class="form-control" 
+                          name="q" 
+                          value="{{ app.request.query.get('q') }}" 
+                          placeholder="Tapez vos ingredients..."
+                          aria-label="Rechercher des recettes"
+                          style="flex: 1 1 auto !important; width: auto !important; min-width: 0 !important;">
+                          <button type="submit" style="flex: 0 0 auto !important; width: auto !important; background-color: #e65100; border-color: #e65100; color: white; padding: 0.375rem 1rem; border-radius: 0 0.375rem 0.375rem 0;">
+                              <i class="bi bi-search" aria-hidden="true"></i>
+                          </button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
     <!-- RÉSULTATS -->
     {% if recettes.getTotalItemCount > 0 %}
         <h2 class="mb-4 text-center">

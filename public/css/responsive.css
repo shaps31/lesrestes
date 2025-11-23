@@ -1,6 +1,6 @@
 /*
 LES RESTES - Styles responsive
-Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥1400
+Breakpoints Bootstrap: xs<576, sm>=576, md>=768, lg>=992, xl>=1200, xxl>=1400
 */
 
 /* ============================================
@@ -39,10 +39,21 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     .hero-section .lead {
         font-size: 1rem !important;
     }
+}
 
-    .hero-section .btn {
-        width: 100%;
-        margin-bottom: 0.5rem;
+@media (max-width: 576px) {
+    .hero-section .input-group {
+        flex-wrap: nowrap !important;
+    }
+
+    .hero-section .input-group .form-control {
+        font-size: 14px !important;
+        padding: 0.5rem 1rem !important;
+    }
+
+    .hero-section .input-group .btn {
+        padding: 0.5rem 1rem !important;
+        white-space: nowrap;
     }
 }
 
@@ -73,7 +84,7 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
 @media (max-width: 768px) {
     .form-control,
     .form-select {
-        font-size: 16px !important; /* Évite zoom auto iOS */
+        font-size: 16px !important;
     }
 
     .ingredient-row .col-md-5,
@@ -96,7 +107,7 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
 }
 
 /* ============================================
-   DÉTAIL RECETTE
+   DETAIL RECETTE
 ============================================ */
 @media (max-width: 992px) {
     .recipe-detail-image {
@@ -163,7 +174,6 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
         white-space: nowrap;
     }
 
-    /* Cacher colonnes moins importantes sur mobile */
     .table .hide-mobile {
         display: none;
     }
@@ -203,12 +213,12 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
         margin-bottom: 0.5rem;
     }
 
-    .d-flex.gap-2 {
+    .d-flex.gap-2:not(.input-group) {
         flex-direction: column !important;
         gap: 0.5rem !important;
     }
 
-    .d-flex.gap-2 > * {
+    .d-flex.gap-2:not(.input-group) > * {
         width: 100% !important;
     }
 }
@@ -288,8 +298,6 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
 /* ============================================
    UTILITAIRES RESPONSIVE
 ============================================ */
-
-/* Espacement réduit sur mobile */
 @media (max-width: 768px) {
     .container {
         padding-left: 1rem;
@@ -307,7 +315,6 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     }
 }
 
-/* Texte responsive */
 @media (max-width: 576px) {
     h1 {
         font-size: 1.75rem;
@@ -330,7 +337,6 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     }
 }
 
-/* Images responsive */
 @media (max-width: 768px) {
     img {
         max-width: 100%;
@@ -338,7 +344,6 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     }
 }
 
-/* Débordement texte */
 @media (max-width: 576px) {
     .text-truncate-mobile {
         overflow: hidden;
@@ -347,7 +352,6 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     }
 }
 
-/* Cacher éléments sur mobile */
 .hide-on-mobile {
     display: block;
 }
@@ -358,7 +362,6 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     }
 }
 
-/* Afficher uniquement sur mobile */
 .show-on-mobile {
     display: none;
 }
@@ -370,10 +373,10 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
 }
 
 /* ============================================
-   CONVIVIALITE (44x44px minimum)
+   TOUCH TARGETS
 ============================================ */
 @media (max-width: 768px) {
-    .btn {
+    .btn:not(.hero-section .btn) {
         min-height: 44px;
         padding: 0.75rem 1rem;
     }
@@ -394,7 +397,6 @@ Breakpoints Bootstrap: xs<576, sm≥576, md≥768, lg≥992, xl≥1200, xxl≥14
     }
 }
 
-/* Empêcher zoom sur focus input iOS */
 @media (max-width: 768px) {
     input[type="text"],
     input[type="email"],

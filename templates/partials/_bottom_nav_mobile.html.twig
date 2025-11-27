@@ -1,0 +1,37 @@
+{# templates/partials/_bottom_nav_mobile.html.twig #}
+<nav class="mobile-bottom-nav">
+    <a href="{{ path('app_home') }}" 
+       class="mobile-nav-item {{ app.request.attributes.get('_route') == 'app_home' ? 'active' : '' }}">
+        <i class="bi bi-house-fill"></i>
+        <span>Accueil</span>
+    </a>
+    
+    <a href="{{ path('app_search') }}" 
+       class="mobile-nav-item {{ app.request.attributes.get('_route') starts with 'app_search' ? 'active' : '' }}">
+        <i class="bi bi-search"></i>
+        <span>Recherche</span>
+    </a>
+    
+    {% if app.user %}
+        <a href="{{ path('app_recette_new') }}" 
+           class="mobile-nav-item {{ app.request.attributes.get('_route') == 'app_recette_new' ? 'active' : '' }}">
+            <i class="bi bi-plus-circle-fill"></i>
+            <span>Publier</span>
+        </a>
+        
+        <a href="{{ path('app_profil') }}" 
+           class="mobile-nav-item {{ app.request.attributes.get('_route') == 'app_profil' ? 'active' : '' }}">
+            <i class="bi bi-gear-fill"></i>
+            <span>Paramètres</span>
+        </a>
+    {% else %}
+        <a href="{{ path('app_login') }}" class="mobile-nav-item">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Connexion</span>
+        </a>
+        <a href="{{ path('app_register') }}" class="mobile-nav-item">
+            <i class="bi bi-person-plus-fill"></i>
+            <span>Inscription</span>
+        </a>
+    {% endif %}
+</nav>

@@ -1,6 +1,6 @@
 # DOCUMENTATION DE RÉALISATION
 
-## PROJET LES RESTES - Application Anti-Gaspillage Alimentaire
+## Projet Les Restes - Application Anti-Gaspillage Alimentaire
 
 **Auteur** : Bah shabadine
 **Formation** : Titre Professionnel Développeur Web et Web Mobile - Niveau 5
@@ -12,31 +12,31 @@
 ## Table des matières
 
 1. [Introduction](#introduction)
-2. [Setup Initial](#étape-1--setup-initial)
-3. [Création des Entités](#étape-2--entités-principales)
-4. [Système d'Authentification](#étape-3--authentification)
-5. [Contrôleurs CRUD](#étape-4--contrôleurs-crud)
-6. [Données de Test (Fixtures)](#étape-5--fixtures)
-7. [Templates Bootstrap](#étape-6--templates-bootstrap)
-
-8. [Système de Favoris](#étape-7--système-de-favoris)
-9. [Système de commentaires](#étape-9--système-de-commentaires)
-10. [Upload d’images et optimisations UI/UX](#étape-10--upload-dimages-et-optimisations-uiux)
-11. [Améliorations UX](#étape-11--améliorations-ux)
-12. [Recherche avancée et pagination](#étape-12--recherche-avancée-et-pagination)
-13. [Loading states et animations CSS](#étape-13--loading-states-et-animations-css)
-14. [Messages de feedback améliorés](#étape-14--messages-de-feedback-améliorés)
-15. [Finalisation interface selon wireframe](#étape-15--finalisation-de-linterface-selon-le-wireframe)
-16. [Corrections recherche et cohérence visuelle](#étape-16--corrections-de-la-recherche-et-cohérence-visuelle)
-17. [Page détail recette selon wireframe](#étape-17--page-détail-recette-selon-wireframe-03)
-18. [Administration des ingrédients](#étape-18--administration-des-ingrédients)
-19. [Pages légales obligatoires (RGPD)](#étape-19--pages-légales-obligatoires)
-20. [Page 404 personnalisée](#étape-20--page-404-personnalisée)
-21. [Responsive design complet](#étape-21--responsive-design-complet)
-22. [Barre de navigation inférieure mobile](#étape-22--barre-de-navigation-inférieure-mobile)
-23. [Audit accessibilité RGAA](#étape-23--audit-accessibilité-rgaa)
-24. [Tests unitaires PHPUnit](#étape-24--tests-unitaires-phpunit)
-25. [Conclusion générale](#conclusion-générale)
+2. [SETUP INITIAL](#etape-1--setup-initial)
+3. [ENTITÉS PRINCIPALES](#etape-2--entites-principales)
+4. [AUTHENTIFICATION](#etape-3--authentification)
+5. [CONTRÔLEURS CRUD](#etape-4--controleurs-crud)
+6. [FIXTURES](#etape-5--fixtures)
+7. [TEMPLATES BOOTSTRAP](#etape-6--templates-bootstrap)
+8. [SYSTÈME DE FAVORIS](#etape-7--systeme-de-favoris)
+9. [UPLOAD D'IMAGES ET OPTIMISATIONS UI/UX](#etape-8--upload-d-images-et-optimisations-ui-ux)
+10. [SYSTÈME DE COMMENTAIRES](#etape-9--systeme-de-commentaires)
+11. [AMÉLIORATIONS UX](#etape-10--ameliorations-ux)
+12. [RECHERCHE AVANCÉE ET PAGINATION](#etape-12--recherche-avancee-et-pagination)
+13. [LOADING STATES ET ANIMATIONS CSS](#etape-13--loading-states-et-animations-css)
+14. [AMÉLIORATION VISUELLE ET MESSAGES FLASH](#etape-14--amelioration-visuelle-et-messages-flash)
+15. [LOADING STATES ET ANIMATIONS CSS](#etape-15--loading-states-et-animations-css)
+16. [MESSAGES DE FEEDBACK AMÉLIORÉS](#etape-16--messages-de-feedback-ameliores)
+17. [FINALISATION DE L'INTERFACE SELON LE WIREFRAME](#etape-17--finalisation-de-l-interface-selon-le-wireframe)
+18. [CORRECTIONS DE LA RECHERCHE ET COHÉRENCE VISUELLE](#etape-18--corrections-de-la-recherche-et-coherence-visuelle)
+19. [PAGE DÉTAIL RECETTE SELON WIREFRAME 03](#etape-19--page-detail-recette-selon-wireframe-03)
+20. [ADMINISTRATION DES INGRÉDIENTS](#etape-20--administration-des-ingredients)
+21. [PAGES LÉGALES OBLIGATOIRES](#etape-21--pages-legales-obligatoires)
+22. [PAGE 404 PERSONNALISÉE](#etape-22--page-404-personnalisee)
+23. [RESPONSIVE DESIGN COMPLET](#etape-23--responsive-design-complet)
+24. [AUDIT ACCESSIBILITÉ RGAA - HOMEPAGE](#etape-24--audit-accessibilite-rgaa-homepage)
+25. [TESTS UNITAIRES PHPUNIT](#etape-25--tests-unitaires-phpunit)
+26. [Conclusion générale](#conclusion-generale)
 
 ---
 
@@ -66,9 +66,9 @@ Les Restes est une plateforme web anti-gaspillage alimentaire qui permet aux uti
 
 ---
 
-## ÉTAPE 1 : SETUP INITIAL
+## ÉTAPE 1 : Setup initial
 
-<a id="etape-1-setup-initial"></a>
+<a id="etape-1--setup-initial"></a>
 
 ### 1.1 Installation de l'environnement
 
@@ -84,13 +84,12 @@ symfony -V # Symfony CLI 5.15.1
 ### 1.2 Création du projet Symfony
 
 ```bash
-# Création du projet avec Symfony
 symfony new lesrestes --version=stable
 
 # Vérification de la version installée
 cd lesrestes
 php bin/console about
-# Symfony 7.3 installé avec succès
+Symfony 7.3 installé avec succès
 ```
 
 ### 1.3 Configuration de la base de données avec Docker
@@ -147,9 +146,9 @@ git checkout -b feature/entities
 
 ---
 
-## ÉTAPE 2 : ENTITÉS PRINCIPALES
+## ÉTAPE 2 : Entités principales
 
-<a id="etape-2-entites-principales"></a>
+<a id="etape-2--entites-principales"></a>
 
 ### 2.1 Création de l'entité User avec sécurité
 
@@ -309,9 +308,9 @@ git branch -d feature/entities
 
 ---
 
-## ÉTAPE 3 : AUTHENTIFICATION
+## ÉTAPE 3 : Authentification
 
-<a id="etape-3-authentification"></a>
+<a id="etape-3--authentification"></a>
 
 ### 3.1 Création d'une nouvelle branche
 
@@ -398,7 +397,9 @@ git branch -d feature/authentication
 
 ---
 
-## ÉTAPE 4 : CONTRÔLEURS CRUD
+## ÉTAPE 4 : Contrôleurs CRUD
+
+<a id="etape-4--controleurs-crud"></a>
 
 <a id="etape-4-controleurs-crud"></a>
 
@@ -470,7 +471,9 @@ git branch -d feature/crud-controllers
 
 ---
 
-## ÉTAPE 5 : FIXTURES
+## ÉTAPE 5 : Fixtures
+
+<a id="etape-5--fixtures"></a>
 
 <a id="etape-5-fixtures"></a>
 
@@ -577,7 +580,9 @@ git branch -d feature/fixtures
 
 ---
 
-## ÉTAPE 6 : TEMPLATES BOOTSTRAP
+## ÉTAPE 6 : Templates Bootstrap
+
+<a id="etape-6--templates-bootstrap"></a>
 
 <a id="etape-6-templates-bootstrap"></a>
 
@@ -917,7 +922,9 @@ git branch -d feature/bootstrap-templates
 
 ---
 
-## ÉTAPE 7 : SYSTÈME DE FAVORIS
+## ÉTAPE 7 : Système de favoris
+
+<a id="etape-7--systeme-de-favoris"></a>
 
 <a id="etape-7-systeme-de-favoris"></a>
 
@@ -1076,11 +1083,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 ```
 
-### 9.7 Affichage des favoris dans le profil
+### 7.7 Affichage des favoris dans le profil
 
 J'ai mis à jour `templates/profil/index.html.twig` pour afficher les recettes favorites de l'utilisateur avec un système d'onglets.
 
-### 9.8 Commit et fusion
+### 7.8 Commit et fusion
 
 ```bash
 git add .
@@ -1092,23 +1099,25 @@ git branch -d feature/favoris
 
 ---
 
-## ÉTAPE 10 : UPLOAD D'IMAGES ET OPTIMISATIONS UI/UX
+## ÉTAPE 8 : Upload d'images et optimisations UI/UX
+
+<a id="etape-8--upload-d-images-et-optimisations-ui-ux"></a>
 
 <a id="etape-8-upload-images-optimisations-uiux"></a>
 
-### 10.1 Nouvelle branche
+### 8.1 Nouvelle branche
 
 ```bash
 git checkout -b feature/upload-images
 ```
 
-### 10.2 Installation de VichUploaderBundle
+### 8.2 Installation de VichUploaderBundle
 
 ```bash
 composer require vich/uploader-bundle
 ```
 
-### 10.3 Configuration de VichUploader
+### 8.3 Configuration de VichUploader
 
 **Fichier `config/packages/vich_uploader.yaml`** :
 
@@ -1127,14 +1136,14 @@ vich_uploader:
     delete_on_remove: true
 ```
 
-### 10.4 Création du dossier uploads
+### 8.4 Création du dossier uploads
 
 ```bash
 mkdir -p public/uploads/recettes
 chmod 755 public/uploads/recettes
 ```
 
-### 10.5 Modification de l'entité Recette
+### 8.5 Modification de l'entité Recette
 
 **Ajout dans `src/Entity/Recette.php`** :
 
@@ -1181,7 +1190,7 @@ class Recette
 }
 ```
 
-### 10.6 Mise à jour du formulaire Recette
+### 8.6 Mise à jour du formulaire Recette
 
 **Dans `src/Form/RecetteType.php`** :
 
@@ -1206,22 +1215,22 @@ public function buildForm(FormBuilderInterface $builder, array $options): void
 }
 ```
 
-### 10.7 Migration pour le champ updatedAt
+### 8.7 Migration pour le champ updatedAt
 
 ```bash
 php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 ```
 
-### 10.8 Optimisation de l'interface d'upload
+### 8.8 Optimisation de l'interface d'upload
 
 Après avoir implémenté VichUploader, j'ai constaté plusieurs problèmes d'affichage que j'ai corrigés.
 
-#### 10.8.1 Problème identifié : Formulaire d'édition trop grand
+#### 8.8.1 Problème identifié : Formulaire d'édition trop grand
 
 Le formulaire d'édition affichait une très grande image (500px+) générée automatiquement par VichUploader, ce qui obligeait à dézoomer à 25% pour voir le formulaire complet.
 
-#### 10.8.2 Solution : Prévisualisation compacte
+#### 8.8.2 Solution : Prévisualisation compacte
 
 J'ai créé une miniature compacte de 80px × 120px avec feedback visuel pour remplacer la grande prévisualisation.
 
@@ -1313,7 +1322,7 @@ J'ai créé une miniature compacte de 80px × 120px avec feedback visuel pour re
 {{ form_end(form) }}
 ```
 
-#### 10.8.3 Page edit.html.twig avec CSS/JS pour masquer doublons
+#### 8.8.3 Page edit.html.twig avec CSS/JS pour masquer doublons
 
 **Fichier `templates/recette/edit.html.twig`** :
 
@@ -1380,7 +1389,7 @@ J'ai créé une miniature compacte de 80px × 120px avec feedback visuel pour re
 {% endblock %}
 ```
 
-#### 10.8.4 Uniformisation de l'affichage des images
+#### 8.8.4 Uniformisation de l'affichage des images
 
 J'ai corrigé tous les templates pour utiliser des chemins cohérents et uniformes :
 
@@ -1405,7 +1414,7 @@ J'ai corrigé tous les templates pour utiliser des chemins cohérents et uniform
 {% endif %}
 ```
 
-#### 10.8.5 Fichiers modifiés pour l'uniformisation
+#### 8.8.5 Fichiers modifiés pour l'uniformisation
 
 -   [OK] `templates/home/index.html.twig`
 -   [OK] `templates/recette/index.html.twig`
@@ -1414,7 +1423,7 @@ J'ai corrigé tous les templates pour utiliser des chemins cohérents et uniform
 -   [OK] `templates/recette/_form.html.twig`
 -   [OK] `templates/profil/index.html.twig`
 
-#### 10.8.6 Bilan des améliorations
+#### 8.8.6 Bilan des améliorations
 
 **Interface professionnelle** :
 
@@ -1430,7 +1439,7 @@ J'ai corrigé tous les templates pour utiliser des chemins cohérents et uniform
 -   [OK] Instructions claires pour l'utilisateur
 -   [OK] Suppression des duplications VichUploader
 
-### 10.9 Tests complets de l'upload
+### 8.9 Tests complets de l'upload
 
 J'ai testé toutes les fonctionnalités :
 
@@ -1442,7 +1451,7 @@ J'ai testé toutes les fonctionnalités :
 -   [OK] Images de fallback Unsplash si aucune image
 -   [OK] Formulaire utilisable à 100% de zoom (au lieu de 25%)
 
-### 10.10 Commit complet avec toutes les améliorations
+### 8.10 Commit complet avec toutes les améliorations
 
 ```bash
 git add .
@@ -1460,7 +1469,7 @@ git commit -m "feat: Upload d'images complet avec interface optimisée
 - Tests complets réussis"
 ```
 
-### 10.11 Fusion et préparation de la prochaine fonctionnalité
+### 8.11 Fusion et préparation de la prochaine fonctionnalité
 
 ```bash
 git checkout master
@@ -1471,15 +1480,17 @@ git checkout -b feature/commentaires
 
 ---
 
-## ÉTAPE 11 : SYSTÈME DE COMMENTAIRES
+## ÉTAPE 9 : Système de commentaires
 
-### 11.1 Nouvelle branche
+<a id="etape-9--systeme-de-commentaires"></a>
+
+### 9.1 Nouvelle branche
 
 ```bash
 git checkout -b feature/commentaires
 ```
 
-### 11.2 Création de l'entité Commentaire
+### 9.2 Création de l'entité Commentaire
 
 ```bash
 php bin/console make:entity Commentaire
@@ -1496,7 +1507,7 @@ php bin/console make:entity Commentaire
 1. `user` (ManyToOne vers User, not null) - L'auteur du commentaire
 2. `recette` (ManyToOne vers Recette, not null) - La recette commentée
 
-### 11.3 Ajout du constructeur dans Commentaire
+### 9.3 Ajout du constructeur dans Commentaire
 
 Dans `src/Entity/Commentaire.php`, j'ai ajouté le constructeur pour initialiser automatiquement la date :
 
@@ -1507,7 +1518,7 @@ public function __construct()
 }
 ```
 
-### 11.4 Mise à jour de l'entité User
+### 9.4 Mise à jour de l'entité User
 
 J'ai ajouté la relation inverse dans `src/Entity/User.php` :
 
@@ -1551,7 +1562,7 @@ public function removeCommentaire(Commentaire $commentaire): static
 }
 ```
 
-### 11.5 Mise à jour de l'entité Recette
+### 9.5 Mise à jour de l'entité Recette
 
 J'ai ajouté la relation inverse et une méthode pour calculer la moyenne des notes dans `src/Entity/Recette.php` :
 
@@ -1607,14 +1618,14 @@ public function getMoyenneNotes(): float
 }
 ```
 
-### 11.6 Migration de la table Commentaire
+### 9.6 Migration de la table Commentaire
 
 ```bash
 php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 ```
 
-### 11.7 Création du FormType pour les commentaires
+### 9.7 Création du FormType pour les commentaires
 
 J'ai créé `src/Form/CommentaireType.php` pour gérer le formulaire de commentaire avec notation :
 
@@ -1673,7 +1684,7 @@ class CommentaireType extends AbstractType
 -   Champ `contenu` : Zone de texte pour le commentaire
 -   Labels et placeholders en français
 
-### 11.8 Mise à jour du contrôleur RecetteController
+### 9.8 Mise à jour du contrôleur RecetteController
 
 J'ai modifié la méthode `show()` dans `src/Controller/RecetteController.php` pour gérer l'ajout de commentaires :
 
@@ -1733,7 +1744,7 @@ public function show(
 -   Message flash de confirmation
 -   Redirection pour éviter double soumission
 
-### 11.9 Mise à jour du template show.html.twig
+### 9.9 Mise à jour du template show.html.twig
 
 J'ai complètement refondu la section commentaires dans `templates/recette/show.html.twig`.
 
@@ -1826,7 +1837,7 @@ J'ai complètement refondu la section commentaires dans `templates/recette/show.
 -   Contenu du commentaire
 -   Message si aucun commentaire
 
-### 11.10 Tests du système de commentaires
+### 9.10 Tests du système de commentaires
 
 J'ai testé toutes les fonctionnalités :
 
@@ -1838,7 +1849,7 @@ J'ai testé toutes les fonctionnalités :
 -   [OK] Compteur de commentaires mis à jour
 -   [OK] Message flash de confirmation
 
-### 11.11 Commit du système de commentaires complet
+### 9.11 Commit du système de commentaires complet
 
 ```bash
 git add .
@@ -1855,7 +1866,7 @@ git commit -m "feat: Système de commentaires et notation complet
 - Tests complets réussis"
 ```
 
-### 11.12 Amélioration des étoiles cliquables
+### 9.12 Amélioration des étoiles cliquables
 
 Après les premiers tests, j'ai constaté que les étoiles ne restaient pas sélectionnées après le clic. Le problème venait du CSS avec `flex-direction: row-reverse`.
 
@@ -1942,7 +1953,7 @@ document.addEventListener("DOMContentLoaded", function () {
 -   [OK] Synchronisation avec Symfony
 -   [OK] Retour à la sélection après survol
 
-### 11.13 Ajout de la suppression de commentaires
+### 9.13 Ajout de la suppression de commentaires
 
 Pour améliorer l'expérience utilisateur, j'ai ajouté la possibilité de supprimer ses propres commentaires.
 
@@ -1992,7 +2003,7 @@ class CommentaireController extends AbstractController
 -   Exception levée si tentative de suppression non autorisée
 -   Message flash de confirmation
 
-### 11.14 Bouton de suppression dans le template
+### 9.14 Bouton de suppression dans le template
 
 J'ai ajouté un menu déroulant avec option de suppression pour les commentaires de l'utilisateur :
 
@@ -2043,7 +2054,7 @@ J'ai ajouté un menu déroulant avec option de suppression pour les commentaires
 {% endif %}
 ```
 
-### 11.15 Modal de confirmation de suppression
+### 9.15 Modal de confirmation de suppression
 
 J'ai ajouté un modal Bootstrap pour confirmer la suppression :
 
@@ -2086,7 +2097,7 @@ function confirmerSuppressionCommentaire(commentaireId) {
 }
 ```
 
-### 11.16 Tests complets du système de commentaires
+### 9.16 Tests complets du système de commentaires
 
 J'ai testé toutes les fonctionnalités finales :
 
@@ -2099,7 +2110,7 @@ J'ai testé toutes les fonctionnalités finales :
 -   [OK] Redirection et message flash après suppression
 -   [OK] Calcul de la moyenne mis à jour automatiquement
 
-### 11.17 Commit final du système de commentaires
+### 9.17 Commit final du système de commentaires
 
 ```bash
 git add .
@@ -2115,7 +2126,7 @@ git commit -m "feat: Système de commentaires complet avec notes
 - Tests complets réussis"
 ```
 
-### 11.18 Fusion de la branche commentaires
+### 9.18 Fusion de la branche commentaires
 
 ```bash
 git checkout master
@@ -2125,19 +2136,22 @@ git branch -d feature/commentaires
 
 ---
 
-## ÉTAPE 12 : AMÉLIORATIONS UX
+## ÉTAPE 10 : AMÉLIORATIONS UX
 
-### 12.1 Nouvelle branche
+<a id="etape-10--ameliorations-ux"></a>
+
+### 10.1 Nouvelle branche
 
 ```bash
 git checkout -b feature/ameliorations-ux
 ```
 
-### 12.2 Plan des améliorations UX
+
+### 10.2 Plan des améliorations UX
 
 J'ai identifié trois priorités pour améliorer l'expérience utilisateur :
 
-**Priorité 1 : Gestion dynamique des ingrédients** 🥕
+**Priorité 1 : Gestion dynamique des ingrédients** 
 
 -   Formulaire recette avec ajout/suppression d'ingrédients en temps réel
 -   Autocomplete sur les noms d'ingrédients existants
@@ -2158,7 +2172,8 @@ J'ai identifié trois priorités pour améliorer l'expérience utilisateur :
 -   Animations CSS subtiles
 -   Messages de feedback améliorés
 
-### 12.3 Création de l'API pour l'autocomplete des ingrédients
+
+### 10.3 Création de l'API pour l'autocomplete des ingrédients
 
 J'ai créé `src/Controller/Api/IngredientController.php` pour fournir une API de recherche :
 
@@ -2213,7 +2228,8 @@ class IngredientController extends AbstractController
 -   Retourne ID, nom et unité par défaut
 -   Format JSON pour intégration JavaScript
 
-### 12.4 Création du FormType RecetteIngredient
+
+### 10.4 Création du FormType RecetteIngredient
 
 J'ai créé `src/Form/RecetteIngredientType.php` pour gérer chaque ligne d'ingrédient :
 
@@ -2283,7 +2299,8 @@ class RecetteIngredientType extends AbstractType
 -   `quantite` : Champ texte pour la quantité
 -   `unite` : Liste déroulante avec unités courantes
 
-### 12.5 Modification du RecetteType principal
+
+### 10.5 Modification du RecetteType principal
 
 J'ai modifié `src/Form/RecetteType.php` pour intégrer la collection d'ingrédients :
 
@@ -2354,7 +2371,8 @@ class RecetteType extends AbstractType
 -   `by_reference` : false pour gérer correctement les relations
 -   `prototype` : true pour générer le template JavaScript
 
-### 12.6 Mise à jour du template new.html.twig
+
+### 10.6 Mise à jour du template new.html.twig
 
 J'ai remplacé la section ingrédients statique par le système dynamique dans `templates/recette/new.html.twig` :
 
@@ -2403,7 +2421,8 @@ J'ai remplacé la section ingrédients statique par le système dynamique dans `
 </button>
 ```
 
-### 12.7 Problème rencontré : Erreur Symfony
+
+### 10.7 Problème rencontré : Erreur Symfony
 
 Lors du premier test, j'ai rencontré cette erreur :
 
@@ -2416,7 +2435,8 @@ RuntimeError: Neither the property "recetteIngredients" nor one of the methods
 
 **Solution** : Ajout de la collection dans le `RecetteType` (étape 12.5).
 
-### 12.8 Clear cache et vérification
+
+### 10.8 Clear cache et vérification
 
 ```bash
 php bin/console cache:clear
@@ -2424,7 +2444,8 @@ php bin/console cache:clear
 
 Après le clear cache, le formulaire fonctionnait mais avec un problème d'affichage.
 
-### 12.9 Problème d'affichage des champs dynamiques
+
+### 10.9 Problème d'affichage des champs dynamiques
 
 Lors de l'ajout d'un ingrédient, les champs apparaissaient sans style Bootstrap :
 
@@ -2436,7 +2457,8 @@ Lors de l'ajout d'un ingrédient, les champs apparaissaient sans style Bootstrap
 
 **Solution** : JavaScript complètement revu pour injecter proprement le HTML.
 
-### 12.10 JavaScript final pour gestion dynamique
+
+### 10.10 JavaScript final pour gestion dynamique
 
 J'ai créé un JavaScript robuste dans `templates/recette/new.html.twig` :
 
@@ -2538,7 +2560,8 @@ document.addEventListener('DOMContentLoaded', function() {
 -   Gestion de la suppression
 -   Stylisation des éléments au chargement
 
-### 12.11 CSS pour améliorer l'affichage
+
+### 10.11 CSS pour améliorer l'affichage
 
 J'ai ajouté du CSS dans le template pour une meilleure UX :
 
@@ -2571,7 +2594,8 @@ J'ai ajouté du CSS dans le template pour une meilleure UX :
 -   Espacement optimisé entre les colonnes
 -   Bouton de suppression pleine largeur
 
-### 12.12 Tests de la gestion dynamique
+
+### 10.12 Tests de la gestion dynamique
 
 J'ai testé toutes les fonctionnalités :
 
@@ -2582,7 +2606,8 @@ J'ai testé toutes les fonctionnalités :
 -   [OK] Formulaire soumis avec les ingrédients
 -   [OK] Données enregistrées en base de données
 
-### 12.13 Problème rencontré avec les champs non mappés
+
+### 10.13 Problème rencontré avec les champs non mappés
 
 Lors de l'implémentation de l'autocomplete, j'ai d'abord essayé d'utiliser des champs `mapped => false` dans le `RecetteIngredientType` :
 
@@ -2593,7 +2618,8 @@ Lors de l'implémentation de l'autocomplete, j'ai d'abord essayé d'utiliser des
 
 **Erreur** : Le champ `ingredient` restait invisible même après plusieurs tentatives.
 
-### 12.14 Solution finale : Transformer le select en autocomplete
+
+### 10.14 Solution finale : Transformer le select en autocomplete
 
 Au lieu de changer la structure du formulaire, j'ai gardé le champ `ingredient` comme un `EntityType` normal, et j'ai utilisé JavaScript pour le **transformer en autocomplete**.
 
@@ -2661,7 +2687,8 @@ class RecetteIngredientType extends AbstractType
 }
 ```
 
-### 12.15 JavaScript final avec transformation select → autocomplete
+
+### 10.15 JavaScript final avec transformation select → autocomplete
 
 J'ai créé un JavaScript qui transforme automatiquement chaque select en un champ texte avec autocomplete dans `templates/recette/_form.html.twig` :
 
@@ -2817,7 +2844,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 8. Lors de la soumission, Symfony récupère l'ID depuis le select
 
-### 12.16 Tests complets avec autocomplete fonctionnel
+
+### 10.16 Tests complets avec autocomplete fonctionnel
 
 J'ai testé tous les scénarios :
 
@@ -2834,7 +2862,8 @@ J'ai testé tous les scénarios :
 -   [OK] Vérification en base de données
 -   [OK] Relations RecetteIngredient correctes
 
-### 12.17 Commit final de la gestion dynamique avec autocomplete
+
+### 10.17 Commit final de la gestion dynamique avec autocomplete
 
 ```bash
 git add .
@@ -2854,7 +2883,8 @@ git commit -m "feat: Gestion dynamique ingrédients avec autocomplete
 - Documentation complète des solutions"
 ```
 
-### 12.18 Adaptation pour le mode édition
+
+### 10.18 Adaptation pour le mode édition
 
 Le JavaScript doit aussi fonctionner en mode édition quand la recette a déjà des ingrédients. J'ai ajouté plusieurs améliorations :
 
@@ -2896,7 +2926,8 @@ document
 let index = document.querySelectorAll(".ingredient-row").length;
 ```
 
-### 12.19 Tests en mode édition
+
+### 10.19 Tests en mode édition
 
 J'ai testé tous les scénarios d'édition :
 
@@ -2914,7 +2945,8 @@ J'ai testé tous les scénarios d'édition :
 **Template `edit.html.twig`** :
 Le template utilise `{{ include('recette/_form.html.twig') }}`, donc tout le JavaScript est automatiquement inclus et fonctionne pour l'édition.
 
-### 12.20 Commit final de la gestion dynamique avec autocomplete
+
+### 10.20 Commit final de la gestion dynamique avec autocomplete
 
 ```bash
 git add .
@@ -2950,7 +2982,8 @@ Documentation:
 - Guide complet avec tous les problèmes résolus"
 ```
 
-### 12.21 Fusion de la branche
+
+### 10.21 Fusion de la branche
 
 ```bash
 git checkout master
@@ -2960,9 +2993,11 @@ git branch -d feature/ameliorations-ux
 
 ---
 
-## ÉTAPE 13 : RECHERCHE AVANCÉE ET PAGINATION
+## ÉTAPE 11 : RECHERCHE AVANCÉE ET PAGINATION
 
-### 13.1 Analyse des besoins
+<a id="etape-11--recherche-avancee-et-pagination"></a>
+
+### 11.1 Analyse des besoins
 
 La page d'index des recettes nécessite plusieurs améliorations pour améliorer l'expérience utilisateur :
 
@@ -2971,7 +3006,8 @@ La page d'index des recettes nécessite plusieurs améliorations pour améliorer
 -   Tri des résultats (date, note, temps)
 -   Pagination pour gérer un grand nombre de recettes
 
-### 13.2 Installation de KnpPaginatorBundle
+
+### 11.2 Installation de KnpPaginatorBundle
 
 **Commande d'installation :**
 
@@ -2987,7 +3023,8 @@ composer show knplabs/knp-paginator-bundle
 
 Le bundle permet de paginer facilement des résultats Doctrine avec une interface utilisateur intégrée.
 
-### 13.3 Configuration de KnpPaginator
+
+### 11.3 Configuration de KnpPaginator
 
 **Création du fichier `config/packages/knp_paginator.yaml` :**
 
@@ -3008,7 +3045,8 @@ knp_paginator:
 
 **Note importante :** J'ai utilisé `twitter_bootstrap_v4_pagination.html.twig` car le template Bootstrap 5 n'est pas toujours disponible selon la version du bundle. La compatibilité avec Bootstrap 5 est assurée.
 
-### 13.4 Création du formulaire de recherche avancée
+
+### 11.4 Création du formulaire de recherche avancée
 
 **Création de `src/Form/RechercheAvanceeType.php` :**
 
@@ -3094,7 +3132,8 @@ class RechercheAvanceeType extends AbstractType
 -   `csrf_protection => false` : Désactivé pour les formulaires GET
 -   Tous les champs sont optionnels (`required => false`)
 
-### 13.5 Mise à jour du RecetteRepository
+
+### 11.5 Mise à jour du RecetteRepository
 
 **Ajout de la méthode `findWithFiltersQueryBuilder` dans `src/Repository/RecetteRepository.php` :**
 
@@ -3153,7 +3192,8 @@ public function findWithFiltersQueryBuilder(array $criteria = [], array $orderBy
 -   Tri dynamique incluant moyenne des notes
 -   Retourne un QueryBuilder pour compatibilité avec la pagination
 
-### 13.6 Mise à jour du contrôleur RecetteController
+
+### 11.6 Mise à jour du contrôleur RecetteController
 
 **Modification de la méthode `index()` dans `src/Controller/RecetteController.php` :**
 
@@ -3233,7 +3273,8 @@ public function index(
 use Knp\Component\Pager\PaginatorInterface;
 ```
 
-### 13.7 Mise à jour du template index.html.twig
+
+### 11.7 Mise à jour du template index.html.twig
 
 **Ajout du formulaire de recherche au début de `templates/recette/index.html.twig` :**
 
@@ -3322,7 +3363,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 ```
 
-### 13.8 Résolution problème : Template pagination non trouvé
+
+### 11.8 Résolution problème : Template pagination non trouvé
 
 **Erreur rencontrée :**
 
@@ -3337,7 +3379,8 @@ Utiliser le template Bootstrap 4 qui est compatible avec Bootstrap 5 :
 {{ knp_pagination_render(recettes, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
 ```
 
-### 13.9 Résolution problème : Propriétés pagination inexistantes
+
+### 11.9 Résolution problème : Propriétés pagination inexistantes
 
 **Erreur rencontrée :**
 
@@ -3354,7 +3397,8 @@ Affichage de {{ pagination.firstItemNumber }} à {{ pagination.lastItemNumber }}
 sur {{ recettes.getTotalItemCount() }} recette(s)
 ```
 
-### 13.10 Création de fixtures de test
+
+### 11.10 Création de fixtures de test
 
 Pour tester efficacement la pagination et les filtres, j'ai créé des fixtures générant 100 recettes.
 
@@ -3462,7 +3506,8 @@ php bin/console doctrine:fixtures:load --append --group=test
 php bin/console doctrine:fixtures:load --group=test
 ```
 
-### 13.11 Tests de la recherche avancée et pagination
+
+### 11.11 Tests de la recherche avancée et pagination
 
 **Tests effectués :**
 
@@ -3487,7 +3532,8 @@ php bin/console doctrine:fixtures:load --group=test
 -   Interface responsive
 -   Performance correcte même avec 100+ recettes
 
-### 13.12 Commit de la recherche avancée et pagination
+
+### 11.12 Commit de la recherche avancée et pagination
 
 ```bash
 git add .
@@ -3532,9 +3578,11 @@ Tests:
 
 ---
 
-## ÉTAPE 14 : LOADING STATES ET ANIMATIONS CSS
+## ÉTAPE 12 : LOADING STATES ET ANIMATIONS CSS
 
-### 14.1 Objectifs de l'étape
+<a id="etape-12--loading-states-et-animations-css"></a>
+
+### 12.1 Objectifs de l'étape
 
 Améliorer l'expérience utilisateur en ajoutant des feedbacks visuels lors des interactions avec le formulaire d'ingrédients :
 
@@ -3550,7 +3598,8 @@ Améliorer l'expérience utilisateur en ajoutant des feedbacks visuels lors des 
 -   Manipulation DOM avec animations
 -   UX patterns professionnels
 
-### 14.2 Styles CSS pour les animations
+
+### 12.2 Styles CSS pour les animations
 
 **Ajout dans `templates/recette/_form.html.twig`** :
 
@@ -3661,7 +3710,8 @@ Améliorer l'expérience utilisateur en ajoutant des feedbacks visuels lors des 
     - Déplacement vertical léger pour effet naturel
     - Durée courte (0.2s) pour réactivité
 
-### 14.3 JavaScript amélioré avec états de chargement
+
+### 12.3 JavaScript amélioré avec états de chargement
 
 **Mise à jour du script dans `templates/recette/_form.html.twig`** :
 
@@ -3773,7 +3823,8 @@ searchInput.addEventListener("input", function () {
     - Message d'erreur affiché
     - Retrait du loading state même en cas d'erreur
 
-### 14.4 Animations pour ajout et suppression
+
+### 12.4 Animations pour ajout et suppression
 
 **Modification de la fonction d'ajout d'ingrédient** :
 
@@ -3862,7 +3913,8 @@ addButton.addEventListener("click", function () {
     - Évite les bugs visuels
     - Transitions fluides
 
-### 14.5 Tests réalisés
+
+### 12.5 Tests réalisés
 
 **Tests fonctionnels** :
 
@@ -3888,7 +3940,8 @@ addButton.addEventListener("click", function () {
 -   Messages d'erreur lisibles
 -   Contrastes respectés
 
-### 14.6 Améliorations possibles
+
+### 12.6 Améliorations possibles
 
 **Respect des préférences utilisateur** :
 
@@ -3929,7 +3982,8 @@ Pour une UX encore plus polie, on pourrait remplacer le spinner par un skeleton 
 }
 ```
 
-### 14.7 Impact sur l'expérience utilisateur
+
+### 12.7 Impact sur l'expérience utilisateur
 
 **Avant les animations** :
 
@@ -3946,7 +4000,8 @@ Pour une UX encore plus polie, on pourrait remplacer le spinner par un skeleton 
 -   Interface moderne et professionnelle
 -   Confiance accrue dans l'application
 
-### 14.8 Commit de la fonctionnalité
+
+### 12.8 Commit de la fonctionnalité
 
 ```bash
 git add .
@@ -3984,6 +4039,8 @@ Tests:
 ---
 
 ## ÉTAPE 13 : AMÉLIORATION VISUELLE ET MESSAGES FLASH
+
+<a id="etape-13--amelioration-visuelle-et-messages-flash"></a>
 
 ### 13.1 Création du fichier CSS personnalisé
 
@@ -4174,6 +4231,8 @@ J'ai testé tous les éléments visuels :
 ---
 
 ## ÉTAPE 14 : LOADING STATES ET ANIMATIONS CSS
+
+<a id="etape-14--loading-states-et-animations-css"></a>
 
 ### 14.1 Animations pour l'autocomplete
 
@@ -4381,6 +4440,8 @@ J'ai testé toutes les animations :
 
 ## ÉTAPE 15 : MESSAGES DE FEEDBACK AMÉLIORÉS
 
+<a id="etape-15--messages-de-feedback-ameliores"></a>
+
 ### 15.1 Template des messages flash
 
 J'ai créé `templates/_flash_messages.html.twig` avec un design moderne et des animations.
@@ -4553,6 +4614,8 @@ J'ai testé tous les scénarios :
 ---
 
 ## ÉTAPE 16 : FINALISATION DE L'INTERFACE SELON LE WIREFRAME
+
+<a id="etape-16--finalisation-de-l-interface-selon-le-wireframe"></a>
 
 ### 16.1 Contexte et besoin
 
@@ -4970,6 +5033,8 @@ Tests:
 ---
 
 ## ÉTAPE 17 : CORRECTIONS DE LA RECHERCHE ET COHÉRENCE VISUELLE
+
+<a id="etape-17--corrections-de-la-recherche-et-coherence-visuelle"></a>
 
 ### 17.1 Problèmes identifiés après tests
 
@@ -5516,6 +5581,8 @@ Tests:
 ---
 
 ## ÉTAPE 18 : PAGE DÉTAIL RECETTE SELON WIREFRAME 03
+
+<a id="etape-18--page-detail-recette-selon-wireframe-03"></a>
 
 ### 18.1 Analyse du wireframe 03 - Fiche Recette
 
@@ -6421,6 +6488,8 @@ Wireframe 03:
 ---
 
 ## ÉTAPE 19 : ADMINISTRATION DES INGRÉDIENTS
+
+<a id="etape-19--administration-des-ingredients"></a>
 
 ### 19.1 Contexte et besoin
 
@@ -7639,6 +7708,8 @@ git branch -d feature/admin-ingredients
 ---
 
 ## ÉTAPE 20 : PAGES LÉGALES OBLIGATOIRES
+
+<a id="etape-20--pages-legales-obligatoires"></a>
 
 ### 20.1 Contexte et obligation RGPD
 
@@ -8872,6 +8943,8 @@ git branch -d feature/pages-legales
 
 ## ÉTAPE 21 : PAGE 404 PERSONNALISÉE
 
+<a id="etape-21--page-404-personnalisee"></a>
+
 ### 21.1 Contexte
 
 Par défaut, Symfony affiche une page d'erreur 404 basique. Pour améliorer l'expérience utilisateur, nous allons créer une **page 404 personnalisée** avec :
@@ -9432,6 +9505,8 @@ git branch -d feature/page-404
 ---
 
 ## ÉTAPE 22 : RESPONSIVE DESIGN COMPLET
+
+<a id="etape-22--responsive-design-complet"></a>
 
 ### 22.1 Contexte et objectifs
 
@@ -10651,7 +10726,9 @@ git push origin --delete feature/mobile-bottom-nav
 
 ---
 
-## ÉTAPE 24 : AUDIT ACCESSIBILITÉ RGAA - HOMEPAGE
+## ÉTAPE 23 : AUDIT ACCESSIBILITÉ RGAA - HOMEPAGE
+
+<a id="etape-23--audit-accessibilite-rgaa-homepage"></a>
 
 ### 24.1 Contexte et objectif
 
@@ -11327,7 +11404,9 @@ Les pages `/login` et `/register` utilisent le même système :
 
 **Principe DRY respecté** : Un seul template `_form.html.twig` pour les deux pages.
 
-## ÉTAPE 25 : TESTS UNITAIRES PHPUNIT
+## ÉTAPE 24 : TESTS UNITAIRES PHPUNIT
+
+<a id="etape-24--tests-unitaires-phpunit"></a>
 
 ### 25.1 Configuration
 

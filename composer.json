@@ -11,7 +11,7 @@
         "doctrine/doctrine-bundle": "^2.18.1",
         "doctrine/doctrine-migrations-bundle": "^3.7",
         "doctrine/orm": "^3.5.7",
-        "knplabs/knp-paginator-bundle": "^6.9.1",
+        "knplabs/knp-paginator-bundle": "^6.9",
         "phpdocumentor/reflection-docblock": "^5.6.4",
         "phpstan/phpdoc-parser": "^2.3",
         "symfony/asset": "7.3.*",
@@ -46,6 +46,7 @@
         "symfony/yaml": "7.3.*",
         "symfonycasts/verify-email-bundle": "^1.17.4",
         "twig/extra-bundle": "^2.12|^3.22.1",
+        "twig/string-extra": "^3.22",
         "twig/twig": "^2.12|^3.22",
         "vich/uploader-bundle": "^2.8.1"
     },

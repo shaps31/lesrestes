@@ -1,77 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier {{ recette.nom }} - Les Restes{% endblock %}
+{% block title %}Toutes les recettes - Les Restes{% endblock %}
 
 {% block body %}
-<div class="container my-4">
-    <div class="mb-4">
-        <a href="{{ path('app_profil') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left" aria-hidden="true"></i> Retour à mon profil
-        </a>
+<div class="container">
+    <h1 class="mb-4">Toutes les recettes</h1>
+    
+    {{ include('recette/partials/_search_form.html.twig') }}
+    
+    <!-- En tete Résultats -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>{{ recettes.getTotalItemCount() }} recette(s) trouvée(s)</h2>
+        {% if app.user %}
+            <a href="{{ path('app_recette_new') }}" class="btn btn-success">
+                <i class="bi bi-plus" aria-hidden="true"></i> Publier une recette
+            </a>
+        {% endif %}
     </div>
     
-    <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <h1 class="mb-4">Modifier ma recette</h1>
-            
-            {{ include('recette/_form.html.twig', {'button_label': 'Mettre à jour', 'recette': recette}) }}
-            
-            <!-- Actions supplémentaires -->
-            <div class="mt-4 pt-3 border-top">
-                <h2 class="h6 text-muted">Actions</h2>
-                <div class="d-flex gap-2">
-                    <a href="{{ path('app_recette_show', {'id': recette.id}) }}" class="btn btn-outline-primary">
-                        <i class="bi bi-eye" aria-hidden="true"></i> Aperçu
-                    </a>
-                    {{ include('recette/_delete_form.html.twig') }}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
-
-{% block javascripts %}
-    <script src="/js/recipe-form.js"></script>
-    <script>
-        // Charger les étapes existantes en mode édition
-        document.addEventListener('DOMContentLoaded', function() {
-            const etapesHidden = document.getElementById('etapes-hidden');
-            const etapesContainer = document.getElementById('etapes-collection');
-            const addEtapeBtn = document.getElementById('add-etape');
-            
-            if (etapesHidden && etapesHidden.value && etapesContainer) {
-                const etapes = etapesHidden.value.split('\n').filter(e => e.trim());
-                
-                etapes.forEach(function(etape, index) {
-                    // Nettoyer le numéro de l'étape
-                    const cleanEtape = etape.replace(/^\d+\.\s*/, '').trim();
-                    if (cleanEtape) {
-                        const newEtape = document.createElement('div');
-                        newEtape.className = 'etape-row mb-2';
-                        newEtape.innerHTML = `
-                            <div class="row g-2 align-items-center">
-                                <div class="col-auto">
-                                    <span class="badge bg-success" aria-hidden="true">${index + 1}</span>
-                                </div>
-                                <div class="col">
-                                    <input type="text" 
-                                           class="form-control etape-input" 
-                                           value="${cleanEtape}"
-                                           aria-label="Étape ${index + 1}"
-                                           data-index="${index + 1}">
-                                </div>
-                                <div class="col-auto">
-                                    <button type="button" class="btn btn-outline-danger btn-sm remove-etape" aria-label="Supprimer cette étape">
-                                        <i class="bi bi-x-lg" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                        etapesContainer.appendChild(newEtape);
-                    }
-                });
-            }
-        });
-    </script>
+    {# Liste des recettes #}
+    {% if recettes|length > 0 %}
+      <div class="row">
+       {% for recette in recettes %}
+      <div class="col-12 col-sm-6 col-lg-4 mb-4">
+        {{ include('recette/partials/_recipe_card.html.twig') }}
+      </div>
+       {% endfor %}
+      </div>
+   
+    {# Stats de pagination #}
+      {% include 'recette/partials/_pagination_stats.html.twig' with {
+        'recettes': recettes
+        } %} 
+   {% else %}
+       {% include 'recette/partials/_no_results.html.twig' with {
+        'recettes': recettes
+        } %}
+    {% endif %}
+ </div>
 {% endblock %}

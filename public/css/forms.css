@@ -66,6 +66,7 @@ LES RESTES - Formulaires
     border-left: none;
 }
 
+
 /* Upload de fichiers */
 input[type="file"] {
     cursor: pointer;
@@ -73,4 +74,47 @@ input[type="file"] {
 
 input[type="file"]::-webkit-file-upload-button {
     cursor: pointer;
+}
+/* ===== BARRE DE RECHERCHE AVANCÉE ===== */
+form.search-bar {
+    background-color: #f8f9fa;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+form.search-bar .form-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+form.search-bar input.form-control,
+form.search-bar select.form-select {
+    border-radius: 0.5rem !important;
+    border: 1px solid #ced4da !important;
+    padding: 0.6rem 0.75rem !important;
+    font-size: 0.95rem !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form.search-bar input.form-control:focus,
+form.search-bar select.form-select:focus {
+    border-color: #4caf50 !important;
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25) !important;
+}
+
+/* Espace entre les champs */
+form.search-bar .col-md-2,
+form.search-bar .col-md-4 {
+    margin-bottom: 1rem;
+}
+
+/* Boutons alignés à droite */
+form.search-bar .col-12.d-flex {
+    justify-content: flex-end !important;
+    gap: 0.75rem !important;
+    margin-top: 0.5rem !important;
 }

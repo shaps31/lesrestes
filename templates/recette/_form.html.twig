@@ -1,6 +1,11 @@
 {# Formulaire recette - utilisé par new.html.twig ET edit.html.twig #}
 
 {{ form_start(form, {'attr': {'enctype': 'multipart/form-data', 'id': 'recette-form'}}) }}
+{# ===== DEBUG ERREURS ===== #}
+<div class="alert alert-danger">
+    {{ form_errors(form) }}
+</div>
+{# ===== FIN DEBUG ===== #}
 
 <!-- Titre -->
 <div class="mb-3">
@@ -132,6 +137,7 @@
     <i class="bi bi-plus-lg" aria-hidden="true"></i> Ajouter une étape
 </button>
 
+
 <!-- Champ caché pour les étapes -->
 {{ form_widget(form.etapes, {'attr': {'id': 'etapes-hidden', 'class': 'd-none'}}) }}
 
@@ -142,6 +148,8 @@
     {{ form_errors(form.categorie) }}
 </div>
 
+<input type="hidden" name="recette[_token]" value="{{ csrf_token('recette') }}">
+
 <!-- Boutons d'action -->
 <div class="d-flex justify-content-between mt-5">
     <a href="{{ path('app_recette_index') }}" class="btn btn-outline-secondary">
@@ -151,5 +159,6 @@
         <i class="bi bi-check-circle" aria-hidden="true"></i> {{ button_label|default('Enregistrer') }}
     </button>
 </div>
+
 
 {{ form_end(form, {'render_rest': false}) }}

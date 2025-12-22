@@ -77,30 +77,33 @@
         </div>
     </div>
     
-    <!-- Onglets avec 3 sections -->
-    <div class="row mb-4">
-        <div class="col">
-            <ul class="nav nav-tabs nav-fill mb-4" id="profilTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="recettes-tab" data-bs-toggle="tab" data-bs-target="#recettes" type="button" role="tab" aria-controls="recettes" aria-selected="true">
-                        <i class="bi bi-book" aria-hidden="true"></i>
-                        <span class="d-none d-sm-inline">Mes</span> Recettes
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="favoris-tab" data-bs-toggle="tab" data-bs-target="#favoris" type="button" role="tab" aria-controls="favoris" aria-selected="false">
-                        <i class="bi bi-heart" aria-hidden="true"></i>
-                        <span class="d-none d-sm-inline">Mes</span> Favoris
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="parametres-tab" data-bs-toggle="tab" data-bs-target="#parametres" type="button" role="tab" aria-controls="parametres" aria-selected="false">
-                        <i class="bi bi-gear" aria-hidden="true"></i> Paramètres
-                    </button>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <!-- Onglets simplifiés avec 2 sections -->
+    <ul class="nav nav-tabs mb-4" id="profilTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" 
+                    id="recettes-tab" 
+                    data-bs-toggle="tab" 
+                    data-bs-target="#recettes" 
+                    type="button" 
+                    role="tab" 
+                    aria-controls="recettes" 
+                    aria-selected="true">
+                <i class="bi bi-book" aria-hidden="true"></i> Mes Recettes
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" 
+                    id="favoris-tab" 
+                    data-bs-toggle="tab" 
+                    data-bs-target="#favoris" 
+                    type="button" 
+                    role="tab" 
+                    aria-controls="favoris" 
+                    aria-selected="false">
+                <i class="bi bi-heart" aria-hidden="true"></i> Mes Favoris
+            </button>
+        </li>
+    </ul>
     
     <!-- Contenu des onglets -->
     <div class="tab-content">
@@ -147,7 +150,7 @@
                                         {{ recette.description|length > 80 ? recette.description|slice(0, 80) ~ '...' : recette.description }}
                                     </p>
                                     
-                                    <!-- Boutons d'action CORRIGÉS -->
+                                    <!-- Boutons d'action -->
                                     <div class="row g-2">
                                         <div class="col-4">
                                             <a href="{{ path('app_recette_show', {'id': recette.id}) }}" 
@@ -276,24 +279,20 @@
                 </div>
             {% endif %}
         </div>
-        
-        <!-- TAB 3 : Paramètres -->
-        <div class="tab-pane fade" id="parametres" role="tabpanel" aria-labelledby="parametres-tab">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="card border-success">
-                        <div class="card-body p-4">
-                            <h3 class="h5 text-success mb-4">Paramètres du compte</h3>
-                            <p class="text-muted">Fonctionnalité à venir...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
-<!-- Modal suppression -->
+<!-- Formulaires de suppression cachés (un par recette) -->
+{% for recette in mesRecettes %}
+<form method="post" 
+      action="{{ path('app_recette_delete', {'id': recette.id}) }}" 
+      id="delete-form-{{ recette.id }}"
+      style="display: none;">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recette.id) }}">
+</form>
+{% endfor %}
+
+<!-- Modal simplifié -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -307,17 +306,13 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <form method="post" id="deleteForm" style="display: inline;">
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
-                    <button type="submit" class="btn btn-danger">
-                        <i class="bi bi-trash" aria-hidden="true"></i> Supprimer
-                    </button>
-                </form>
+                <button type="button" class="btn btn-danger" id="confirmDelete">
+                    <i class="bi bi-trash" aria-hidden="true"></i> Supprimer
+                </button>
             </div>
         </div>
     </div>
 </div>
-
 <style>
 /* Onglet actif : fond vert + texte blanc */
 .nav-tabs .nav-link.active {
@@ -328,23 +323,34 @@
 
 /* Onglets inactifs : texte vert foncé pour contraste */
 .nav-tabs .nav-link {
-    color: #0f5132 !important;
+    color: #2E7D32!important;
 }
 
 .nav-tabs .nav-link:hover {
     color: #198754 !important;
-    border-color: #198754 !important;
+    border-color: #dee2e6 #dee2e6 #fff !important;
 }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+
+let currentRecetteId = null;
+
 function confirmerSuppression(id, nom) {
+    currentRecetteId = id;
     document.getElementById('recetteName').textContent = nom;
-    document.getElementById('deleteForm').action = '/recette/' + id + '/delete';
     new bootstrap.Modal(document.getElementById('deleteModal')).show();
 }
 
+// Soumettre le bon formulaire
+document.getElementById('confirmDelete').addEventListener('click', function() {
+    if (currentRecetteId) {
+        document.getElementById('delete-form-' + currentRecetteId).submit();
+    }
+});
+
+// Graphique...
 // Graphique
 const ctx = document.getElementById('statsChart');
 if (ctx) {

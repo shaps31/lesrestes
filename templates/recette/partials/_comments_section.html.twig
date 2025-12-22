@@ -2,7 +2,7 @@
 <div class="container">
     <div class="mb-5">
         <h2 class="text-success mb-4">Commentaires ({{ recette.commentaires|length }})</h2>
-
+        
         <!-- Formulaire -->
         {% if app.user %}
             <div class="mb-4">
@@ -29,21 +29,23 @@
                                 </label>
                             {% endfor %}
                         </div>
+                        {% do commentaireForm.note.setRendered %}
                     </div>
                     
                     <button type="submit" class="btn btn-success">
                         <i class="bi bi-send" aria-hidden="true"></i> Publier le commentaire
                     </button>
                     
-                {{ form_end(commentaireForm, {'render_rest': false}) }}
+                {{ form_end(commentaireForm) }}
             </div>
         {% else %}
-            <div class="alert alert-info">
-                <a href="{{ path('app_login') }}">Connectez-vous</a> pour laisser un commentaire.
+            <div class="alert alert-info mb-4">
+                <i class="bi bi-info-circle" aria-hidden="true"></i>
+                <a href="{{ path('app_login') }}" class="alert-link">Connectez-vous</a> pour laisser un commentaire.
             </div>
         {% endif %}
 
-        <!-- Liste commentaires -->
+        <!-- Liste commentaires (visible pour tous) -->
         {% if recette.commentaires|length > 0 %}
             {% for commentaire in recette.commentaires|reverse %}
                 <article class="d-flex mb-3 pb-3 border-bottom">
@@ -82,7 +84,6 @@
     padding: 0.5rem 0.75rem;
     font-size: 1rem;
 }
-
 @media (max-width: 576px) {
     .star-rating .btn {
         padding: 0.4rem 0.6rem;

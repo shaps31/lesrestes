@@ -1,13 +1,15 @@
-{# Image pleine largeur en haut de page
+{# Image en haut de page
 Variable requise : recette #}
-<div class="container-fluid px-0">
+<div class="container mt-4">
     {% if recette.image %}
-        <img src="/uploads/recettes/{{ recette.image }}" 
-             class="img-fluid w-100" 
-             style="max-height: 500px; object-fit: cover;" 
-             alt="{{ recette.nom }}">
+        <div class="rounded overflow-hidden shadow-sm">
+            <img src="/uploads/recettes/{{ recette.image }}" 
+                 class="img-fluid w-100" 
+                 style="max-height: 400px; object-fit: cover;" 
+                 alt="{{ recette.nom }}">
+        </div>
     {% else %}
-        <div class="bg-light d-flex align-items-center justify-content-center" 
+        <div class="bg-light d-flex align-items-center justify-content-center rounded" 
              style="height: 300px;"
              role="img"
              aria-label="Aucune image disponible pour cette recette">

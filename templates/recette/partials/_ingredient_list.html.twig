@@ -11,7 +11,9 @@ Variable requise : recette #}
                    type="checkbox" 
                    id="ingredient_{{ loop.index }}">
             <label class="form-check-label" for="ingredient_{{ loop.index }}">
-                {{ recetteIngredient.quantite }}{{ recetteIngredient.ingredient.nom }}
+                {{ recetteIngredient.quantite }} 
+                {{ recetteIngredient.unite }} 
+                {{ recetteIngredient.ingredient.nom }}
             </label>
         </div>
     {% endfor %}

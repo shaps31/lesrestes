@@ -22,6 +22,7 @@ Variable requise: recette, isFavorite #}
 
     <!-- Titre -->
     <h1 class="text-success mb-3">{{ recette.nom }}</h1>
+    <p class="lead mb-3">{{ recette.description|nl2br }}</p>
 
     <!-- Étoiles -->
     <div class="mb-3" role="img" aria-label="Note : {{ recette.moyenneNotes|default(0)|round }} sur 5 étoiles">

@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const etapesContainer = document.getElementById("etapes-collection");
     const addEtapeBtn = document.getElementById("add-etape");
-    const etapesHidden = document.getElementById("etapes-hidden");
+    const etapesHidden = document.getElementById("recette_etapes");
 
     let etapeIndex = 1;
 
@@ -206,20 +206,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Mettre à jour le champ caché
-    function updateEtapesHidden() {
-        if (!etapesContainer || !etapesHidden) return;
+     // Mettre à jour le champ caché
+function updateEtapesHidden() {
+    if (!etapesContainer || !etapesHidden) return;
 
-        const etapes = [];
-        etapesContainer
-            .querySelectorAll(".etape-input")
-            .forEach((input, index) => {
-                if (input.value.trim()) {
-                    etapes.push(`${index + 1}. ${input.value.trim()}`);
-                }
-            });
-        etapesHidden.value = etapes.join("\n");
-        console.log("Steps updated:", etapesHidden.value);
-    }
+    const etapes = [];
+    etapesContainer
+        .querySelectorAll(".etape-input")
+        .forEach((input, index) => {
+            if (input.value.trim()) {
+                etapes.push(`${index + 1}. ${input.value.trim()}`);
+            }
+        });
+    
+    // Si aucune étape, mettre une valeur par défaut ou laisser vide
+    etapesHidden.value = etapes.length > 0 ? etapes.join("\n") : "";
+    
+    console.log("Steps updated:", etapesHidden.value);
+}
 
     console.log("Recipe form ready");
 });

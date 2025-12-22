@@ -18,8 +18,7 @@
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "build": "encore production --progress",
-        "remove-emojis": "node remove-emojis.js"
+        "build": "encore production --progress"
     },
     "dependencies": {
         "@hotwired/stimulus": "^3.2.2",

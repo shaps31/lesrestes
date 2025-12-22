@@ -25,13 +25,13 @@ class Recette
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $etapes = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $tempsCuisson = null;
 
     #[ORM\Column]
